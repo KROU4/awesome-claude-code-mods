@@ -320,7 +320,8 @@
         "timer",
         "focus",
         "band",
-        "notifications"
+        "notifications",
+        "break-reminder"
       ],
       "category": "productivity",
       "metadata": {
