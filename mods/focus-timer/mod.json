@@ -6,22 +6,55 @@
   "tagline_ru": "Помодоро-таймер над полем ввода: пауза, стоп и уведомление в конце сессии.",
   "description": "`/focus-timer [minutes]` starts a focus session (25 minutes by default, 1-180) and draws a band above the prompt: the time left, a progress bar (block glyphs in the terminal, a percentage in the desktop app) and Pause/Resume and Stop buttons (keys `p` and `s`). `/focus-timer pause` and `/focus-timer stop` do the same from the prompt. The time left is computed from the clock, so it never drifts. When the session ends you get a native notification and a toast, and the band shows a done line until you dismiss it or send your next prompt. Claude Code already has `/focus`, so the command is `/focus-timer`.",
   "description_ru": "Команда `/focus-timer [минуты]` запускает сессию фокуса (по умолчанию 25 минут, от 1 до 180) и рисует над полем ввода полосу: сколько осталось, индикатор прогресса (блоки в терминале, проценты в десктопном приложении) и кнопки Pause/Resume и Stop (клавиши `p` и `s`). Поставить таймер на паузу и остановить его можно и командами `/focus-timer pause` и `/focus-timer stop`. Остаток считается по часам, поэтому таймер не сбивается. Когда сессия заканчивается, приходит системное уведомление и всплывающее сообщение, а полоса показывает строку завершения, пока вы её не закроете или не отправите следующий запрос. В Claude Code уже есть команда `/focus`, поэтому эта называется `/focus-timer`.",
-  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
-  "maintainers": ["KROU4"],
+  "author": {
+    "name": "KROU4",
+    "github": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "maintainers": [
+    "KROU4"
+  ],
   "category": "productivity",
-  "tags": ["pomodoro", "timer", "focus", "band", "notifications"],
+  "tags": [
+    "pomodoro",
+    "timer",
+    "focus",
+    "band",
+    "notifications",
+    "break-reminder"
+  ],
   "license": "MIT",
   "version": "0.1.0",
   "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/focus-timer",
-  "source": { "type": "hosted" },
-  "surfaces": ["terminal", "desktop"],
-  "requires": { "claudeCode": ">=2.1.299" },
+  "source": {
+    "type": "hosted"
+  },
+  "surfaces": [
+    "terminal",
+    "desktop"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.299"
+  },
   "preview": {
     "surface": "terminal",
     "transcript": [
-      { "role": "user", "text": "Add percentage discount codes to the cart total and make the tests pass." },
-      { "role": "tool", "tool": "Read", "input": "src/cart/total.ts", "status": "done" },
-      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "running" }
+      {
+        "role": "user",
+        "text": "Add percentage discount codes to the cart total and make the tests pass."
+      },
+      {
+        "role": "tool",
+        "tool": "Read",
+        "input": "src/cart/total.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Edit",
+        "input": "src/cart/total.ts",
+        "status": "running"
+      }
     ],
     "caption": "A 25-minute session 6 min 18 s in. When it ends, a notification and a toast fire and the band reads ✓ Focus done · 25:00.",
     "caption_ru": "25-минутная сессия через 6 мин 18 с после старта. В конце приходят уведомление и всплывающее сообщение, а полоса показывает ✓ Focus done · 25:00.",
@@ -30,19 +63,36 @@
         "slot": "command",
         "command": "/focus-timer",
         "args": "25",
-        "output": [["Focus timer started: 25:00."]]
+        "output": [
+          [
+            "Focus timer started: 25:00."
+          ]
+        ]
       },
       {
         "slot": "above-prompt",
         "rows": [
           [
-            { "text": "◷", "color": "claude" },
+            {
+              "text": "◷",
+              "color": "claude"
+            },
             " Focus · 18:42 left ",
-            { "text": "▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱", "color": "claude" },
+            {
+              "text": "▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱",
+              "color": "claude"
+            },
             " ",
-            { "button": "Pause", "variant": "primary", "hotkey": "p" },
+            {
+              "button": "Pause",
+              "variant": "primary",
+              "hotkey": "p"
+            },
             " ",
-            { "button": "Stop", "hotkey": "s" }
+            {
+              "button": "Stop",
+              "hotkey": "s"
+            }
           ]
         ]
       }
