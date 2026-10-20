@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-20T18:52:10.775Z",
+  "generatedAt": "2026-10-20T18:57:29.512Z",
   "repo": {
     "owner": "KROU4",
     "name": "claude-code-mod-showroom",
@@ -17152,7 +17152,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 8093,
+      "stars": 8094,
       "pushedAt": "2026-10-20T18:13:11Z"
     },
     {
@@ -17176,7 +17176,8 @@
         "timer",
         "focus",
         "band",
-        "notifications"
+        "notifications",
+        "break-reminder"
       ],
       "license": "MIT",
       "version": "0.1.0",
@@ -17338,7 +17339,7 @@
         ]
       },
       "addedAt": "2026-10-20T15:03:58Z",
-      "updatedAt": "2026-10-20T15:03:58Z",
+      "updatedAt": "2026-10-20T18:55:31Z",
       "stars": 0
     },
     {
