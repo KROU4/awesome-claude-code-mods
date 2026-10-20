@@ -1,0 +1,46 @@
+/* DetailSheet stub styles (the Detail owner replaces them). */
+.sheet-stub-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-sheet);
+  background: var(--scrim);
+  display: flex;
+  justify-content: flex-end;
+}
+.sheet-stub {
+  position: relative;
+  width: min(760px, 100%);
+  height: 100%;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: var(--s-4);
+  padding: var(--s-6) var(--gutter) var(--s-7);
+  background: var(--paper);
+  box-shadow: var(--shadow-3);
+}
+@media (min-width: 1024px) {
+  .sheet-stub {
+    border-radius: var(--r-sheet) 0 0 var(--r-sheet);
+    padding-inline: var(--s-6);
+  }
+}
+.sheet-stub-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--r-control);
+  background: var(--sunk);
+  color: var(--ink-2);
+}
+.sheet-stub h2 {
+  padding-right: 48px;
+}
+.sheet-stub-tag {
+  color: var(--ink-2);
+}

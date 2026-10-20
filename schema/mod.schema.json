@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KROU4/claude-code-mod-showroom/blob/main/schema/mod.schema.json",
+  "title": "Claude Code mod catalog entry (mods/<name>/mod.json)",
+  "description": "One entry of the Mod Showroom catalog. The folder name under mods/ must equal `name`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "title", "tagline", "description", "author", "maintainers", "category", "license", "source", "preview"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": {
+      "description": "Plugin name: the `name` in the mod's .claude-plugin/plugin.json and the id people install. Kebab-case, unique in the catalog, equal to the folder name.",
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,48}[a-z0-9])?$"
+    },
+    "title": { "description": "Human name shown on the site.", "type": "string", "minLength": 2, "maxLength": 40 },
+    "tagline": { "description": "One line in English, what it does for the person.", "type": "string", "minLength": 8, "maxLength": 100 },
+    "tagline_ru": { "description": "The same line in Russian (optional).", "type": "string", "minLength": 8, "maxLength": 110 },
+    "description": { "description": "A short paragraph in English. Plain text; `code` spans allowed.", "type": "string", "minLength": 20, "maxLength": 700 },
+    "description_ru": { "description": "The same paragraph in Russian (optional).", "type": "string", "minLength": 20, "maxLength": 800 },
+    "author": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "github": { "$ref": "#/$defs/githubLogin" },
+        "url": { "$ref": "#/$defs/httpsUrl" }
+      }
+    },
+    "maintainers": {
+      "description": "GitHub logins allowed to change this entry (and its hosted code) without a maintainer review.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/githubLogin" }
+    },
+    "category": {
+      "type": "string",
+      "enum": ["interface", "insights", "safety", "productivity", "git", "integrations", "fun", "accessibility"]
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,23}$" }
+    },
+    "license": { "description": "SPDX identifier of the mod's code license.", "type": "string", "minLength": 2, "maxLength": 64 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?$" },
+    "homepage": { "$ref": "#/$defs/httpsUrl" },
+    "source": {
+      "description": "Where the mod's code lives and how the catalog's marketplace installs it.",
+      "oneOf": [
+        {
+          "title": "Hosted in this repository at mods/<name>/plugin",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": { "type": { "const": "hosted" } }
+        },
+        {
+          "title": "A GitHub repository whose root (or `path`) is the plugin folder",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "repo"],
+          "properties": {
+            "type": { "const": "github" },
+            "repo": { "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}/[A-Za-z0-9._-]{1,100}$" },
+            "path": { "description": "Folder of the plugin inside the repository, when it is not the root.", "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]{1,200}$" },
+            "ref": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+          }
+        },
+        {
+          "title": "Any git URL",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "url"],
+          "properties": {
+            "type": { "const": "git" },
+            "url": { "type": "string", "pattern": "^https://[^\\s]+\\.git$" },
+            "path": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]{1,200}$" },
+            "ref": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+          }
+        },
+        {
+          "title": "Listed here, installed from the author's own marketplace",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "marketplace"],
+          "properties": {
+            "type": { "const": "marketplace" },
+            "marketplace": { "description": "owner/repo of a GitHub repository holding .claude-plugin/marketplace.json", "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}/[A-Za-z0-9._-]{1,100}$" },
+            "plugin": { "description": "Plugin name in that marketplace, when it differs from `name`.", "type": "string", "pattern": "^[a-z0-9](?:[a-z0-9-]{0,48}[a-z0-9])?$" },
+            "repo": { "description": "Where the code can be read, if not the marketplace repo.", "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}/[A-Za-z0-9._-]{1,100}$" },
+            "path": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]{1,200}$" }
+          }
+        }
+      ]
+    },
+    "surfaces": {
+      "description": "Surfaces the mod was tried on.",
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": { "enum": ["terminal", "desktop", "vscode", "mobile"] }
+    },
+    "requires": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "claudeCode": { "description": "Minimum Claude Code version, e.g. \">=2.1.290\".", "type": "string", "pattern": "^>=\\d+\\.\\d+\\.\\d+$" }
+      }
+    },
+    "capabilities": {
+      "description": "What the mod reaches beyond drawing. Computed by CI from `claude plugin validate --json` when the code can be read; declare it for code CI cannot read.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "network": { "type": "boolean" },
+        "processes": { "type": "boolean" },
+        "filesystem": { "enum": ["none", "read", "write"] },
+        "model": { "type": "boolean" },
+        "promptRewrite": { "type": "boolean" },
+        "blocksTools": { "type": "boolean" }
+      }
+    },
+    "preview": { "$ref": "#/$defs/preview" },
+    "media": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "src", "alt"],
+        "properties": {
+          "type": { "enum": ["image", "video"] },
+          "src": { "description": "https URL, or a path relative to this mod.json (e.g. media/band.png).", "type": "string", "pattern": "^(https://[^\\s]+|(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]+\\.(png|jpg|jpeg|gif|webp|svg|mp4|webm))$" },
+          "alt": { "type": "string", "minLength": 3, "maxLength": 200 },
+          "surface": { "enum": ["terminal", "desktop", "vscode", "mobile"] }
+        }
+      }
+    },
+    "verified": { "description": "Set by catalog maintainers only: the code at the pinned version was read by a maintainer.", "type": "boolean" }
+  },
+  "$defs": {
+    "githubLogin": { "type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$" },
+    "httpsUrl": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 500 },
+    "color": {
+      "description": "A Claude Code theme token or a #rrggbb hex.",
+      "oneOf": [
+        { "enum": ["claude", "text", "secondary", "inactive", "subtle", "success", "error", "warning", "permission", "suggestion", "plan", "ide", "remember", "background"] },
+        { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+      ]
+    },
+    "segment": {
+      "description": "One piece of a row: plain text (a string or {text}), a button, a progress bar, a sparkline, a link or a key cap.",
+      "oneOf": [
+        { "type": "string", "maxLength": 300 },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text"],
+          "properties": {
+            "text": { "type": "string", "maxLength": 300 },
+            "color": { "$ref": "#/$defs/color" },
+            "bg": { "$ref": "#/$defs/color" },
+            "bold": { "type": "boolean" },
+            "dim": { "type": "boolean" },
+            "italic": { "type": "boolean" },
+            "underline": { "type": "boolean" },
+            "inverse": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["button"],
+          "properties": {
+            "button": { "type": "string", "minLength": 1, "maxLength": 40 },
+            "variant": { "enum": ["primary", "secondary"] },
+            "hotkey": { "type": "string", "pattern": "^[0-9a-z]$" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["bar"],
+          "properties": {
+            "bar": { "type": "number", "minimum": 0, "maximum": 1 },
+            "width": { "type": "integer", "minimum": 4, "maximum": 40 },
+            "color": { "$ref": "#/$defs/color" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["spark"],
+          "properties": {
+            "spark": { "type": "array", "minItems": 2, "maxItems": 60, "items": { "type": "number" } },
+            "color": { "$ref": "#/$defs/color" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["link", "href"],
+          "properties": {
+            "link": { "type": "string", "maxLength": 120 },
+            "href": { "$ref": "#/$defs/httpsUrl" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kbd"],
+          "properties": { "kbd": { "type": "string", "maxLength": 20 } }
+        }
+      ]
+    },
+    "row": { "type": "array", "minItems": 1, "maxItems": 24, "items": { "$ref": "#/$defs/segment" } },
+    "rows": { "type": "array", "minItems": 1, "maxItems": 30, "items": { "$ref": "#/$defs/row" } },
+    "turn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role"],
+      "properties": {
+        "role": { "enum": ["user", "assistant", "tool"] },
+        "text": { "type": "string", "maxLength": 600 },
+        "tool": { "type": "string", "maxLength": 60 },
+        "input": { "type": "string", "maxLength": 200 },
+        "result": { "type": "string", "maxLength": 300 },
+        "status": { "enum": ["done", "running", "error"] }
+      }
+    },
+    "element": {
+      "type": "object",
+      "required": ["slot"],
+      "oneOf": [
+        { "title": "Band above the prompt (ui.render AbovePrompt)", "additionalProperties": false, "required": ["slot", "rows"], "properties": { "slot": { "const": "above-prompt" }, "rows": { "$ref": "#/$defs/rows" } } },
+        { "title": "A pane opened with $.ui.open", "additionalProperties": false, "required": ["slot", "title", "rows"], "properties": { "slot": { "const": "pane" }, "title": { "type": "string", "maxLength": 60 }, "rows": { "$ref": "#/$defs/rows" }, "width": { "enum": ["narrow", "wide"] } } },
+        { "title": "A status entry set with $.ui.status", "additionalProperties": false, "required": ["slot", "text"], "properties": { "slot": { "const": "status" }, "text": { "type": "string", "maxLength": 120 } } },
+        { "title": "A toast from $.ui.toast", "additionalProperties": false, "required": ["slot", "text"], "properties": { "slot": { "const": "toast" }, "text": { "type": "string", "maxLength": 200 } } },
+        { "title": "A native notification from $.ui.notify", "additionalProperties": false, "required": ["slot", "text"], "properties": { "slot": { "const": "notification" }, "title": { "type": "string", "maxLength": 60 }, "text": { "type": "string", "maxLength": 200 } } },
+        { "title": "A slash command and the row it answers with", "additionalProperties": false, "required": ["slot", "command"], "properties": { "slot": { "const": "command" }, "command": { "type": "string", "pattern": "^/[a-z0-9][a-z0-9:-]{0,40}$" }, "args": { "type": "string", "maxLength": 120 }, "output": { "$ref": "#/$defs/rows" }, "markdown": { "type": "string", "maxLength": 1500 } } },
+        { "title": "A tool call the mod refused", "additionalProperties": false, "required": ["slot", "tool", "input", "message"], "properties": { "slot": { "const": "tool-deny" }, "tool": { "type": "string", "maxLength": 60 }, "input": { "type": "string", "maxLength": 200 }, "message": { "type": "string", "maxLength": 300 } } },
+        { "title": "A prompt the mod rewrote before it was sent", "additionalProperties": false, "required": ["slot", "before", "after"], "properties": { "slot": { "const": "prompt-rewrite" }, "before": { "type": "string", "maxLength": 300 }, "after": { "type": "string", "maxLength": 600 } } },
+        { "title": "The working spinner, redrawn (ui.render Spinner)", "additionalProperties": false, "required": ["slot", "verb"], "properties": { "slot": { "const": "spinner" }, "glyphs": { "type": "array", "minItems": 1, "maxItems": 12, "items": { "type": "string", "maxLength": 4 } }, "verb": { "type": "string", "maxLength": 60 }, "color": { "$ref": "#/$defs/color" } } },
+        { "title": "The hint line under the prompt (ui.render PromptHint)", "additionalProperties": false, "required": ["slot", "row"], "properties": { "slot": { "const": "prompt-hint" }, "row": { "$ref": "#/$defs/row" } } },
+        { "title": "The mode indicator (ui.render SessionMode)", "additionalProperties": false, "required": ["slot", "row"], "properties": { "slot": { "const": "session-mode" }, "row": { "$ref": "#/$defs/row" } } },
+        { "title": "The turn duration line (ui.render TurnDuration)", "additionalProperties": false, "required": ["slot", "text"], "properties": { "slot": { "const": "turn-duration" }, "text": { "type": "string", "maxLength": 120 } } },
+        { "title": "A tool row, redrawn (ui.render ToolUse / ToolResult)", "additionalProperties": false, "required": ["slot", "tool", "input"], "properties": { "slot": { "const": "tool-row" }, "tool": { "type": "string", "maxLength": 60 }, "input": { "type": "string", "maxLength": 200 }, "row": { "$ref": "#/$defs/row" }, "result": { "$ref": "#/$defs/rows" } } },
+        { "title": "A transcript message the mod drew or added", "additionalProperties": false, "required": ["slot", "role"], "properties": { "slot": { "const": "message" }, "role": { "enum": ["user", "assistant", "note"] }, "rows": { "$ref": "#/$defs/rows" }, "markdown": { "type": "string", "maxLength": 1500 } } },
+        { "title": "An info notice row (ui.render InfoNotice)", "additionalProperties": false, "required": ["slot", "row"], "properties": { "slot": { "const": "info-notice" }, "row": { "$ref": "#/$defs/row" } } },
+        { "title": "A tool the mod gives the model ($.tool.register)", "additionalProperties": false, "required": ["slot", "name"], "properties": { "slot": { "const": "model-tool" }, "name": { "type": "string", "maxLength": 80 }, "input": { "type": "string", "maxLength": 200 }, "result": { "$ref": "#/$defs/rows" } } },
+        { "title": "Behaviour with nothing on screen, captioned in the preview", "additionalProperties": false, "required": ["slot", "text"], "properties": { "slot": { "const": "background" }, "text": { "type": "string", "maxLength": 200 } } }
+      ]
+    },
+    "preview": {
+      "description": "Declarative mock of what the mod draws, rendered by the site inside a mock client.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["elements"],
+      "properties": {
+        "scene": { "description": "The conversation drawn behind the mod's elements.", "enum": ["coding", "debugging", "review", "idle"] },
+        "transcript": { "description": "A conversation of your own instead of a scene.", "type": "array", "maxItems": 12, "items": { "$ref": "#/$defs/turn" } },
+        "surface": { "description": "Surface shown first.", "enum": ["terminal", "desktop"] },
+        "caption": { "type": "string", "maxLength": 140 },
+        "caption_ru": { "type": "string", "maxLength": 160 },
+        "elements": { "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/element" } }
+      }
+    }
+  }
+}

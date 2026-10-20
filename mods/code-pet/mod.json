@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "code-pet",
+  "title": "Code Pet",
+  "tagline": "A pixel pet in a pane that eats on tool calls, gets sick on failures and panics at rm -rf.",
+  "tagline_ru": "Пиксельный питомец на панели: ест при вызовах инструментов, болеет от ошибок и паникует от rm -rf.",
+  "description": "Byte, a pixel pet, lives in the Code Pet pane (`/pet`). A tool call that succeeds feeds it XP and food; one that fails (for Bash, also an `exit code` above 0 in the output) makes it sick and costs HP; rm -rf, force pushes, git reset --hard, git clean -f, DROP TABLE, mkfs and dd make it panic; a finished turn makes it happy. It sleeps after 3 idle minutes, turns sad when hungry or hurt, and hunger drains over hours, between sessions too. It evolves from egg to blob (Lv 2), critter (Lv 5) and crowned (Lv 10), with a toast on every level. The status line shows its level and mood. `/pet rename <name>`, `/pet snack`, `/pet demo`. The pixel art is drawn in the terminal.",
+  "description_ru": "На панели Code Pet (`/pet`) живёт пиксельный питомец Byte. Успешный вызов инструмента кормит его и даёт опыт; неудачный (для Bash — также `exit code` больше 0 в выводе) вызывает болезнь и отнимает здоровье; rm -rf, force push, git reset --hard, git clean -f, DROP TABLE, mkfs и dd вызывают панику; завершённый ход его радует. После 3 минут простоя он засыпает, грустит, когда голоден или ранен, а голод растёт часами, в том числе между сессиями. Он эволюционирует из яйца в blob (ур. 2), critter (ур. 5) и crowned (ур. 10), о каждом новом уровне сообщает уведомление. В строке статуса — его уровень и настроение. Команды: `/pet rename <имя>`, `/pet snack`, `/pet demo`. Пиксельная графика рисуется в терминале.",
+  "author": { "name": "OneWave AI", "github": "OneWave-AI", "url": "https://www.onewave-ai.com" },
+  "maintainers": ["OneWave-AI"],
+  "category": "fun",
+  "tags": ["pet", "pixel-art", "pane", "status", "tamagotchi"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/OneWave-AI/claude-code-mods/tree/main/code-pet",
+  "source": { "type": "marketplace", "marketplace": "OneWave-AI/claude-code-mods", "plugin": "code-pet", "path": "code-pet" },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": { "network": false, "processes": false, "filesystem": "none", "model": false, "promptRewrite": false, "blocksTools": false },
+  "preview": {
+    "scene": "debugging",
+    "surface": "terminal",
+    "caption": "After a failed test run Byte turns grey and sick: the Code Pet pane with HP, FOOD and XP bars, and the status line.",
+    "caption_ru": "После упавших тестов Byte сереет и болеет: панель Code Pet с полосами HP, FOOD и XP и строка статуса.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/pet",
+        "output": [
+          ["Pet pane opened."]
+        ]
+      },
+      {
+        "slot": "pane",
+        "title": "Code Pet",
+        "width": "narrow",
+        "rows": [
+          [{"text":"                                                ","bg":"#0b1121"}],
+          [{"text":"                        ","bg":"#0b1121"},{"text":"▀","color":"#141c2f","bg":"#0b1121"},{"text":"                       ","bg":"#0b1121"}],
+          [{"text":"               ","bg":"#0b1121"},{"text":"▀","color":"#27314b","bg":"#0b1121"},{"text":"                            ","bg":"#0b1121"},{"text":"▀","color":"#0b1121","bg":"#28334d"},{"text":"   ","bg":"#0b1121"}],
+          [{"text":"                  ","bg":"#0b1121"},{"text":"▀","color":"#0b1121","bg":"#242e47"},{"text":"                             ","bg":"#0b1121"}],
+          [{"text":"                                          ","bg":"#0b1121"},{"text":"▀","color":"#192136","bg":"#0b1121"},{"text":"     ","bg":"#0b1121"}],
+          [{"text":"                      ","bg":"#0b1121"},{"text":"████████","color":"#6e5b3d"},{"text":"    ","bg":"#0b1121"},{"text":"▀","color":"#232d46","bg":"#0b1121"},{"text":"             ","bg":"#0b1121"}],
+          [{"text":" ","bg":"#0b1121"},{"text":"▀","color":"#0b1121","bg":"#1c243a"},{"text":"         ","bg":"#0b1121"},{"text":"▀","color":"#26304a","bg":"#0b1121"},{"text":"      ","bg":"#0b1121"},{"text":"████","color":"#6e5b3d"},{"text":"████████","color":"#a19e96"},{"text":"████","color":"#6e5b3d"},{"text":"    ","bg":"#0b1121"},{"text":"▀","color":"#2a3550","bg":"#0b1121"},{"text":"         ","bg":"#0b1121"}],
+          [{"text":"                ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"████","color":"#a19e96"},{"text":"████","color":"#c7c5bf"},{"text":"████████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"   ","bg":"#0b1121"},{"text":"▀","color":"#61a5fa","bg":"#3f6aa3"},{"text":"        ","bg":"#0b1121"}],
+          [{"text":"                ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"██","color":"#a19e96"},{"text":"██","color":"#c7c5bf"},{"text":"████████████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"            ","bg":"#0b1121"}],
+          [{"text":"              ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"████","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"████████","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"          ","bg":"#0b1121"}],
+          [{"text":"              ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"██████","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"████","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"██████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"          ","bg":"#0b1121"}],
+          [{"text":"         ","bg":"#0b1121"},{"text":"▀","color":"#0b1121","bg":"#2a3550"},{"text":"    ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"████████████████████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"          ","bg":"#0b1121"}],
+          [{"text":"              ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"████████","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"██","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"██████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"          ","bg":"#0b1121"}],
+          [{"text":"                ","bg":"#0b1121"},{"text":"██","color":"#6e5b3d"},{"text":"████","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"██","color":"#a19e96"},{"text":"██","color":"#1a1410"},{"text":"██████","color":"#a19e96"},{"text":"██","color":"#6e5b3d"},{"text":"            ","bg":"#0b1121"}],
+          [{"text":"                  ","bg":"#0b1121"},{"text":"████████████████","color":"#6e5b3d"},{"text":"              ","bg":"#0b1121"}],
+          [{"text":"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀","color":"#2a3348","bg":"#161d2e"},{"text":"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀","color":"#0b0f17","bg":"#161d2e"},{"text":"▀▀▀▀▀▀▀▀▀▀▀▀","color":"#2a3348","bg":"#161d2e"}],
+          [" "],
+          [{"text":"BYTE","color":"#E8E2D6","bold":true},{"text":"  Lv 4 blob · 1h old · 38 meals","dim":true},"       ",{"text":" SICK ","bg":"#e5484d","color":"#0B1121","bold":true}],
+          [{"text":"HP ","dim":true},{"text":"█████░","color":"#c2a87e"},"  ",{"text":"FOOD ","dim":true},{"text":"████░░","color":"#61A5FA"},"  ",{"text":"XP ","dim":true},{"text":"███░░░","color":"#E8E2D6"}],
+          [" "],
+          [{"button":"snack","hotkey":"f"},"   ",{"button":"demo","hotkey":"d"}]
+        ]
+      },
+      { "slot": "status", "text": "Byte Lv4 · sick" },
+      {
+        "slot": "background",
+        "text": "The pet and its starry room are pixel art drawn with Raster in the terminal and animated about 11 times a second while the pane is open."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/OneWave-AI/claude-code-mods/main/screenshots/code-pet.png",
+      "alt": "Code Pet pane during /pet demo: a grey, sick pixel blob named Byte with HP, FOOD and XP bars",
+      "surface": "terminal"
+    }
+  ]
+}

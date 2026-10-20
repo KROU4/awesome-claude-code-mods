@@ -1,0 +1,44 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=timeline}",
+    "ui.close{id=timeline}",
+    "ui.render{component=AbovePrompt}",
+    "tool.call",
+    "classic.PreToolUse",
+    "ui.render{component=Pane, requestId=timeline}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.session.cwd",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "ui.close{id=timeline}",
+      "hasCatch": true
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": true
+    },
+    {
+      "hook": "classic.PreToolUse",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "tool-timeline.calls",
+    "tool-timeline.dismissed"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

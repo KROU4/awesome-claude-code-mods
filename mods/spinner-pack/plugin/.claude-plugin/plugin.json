@@ -1,0 +1,22 @@
+{
+  "name": "spinner-pack",
+  "version": "0.1.0",
+  "description": "Themed spinner packs: moon, braille or coffee verbs and glyphs that follow each phase of a turn.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/spinner-pack",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["spinner", "theme", "moon", "braille", "coffee"],
+  "userConfig": {
+    "pack": {
+      "type": "string",
+      "title": "Spinner pack",
+      "description": "Which pack re-skins the working spinner: moon, braille, coffee, or classic (the engine's own spinner).",
+      "options": ["moon", "braille", "coffee", "classic"],
+      "default": "moon"
+    }
+  }
+}

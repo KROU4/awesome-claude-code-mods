@@ -1,0 +1,22 @@
+{
+  "name": "turn-meter",
+  "version": "0.1.0",
+  "description": "Each turn's duration, tool calls and tokens in a band above the prompt, with a 12-turn sparkline.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/turn-meter",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["turns", "duration", "tokens", "sparkline", "toast"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "slowTurnSeconds": {
+      "type": "number",
+      "title": "Slow turn threshold (seconds)",
+      "description": "A turn that runs longer than this raises a toast. 0 turns the toast off.",
+      "default": 120
+    }
+  }
+}

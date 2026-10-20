@@ -1,0 +1,109 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "whats-agent-doing",
+  "title": "What's Agent Doing",
+  "tagline": "A box above the prompt saying what the agent is doing right now, for how long, and each step so far.",
+  "tagline_ru": "Рамка над полем ввода: что агент делает прямо сейчас, сколько времени, а по ▸ — все его шаги.",
+  "description": "Draws a rounded box above the prompt that names what the agent is doing right now and how long it has been at it: `Reading your prompt`, `Thinking:` with the latest sentence of its thought, `Writing register.tsx · 2.3 KB` while a call streams, a command's own description while it runs, `Waiting for your approval`, `Reviewing the results of 3 actions`, `Writing the reply · 120 words`, `Compacting the conversation` or `Idle · last turn done in 42s, 6 actions`. Subagents get a ◆ row each. Click ▸ (or focus the band with ctrl+x tab and press Enter) for up to 12 history rows: prompts, thoughts, tool calls marked ✓ ✗ ⊘ ■, replies and turn ends, with durations. Display only.",
+  "description_ru": "Рисует над полем ввода рамку, где сказано, что агент делает прямо сейчас и как долго: `Reading your prompt`, `Thinking:` с последней фразой его рассуждений, `Writing register.tsx · 2.3 KB`, пока пишется вызов, описание команды, пока она выполняется, `Waiting for your approval`, `Reviewing the results of 3 actions`, `Writing the reply · 120 words`, `Compacting the conversation` или `Idle · last turn done in 42s, 6 actions`. У каждого субагента своя строка с ◆. Нажмите ▸ (или переведите фокус на полосу через ctrl+x tab и нажмите Enter), чтобы увидеть до 12 строк истории: запросы, рассуждения, вызовы инструментов с отметками ✓ ✗ ⊘ ■, ответы и итоги ходов с длительностью. Мод только показывает: он ничего не меняет, не разрешает и не запрещает.",
+  "author": { "name": "Tzafrir Rehan", "github": "tzafrir", "url": "https://github.com/tzafrir" },
+  "maintainers": ["tzafrir"],
+  "category": "insights",
+  "tags": ["status", "activity", "subagents", "history", "above-prompt"],
+  "license": "MIT",
+  "version": "0.4.3",
+  "homepage": "https://github.com/tzafrir/whats-agent-doing",
+  "source": { "type": "marketplace", "marketplace": "tzafrir/whats-agent-doing", "plugin": "whats-agent-doing" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "The cart total is wrong when a coupon is applied. Fix it." },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Grep", "input": "applyCoupon(", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npx tsx -e \"import {cartTotal} from './src/cart'; console.log(cartTotal({…coupon:{amount:10},taxRate:0.08}))\"", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "git bisect start HEAD v2.3.0 && git bisect run npx vitest run src/cart -t \"fixed coupon\"", "status": "running" }
+    ],
+    "caption": "Mid-bisect: the box names the running command by its description and its time; ▾ shows the steps so far.",
+    "caption_ru": "Во время bisect рамка называет команду по её описанию и показывает время; ▾ раскрывает пройденные шаги.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [{ "text": "╭──────────────────────────────────────────────────────────────────────╮", "color": "#11a8cd" }],
+          [
+            { "text": "│ ", "color": "#11a8cd" },
+            "▾",
+            { "text": " ● ", "color": "#11a8cd" },
+            { "text": "Claude: ", "bold": true },
+            "Find the commit that broke fixed-amount coupons",
+            { "text": " · 1m 48s", "dim": true },
+            { "text": " │", "color": "#11a8cd" }
+          ],
+          [{ "text": "│                                                                      │", "color": "#11a8cd" }],
+          [
+            { "text": "│ ", "color": "#11a8cd" },
+            { "text": "› ", "color": "text" },
+            { "text": "The cart total is wrong when a coupon is applied. Fix it.", "bold": true },
+            "         ",
+            { "text": " │", "color": "#11a8cd" }
+          ],
+          [
+            { "text": "│ ", "color": "#11a8cd" },
+            { "text": "∴ ", "color": "#bc3fbc" },
+            { "text": "Thought (38 words)", "dim": true },
+            { "text": "  4.1s", "dim": true },
+            "                                          ",
+            { "text": " │", "color": "#11a8cd" }
+          ],
+          [
+            { "text": "│ ", "color": "#11a8cd" },
+            { "text": "✓ ", "color": "success" },
+            "Reading checkout.ts",
+            { "text": "  0.6s", "dim": true },
+            "                                         ",
+            { "text": " │", "color": "#11a8cd" }
+          ],
+          [
+            { "text": "│ ", "color": "#11a8cd" },
+            { "text": "✓ ", "color": "success" },
+            "Searching for \"applyCoupon(\"",
+            { "text": "  0.3s", "dim": true },
+            "                                ",
+            { "text": " │", "color": "#11a8cd" }
+          ],
+          [
+            { "text": "│ ", "color": "#11a8cd" },
+            { "text": "✓ ", "color": "success" },
+            "Reproduce the total with a $10 coupon",
+            { "text": "  2.1s", "dim": true },
+            "                       ",
+            { "text": " │", "color": "#11a8cd" }
+          ],
+          [{ "text": "╰──────────────────────────────────────────────────────────────────────╯", "color": "#11a8cd" }]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "Display only: reads the model's stream, tool calls, approval prompts, subagents and compaction, and passes each on unchanged."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/tzafrir/whats-agent-doing/main/media/hero.gif",
+      "alt": "What's Agent Doing: each step of a bug fix, live above the Claude Code prompt",
+      "surface": "terminal"
+    }
+  ]
+}

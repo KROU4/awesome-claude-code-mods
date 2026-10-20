@@ -1,0 +1,66 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "prompt.compose",
+    "session.end",
+    "prompt.submit",
+    "command.run{command=img}",
+    "tool.call{tool=/\"^mcp__show-your-work__show_(image|video)$\"/}",
+    "ui.render{component=ToolUse}",
+    "ui.render{component=ToolResult}",
+    "ui.render{component=Pane, requestId=show-your-work}",
+    "command.run{command=show-your-work}",
+    "ui.render{component=Pane, requestId=show-your-work-update}",
+    "ui.render{component=Pane, requestId=show-your-work-welcome}",
+    "ui.render{component=CommandOutput}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.clock.sleep",
+    "$.command.register",
+    "$.command.run",
+    "$.env.get",
+    "$.fs.list",
+    "$.fs.read",
+    "$.fs.stat",
+    "$.fs.write",
+    "$.http.fetch",
+    "$.process.run",
+    "$.session.cwd",
+    "$.session.id",
+    "$.session.version",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.tool.register",
+    "$.ui.blit",
+    "$.ui.close",
+    "$.ui.copy",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.panes",
+    "$.ui.resolve",
+    "$.ui.status",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call{tool=/\"^mcp__show-your-work__show_(image|video)$\"/}",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "show-your-work.current",
+    "show-your-work.welcome"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

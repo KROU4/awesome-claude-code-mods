@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "hooks": [
+    "ui.render{component=Spinner}"
+  ],
+  "calls": [],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

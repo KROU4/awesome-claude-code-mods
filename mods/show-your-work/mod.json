@@ -1,0 +1,98 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "show-your-work",
+  "title": "Show Your Work",
+  "tagline": "Claude shows screenshots and Playwright recordings inline in the chat, with before/after and QA.",
+  "tagline_ru": "Claude показывает скриншоты и записи Playwright прямо в чате: до и после, с проверками QA.",
+  "description": "Gives Claude `show_image` and `show_video` and draws what they show inline in the chat with the kitty graphics protocol (Ghostty, kitty; Warp, WezTerm, Konsole after Turn on pictures). A video plays with Play/Pause, a scrub bar, « 5s / 5s », Open page, Save to Downloads and Copy path, next to What changed (click a time to jump) and the QA checks. With a before file, Original / Updated / ⧉ Compare plays both in sync; pictures keep a History. `/img <path>` shows a file, `/show-your-work` opens Settings. Videos need ffmpeg. It installs its own updates daily via `claude plugin` and sends anonymous usage counts to PostHog unless you pick Don't share.",
+  "description_ru": "Даёт Claude инструменты `show_image` и `show_video` и рисует то, что они показывают, прямо в чате по протоколу графики kitty (Ghostty, kitty; в Warp, WezTerm и Konsole после Turn on pictures). Видео играет в плеере с Play/Pause, перемоткой, « 5s / 5s », Open page, Save to Downloads и Copy path, рядом список What changed (щелчок по времени переносит к моменту) и проверки QA. С файлом «до» вкладки Original / Updated / ⧉ Compare показывают обе записи рядом и синхронно; у картинок есть History версий. `/img <путь>` показывает файл, `/show-your-work` открывает настройки. Для видео нужен ffmpeg. Раз в день мод сам ставит обновления через `claude plugin` (отключается `SHOW_YOUR_WORK_AUTO_UPDATE=0`) и шлёт анонимную статистику в PostHog, если в настройках не выбрать Don't share.",
+  "author": { "name": "Umer Ansari", "github": "iamumeransari", "url": "https://github.com/iamumeransari" },
+  "maintainers": ["iamumeransari"],
+  "category": "interface",
+  "tags": ["images", "video", "playwright", "visual-qa", "before-after", "kitty-graphics"],
+  "license": "MIT",
+  "version": "0.6.9",
+  "homepage": "https://github.com/iamumeransari/claude-show-your-work",
+  "source": { "type": "marketplace", "marketplace": "iamumeransari/claude-show-your-work", "plugin": "show-your-work" },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.286" },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "write",
+    "model": false,
+    "promptRewrite": true,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Fix the discount code field on checkout, test it, and show me before and after." },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npx playwright test e2e/checkout.spec.ts", "result": "3 passed (8.1s)", "status": "done" },
+      { "role": "assistant", "text": "SAVE10 now takes 10% off in src/checkout.ts. I recorded the same Playwright steps on the old and the fixed checkout." }
+    ],
+    "caption": "A Playwright recording of a checkout fix plays inline, with What changed timestamps, QA checks and Original / Updated / Compare.",
+    "caption_ru": "Запись Playwright с исправлением оформления заказа играет прямо в чате: изменения с отметками времени, проверки QA и Original / Updated / Compare.",
+    "elements": [
+      {
+        "slot": "tool-row",
+        "tool": "show_video",
+        "input": "/tmp/qa/after.webm",
+        "row": ["▶ Video · Checkout discount code · vs before.webm · 3 checks"],
+        "result": [
+          [{ "text": "Checkout discount code", "bold": true }, "  ", { "text": "✓ 3/3", "bold": true, "color": "success" }, "        ", { "button": "Original", "variant": "secondary" }, " ", { "button": "Updated", "variant": "primary" }, " ", { "button": "⧉ Compare", "variant": "secondary" }],
+          ["          ", { "text": "████████████████████████████████████████████", "color": "#5f6470" }],
+          ["          ", { "text": "█  ", "color": "#d8dbe2" }, { "text": "▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒", "color": "#9aa0ad" }, { "text": "          ░░░░░░░░░░  █", "color": "#d8dbe2" }],
+          ["          ", { "text": "█  ", "color": "#d8dbe2" }, { "text": "▒▒▒▒▒▒▒▒▒▒▒▒", "color": "#9aa0ad" }, { "text": "                ░░░░░░░     █", "color": "#d8dbe2" }],
+          ["          ", { "text": "█                                          █", "color": "#d8dbe2" }],
+          ["          ", { "text": "█  ", "color": "#d8dbe2" }, { "text": "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓", "color": "#9aa0ad" }, "    ", { "text": "████████████", "color": "success" }, { "text": "    █", "color": "#d8dbe2" }],
+          ["          ", { "text": "█                                          █", "color": "#d8dbe2" }],
+          ["          ", { "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", "color": "#d8dbe2" }],
+          [{ "button": "❚❚ Pause", "variant": "primary" }, { "text": " 0:05 ", "dim": true }, "━━━━━━━━━━━━━━━━━━━━━━━━●─", { "text": "──────────────", "dim": true }, { "text": " 0:08", "dim": true }],
+          [{ "text": "« 5s", "dim": true }, "  ", { "text": "5s »", "dim": true }, "             ", "↗ Open page", "  ", { "text": "Save to Downloads", "dim": true }, "  ", { "text": "Copy path", "dim": true }],
+          [" "],
+          ["  ", { "text": "WHAT CHANGED · 3", "dim": true, "bold": true }],
+          ["  ", { "text": " 1.", "dim": true }, " Discount field accepts SAVE10      ", { "text": " 0:02 ", "bg": "#30323b" }],
+          [" "],
+          ["  ", { "text": " 2.", "color": "suggestion" }, " Total drops to $36.00              ", { "text": " 0:04 ", "bg": "suggestion", "color": "background" }],
+          [" "],
+          ["  ", { "text": " 3.", "dim": true }, " Invalid code shows an error        ", { "text": " 0:06 ", "bg": "#30323b" }],
+          [" "],
+          ["  ", { "text": "QA", "dim": true, "bold": true }, "                                     ", { "text": "3/3", "bold": true, "color": "success" }],
+          ["  ", { "text": "╭──────────────────────────────────────╮", "color": "success", "dim": true }],
+          ["  ", { "text": "│ ", "color": "success", "dim": true }, { "text": "✓ All checks passed", "bold": true, "color": "success" }, "                  ", { "text": "│", "color": "success", "dim": true }],
+          ["  ", { "text": "│ ", "color": "success", "dim": true }, { "text": "✓", "color": "success" }, " Discount: SAVE10 applies   ", { "text": "  2/2", "dim": true }, "   ", { "text": "│", "color": "success", "dim": true }],
+          ["  ", { "text": "│ ", "color": "success", "dim": true }, { "text": "✓", "color": "success" }, " Errors: bad code message   ", { "text": "  1/1", "dim": true }, "   ", { "text": "│", "color": "success", "dim": true }],
+          ["  ", { "text": "╰──────────────────────────────────────╯", "color": "success", "dim": true }]
+        ]
+      },
+      {
+        "slot": "model-tool",
+        "name": "show_video",
+        "input": "path: /tmp/qa/after.webm, compare: /tmp/qa/before.webm, title, url, changes, checks, compare_checks, summary",
+        "result": [["Shown: Checkout discount code (video, 0:08)."]]
+      },
+      { "slot": "background", "text": "Draws the picture and every video frame with the kitty graphics protocol (Image, terminal); the block glyphs here stand in for the recording." },
+      { "slot": "background", "text": "Adds one line to Claude's instructions: \"This terminal shows pictures and videos inline. After visual work, screenshot or record it and show it with show_image or show_video...\"" },
+      { "slot": "command", "command": "/show-your-work", "output": [["Opened the show-your-work settings."]] },
+      {
+        "slot": "pane",
+        "title": "Settings",
+        "width": "wide",
+        "rows": [
+          [{ "button": "✕ Close" }, "  ", { "button": "Take a tour" }],
+          [{ "text": "Show Your Work Settings", "bold": true }],
+          [{ "text": "Updates                 ", "dim": true }, { "text": "● Stable releases", "color": "success" }, "      ", { "text": "○ Latest", "color": "claude", "dim": true }],
+          [{ "text": "Usage data              ", "dim": true }, { "text": "● Share anonymously", "color": "success" }, "    ", { "text": "○ Don't share", "color": "claude", "dim": true }],
+          [{ "text": "Usage data is anonymous and helps fix bugs and improve the product experience. No sensitive data is ever shared.", "dim": true }]
+        ]
+      }
+    ]
+  },
+  "media": [
+    { "type": "image", "src": "https://raw.githubusercontent.com/iamumeransari/claude-show-your-work/main/docs/qa-product.jpg", "alt": "A recording of a new-trip form being tested, with what changed and the checks beside it", "surface": "terminal" },
+    { "type": "image", "src": "https://raw.githubusercontent.com/iamumeransari/claude-show-your-work/main/docs/concepts.jpg", "alt": "Four landing page concepts for Tern shown in the chat", "surface": "terminal" }
+  ]
+}

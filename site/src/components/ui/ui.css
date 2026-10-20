@@ -1,0 +1,117 @@
+/* Shared UI primitives: buttons, copy button, site toasts. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: var(--r-control);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-exit) var(--ease-out),
+    border-color var(--dur-exit) var(--ease-out),
+    color var(--dur-exit) var(--ease-out),
+    transform var(--dur-instant) var(--ease-out);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-primary {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+.btn-primary:hover {
+  background: var(--accent-fill-hover);
+}
+.btn-secondary {
+  background: var(--raised);
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.btn-secondary:hover {
+  border-color: var(--ink-3);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+}
+.btn-ghost:hover {
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--raised);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition:
+    color var(--dur-exit) var(--ease-out),
+    border-color var(--dur-exit) var(--ease-out);
+}
+.copy-btn:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.copy-btn-solid {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: transparent;
+}
+.copy-btn-solid:hover {
+  color: var(--paper);
+  background: var(--ink-2);
+}
+
+.site-toasts {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+.site-toast {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-2);
+}
+
+/* data status (ui/DataStatus) */
+.data-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+}
+.data-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+.data-status[data-source='live'] .data-status-dot {
+  background: var(--success);
+}

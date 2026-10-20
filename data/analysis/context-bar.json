@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.complete",
+    "session.compact",
+    "command.run{command=context-bar}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.command.register",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "session.compact",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "context-bar.isHidden",
+    "context-bar.reading"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

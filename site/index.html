@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mod Showroom</title>
+    <meta name="description" content="A community catalog of Claude Code mods. See each mod inside the client before you install it, then install it in one line." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1f1e1d" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <script>
+      // Resolve theme, language and motion preference before first paint (no flash).
+      ;(function () {
+        var d = document.documentElement
+        function read(k) { try { return localStorage.getItem(k) } catch (e) { return null } }
+        var pref = read('ms.theme')
+        if (pref !== 'light' && pref !== 'dark') pref = 'system'
+        var dark = pref === 'dark' || (pref === 'system' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches)
+        d.setAttribute('data-theme', dark ? 'dark' : 'light')
+        d.setAttribute('data-theme-pref', pref)
+        var lang = read('ms.lang')
+        if (lang !== 'ru' && lang !== 'en') lang = /^ru\b/i.test(navigator.language || '') ? 'ru' : 'en'
+        d.setAttribute('lang', lang)
+        if (read('ms.motion') === 'off') d.setAttribute('data-motion', 'off')
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,363 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "mod-store",
+  "title": "Mod Store",
+  "tagline": "A /mods pane to search community mods, see what each one can access, and install with a confirm.",
+  "tagline_ru": "Панель /mods: ищите моды сообщества, смотрите, к чему они получают доступ, и ставьте после подтверждения.",
+  "description": "`/mods [search]` opens a Mod Store pane over the community catalogue at mods.aidojo.si: a search box, ✦ Ask Claude, filter chips (All, One-click, Display only, Panes, Bands), a sort (Most stars, Newest, A to Z) and 12 cards a page with stars, author and an access badge from green Display only through Reads and Writes & runs to red Network. A mod's page lists what it can access, where it shows up and its validation; Install (`i`, then `y`) shows the exact `claude plugin install` command and runs it only after you confirm. Claude gets `search_mods` and `show_mod` to find and open mods, never to install. Mods with no root marketplace say Manual install.",
+  "description_ru": "`/mods [поиск]` открывает панель Mod Store с каталогом модов сообщества с mods.aidojo.si: строка поиска, кнопка ✦ Ask Claude, фильтры (All, One-click, Display only, Panes, Bands), сортировка (Most stars, Newest, A to Z) и по 12 карточек на странице со звёздами, автором и значком доступа: от зелёного Display only через Reads и Writes & runs до красного Network. На странице мода видно, к чему он получает доступ, где появляется и прошёл ли проверку; Install (`i`, затем `y`) показывает точную команду `claude plugin install` и запускает её только после вашего подтверждения. Claude получает инструменты `search_mods` и `show_mod`: он может найти и открыть мод, но не установить его. Моды без marketplace в корне репозитория помечены Manual install.",
+  "author": {
+    "name": "Sverre",
+    "github": "hellosverre",
+    "url": "https://hellosverre.com"
+  },
+  "maintainers": [
+    "hellosverre"
+  ],
+  "category": "productivity",
+  "tags": [
+    "mods",
+    "store",
+    "catalog",
+    "install",
+    "pane",
+    "search"
+  ],
+  "license": "MIT",
+  "version": "0.1.1",
+  "homepage": "https://github.com/hellosverre/mod-store",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "hellosverre/mod-store",
+    "plugin": "mod-store"
+  },
+  "surfaces": [
+    "terminal",
+    "desktop"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      {
+        "role": "user",
+        "text": "Is there a mod that shows my test results in a pane?"
+      },
+      {
+        "role": "assistant",
+        "text": "Two fit: verdict shows test, build and lint results above the prompt and in a pane, and redgreen is a test results pane. Both are marked Reads and install in one click. Run /mods test results to compare them, then press Install yourself."
+      }
+    ],
+    "caption": "/mods test results: matching mods as cards with stars, author and an access badge; Claude searches the same catalogue.",
+    "caption_ru": "/mods test results: подходящие моды карточками со звёздами, автором и значком доступа; Claude ищет по тому же каталогу.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/mods",
+        "args": "test results",
+        "output": [
+          [
+            "Mod Store: searching \"test results\"."
+          ]
+        ]
+      },
+      {
+        "slot": "pane",
+        "title": "Mod Store",
+        "width": "wide",
+        "rows": [
+          [
+            "test results"
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "button": "✦ Ask Claude"
+            },
+            " ",
+            {
+              "button": "All",
+              "variant": "primary"
+            },
+            " ",
+            {
+              "text": "One-click",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "Display only",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "Panes",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "Bands",
+              "dim": true
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "6 mods",
+              "dim": true
+            },
+            "                                              ",
+            "Most stars"
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "╭────────────────────────────────────────────────────────────╮",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "verdict                                               ",
+              "bold": true
+            },
+            {
+              "text": "★ 13",
+              "color": "warning"
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "KOZMOS Verdict: test, build and lint results above the pr…",
+              "dim": true
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "● Reads   ",
+              "color": "#00b7c3"
+            },
+            {
+              "text": "KOZMOS                                 Details ›",
+              "dim": true
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "╰────────────────────────────────────────────────────────────╯",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "╭────────────────────────────────────────────────────────────╮",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "redgreen                                               ",
+              "bold": true
+            },
+            {
+              "text": "★ 2",
+              "color": "warning"
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "Test results pane for Claude Code: every test run Claude… ",
+              "dim": true
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "● Reads   ",
+              "color": "#00b7c3"
+            },
+            {
+              "text": "hellosverre                            Details ›",
+              "dim": true
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "╰────────────────────────────────────────────────────────────╯",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "╭────────────────────────────────────────────────────────────╮",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "laravel-tooling                                        ",
+              "bold": true
+            },
+            {
+              "text": "★ 1",
+              "color": "warning"
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "Runs Pint and Larastan after Claude edits PHP, and Pest o…",
+              "dim": true
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "● Writes & runs   ",
+              "color": "warning"
+            },
+            {
+              "text": "Tom Shaw                       Details ›",
+              "dim": true
+            },
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "╰────────────────────────────────────────────────────────────╯",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "model-tool",
+        "name": "search_mods",
+        "input": "{\"query\": \"test results\", \"limit\": 2}",
+        "result": [
+          [
+            "6 matches, best 2:"
+          ],
+          [
+            "- verdict (id ersinkoc/claude-mods:mods/verdict) by KOZMOS, ★13 for ersinkoc/claude-mods, one-click install"
+          ],
+          [
+            "  access: Reads (reads mod state, persists state, draws); shows in a band above the prompt, a side pane"
+          ],
+          [
+            "  KOZMOS Verdict: test, build and lint results above the prompt. Spots the test runners, type checkers, linters and builds Claude runs (vitest, jest, pytest, go test, cargo, dotnet, mocha, bun, tsc, eslint, npm run build, maven, gradle…), par"
+          ],
+          [
+            "- redgreen (id hellosverre/redgreen:.) by hellosverre, ★2 for hellosverre/redgreen, one-click install"
+          ],
+          [
+            "  access: Reads (reads files, reads mod state, draws); shows in a side pane"
+          ],
+          [
+            "  Test results pane for Claude Code: every test run Claude makes becomes a pass/fail list with the failure detail and run history. vitest, jest, pytest, cargo, go, bun, deno"
+          ]
+        ]
+      },
+      {
+        "slot": "toast",
+        "text": "Installed redgreen. Run /reload-plugins to load it."
+      },
+      {
+        "slot": "background",
+        "text": "Downloads the mods.aidojo.si catalogue in 2 MB ranges, keeps a slim copy for six hours and runs claude plugin list --json to mark installed mods."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hellosverre/mod-store/main/demo.gif",
+      "alt": "Mod Store demo: /mods opens the Mod Store pane with search, filter chips, a Most stars sort and mod cards with access badges",
+      "surface": "desktop"
+    }
+  ]
+}

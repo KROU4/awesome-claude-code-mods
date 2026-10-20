@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Add a mod with the online builder
+    url: https://krou4.github.io/claude-code-mod-showroom/#/submit
+    about: Fill in a form, watch the live preview and open a pull request in one click. / Конструктор записи с превью и pull request в один клик.
+  - name: Questions and ideas
+    url: https://github.com/KROU4/claude-code-mod-showroom/discussions
+    about: Ask a question or suggest an idea in Discussions. / Вопросы и идеи — в Discussions.
+  - name: Report a security problem privately
+    url: https://github.com/KROU4/claude-code-mod-showroom/security/advisories/new
+    about: A mod that steals data or harms a machine, reported privately. / Вредный мод — сообщите приватно.

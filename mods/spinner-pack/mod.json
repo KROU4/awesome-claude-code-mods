@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "spinner-pack",
+  "title": "Spinner Pack",
+  "tagline": "Themed spinner packs: moon, braille or coffee verbs and glyphs that follow each phase of a turn.",
+  "tagline_ru": "Тематический спиннер: луна, шрифт Брайля или кофе; слово и значок меняются с каждой фазой хода.",
+  "description": "While Claude works, the spinner's word becomes a themed verb with a glyph beside it, and both change as the turn moves from requesting to thinking, tool use and responding. Pick a pack with the `pack` option: `moon` (Orbiting, Waxing, Eclipsing, Waning with ◐ ◓ ◑ ◒), `braille` (Computing, Threading, Weaving with ⠋ ⠹ ⠼ ⠦ ⠇), `coffee` (Grinding, Steeping, Brewing, Pouring with ∴ ∵ ∷ ⁂) or `classic` to leave the spinner alone. Only the word changes, so Claude Code keeps its own animated glyph, ellipsis, elapsed time and token count. In the desktop app a row that names its step keeps those words and gains the glyph.",
+  "description_ru": "Пока Claude работает, слово в спиннере сменяется тематическим глаголом со значком рядом, и оба меняются по мере того, как ход переходит от запроса к размышлению, вызову инструментов и ответу. Набор выбирается опцией `pack`: `moon` (Orbiting, Waxing, Eclipsing, Waning со значками ◐ ◓ ◑ ◒), `braille` (Computing, Threading, Weaving с ⠋ ⠹ ⠼ ⠦ ⠇), `coffee` (Grinding, Steeping, Brewing, Pouring с ∴ ∵ ∷ ⁂) или `classic`, чтобы оставить спиннер как есть. Меняется только слово, поэтому анимированный значок, многоточие, время и счётчик токенов Claude Code рисует как обычно. В десктопном приложении строка, где назван текущий шаг, сохраняет эти слова и получает значок.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "fun",
+  "tags": ["spinner", "theme", "moon", "braille", "coffee"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/spinner-pack",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Run the cart tests and fix whatever fails." },
+      { "role": "tool", "tool": "Bash", "input": "npm test -- src/cart", "status": "running" }
+    ],
+    "caption": "The moon pack while a tool runs. Through a turn the line reads Orbiting ◐…, Waxing ◓…, Eclipsing ◒… and Waning ◐…",
+    "caption_ru": "Набор moon во время вызова инструмента. За ход строка проходит Orbiting ◐…, Waxing ◓…, Eclipsing ◒… и Waning ◐…",
+    "elements": [{ "slot": "spinner", "verb": "Eclipsing ◒" }]
+  }
+}

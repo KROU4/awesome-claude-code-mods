@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.measure",
+    "ui.render{component=SessionMode}",
+    "ui.render{component=PromptHint}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.invalidate",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [
+    "sub-meter.limits",
+    "sub-meter.view"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

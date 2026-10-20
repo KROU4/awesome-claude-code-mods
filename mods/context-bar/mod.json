@@ -1,0 +1,55 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "context-bar",
+  "title": "Context Bar",
+  "tagline": "A stacked bar above the prompt showing what fills your context window and where it compacts.",
+  "tagline_ru": "Составная полоса над полем ввода: чем занято окно контекста и когда начнётся автосжатие.",
+  "description": "A framed band above the prompt draws the context window as one stacked bar: a color per used category (system prompt, system tools, memory files, skills, custom agents and so on; messages in orange), free space as a thin grey line and the autocompact buffer hatched (░). The header shows tokens in use, the window, where auto-compaction runs and a percent badge that turns yellow at 70% of the compaction point and red at 90%; a legend lists each category's tokens and share. It refreshes after each main-agent turn and after a compaction, from the same local estimate /context draws (no API calls). `/context-bar` hides or shows it, kept across sessions.",
+  "description_ru": "Над полем ввода в рамке появляется окно контекста одной составной полосой: у каждой занятой категории свой цвет (системный промпт, системные инструменты, файлы памяти, навыки, свои агенты и так далее; сообщения оранжевым), свободное место показано тонкой серой линией, а буфер автосжатия штриховкой (░). В заголовке: сколько токенов занято, размер окна, где начнётся автосжатие, и процент, который желтеет на 70% от точки сжатия и краснеет на 90%. Легенда показывает токены и долю каждой категории. Полоса обновляется после каждого хода основного агента и после сжатия по той же локальной оценке, что рисует /context (без запросов к API). Команда `/context-bar` скрывает и показывает её, выбор сохраняется между сессиями.",
+  "author": { "name": "Hamza Zafar", "github": "hamzafer", "url": "https://github.com/hamzafer" },
+  "maintainers": ["hamzafer"],
+  "category": "insights",
+  "tags": ["context-window", "tokens", "compaction", "band", "command"],
+  "license": "MIT",
+  "version": "0.1.3",
+  "homepage": "https://hamzafer.github.io/claude-code-mods/mods/context-bar/",
+  "source": { "type": "marketplace", "marketplace": "hamzafer/claude-code-mods", "plugin": "context-bar", "path": "mods/context-bar" },
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "After a turn: the window split by category, free space, the autocompact buffer and a 29% badge, green below 70% of the compaction point.",
+    "caption_ru": "После хода: окно контекста по категориям, свободное место, буфер автосжатия и значок 29%, зелёный ниже 70% от точки сжатия.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [{ "text": "╭────────────────────────────────────────────────────────────────────────╮", "color": "inactive" }],
+          [{ "text": "│ ", "color": "inactive" }, { "text": "◆ ", "color": "#d97757" }, { "text": "context", "bold": true }, "                         ", { "text": "58k of 200k · compacts at 167k ", "dim": true }, { "text": " 29% ", "bold": true, "color": "#000000", "bg": "success" }, { "text": " │", "color": "inactive" }],
+          [{ "text": "│ ", "color": "inactive" }, { "text": "█", "color": "#7aa2f7" }, { "text": "████", "color": "#7dcfff" }, { "text": "█", "color": "#bb9af7" }, { "text": "█", "color": "#9ece6a" }, { "text": "█", "color": "#e0af68" }, { "text": "█████████████", "color": "#d97757" }, { "text": "─────────────────────────────────────", "color": "#808080" }, { "text": "░░░░░░░░░░░░", "color": "#808080" }, { "text": " │", "color": "inactive" }],
+          [{ "text": "│ ", "color": "inactive" }, { "text": "■ ", "color": "#7aa2f7" }, "system prompt ", { "text": "3.2k", "bold": true }, { "text": " 1.6%", "dim": true }, "   ", { "text": "■ ", "color": "#7dcfff" }, "system tools ", { "text": "12k", "bold": true }, { "text": " 6.2%", "dim": true }, "                   ", { "text": " │", "color": "inactive" }],
+          [{ "text": "│ ", "color": "inactive" }, { "text": "■ ", "color": "#bb9af7" }, "custom agents ", { "text": "600", "bold": true }, { "text": " 0.3%", "dim": true }, "   ", { "text": "■ ", "color": "#9ece6a" }, "memory files ", { "text": "1.8k", "bold": true }, { "text": " 0.9%", "dim": true }, "                   ", { "text": " │", "color": "inactive" }],
+          [{ "text": "│ ", "color": "inactive" }, { "text": "■ ", "color": "#e0af68" }, "skills ", { "text": "2.1k", "bold": true }, { "text": " 1.1%", "dim": true }, "   ", { "text": "■ ", "color": "#d97757" }, "messages ", { "text": "38k", "bold": true }, { "text": " 19%", "dim": true }, "   ", { "text": "─ ", "color": "#808080" }, { "text": "free space ", "dim": true }, "109k", "           ", { "text": " │", "color": "inactive" }],
+          [{ "text": "│ ", "color": "inactive" }, { "text": "░ ", "color": "#808080" }, { "text": "autocompact buffer ", "dim": true }, "33k", "                                              ", { "text": " │", "color": "inactive" }],
+          [{ "text": "╰────────────────────────────────────────────────────────────────────────╯", "color": "inactive" }]
+        ]
+      },
+      { "slot": "command", "command": "/context-bar", "output": [["Context bar on"]] }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hamzafer/claude-code-mods/main/images/context-bar.png",
+      "alt": "context-bar on a 1M window: 273k of 1M, compacts at 967k, a 27% badge, the stacked bar and a legend per category"
+    }
+  ]
+}

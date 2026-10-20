@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "blast-radius",
+  "title": "Blast Radius",
+  "tagline": "Holds risky shell commands, lists the files, commits or migrations they'd touch: Proceed or Cancel.",
+  "tagline_ru": "Задерживает опасную команду и показывает, какие файлы, коммиты или миграции она затронет: Proceed или Cancel.",
+  "description": "When Claude calls Bash with `rm -r`/`-f`, `git reset --hard`, `git checkout -- .`, `git restore .`, `git clean`, a force push or a migration (`manage.py migrate`, `db:migrate`, `alembic upgrade`, `prisma migrate`), it holds the call and opens a Blast Radius pane: files it would delete (count and size), uncommitted changes, untracked paths, remote commits the push drops or pending migrations. Proceed (1) runs it; Cancel (2, focused) refuses it with a reason Claude sees. No answer in 10 minutes, or Esc, also refuses. Narrow terminals get the report above the prompt. It follows `cd` and `git -C`, not `bash -c`, `$(...)` or `xargs`. Measuring runs bash, git, find, du and your migration tool.",
+  "description_ru": "Когда Claude вызывает Bash с `rm -r`/`-f`, `git reset --hard`, `git checkout -- .`, `git restore .`, `git clean`, принудительным пушем или миграцией (`manage.py migrate`, `db:migrate`, `alembic upgrade`, `prisma migrate`), мод задерживает вызов и открывает панель Blast Radius: какие файлы будут удалены (число и размер), незакоммиченные изменения, неотслеживаемые пути, коммиты удалённой ветки, которые пуш выбросит, или ожидающие миграции. Proceed (1) запускает команду, Cancel (2, в фокусе) отклоняет её с причиной, которую видит Claude. Без ответа за 10 минут или по Esc команда тоже отклоняется. В узком терминале отчёт рисуется над полем ввода. Мод учитывает `cd` и `git -C`, но не `bash -c`, `$(...)` и `xargs`. Для замеров он запускает bash, git, find, du и ваш инструмент миграций.",
+  "author": { "name": "Claude Code DevRel", "github": "anthropics", "url": "https://github.com/anthropics" },
+  "maintainers": ["anthropics"],
+  "category": "safety",
+  "tags": ["bash", "rm-rf", "git", "force-push", "migrations", "confirm"],
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "homepage": "https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/blast-radius",
+  "source": {
+    "type": "github",
+    "repo": "anthropics/claude-code-playground",
+    "path": "claude-code/mods/blast-radius",
+    "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86"
+  },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": true
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Clear out the old build output and rebuild the shop." },
+      { "role": "assistant", "text": "I'll delete the build folder first, then run the build again." }
+    ],
+    "caption": "rm -rf build held in the Blast Radius pane with the files it would delete; after Cancel, Claude gets the refusal and the reason.",
+    "caption_ru": "Команда rm -rf build задержана в панели Blast Radius со списком файлов на удаление; после Cancel Claude получает отказ и причину.",
+    "elements": [
+      {
+        "slot": "pane",
+        "title": "Blast Radius",
+        "width": "wide",
+        "rows": [
+          [{ "text": "⚠ Blast Radius · rm -rf", "color": "warning", "bold": true }],
+          [{ "text": "Command  ", "dim": true }, { "text": "rm -rf build", "bold": true }],
+          [{ "text": "Would    ", "dim": true }, { "text": "delete 37 files (about 1.2 MB)", "color": "error", "bold": true }],
+          [" "],
+          ["  build/checkout.js"],
+          ["  build/checkout.js.map"],
+          ["  build/checkout.d.ts"],
+          ["  build/cart/total.js"],
+          ["  build/cart/total.js.map"],
+          ["  build/cart/total.d.ts"],
+          ["  build/cart/discounts.js"],
+          ["  build/cart/discounts.js.map"],
+          ["  build/cart/discounts.d.ts"],
+          ["  build/format.js"],
+          [{ "text": "  + 27 more", "dim": true }],
+          [{ "text": "Paths: build", "dim": true, "italic": true }],
+          [" "],
+          [{ "button": "Proceed", "hotkey": "1" }, "  ", { "button": "Cancel", "hotkey": "2", "variant": "primary" }, "  ", { "text": "Claude is waiting on your answer", "dim": true }]
+        ]
+      },
+      {
+        "slot": "tool-deny",
+        "tool": "Bash",
+        "input": "rm -rf build",
+        "message": "Blast Radius held this command and did not run it: the user pressed Cancel. It would have: delete 37 files (about 1.2 MB). Do not retry it unless the user asks you to."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/anthropics/claude-code-playground/569c5283d9a0a7ee7938df85bb32e4f48cbb8c86/claude-code/mods/blast-radius/screenshots/blast-radius-pane.png",
+      "alt": "Blast Radius holding rm -rf build in a pane",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/anthropics/claude-code-playground/569c5283d9a0a7ee7938df85bb32e4f48cbb8c86/claude-code/mods/blast-radius/screenshots/blast-radius-band.png",
+      "alt": "Blast Radius showing git reset --hard in the band above the prompt",
+      "surface": "terminal"
+    }
+  ]
+}

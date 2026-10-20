@@ -1,0 +1,7 @@
+# Everything outside mods/ is reviewed by the catalog maintainer.
+* @KROU4
+
+# Catalog entries (mods/<name>/, hosted code in mods/<name>/plugin/ included) have no code owner:
+# the automerge bot merges them when the PR author is listed in the entry's `maintainers` and every
+# other rule in docs/governance.md holds; everything else waits for a maintainer.
+/mods/

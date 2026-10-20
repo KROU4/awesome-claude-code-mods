@@ -1,0 +1,13 @@
+{
+  "name": "git-glance",
+  "version": "0.1.0",
+  "description": "Branch, changed files and commits ahead or behind upstream, in a status entry under the prompt.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/git-glance",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["git", "status", "branch", "status-line"]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "focus-timer",
+  "version": "0.1.0",
+  "description": "A Pomodoro countdown above the prompt, with pause, stop and an end-of-session notification.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/focus-timer",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["pomodoro", "timer", "focus", "band", "notifications"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "defaultMinutes": {
+      "type": "number",
+      "title": "Default minutes",
+      "description": "Length of a session started with a bare /focus-timer (1-180).",
+      "default": 25,
+      "min": 1,
+      "max": 180
+    },
+    "breakMinutes": {
+      "type": "number",
+      "title": "Break minutes",
+      "description": "The break the end-of-session notification suggests.",
+      "default": 5,
+      "min": 1,
+      "max": 60
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.end",
+    "turn.start",
+    "turn.step",
+    "classic.PostModelSwitch",
+    "config.set",
+    "command.run{command=/\"^(model|effort|config)$\"/}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.session.model",
+    "$.ui.invalidate",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "classic.PostModelSwitch",
+      "hasCatch": false
+    },
+    {
+      "hook": "config.set",
+      "hasCatch": false
+    },
+    {
+      "hook": "command.run{command=/\"^(model|effort|config)$\"/}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

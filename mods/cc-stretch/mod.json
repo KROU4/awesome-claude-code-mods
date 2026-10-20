@@ -1,0 +1,107 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "cc-stretch",
+  "title": "Stretchtext Replies",
+  "tagline": "Replies arrive short; click an underlined phrase and it grows in place into the longer version.",
+  "tagline_ru": "Ответы приходят короткими: нажмите на подчёркнутую фразу, и она развернётся на месте в подробный текст.",
+  "description": "A system-prompt section asks Claude to write replies as stretches, `{{short|long}}`, and the mod draws only the short forms, underlined. In the fullscreen terminal or the Claude desktop app a click grows a phrase in place, its added words tinted; `«` shrinks it back. alt+↓ or ctrl+↓ puts letters over closed stretches in the latest three replies (alt+↑ or ctrl+↑ over each `«`); type one to act. `/cc-stretch:style` shows a toolbar above the prompt for marks and a highlight (a hex colour or `tinted`), saved as the `marks` and `highlight` settings. Your next prompt tells Claude which stretches you opened. Elsewhere every stretch shows open; on Windows clicks are reported not to work yet.",
+  "description_ru": "Раздел системного промпта просит Claude писать ответы растяжками `{{short|long}}`, а мод показывает только короткие формы, подчёркнутыми. В полноэкранном режиме терминала или в приложении Claude для компьютера щелчок разворачивает фразу на месте, добавленные слова выделяются цветом; `«` сворачивает её обратно. alt+↓ или ctrl+↓ ставит буквы над закрытыми растяжками в трёх последних ответах; наберите букву, чтобы открыть или закрыть. Команда `/cc-stretch:style` показывает над полем ввода панель для выбора начертания и подсветки (цвет в hex или `tinted`); выбор сохраняется в настройках `marks` и `highlight`. Вместе со следующим запросом Claude узнаёт, какие растяжки вы открыли. В остальных местах все растяжки показаны раскрытыми; в Windows щелчки, по отзывам, пока не работают.",
+  "author": { "name": "Provi", "github": "pro-vi", "url": "https://github.com/pro-vi" },
+  "maintainers": ["pro-vi"],
+  "category": "interface",
+  "tags": ["stretchtext", "replies", "reading", "keyboard", "toolbar"],
+  "license": "MIT",
+  "version": "0.5.2",
+  "homepage": "https://github.com/pro-vi/cc-stretch",
+  "source": { "type": "marketplace", "marketplace": "pro-vi/cc-stretch", "plugin": "cc-stretch" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": true,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Checkout charges the wrong total when a SAVE10 code is applied. Why?" },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Grep", "input": "applyDiscount", "status": "done" },
+      { "role": "tool", "tool": "Read", "input": "src/cart/total.ts", "status": "done" }
+    ],
+    "caption": "One stretch opened (new words tinted, « closes it), the rest closed under a highlight being tried in the style toolbar.",
+    "caption_ru": "Одна растяжка открыта (новые слова цветом, « сворачивает), остальные закрыты под подсветкой, которую вы пробуете на панели стиля.",
+    "elements": [
+      {
+        "slot": "message",
+        "role": "assistant",
+        "rows": [
+          [
+            "The ",
+            { "text": "SAVE10 ", "color": "#ffdd77" },
+            "discount is applied twice",
+            { "text": ", once in ", "color": "#ffdd77" },
+            { "text": "applyDiscount()", "color": "permission" },
+            { "text": " and again in ", "color": "#ffdd77" },
+            { "text": "checkoutTotal()", "color": "permission" },
+            ". ",
+            { "text": "«", "color": "#ffdd77", "underline": true },
+            " ",
+            { "text": "Removing the second call fixes it.", "color": "#f2f2f2", "bg": "#264f78", "underline": true }
+          ],
+          [" "],
+          [{ "text": "No test applies a code at checkout.", "color": "#f2f2f2", "bg": "#264f78", "underline": true }],
+          [" "],
+          ["Shall I remove the call in src/checkout.ts and add a test for SAVE10?"]
+        ]
+      },
+      { "slot": "command", "command": "/cc-stretch:style", "output": [["Style toolbar shown above the prompt; close puts it away."]] },
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "marks    ", "dim": true },
+            " bold italic ",
+            { "text": "[underline]", "bold": true },
+            " strikethrough dim reset save close"
+          ],
+          [
+            { "text": "highlight", "dim": true },
+            " no highlight ",
+            { "text": "[colour]", "bold": true },
+            " tinted ",
+            { "text": "◆◆", "color": "#f2f2f2", "bg": "#264f78" },
+            " ",
+            { "text": "  ", "bg": "#1f3a5f" },
+            " ",
+            { "text": "  ", "bg": "#3b4261" },
+            " ",
+            { "text": "  ", "bg": "#4b3b6b" },
+            " ",
+            { "text": "  ", "bg": "#5c2a4a" },
+            " ",
+            { "text": "  ", "bg": "#5f2a2a" },
+            " ",
+            { "text": "  ", "bg": "#5c4a00" },
+            " ",
+            { "text": "  ", "bg": "#1e4d2b" },
+            " ",
+            { "text": "  ", "bg": "#1d4b4b" }
+          ]
+        ]
+      },
+      { "slot": "background", "text": "Adds a \"Stretchtext replies\" section to the system prompt, so Claude writes each reply as {{short|long}} stretches." },
+      { "slot": "background", "text": "Next prompt carries: Stretchtext: since your last reply the reader opened \"The discount is applied twice.\" They did not open \"Removing the second call fixes it.\", \"No test applies a code at checkout.\"" }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/pro-vi/cc-stretch/main/docs/stretch.gif",
+      "alt": "A reply in Claude Code growing in place as phrases are clicked"
+    }
+  ]
+}

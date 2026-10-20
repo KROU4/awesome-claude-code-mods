@@ -1,0 +1,114 @@
+{
+  "ok": true,
+  "hooks": [
+    "engine.create",
+    "skins.markdown",
+    "session.start",
+    "classic.SessionStart{source=clear|resume|fork}",
+    "ui.invalidate",
+    "turn.start",
+    "config.set",
+    "session.append",
+    "session.measure",
+    "turn.complete",
+    "tool.call",
+    "tool.call{tool=/\"^mcp__skins__design$\"/}",
+    "command.run{command=skin}",
+    "ui.render{component=Pane, requestId=skins-settings}",
+    "ui.render{component=Pane, requestId=skins-gallery}",
+    "ui.render{component=ToolUse}",
+    "ui.render{component=ToolGroup}",
+    "ui.render{component=ToolResult}",
+    "ui.render{component=UserMessage}",
+    "prompt.compose",
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=CommandOutput}",
+    "ui.render{component=Spinner}",
+    "ui.render{component=TurnDuration}",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=AskUserQuestion}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.clock.sleep",
+    "$.command.register",
+    "$.command.run",
+    "$.config.list",
+    "$.env.get",
+    "$.fs.read",
+    "$.http.fetch",
+    "$.process.run",
+    "$.session.cwd",
+    "$.session.id",
+    "$.session.usage",
+    "$.skinCode.draws",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.tool.register",
+    "$.ui.copy",
+    "$.ui.log",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "skins.markdown",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.SessionStart{source=clear|resume|fork}",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.invalidate",
+      "hasCatch": false
+    },
+    {
+      "hook": "config.set",
+      "hasCatch": false
+    },
+    {
+      "hook": "session.append",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call{tool=/\"^mcp__skins__design$\"/}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "skins.command",
+    "skins.compacting",
+    "skins.countdowns",
+    "skins.custom",
+    "skins.disclosure",
+    "skins.duration",
+    "skins.editing",
+    "skins.folds",
+    "skins.frame",
+    "skins.images",
+    "skins.isLight",
+    "skins.lastReply",
+    "skins.pinned",
+    "skins.prefs",
+    "skins.quiet",
+    "skins.settle",
+    "skins.showAll",
+    "skins.startedAt",
+    "skins.touched",
+    "skins.turns",
+    "skins.usage"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

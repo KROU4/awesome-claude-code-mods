@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "hooks": [
+    "turn.start",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.command.list",
+    "$.model.fork",
+    "$.prompt.fill",
+    "$.prompt.suggest",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

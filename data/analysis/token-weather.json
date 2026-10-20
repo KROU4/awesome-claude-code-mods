@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.session.usage",
+    "$.ui.invalidate",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "secret-guard",
+  "title": "Secret Guard",
+  "tagline": "Stops Claude from reading .env files, private keys and credentials.",
+  "tagline_ru": "Не даёт Claude читать .env, приватные ключи и файлы с учётными данными.",
+  "description": "When Claude tries to read a secret-looking file, the call is refused and Claude is told to ask you for what it needs. A toast names the file and a status entry counts the blocks. It refuses Read, Edit, Write, NotebookEdit and Grep on `.env` and `.env.*`, `*.pem`, `*.key`, `id_rsa*`, `id_ed25519*`, `.npmrc`, `.pypirc`, `credentials.json`, `.aws/credentials` and anything under `.ssh/`, and Bash, PowerShell and Monitor commands that read them (`cat`, `grep`, `cp`, `source`, `Get-Content` and more, also inside `bash -c` and `$(...)`). `.env.example`, `.env.sample` and `.env.template` stay readable, and a commit message that only mentions `.env` passes. Options add or allow globs.",
+  "description_ru": "Когда Claude пытается прочитать файл, похожий на секрет, вызов отклоняется, а Claude получает указание спросить у вас то, что ему нужно. Всплывающее уведомление называет файл, а строка статуса считает блокировки. Отклоняются Read, Edit, Write, NotebookEdit и Grep для `.env` и `.env.*`, `*.pem`, `*.key`, `id_rsa*`, `id_ed25519*`, `.npmrc`, `.pypirc`, `credentials.json`, `.aws/credentials` и всего внутри `.ssh/`, а также команды Bash, PowerShell и Monitor, которые их читают (`cat`, `grep`, `cp`, `source`, `Get-Content` и другие, в том числе внутри `bash -c` и `$(...)`). `.env.example`, `.env.sample` и `.env.template` остаются доступными, а сообщение коммита, где `.env` только упомянут, проходит. В настройках можно добавить свои шаблоны или разрешить отдельные файлы.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "safety",
+  "tags": ["secrets", "env", "credentials", "ssh", "guard", "bash"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/secret-guard",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Checkout fails in production with a Stripe auth error. Can you check the config?" },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "assistant", "text": "The checkout reads STRIPE_SECRET_KEY from the environment. Let me look at the production settings." }
+    ],
+    "caption": "Claude tries to read the production .env: the call is refused, a toast names the file and the status entry counts the block.",
+    "caption_ru": "Claude пытается прочитать продакшен-.env: вызов отклонён, уведомление называет файл, а строка статуса учитывает блокировку.",
+    "elements": [
+      {
+        "slot": "tool-deny",
+        "tool": "Bash",
+        "input": "cat config/.env.production",
+        "message": "secret-guard: config/.env.production looks like a secret; ask the person to share what is needed."
+      },
+      { "slot": "toast", "text": "⊘ blocked Bash: config/.env.production" },
+      { "slot": "status", "text": "secret-guard · 1 blocked" }
+    ]
+  }
+}

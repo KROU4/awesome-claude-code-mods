@@ -1,0 +1,84 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "replay-theater",
+  "title": "Replay Theater",
+  "tagline": "Step through the last turn's file edits in a pane, one red and green diff at a time.",
+  "tagline_ru": "Пролистайте правки файлов за последний ход в панели, по одному красно-зелёному диффу за шаг.",
+  "description": "While a turn runs, it records each Edit, Write and MultiEdit call (the file and the text before and after) without blocking or changing it. When the turn ends, a hint above the prompt reads ▶ Replay: N edits (press r) with a Replay button. `/replay`, or the button (ctrl+x tab, then r), opens the Replay Theater pane: one edit per step with the file, tool, added and removed line counts and a red/green diff, a strip of numbered steps, and Prev (p), Next (n) and Close (c or Esc). Diffs keep one line of context and stop at 12 lines a step; a Write's old text is read from disk. The replay stays in memory until the next turn with edits; denied or failed edits still show.",
+  "description_ru": "Пока идёт ход, мод записывает каждый вызов Edit, Write и MultiEdit (файл, текст до и после), не блокируя и не меняя его. Когда ход закончится, над полем ввода появится подсказка ▶ Replay: N edits (press r) с кнопкой Replay. Команда `/replay` или кнопка (ctrl+x tab, затем r) открывает панель Replay Theater: по одной правке на шаг с файлом, инструментом, числом добавленных и удалённых строк и красно-зелёным диффом, полосой пронумерованных шагов и кнопками Prev (p), Next (n) и Close (c или Esc). В диффе остаётся одна строка контекста, не больше 12 строк на шаг; старый текст для Write читается с диска. Повтор хранится в памяти до следующего хода с правками; отклонённые и неудачные правки тоже показываются.",
+  "author": { "name": "Claude Code DevRel", "github": "anthropics", "url": "https://github.com/anthropics" },
+  "maintainers": ["anthropics"],
+  "category": "productivity",
+  "tags": ["diff", "edits", "review", "replay", "pane", "slash-command"],
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "homepage": "https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/replay-theater",
+  "source": {
+    "type": "github",
+    "repo": "anthropics/claude-code-playground",
+    "path": "claude-code/mods/replay-theater",
+    "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86"
+  },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Rename calcTotal to cartTotal everywhere." },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.test.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.test.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/discounts.ts", "status": "done" },
+      { "role": "assistant", "text": "Renamed calcTotal to cartTotal in 4 files: the definition, checkout, the discounts module and the tests." }
+    ],
+    "caption": "After /replay and one press of Next: step 2 of 5 of a rename, the edit to src/checkout.ts as a diff.",
+    "caption_ru": "После /replay и одного нажатия Next: шаг 2 из 5 переименования, правка src/checkout.ts в виде диффа.",
+    "elements": [
+      { "slot": "command", "command": "/replay", "output": [["Replay Theater: 5 edits"]] },
+      {
+        "slot": "pane",
+        "title": "Replay Theater",
+        "width": "narrow",
+        "rows": [
+          [{ "text": "▶ Replay Theater", "color": "#bc3fbc", "bold": true }, "                      ", { "text": "step 2 of 5", "bold": true }],
+          [{ "text": " 1 ", "dim": true }, { "text": " 2 ", "color": "#11a8cd", "inverse": true }, { "text": " 3 ", "dim": true }, { "text": " 4 ", "dim": true }, { "text": " 5 ", "dim": true }],
+          [{ "text": "src/checkout.ts", "color": "#11a8cd", "bold": true }],
+          [{ "text": "Edit", "dim": true }, "  ", { "text": "+2", "color": "success" }, "  ", { "text": "-2", "color": "error" }],
+          [" "],
+          [{ "text": "- import { calcTotal } from \"./cart/total\";", "color": "error" }],
+          [{ "text": "+ import { cartTotal } from \"./cart/total\";", "color": "success" }],
+          [{ "text": "  import { formatPrice } from \"./format\";", "dim": true }],
+          [{ "text": "  ⋯", "dim": true }],
+          [{ "text": "  export function checkoutSummary(cart: Cart) {", "dim": true }],
+          [{ "text": "-   const total = calcTotal(cart);", "color": "error" }],
+          [{ "text": "+   const total = cartTotal(cart);", "color": "success" }],
+          [" "],
+          [{ "button": "◀ Prev", "hotkey": "p" }, "  ", { "button": "Next ▶", "hotkey": "n", "variant": "primary" }, "  ", { "button": "Close", "hotkey": "c" }]
+        ]
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/anthropics/claude-code-playground/569c5283d9a0a7ee7938df85bb32e4f48cbb8c86/claude-code/mods/replay-theater/screenshots/replay-theater-pane.png",
+      "alt": "The Replay Theater pane showing step 1 of 5",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/anthropics/claude-code-playground/569c5283d9a0a7ee7938df85bb32e4f48cbb8c86/claude-code/mods/replay-theater/screenshots/replay-theater-hint.png",
+      "alt": "The Replay hint above the prompt after a turn with five edits",
+      "surface": "terminal"
+    }
+  ]
+}

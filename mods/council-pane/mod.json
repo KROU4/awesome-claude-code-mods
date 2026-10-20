@@ -1,0 +1,101 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "council-pane",
+  "title": "Council Pane",
+  "tagline": "Several AI models answer in a live Council pane, with a progress band and cancel/retry per seat.",
+  "tagline_ru": "Ответы нескольких ИИ-моделей приходят в панель Council, а над полем ввода видно, кто уже ответил.",
+  "description": "Ships inside the claude-council plugin, so installing it adds the whole council. When Claude runs `run-council.sh`, a Council pane lists every seat with a spinner, time, model and a `cancel` button (`retry` on a failed seat), then each answer under a banner in the provider's colour and the synthesis once Claude writes it. A COUNCIL band above the prompt shows `3 of 5`, a bar, a clock, the latest event, `c · cancel all` and `o · open pane`. `/council-pane` reopens the last run; `/heads-up` sets up an opt-in side-check. Your question goes to third-party providers; the `ask` tool asks before every send. Needs `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`.",
+  "description_ru": "Входит в плагин claude-council: установив его, вы получаете весь совет. Когда Claude запускает `run-council.sh`, панель Council показывает каждую модель со спиннером, временем, названием модели и кнопкой `cancel` (у упавшей — `retry`), затем ответы под заголовками в цвете провайдера и сводку, когда Claude её напишет. Полоса COUNCIL над полем ввода показывает `3 of 5`, шкалу, часы, последнее событие, `c · cancel all` и `o · open pane`. `/council-pane` снова открывает последний запуск, `/heads-up` настраивает необязательную боковую проверку. Ваш вопрос уходит сторонним провайдерам; инструмент `ask` спрашивает вас перед каждой отправкой. Нужна переменная `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`.",
+  "author": { "name": "Alex G", "github": "hex", "url": "https://github.com/hex" },
+  "maintainers": ["hex"],
+  "category": "integrations",
+  "tags": ["council", "multi-model", "pane", "second-opinion", "heads-up"],
+  "license": "MIT",
+  "version": "2026.10.7",
+  "homepage": "https://github.com/hex/claude-council",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "hex/claude-marketplace",
+    "plugin": "claude-council",
+    "repo": "hex/claude-council",
+    "path": "mods/council-pane"
+  },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.278" },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "write",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": true
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "/claude-council:ask \"Should the shop keep orders in SQLite or move to Postgres?\"" },
+      { "role": "tool", "tool": "Bash", "input": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/run-council.sh --providers=codex,antigravity,gemini,openai,kimi -- \"Should the shop keep orders in SQLite or move to Postgres?\"", "status": "running" }
+    ],
+    "caption": "A live council run: each seat's status with cancel and retry, answers under their banners, and the COUNCIL band above the prompt.",
+    "caption_ru": "Опрос в разгаре: статус каждой модели с кнопками cancel и retry, ответы под цветными заголовками и полоса COUNCIL над полем ввода.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": " ✦ ", "bold": true, "color": "#ffffff", "bg": "#964428" },
+            { "text": " COUNCIL ", "bold": true, "color": "#ffffff", "bg": "#b45532" },
+            { "text": "  3 of 5", "bold": true },
+            { "text": "  ━━━━────", "color": "claude" },
+            { "text": "  ● 0:41", "bold": true, "color": "warning" },
+            { "text": "  codex answered  ", "dim": true },
+            { "button": "c · cancel all", "hotkey": "c" },
+            "  ",
+            { "button": "o · open pane", "hotkey": "o" }
+          ]
+        ]
+      },
+      {
+        "slot": "pane",
+        "title": "Council",
+        "width": "wide",
+        "rows": [
+          [{ "text": "● ", "color": "#64748b" }, { "text": "codex        ", "bold": true }, { "text": "complete  ", "color": "success" }, { "text": "18.2s  ", "dim": true }, { "text": "gpt-6.1-sol", "dim": true }],
+          [{ "text": "⠋ ", "color": "#3b82f6" }, { "text": "antigravity  ", "bold": true }, { "text": "querying  ", "color": "warning" }, { "text": "41.3s  ", "dim": true }, "  ", { "button": "cancel", "hotkey": "2" }],
+          [{ "text": "● ", "color": "#3b82f6" }, { "text": "gemini       ", "bold": true }, { "text": "complete  ", "color": "success" }, { "text": " 9.6s  ", "dim": true }, { "text": "gemini-flash-latest", "dim": true }],
+          [{ "text": "⠋ ", "color": "#64748b" }, { "text": "openai       ", "bold": true }, { "text": "querying  ", "color": "warning" }, { "text": "41.3s  ", "dim": true }, { "text": "gpt-6-astra", "dim": true }, "  ", { "button": "cancel", "hotkey": "4" }],
+          [{ "text": "✗ ", "color": "error" }, { "text": "kimi         ", "bold": true }, { "text": "error     ", "color": "error" }, { "text": " 2.1s  ", "dim": true }, { "text": "kimi-k3", "dim": true }, "  ", { "button": "retry", "hotkey": "5" }],
+          [{ "text": "click cancel or retry on a row, or ctrl+x tab then its digit", "dim": true }],
+          [{ "button": "collapse all", "hotkey": "a" }],
+          [{ "text": " ▾ CODEX", "bold": true, "color": "#ffffff", "bg": "#64748b" }, { "text": " gpt-6.1-sol (18.2s) ", "italic": true, "color": "#ffffff", "bg": "#64748b" }],
+          [{ "text": "SQLite for now.", "bold": true }, " One node writes orders from src/checkout.ts, and WAL mode covers the reads."],
+          ["Move to Postgres once a second server or a job worker has to write orders."],
+          [{ "text": " ▾ GEMINI", "bold": true, "color": "#ffffff", "bg": "#3b82f6" }, { "text": " gemini-flash-latest (9.6s) ", "italic": true, "color": "#ffffff", "bg": "#3b82f6" }],
+          [{ "text": "Postgres if checkout grows.", "bold": true }, " SQLite takes one writer at a time, so payment callbacks would queue."],
+          ["For a single-node demo, SQLite is fine."],
+          [{ "text": "▾ ✗ kimi error", "bold": true, "color": "error" }],
+          [{ "text": "HTTP 429: rate limit reached", "color": "error", "dim": true }]
+        ]
+      },
+      { "slot": "command", "command": "/council-pane", "output": [["Council pane reopened with the last run."]] },
+      { "slot": "model-tool", "name": "mcp__claude-council__ask", "input": "{\"question\": \"Should the shop keep orders in SQLite or move to Postgres?\", \"verbosity\": \"brief\"}" },
+      { "slot": "background", "text": "Each ask tool call first opens a dialog: Send \"…\" to every configured provider? with Send to the council or Don't send; refusing denies the call." },
+      { "slot": "background", "text": "Opt-in heads_up: every 3 model requests one seat (codex by default) rereads recent turns and may show one ✦ Heads up line above the prompt." },
+      { "slot": "background", "text": "Runs the council's bash scripts as processes, which send the question to third-party AI providers; the pane polls their files under $TMPDIR." }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hex/claude-council/main/assets/council-run.svg",
+      "alt": "Codex, Antigravity, Gemini, and OpenAI answer the SQLite-or-Postgres question while fake Kimi fails",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hex/claude-council/main/assets/heads-up.svg",
+      "alt": "The intro hint, a heads-up note, Learn more, and an unsent Tell Claude draft",
+      "surface": "terminal"
+    }
+  ]
+}

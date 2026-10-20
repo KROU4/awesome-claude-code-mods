@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=cache-clock}"
+  ],
+  "calls": [
+    "$.command.register",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.fs.write",
+    "$.process.run",
+    "$.session.root",
+    "$.session.version",
+    "$.settings.read"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

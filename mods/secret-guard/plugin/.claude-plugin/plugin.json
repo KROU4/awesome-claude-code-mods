@@ -1,0 +1,28 @@
+{
+  "name": "secret-guard",
+  "version": "0.1.0",
+  "description": "Stops Claude from reading .env files, private keys and credentials.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/secret-guard",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["secrets", "env", "credentials", "ssh", "guard", "bash"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "extraPatterns": {
+      "type": "string",
+      "title": "Extra patterns",
+      "description": "Comma-separated globs that also count as secrets, e.g. *.secret, config/prod/*.yml",
+      "default": ""
+    },
+    "allow": {
+      "type": "string",
+      "title": "Always allow",
+      "description": "Comma-separated globs that are never refused, e.g. fixtures/**, test.pem",
+      "default": ""
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "tool-timeline",
+  "title": "Tool Timeline",
+  "tagline": "A live pane of every tool call: its status, what it worked on and how long it took.",
+  "tagline_ru": "Панель со всеми вызовами инструментов по ходу работы: статус, файл или команда и время вызова.",
+  "description": "Adds a Timeline pane that lists the session's tool calls as they happen. Each row shows a status mark (◐ running, ✓ done, ✗ error, ⊘ denied by a settings hook, a permission rule, the mode or you), the tool, what the call worked on (a file path relative to the project, a command or a search pattern) and how long it took; a running call's time moves every second. The pane keeps the last 200 calls and shows as many as fit. Open it with `/timeline`. On a fullscreen terminal at least 144 columns wide (110 once you have opened it) it also opens by itself until you close it; the `autoOpen` option turns that off.",
+  "description_ru": "Добавляет панель Timeline, где вызовы инструментов появляются по мере выполнения. В каждой строке: значок статуса (◐ выполняется, ✓ готово, ✗ ошибка, ⊘ отклонён хуком из настроек, правилом разрешений, режимом или вами), инструмент, над чем работал вызов (путь к файлу относительно проекта, команда или шаблон поиска) и сколько он длился; время выполняющегося вызова обновляется каждую секунду. Панель хранит последние 200 вызовов и показывает столько, сколько помещается. Откройте её командой `/timeline`. В полноэкранном терминале шириной от 144 колонок (от 110, если вы уже открывали панель) она открывается сама, пока вы её не закроете; опция `autoOpen` это отключает.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "insights",
+  "tags": ["tools", "timeline", "pane", "duration", "observability"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/tool-timeline",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Add percentage discount codes to the cart total and make the tests pass." },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Grep", "input": "applyDiscount", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Read", "input": ".env", "status": "error", "result": "Denied by a permission rule." },
+      { "role": "tool", "tool": "Write", "input": "src/cart/total.test.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "status": "error", "result": "Tests  1 failed | 13 passed (14)" },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "status": "running" }
+    ],
+    "caption": "The Timeline pane beside the transcript: each tool call with its status, file or command, and time.",
+    "caption_ru": "Панель Timeline рядом с перепиской: каждый вызов инструмента со статусом, файлом или командой и временем.",
+    "elements": [
+      { "slot": "command", "command": "/timeline", "output": [["Timeline opened."]] },
+      {
+        "slot": "pane",
+        "title": "Timeline",
+        "width": "narrow",
+        "rows": [
+          [{ "text": "✓", "color": "success" }, " Read  ", { "text": "src/checkout.ts", "dim": true }, "             ", { "text": "0.1s", "dim": true }],
+          [{ "text": "✓", "color": "success" }, " Grep  ", { "text": "applyDiscount", "dim": true }, "               ", { "text": "0.2s", "dim": true }],
+          [{ "text": "✓", "color": "success" }, " Edit  ", { "text": "src/cart/total.ts", "dim": true }, "           ", { "text": "0.1s", "dim": true }],
+          [{ "text": "⊘", "color": "error" }, " Read  ", { "text": ".env", "dim": true }, "                        ", { "text": "0.0s", "dim": true }],
+          [{ "text": "✓", "color": "success" }, " Write ", { "text": "src/cart/total.test.ts", "dim": true }, "      ", { "text": "0.1s", "dim": true }],
+          [{ "text": "✗", "color": "error" }, " Bash  ", { "text": "npm test", "dim": true }, "                   ", { "text": "12.4s", "dim": true }],
+          [{ "text": "✓", "color": "success" }, " Edit  ", { "text": "src/cart/total.ts", "dim": true }, "           ", { "text": "0.1s", "dim": true }],
+          [{ "text": "◐", "color": "warning" }, " Bash  ", { "text": "npm test", "dim": true }, "                    ", { "text": "3.0s", "dim": true }]
+        ]
+      }
+    ]
+  }
+}

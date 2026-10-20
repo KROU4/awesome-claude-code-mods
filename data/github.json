@@ -1,0 +1,73 @@
+{
+  "HeyCubit/effortless": {
+    "marketplaceName": "effortless",
+    "pushedAt": "2026-10-16T13:48:42Z",
+    "stars": 250
+  },
+  "KROU4/claude-code-mod-showroom": {
+    "stars": 0
+  },
+  "OneWave-AI/claude-code-mods": {
+    "marketplaceName": "claude-code-mods",
+    "pushedAt": "2026-10-03T08:35:11Z",
+    "stars": 19
+  },
+  "YeonwooSung/my-claude-code-mods": {
+    "marketplaceName": "my-claude-code-mods",
+    "pushedAt": "2026-10-18T15:45:32Z",
+    "stars": 1096
+  },
+  "anthropics/claude-code-playground": {
+    "pushedAt": "2026-10-14T07:53:11Z",
+    "stars": 262
+  },
+  "anthropics/claude-plugins-community": {
+    "marketplaceName": "claude-community",
+    "pushedAt": "2026-10-20T07:52:12Z",
+    "stars": 4701
+  },
+  "cablate/ctx-handoff-mod": {
+    "marketplaceName": "ctx-handoff-mod",
+    "pushedAt": "2026-10-18T09:02:58Z",
+    "stars": 119
+  },
+  "hamzafer/claude-code-mods": {
+    "marketplaceName": "claude-code-mods",
+    "pushedAt": "2026-10-19T20:40:42Z",
+    "stars": 303
+  },
+  "hellosverre/claude-skins": {
+    "marketplaceName": "hellosverre-mods",
+    "pushedAt": "2026-10-18T20:26:22Z",
+    "stars": 172
+  },
+  "hellosverre/mod-store": {
+    "marketplaceName": "mod-store",
+    "pushedAt": "2026-10-12T18:43:21Z",
+    "stars": 9
+  },
+  "iamumeransari/claude-show-your-work": {
+    "marketplaceName": "iamumeransari",
+    "pushedAt": "2026-10-15T14:29:56Z",
+    "stars": 246
+  },
+  "kunchenguid/firstmate": {
+    "pushedAt": "2026-10-20T14:23:40Z",
+    "stars": 8087
+  },
+  "midudev/better-claude": {
+    "marketplaceName": "better-claude",
+    "pushedAt": "2026-10-20T13:20:35Z",
+    "stars": 150
+  },
+  "razorback16/cc-intelligent-ui": {
+    "marketplaceName": "razorback16",
+    "pushedAt": "2026-10-20T06:46:47Z",
+    "stars": 78
+  },
+  "scasella/claude-flightdeck": {
+    "marketplaceName": "claude-flightdeck",
+    "pushedAt": "2026-10-12T14:20:14Z",
+    "stars": 114
+  }
+}

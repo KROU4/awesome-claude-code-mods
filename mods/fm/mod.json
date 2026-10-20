@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "fm",
+  "title": "Firstmate Calm",
+  "tagline": "Hides tool rows and turns the working spinner into a drifting two-row sailboat; toggled with /calm.",
+  "tagline_ru": "Скрывает строки инструментов и превращает индикатор работы в плывущий парусник; включается командой /calm.",
+  "description": "Firstmate's Calm mod. It does nothing unless `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` is exactly `1`. Then `/calm` toggles Calm with a \"Calm on\" / \"Calm off\" toast and saves the choice to the Firstmate home's `config/calm` (or under `FM_HOME`). While Calm is on, the terminal's working row becomes a two-row sailboat (`◿│◣` over `╲▁▁▁╱`) drifting on a blue swell, and tool calls, tool results, short mid-turn notes and Firstmate's operational prompts draw at zero height; they stay in the model context and exports. Calm on or off, every 3 s it reads Firstmate's supervision state and adds dim notes such as `⛵ <task>: <summary>`, never sent to the model.",
+  "description_ru": "Мод Calm из Firstmate. Он ничего не делает, пока `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` не равна ровно `1`. Тогда команда `/calm` включает и выключает Calm с уведомлением «Calm on» / «Calm off» и сохраняет выбор в `config/calm` домашней папки Firstmate (или в `FM_HOME`). Пока Calm включён, строка работы в терминале превращается в двухстрочный парусник (`◿│◣` над `╲▁▁▁╱`) на синих волнах, а вызовы и результаты инструментов, короткие промежуточные реплики и служебные запросы Firstmate получают нулевую высоту; в контексте модели и в экспорте они остаются. Независимо от Calm мод каждые 3 секунды читает состояние надзора Firstmate и добавляет серые заметки вида `⛵ <task>: <summary>`, которые модели не отправляются.",
+  "author": { "name": "Kun Chen", "github": "kunchenguid", "url": "https://github.com/kunchenguid" },
+  "maintainers": ["kunchenguid"],
+  "category": "interface",
+  "tags": ["calm", "sailboat", "spinner", "hide-tools", "firstmate"],
+  "license": "MIT",
+  "version": "1.0.0",
+  "homepage": "https://github.com/kunchenguid/firstmate/blob/main/docs/calm.md",
+  "source": {
+    "type": "github",
+    "repo": "kunchenguid/firstmate",
+    "path": ".claude/mods/firstmate-calm",
+    "sha": "3eabd356abc99bdb0c1d2cefc5a1dec4a9fe39c1"
+  },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "write",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Make the checkout tests pass with the new discount codes." },
+      { "role": "assistant", "text": "Discount codes such as SAVE10 now apply in src/checkout.ts, and all 14 checkout tests pass." }
+    ],
+    "caption": "After /calm: tool rows are gone, the working row is a sailboat on a swell, and a supervision note arrives.",
+    "caption_ru": "После /calm: строк инструментов нет, вместо индикатора работы плывёт парусник, а в переписке появляется заметка надзора.",
+    "elements": [
+      { "slot": "command", "command": "/calm" },
+      { "slot": "toast", "text": "Calm on" },
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            "               ",
+            { "text": "◿│◣", "color": "#d77757" }
+          ],
+          [
+            { "text": "▄▄▄▃▃▃▂▂▁▁▁▁▁▁", "color": "#93a5ff" },
+            { "text": "╲▁▁▁╱", "color": "#d77757" },
+            { "text": "▁▁▁▁▁▂▂▂▃▃▃▄▄▄▄▄▃▃▃▂▂▁▁▁▁", "color": "#93a5ff" }
+          ]
+        ]
+      },
+      {
+        "slot": "message",
+        "role": "note",
+        "rows": [[{ "text": "⏺ fm: ⛵ checkout-tests: worker opened PR #42 with the discount-code fix", "dim": true }]]
+      },
+      { "slot": "background", "text": "Draws the sailboat with Raster (terminal) in place of the working spinner row, repainted every 220 ms; the preview shows it above the prompt." },
+      { "slot": "background", "text": "While Calm is on, tool calls, tool results, tool groups, short mid-turn notes and Firstmate operational prompts draw at zero height; nothing is rewritten." }
+    ]
+  }
+}

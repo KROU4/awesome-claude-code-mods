@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "intelligent-ui",
+  "title": "Intelligent UI",
+  "tagline": "Claude's answers as typeset pictures: tables, LaTeX math, charts and diagrams rendered by Typst.",
+  "tagline_ru": "Ответы Claude в виде свёрстанных картинок: таблицы, формулы LaTeX, графики и диаграммы через Typst.",
+  "description": "Draws each answer as a picture typeset by Typst: headings, aligned tables, task lists, code with syntax colours, LaTeX `$…$` and `$$…$$` math, and CeTZ, cetz-plot or fletcher charts and diagrams that Claude writes when a picture helps. The saved answer stays Markdown. Links, file paths and commands show as rows under the picture; a click copies a command. Plans show rendered with an approve, edit or reject question, and sent images, PDFs and Markdown files show too. `/iui` shows the state; `/iui on|off`, `theme`, `size`, `width`, `height`, `grid`, `updates`, `details`, `grab`. Needs Typst 0.15, macOS or Linux and kitty, Ghostty, cmux or iTerm2 3.6+; elsewhere answers stay text.",
+  "description_ru": "Рисует каждый ответ картинкой, свёрстанной в Typst: заголовки, ровные таблицы, списки задач, код с подсветкой, формулы LaTeX `$…$` и `$$…$$`, а также графики и диаграммы на CeTZ, cetz-plot и fletcher, которые Claude пишет, когда картинка объясняет лучше слов. Сохранённый ответ остаётся в Markdown. Ссылки, пути к файлам и команды выводятся строками под картинкой; щелчок по команде копирует её. План показывается свёрстанным, с вопросом «одобрить, изменить или отклонить», а присланные картинки, PDF и файлы Markdown тоже отображаются. `/iui` показывает состояние; есть `/iui on|off`, `theme`, `size`, `width`, `height`, `grid`, `updates`, `details`, `grab`. Нужны Typst 0.15, macOS или Linux и терминал kitty, Ghostty, cmux или iTerm2 3.6+; в остальных ответы остаются текстом.",
+  "author": { "name": "razorback16", "github": "razorback16", "url": "https://github.com/razorback16" },
+  "maintainers": ["razorback16"],
+  "category": "interface",
+  "tags": ["markdown", "typst", "math", "diagrams", "charts", "terminal-images"],
+  "license": "MIT",
+  "version": "0.3.0",
+  "homepage": "https://razorback16.github.io/cc-intelligent-ui/",
+  "source": { "type": "marketplace", "marketplace": "razorback16/cc-intelligent-ui", "plugin": "cc-intelligent-ui" },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.298" },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "write",
+    "model": false,
+    "promptRewrite": true,
+    "blocksTools": true
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Why is POST /checkout so slow? Show me where the time goes." },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm run bench", "result": "POST /checkout  450 ms (db 310 · pricing 60 · render 80)", "status": "done" }
+    ],
+    "caption": "An answer drawn as a Typst picture: a timing chart, Amdahl's law and a table of fixes, with file and command rows under it.",
+    "caption_ru": "Ответ, нарисованный картинкой Typst: диаграмма времени, закон Амдала и таблица исправлений, под ней строки с файлом и командой.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/iui",
+        "output": [
+          ["Intelligent UI is on: theme claude-code, dark, text 100%, width full, height half, grid on."],
+          ["Change: /iui on | off | size | width | height | grid | updates | theme. More: /iui details"]
+        ]
+      },
+      {
+        "slot": "message",
+        "role": "assistant",
+        "rows": [
+          [{ "text": "Where the 450 ms of POST /checkout go", "bold": true }],
+          ["DB query  ", { "text": "██████████████████████", "color": "claude" }, "  310 ms"],
+          ["Pricing   ", { "text": "████", "color": "suggestion" }, "  60 ms"],
+          ["Render    ", { "text": "██████", "color": "secondary" }, "  80 ms"],
+          [{ "text": "S = 1 / ((1 − p) + p / s)", "italic": true }, { "text": "    p = 0.69", "dim": true }],
+          ["┌──────────────────────┬─────────┐"],
+          ["│ ", { "text": "Fix", "bold": true }, "                  │ ", { "text": "Saves", "bold": true }, "   │"],
+          ["├──────────────────────┼─────────┤"],
+          ["│ Index orders.user_id │ ~250 ms │"],
+          ["│ Cache price rules    │ ~40 ms  │"],
+          ["└──────────────────────┴─────────┘"],
+          [{ "text": "↗ src/checkout.ts", "dim": true }],
+          [{ "text": "$ npm run bench", "dim": true }]
+        ]
+      },
+      { "slot": "toast", "text": "Copied" },
+      { "slot": "background", "text": "Each answer is a PNG typeset by Typst and shown with terminal graphics (kitty, Ghostty, iTerm2); here as block glyphs. A session prompt section tells Claude it can write Typst." }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/razorback16/cc-intelligent-ui/main/outcomes/out/0-hero-2-latency.png",
+      "alt": "Claude explains why an API request is slow: a timing chart, Amdahl's law and a table of fixes, in a dark and a light terminal",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/razorback16/cc-intelligent-ui/main/outcomes/out/6-diagrams-dark.png",
+      "alt": "A flow chart of an agent loop and a commutative diagram drawn with fletcher in a Claude answer",
+      "surface": "terminal"
+    }
+  ]
+}

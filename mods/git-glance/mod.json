@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "git-glance",
+  "title": "Git Glance",
+  "tagline": "Branch, changed files and commits ahead or behind upstream, in a status entry under the prompt.",
+  "tagline_ru": "Ветка, изменённые файлы и коммиты впереди или позади upstream в строке статуса под полем ввода.",
+  "description": "Pins one status entry under the prompt with the git state of the session's folder: the branch, how many files changed (`clean` when none) and, when the branch tracks an upstream, how many commits it is ahead and behind, as in `⎇ feature/discount-codes · 3 changed · ↑2 ↓0`. It refreshes when the session starts, a second after Claude edits a file or runs a shell command, and every 30 seconds to catch your own changes. Outside a git repository, or without git, the entry disappears. Git runs in the background without optional locks, so no tool call waits on it and it never holds the lock your own git commands need.",
+  "description_ru": "Закрепляет под полем ввода строку статуса с состоянием git в папке сессии: ветка, сколько файлов изменено (`clean`, если ничего) и, если у ветки есть upstream, на сколько коммитов она впереди и позади, например `⎇ feature/discount-codes · 3 changed · ↑2 ↓0`. Строка обновляется при старте сессии, через секунду после того, как Claude изменил файл или выполнил команду в оболочке, и раз в 30 секунд, чтобы учесть ваши собственные изменения. Вне git-репозитория или без установленного git строка исчезает. Git работает в фоне без необязательных блокировок, поэтому ни один вызов инструмента его не ждёт, а вашим командам git он не мешает.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "git",
+  "tags": ["git", "status", "branch", "status-line"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/git-glance",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Add percentage discount codes to the cart total and make the tests pass." },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Write", "input": "src/cart/total.test.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  14 passed (14)", "status": "done" },
+      { "role": "assistant", "text": "Done: three files changed and all 14 tests pass. Nothing is committed yet." }
+    ],
+    "caption": "The status entry after Claude changed three files on feature/discount-codes, a branch two commits ahead of origin.",
+    "caption_ru": "Строка статуса после того, как Claude изменил три файла в ветке feature/discount-codes, которая на два коммита впереди origin.",
+    "elements": [
+      { "slot": "status", "text": "⎇ feature/discount-codes · 3 changed · ↑2 ↓0" }
+    ]
+  }
+}

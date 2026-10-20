@@ -1,0 +1,134 @@
+{
+  "ok": false,
+  "hooks": [
+    "session.compact",
+    "session.start",
+    "classic.SessionStart",
+    "turn.complete",
+    "command.run",
+    "prompt.submit",
+    "classic.PostModelSwitch",
+    "turn.step",
+    "ui.render{component=SessionMode}",
+    "agent.spawn",
+    "tool.call",
+    "ui.render{component=Pane, requestId=effortless-agents}",
+    "ui.render{component=TurnDuration}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.agent.list",
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.clock.sleep",
+    "$.command.list",
+    "$.command.register",
+    "$.command.run",
+    "$.config.list",
+    "$.config.set",
+    "$.env.get",
+    "$.fs.read",
+    "$.fs.write",
+    "$.http.fetch",
+    "$.model.complete",
+    "$.model.fork",
+    "$.process.run",
+    "$.prompt.fill",
+    "$.prompt.read",
+    "$.prompt.submit",
+    "$.session.id",
+    "$.session.messages",
+    "$.session.model",
+    "$.session.root",
+    "$.session.usage",
+    "$.state.get",
+    "$.state… [+133 chars]"
+  ],
+  "gating": [
+    {
+      "hook": "session.compact",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.SessionStart",
+      "hasCatch": false
+    },
+    {
+      "hook": "command.run",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PostModelSwitch",
+      "hasCatch": false
+    },
+    {
+      "hook": "agent.spawn",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "effortless.agentFiles",
+    "effortless.agentSteps",
+    "effortless.agents",
+    "effortless.agentsModule",
+    "effortless.agentsOpen",
+    "effortless.appEffort",
+    "effortless.cacheLeft",
+    "effortless.cacheMemo",
+    "effortless.compactAsk",
+    "effortless.handoffAdvice",
+    "effortless.handoffCard",
+    "effortless.handoffPick",
+    "effortless.handoffStage",
+    "effortless.hot",
+    "effortless.hotHidden",
+    "effortless.installedSkills",
+    "effortless.isAuto",
+    "effortless.isAutoModel",
+    "effortless.isColdHidden",
+    "effortless.isCompacting",
+    "effortless.isJudging",
+    "effortless.judgeDown",
+    "effortless.judgeDownHidden",
+    "effortless.judgeTest",
+    "effortless.lastAnswer",
+    "effortless.lastTurn",
+    "effortless.model",
+    "effortless.paused",
+    "effortless.pick",
+    "effortless.progress",
+    "effortless.progressHidden",
+    "effortless.saveUntil",
+    "effortless.saved",
+    "effortless.settingsCard",
+    "effortless.settingsDraft",
+    "effortless.settingsOpen",
+    "effortless.setupDraft",
+    "effortless.setupPending",
+    "effortless.setupStep",
+    "effortless.suggestion",
+    "effortless.swampHiddenAt",
+    "effortless.swamped",
+    "effortless.switched",
+    "effortless.switch… [+49 chars]",
+    "effortless.updateCard",
+    "effortle… [+38 chars]",
+    "… [+23 chars]"
+  ],
+  "errors": [
+    "modules../register.tsx: effortless.updateCheck is not declared: the manifest's types contract must name it in interface PluginState { effortless: { updateCheck: ... } }"
+  ],
+  "warnings": [
+    "author: No author information provided. Consider adding author details for plugin attribution"
+  ],
+  "validatedWith": "2.1.302"
+}

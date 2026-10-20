@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "agent.spawn",
+    "tool.call",
+    "tool.call{tool=Bash}",
+    "turn.complete",
+    "command.run{command=radar}",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=Pane, requestId=agent-radar}"
+  ],
+  "calls": [
+    "$.agent.list",
+    "$.clock.every",
+    "$.command.register",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.process.run",
+    "$.session.messages",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.close",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "agent.spawn",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call{tool=Bash}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "agent-radar.agents",
+    "agent-radar.now",
+    "agent-radar.selected"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

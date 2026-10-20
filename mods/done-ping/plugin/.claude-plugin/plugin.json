@@ -1,0 +1,21 @@
+{
+  "name": "done-ping",
+  "version": "0.1.0",
+  "description": "A native notification when a long turn finishes, so you can look away.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/done-ping",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["notification", "turn", "focus", "long-running", "toast"],
+  "userConfig": {
+    "minSeconds": {
+      "type": "number",
+      "title": "Minimum turn length (seconds)",
+      "description": "Notify only when a turn took at least this many seconds.",
+      "default": 30
+    }
+  }
+}

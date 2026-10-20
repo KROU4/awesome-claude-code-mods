@@ -1,0 +1,40 @@
+name: Report a broken or harmful mod
+description: A listed mod does not work, misbehaves or does something it should not. / Мод из каталога сломан или ведёт себя плохо.
+title: "Report: "
+labels: [report]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If the mod steals data, runs something unexpected on your machine or the report itself would help an attacker, do not file it here: [report it privately](https://github.com/KROU4/claude-code-mod-showroom/security/advisories/new) instead.
+
+        Если мод крадёт данные, запускает что-то неожиданное на компьютере или отчёт поможет злоумышленнику, не пишите сюда: [сообщите приватно](https://github.com/KROU4/claude-code-mod-showroom/security/advisories/new).
+  - type: input
+    id: name
+    attributes:
+      label: Mod name / Имя мода
+      description: The name from the catalog, e.g. turn-meter. / Имя из каталога, например turn-meter.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens / Что происходит
+      description: What you did, what you expected and what happened instead. Include the Claude Code version (`claude --version`) and the surface (terminal, desktop app, VS Code). / Что вы делали, чего ждали и что произошло. Укажите версию Claude Code и где запускали.
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity / Насколько серьёзно
+      options:
+        - It does not work or draws wrongly / Не работает или рисует не так
+        - It gets in the way of using Claude Code / Мешает работать с Claude Code
+        - It reads, sends or changes things it should not / Читает, отправляет или меняет то, что не должен
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else / Что ещё
+      description: Logs, screenshots, the commit you installed. / Логи, скриншоты, установленный коммит.

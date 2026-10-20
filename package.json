@@ -1,0 +1,27 @@
+{
+  "name": "claude-code-mod-showroom",
+  "private": true,
+  "type": "module",
+  "description": "Mod Showroom: a community catalog and Claude Code marketplace of mods, each shown inside a mock of the client",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KROU4/claude-code-mod-showroom.git"
+  },
+  "homepage": "https://krou4.github.io/claude-code-mod-showroom/",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node scripts/validate.mjs",
+    "check:entry": "node scripts/check-entry.mjs",
+    "build:registry": "node scripts/build-registry.mjs",
+    "analyze": "node scripts/analyze.mjs",
+    "enrich": "node scripts/enrich.mjs",
+    "discover": "node scripts/discover.mjs",
+    "test": "node --test \"scripts/*.test.mjs\""
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0"
+  }
+}

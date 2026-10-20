@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.end",
+    "turn.start",
+    "command.run{command=pin}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.command.register",
+    "$.session.cwd",
+    "$.session.id",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.invalidate",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

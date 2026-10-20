@@ -1,0 +1,119 @@
+/* Section stubs (replaced by their owners) and the temporary dev mock section. */
+
+.hero-stub {
+  display: grid;
+  gap: var(--s-4);
+  padding-block: var(--s-8) var(--s-6);
+}
+.hero-stub h1 {
+  max-width: 17ch;
+}
+.hero-stub-lead {
+  max-width: 54ch;
+  font-size: var(--text-lg);
+  color: var(--ink-2);
+}
+.hero-stub-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+.hero-stub-meta {
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+}
+
+.stub-list,
+.stub-steps {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stub-list li,
+.stub-steps li {
+  display: grid;
+  gap: 2px;
+}
+.stub-list span,
+.stub-steps span {
+  color: var(--ink-2);
+}
+.stub-steps code {
+  justify-self: start;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--sunk);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+/* temporary dev section */
+.dev-mock {
+  padding-top: var(--s-5);
+}
+.dev-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--s-5);
+}
+.dev-picker button {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: var(--r-round);
+  border: 1px solid var(--line);
+  background: var(--raised);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+.dev-picker button:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.dev-picker button[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.dev-caption {
+  margin-top: var(--s-3);
+  max-width: 70ch;
+  color: var(--ink-2);
+  font-size: 15px;
+}
+.dev-sub {
+  margin: var(--s-8) 0 var(--s-4);
+  font-size: var(--text-h3);
+}
+.dev-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: var(--s-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dev-card {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 10px;
+  border-radius: var(--r-card);
+  background: var(--raised);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-1);
+}
+.dev-card-title {
+  margin-top: 6px;
+  padding-inline: 4px;
+  font-weight: 600;
+}
+.dev-card-tag {
+  padding-inline: 4px;
+  font-size: 14px;
+  color: var(--ink-2);
+}

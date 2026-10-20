@@ -1,0 +1,61 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "agent-radar",
+  "title": "Agent Radar",
+  "tagline": "A live line above the prompt per running subagent or background shell: time, tools, current step.",
+  "tagline_ru": "Над полем ввода по строке на каждый работающий субагент и фоновую команду: время, инструменты, текущий шаг.",
+  "description": "Draws one live line above the prompt per running subagent or background Bash command (up to 4, then `+N more · /radar`): a yellow ●, its description, `sub` or `sh`, elapsed time, a subagent's tool count and what it is doing now (reading, editing, searching, running…). A finished one shows a green ✓ (red ✗ if it failed) for 30 s, and a toast says it is done. Shells that run `codex exec`, `opencode run` and the like are labeled with that agent and model; their end is found with `lsof` every 5 s, so without `lsof` they stay running. `/radar` opens the Agent Radar pane: 1-9 open an agent's last messages or a shell's output tail, b goes back, c clears finished ones, q closes.",
+  "description_ru": "Над полем ввода по живой строке на каждый работающий субагент или фоновую команду Bash (до 4, дальше `+N more · /radar`): жёлтый ●, описание, `sub` или `sh`, сколько прошло времени, сколько инструментов вызвал субагент и что он делает сейчас (читает, правит, ищет, запускает). Завершённый показывает зелёную ✓ (или красный ✗ при ошибке) ещё 30 секунд, а всплывающее уведомление сообщает об окончании. Фоновые команды с `codex exec`, `opencode run` и похожими подписываются именем агента и модели; их окончание определяется через `lsof` каждые 5 секунд, поэтому без `lsof` они так и остаются выполняющимися. Команда `/radar` открывает панель Agent Radar: 1–9 открывают последние сообщения агента или хвост вывода команды, b возвращает назад, c убирает завершённые, q закрывает.",
+  "author": { "name": "Hamza Zafar", "github": "hamzafer", "url": "https://github.com/hamzafer" },
+  "maintainers": ["hamzafer"],
+  "category": "insights",
+  "tags": ["subagents", "background-shell", "band", "pane", "toast"],
+  "license": "MIT",
+  "version": "0.2.0",
+  "homepage": "https://hamzafer.github.io/claude-code-mods/mods/agent-radar/",
+  "source": { "type": "marketplace", "marketplace": "hamzafer/claude-code-mods", "plugin": "agent-radar", "path": "mods/agent-radar" },
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Add percentage discount codes to the cart total. Use subagents to find the callers and review the checkout flow, and run the tests in the background." },
+      { "role": "tool", "tool": "Task", "input": "Find applyDiscount callers", "result": "Found 3 callers in src/cart and src/checkout.ts.", "status": "done" },
+      { "role": "tool", "tool": "Task", "input": "Review checkout discounts", "status": "running" },
+      { "role": "tool", "tool": "Bash", "input": "npm test (in the background)", "status": "running" }
+    ],
+    "caption": "Two subagents and a background test run: live lines above the prompt, the /radar pane and a toast for the one that finished.",
+    "caption_ru": "Два субагента и фоновый прогон тестов: живые строки над полем ввода, панель /radar и уведомление о том, кто закончил.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [{ "text": " ● Run the test suite", "color": "warning", "bold": true }, { "text": "  sh 24s", "dim": true }, " · ✓ src/cart/total.test.ts (6 tests) 12ms"],
+          [{ "text": " ● Review checkout discounts", "color": "warning", "bold": true }, { "text": "  sub 1m 12s · 9 tools", "dim": true }, " · reading src/checkout.ts"],
+          [{ "text": " ✓ Find applyDiscount callers", "color": "success", "bold": true }, { "text": "  sub 38s · 6 tools", "dim": true }]
+        ]
+      },
+      { "slot": "toast", "text": "✓ Find applyDiscount callers done (38s · 6 tools)" },
+      { "slot": "command", "command": "/radar", "output": [["2 running, 1 finished"]] },
+      {
+        "slot": "pane",
+        "title": "Agent Radar",
+        "width": "narrow",
+        "rows": [
+          [{ "text": "2 running · 1 finished", "bold": true }],
+          [{ "kbd": "1" }, " ● Run the test suite · sh · 24s · ✓ src/cart/total.test.ts (6 tests) 12ms"],
+          [{ "kbd": "2" }, " ● Review checkout discounts · sub · 1m 12s · 9 tools · reading src/checkout.ts"],
+          [{ "kbd": "3" }, { "text": " ✓ Find applyDiscount callers · sub · 38s · 6 tools", "dim": true }],
+          [{ "button": "Clear finished", "hotkey": "c" }, " ", { "button": "Close", "hotkey": "q" }]
+        ]
+      }
+    ]
+  }
+}

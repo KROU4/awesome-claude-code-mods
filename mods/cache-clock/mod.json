@@ -1,0 +1,45 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "cache-clock",
+  "title": "Cache Clock",
+  "tagline": "A prompt-cache line under your status line: time left while warm, hit rate, misses, re-cache cost.",
+  "tagline_ru": "Строка кэша промпта под строкой статуса: сколько осталось, доля попаданий, промахи и цена перекэширования.",
+  "description": "Adds a line under your status line from the `prompt_cache` figures Claude Code sends it. While warm: a green `cache ●` with the TTL (5m or 1h), a 10-cell bar, time left, hit rate and misses, yellow under 20% of the lifetime. Once cold: a red `cache ○ cold` with the tokens the next message re-caches and the last miss's cause. `/cache-clock setup` points `statusLine` at a Node script it copies to `~/.claude/cache-clock/`, which runs your own status line first, and sets `refreshInterval` to 30 s; `/cache-clock remove` puts your settings back; `/cache-clock` says whether it is on. Needs Node; Claude Code before 2.1.251 sends no cache data.",
+  "description_ru": "Добавляет строку под вашей строкой статуса по данным `prompt_cache`, которые Claude Code ей передаёт. Пока кэш тёплый: зелёный `cache ●` со сроком жизни (5m или 1h), полоской из 10 клеток, оставшимся временем, долей попаданий и числом промахов; когда остаётся меньше 20% срока, строка желтеет. Когда кэш остыл: красный `cache ○ cold`, сколько токенов перекэширует следующее сообщение и причина последнего промаха. Команда `/cache-clock setup` направляет `statusLine` на Node-скрипт, который копирует в `~/.claude/cache-clock/`; скрипт сначала запускает вашу строку статуса, а `refreshInterval` ставится на 30 секунд. `/cache-clock remove` возвращает настройки как были, `/cache-clock` показывает, включён ли мод. Нужен Node; Claude Code до 2.1.251 не передаёт данные кэша.",
+  "author": { "name": "Hamza Zafar", "github": "hamzafer", "url": "https://github.com/hamzafer" },
+  "maintainers": ["hamzafer"],
+  "category": "insights",
+  "tags": ["prompt-cache", "status-line", "tokens", "countdown", "command"],
+  "license": "MIT",
+  "version": "0.1.1",
+  "homepage": "https://hamzafer.github.io/claude-code-mods/mods/cache-clock/",
+  "source": { "type": "marketplace", "marketplace": "hamzafer/claude-code-mods", "plugin": "cache-clock", "path": "mods/cache-clock" },
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "write",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "After /cache-clock setup: the cache line under the status line, green while the 1-hour cache is warm.",
+    "caption_ru": "После /cache-clock setup: строка кэша под строкой статуса, зелёная, пока часовой кэш тёплый.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/cache-clock",
+        "args": "setup",
+        "output": [
+          ["cache-clock set up in /Users/dev/.claude/settings.json. Your status line stays as it is, with the cache line under it."],
+          ["It shows up after Claude's next reply. /cache-clock remove puts things back."]
+        ]
+      },
+      { "slot": "status", "text": "cache ● 1h ███████░░░ 38m left · hit 91% · misses 0" },
+      { "slot": "background", "text": "Setup points statusLine at a Node script in ~/.claude/cache-clock/ that runs your own status line first, then prints the cache line, every 30 s." }
+    ]
+  }
+}

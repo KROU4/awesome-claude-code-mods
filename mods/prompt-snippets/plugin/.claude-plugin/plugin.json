@@ -1,0 +1,14 @@
+{
+  "name": "prompt-snippets",
+  "version": "0.1.0",
+  "description": "Save a prompt once, insert it anywhere with /snip, and quote your selection with /quote.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/prompt-snippets",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["snippets", "prompts", "templates", "slash-commands", "quote", "selection"],
+  "types": "./types/index.d.ts"
+}

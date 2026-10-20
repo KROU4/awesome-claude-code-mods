@@ -1,0 +1,40 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "context-gauge",
+  "title": "Context Gauge",
+  "tagline": "See how full the context window is, right in the hint line under the prompt.",
+  "tagline_ru": "Заполненность окна контекста прямо в строке подсказки под полем ввода.",
+  "description": "Adds a compact gauge to the dim hint line under the prompt: `ctx ▰▰▰▰▱▱ 62% · 124k/200k`. The figures are the status line's own (input, cache-write and cache-read tokens of the last response over the model's window), pushed by Claude Code after every turn, so the gauge sends no requests. It takes the warning color from 60% and the error color past 85%, and hides after a compaction or a `/clear` until the next turn measures again. The window size comes from Claude Code; the `windowTokens` option is a fallback.",
+  "description_ru": "Добавляет компактную шкалу в тусклую строку подсказки под полем ввода: `ctx ▰▰▰▰▱▱ 62% · 124k/200k`. Цифры те же, что в строке состояния (входные токены последнего ответа, включая запись и чтение кэша, относительно окна модели). Claude Code присылает их после каждого хода, поэтому шкала сама ничего не запрашивает. С 60% она окрашивается цветом предупреждения, выше 85% цветом ошибки, а после сжатия контекста или `/clear` скрывается до следующего хода. Размер окна берётся из Claude Code, опция `windowTokens` нужна только как запасной вариант.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "insights",
+  "tags": ["context", "context-window", "tokens", "prompt-hint", "status"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/context-gauge",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Why is the cart total a cent off for some discount codes?" },
+      { "role": "tool", "tool": "Read", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Grep", "input": "Math.round", "status": "done" },
+      { "role": "assistant", "text": "src/cart/total.ts:41 rounds the discount before tax is added, so the two roundings can drift by a cent. Rounding once, at the end, fixes it." }
+    ],
+    "caption": "The hint line after a turn at 62% of a 200k window: dim under 60%, warning color from 60%, error color past 85%.",
+    "caption_ru": "Строка подсказки после хода: окно 200k заполнено на 62%. До 60% шкала тусклая, с 60% цвета предупреждения, выше 85% цвета ошибки.",
+    "elements": [
+      {
+        "slot": "prompt-hint",
+        "row": [
+          { "text": "? for shortcuts", "dim": true },
+          "  ",
+          { "text": "ctx ▰▰▰▰▱▱ 62% · 124k/200k", "color": "warning" }
+        ]
+      }
+    ]
+  }
+}

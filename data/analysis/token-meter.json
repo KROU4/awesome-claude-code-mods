@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.complete",
+    "ui.render{component=PromptHint}"
+  ],
+  "calls": [
+    "$.state.get",
+    "$.state.set",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [
+    "token-meter.session",
+    "token-meter.turn"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

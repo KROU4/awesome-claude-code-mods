@@ -1,0 +1,22 @@
+{
+  "name": "tool-timeline",
+  "version": "0.1.0",
+  "description": "A live pane of every tool call: its status, what it worked on and how long it took.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/tool-timeline",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["tools", "timeline", "pane", "duration", "observability"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "autoOpen": {
+      "type": "boolean",
+      "title": "Open by itself where panes dock",
+      "description": "Open the Timeline pane unasked when the surface docks panes beside the transcript (the terminal's fullscreen layout). Elsewhere it opens only on /timeline.",
+      "default": true
+    }
+  }
+}

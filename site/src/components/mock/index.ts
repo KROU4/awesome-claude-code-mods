@@ -1,0 +1,13 @@
+// Public surface of the mock client. Import from 'components/mock'.
+export { default as MockClient } from './MockClient'
+export { default as TreeRenderer } from './TreeRenderer'
+export { default as NotDrawnNote } from './NotDrawnNote'
+export { mergePreviews, autoResult } from './model'
+export { buildSchedule, frameAt, finalFrame, HOLD_MS } from './timeline'
+export { SCENES, HEADER, SPINNER_FRAMES, PAST_VERBS, formatElapsed, formatTokens } from './scenes'
+export { SLOT_SURFACES, ELEMENT_SURFACES, MOCK_SURFACES, VSCODE_AS_NOTIFICATION, isDrawnOn, undrawnSlots, worksOn } from './availability'
+export type { SurfaceSupport } from './availability'
+export { TERMINAL_THEMES, resolveColor, themeVars } from './dsl/colors'
+export { Seg, Segs, RowView, rowText, segmentText, sparkline, barCells } from './dsl/Segments'
+export { Markdown, inlineMd, plainMd } from './dsl/markdown'
+export type * from './types'

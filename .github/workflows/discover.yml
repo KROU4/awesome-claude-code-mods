@@ -1,0 +1,39 @@
+# Once a week, lists mods on GitHub (topics claude-code-mod, claude-code-mods, claude-mod) that
+# the catalog does not have yet, in ONE issue "Mods found this week". Reads repositories as data;
+# installs and runs nothing; opens no pull requests.
+name: Discover mods
+
+on:
+  schedule:
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: discover
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    name: Find mods not in the catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Update the weekly issue
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/discover.mjs --issue

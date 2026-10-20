@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.measure",
+    "session.compact",
+    "session.end",
+    "ui.render{component=PromptHint}"
+  ],
+  "calls": [
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "session.compact",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "context-gauge.reading"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

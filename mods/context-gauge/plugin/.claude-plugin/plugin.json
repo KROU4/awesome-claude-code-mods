@@ -1,0 +1,22 @@
+{
+  "name": "context-gauge",
+  "version": "0.1.0",
+  "description": "See how full the context window is, right in the hint line under the prompt.",
+  "author": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/context-gauge",
+  "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+  "license": "MIT",
+  "keywords": ["context", "context-window", "tokens", "prompt-hint", "status"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "windowTokens": {
+      "type": "number",
+      "title": "Window size (tokens)",
+      "description": "Used only when Claude Code reports no context window size for the session's model.",
+      "default": 200000
+    }
+  }
+}

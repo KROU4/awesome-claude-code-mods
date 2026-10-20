@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run",
+    "prompt.submit",
+    "turn.step",
+    "classic.UserPromptSubmit",
+    "classic.SessionStart",
+    "classic.Stop",
+    "turn.complete",
+    "ui.render{component=ToolUse}",
+    "ui.render{component=ToolGroup}",
+    "ui.render{component=Pane, requestId=textless-settings}",
+    "ui.render{component=UserMessage}",
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=CommandOutput}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.command.run",
+    "$.config.list",
+    "$.env.get",
+    "$.fs.list",
+    "$.fs.read",
+    "$.fs.write",
+    "$.http.fetch",
+    "$.process.run",
+    "$.prompt.fill",
+    "$.prompt.read",
+    "$.prompt.submit",
+    "$.session.id",
+    "$.store.get (via afterLoad… [+333 chars]"
+  ],
+  "gating": [
+    {
+      "hook": "command.run",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.UserPromptSubmit",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.SessionStart",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.Stop",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [
+    "author: No author information provided. Consider adding author details for plugin attribution"
+  ],
+  "validatedWith": "2.1.302"
+}

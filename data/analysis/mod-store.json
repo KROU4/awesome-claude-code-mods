@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "tool.call{tool=mcp__mod-store__search_mods}",
+    "tool.call{tool=mcp__mod-store__show_mod}",
+    "command.run{command=mods}",
+    "ui.render{component=Pane, requestId=mod-store}"
+  ],
+  "calls": [
+    "$.clock.now",
+    "$.command.register",
+    "$.http.fetch",
+    "$.process.run",
+    "$.prompt.fill",
+    "$.prompt.submit",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.tool.register",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call{tool=mcp__mod-store__search_mods}",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call{tool=mcp__mod-store__show_mod}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "mod-store.filter",
+    "mod-store.installed",
+    "mod-store.isBusy",
+    "mod-store.isConfirming",
+    "mod-store.loadedAt",
+    "mod-store.page",
+    "mod-store.query",
+    "mod-store.selected",
+    "mod-store.sort",
+    "mod-store.status"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

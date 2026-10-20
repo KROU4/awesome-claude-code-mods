@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=focus-timer}",
+    "prompt.submit",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.notify",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "prompt.submit",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "focus-timer.timer"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

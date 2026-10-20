@@ -1,0 +1,54 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "prompt-snippets",
+  "title": "Prompt Snippets",
+  "tagline": "Save a prompt once, insert it anywhere with /snip, and quote your selection with /quote.",
+  "tagline_ru": "Сохраните промпт один раз, вставляйте его через /snip, а выделение цитируйте через /quote.",
+  "description": "Reusable prompt snippets kept across sessions in the mod's own store. `/snip save <name>` saves the last prompt you sent, `/snip <name>` inserts it at the cursor in the terminal's prompt box, `/snip list` answers a Markdown table of names and their first 60 characters, and `/snip rm <name>` removes one. `/quote` puts your current mouse selection into the prompt as `> ` lines. The desktop app has no prompt box a mod can fill, so there `/snip <name>` and `/quote` answer the text in a code block to copy. Names are 1-32 characters of a-z, 0-9 and -.",
+  "description_ru": "Фрагменты промптов, которые сохраняются между сессиями в хранилище мода. `/snip save <имя>` сохраняет последний отправленный вами промпт, `/snip <имя>` вставляет его в поле ввода терминала там, где стоит курсор, `/snip list` показывает Markdown-таблицу с именами и первыми 60 символами, а `/snip rm <имя>` удаляет фрагмент. `/quote` вставляет в поле ввода текст, выделенный мышью, строками с `> `. В десктопном приложении нет поля ввода, которое мод может заполнить, поэтому там `/snip <имя>` и `/quote` показывают текст в блоке кода, чтобы вы его скопировали. Имя фрагмента: от 1 до 32 символов из a-z, 0-9 и -.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "productivity",
+  "tags": ["snippets", "prompts", "templates", "slash-commands", "quote", "selection"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/prompt-snippets",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Review the staged diff for bugs, missing tests and unclear names. List each finding as file:line." },
+      { "role": "tool", "tool": "Bash", "input": "git diff --staged", "result": "3 files changed, 48 insertions(+), 12 deletions(-)", "status": "done" },
+      { "role": "assistant", "text": "Two findings: src/cart/total.ts:41 rounds the discount before tax, and src/cart/total.test.ts has no case for an expired code." }
+    ],
+    "caption": "Save your last prompt as a snippet, list snippets as a table, insert one at the cursor, quote a selection.",
+    "caption_ru": "Сохраните последний промпт как фрагмент, посмотрите список таблицей, вставьте фрагмент в позицию курсора, процитируйте выделение.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/snip",
+        "args": "save review",
+        "markdown": "Saved snippet review with your last prompt. `/snip review` inserts it."
+      },
+      {
+        "slot": "command",
+        "command": "/snip",
+        "args": "list",
+        "markdown": "| Name | Snippet |\n| --- | --- |\n| commit-msg | Write a conventional commit message for the staged changes.… |\n| explain | Explain what this function does, step by step. |\n| review | Review the staged diff for bugs, missing tests and unclear n… |"
+      },
+      {
+        "slot": "command",
+        "command": "/snip",
+        "args": "commit-msg",
+        "output": [["Inserted snippet commit-msg."]]
+      },
+      {
+        "slot": "command",
+        "command": "/quote",
+        "output": [["Quoted the selection into the prompt."]]
+      }
+    ]
+  }
+}

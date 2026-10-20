@@ -1,0 +1,40 @@
+name: Suggest a mod
+description: Point the catalog to a mod it should list. / Предложить мод для каталога.
+title: "Suggest: "
+labels: [suggestion]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the tip. If it is your own mod, the fastest way in is a pull request: the [online builder](https://krou4.github.io/claude-code-mod-showroom/#/submit) writes the entry for you, and the bot merges it when the checks pass.
+
+        Спасибо за подсказку. Если мод ваш, быстрее всего открыть pull request: [конструктор на сайте](https://krou4.github.io/claude-code-mod-showroom/#/submit) соберёт запись, а бот сольёт её, когда проверки пройдут.
+  - type: input
+    id: repo
+    attributes:
+      label: Repository URL / Ссылка на репозиторий
+      description: The repository, and the folder if the mod is not at its root. / Репозиторий и папка, если мод не в корне.
+      placeholder: https://github.com/owner/repo/tree/main/mods/name
+    validations:
+      required: true
+  - type: textarea
+    id: draws
+    attributes:
+      label: What it draws or does / Что мод рисует или делает
+      description: A band above the prompt, a pane, a status entry, a toast, a spinner, a tool guard, a slash command... / Полоса над промптом, панель, строка статуса, уведомление, спиннер, страж инструментов, слеш-команда...
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs here / Почему его стоит добавить
+      description: What it is good for, and whether you have tried it. / Чем он полезен и пробовали ли вы его.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks / Проверки
+      options:
+        - label: Its hooks/hooks.json has a "modules" list, so it is a mod (not only classic settings hooks). / В hooks/hooks.json есть список "modules", то есть это мод.
+          required: true
+        - label: I could not find it in the catalog already. / В каталоге его ещё нет.
+          required: true

@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=replay}",
+    "tool.call",
+    "turn.start",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=Pane}",
+    "ui.close"
+  ],
+  "calls": [
+    "$.clock.sleep",
+    "$.command.register",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.session.cwd",
+    "$.ui.close",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.close",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

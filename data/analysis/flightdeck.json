@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.end",
+    "command.run{command=flightdeck}",
+    "classic.UserPromptSubmit",
+    "agent.offer",
+    "turn.start",
+    "turn.step",
+    "session.measure",
+    "session.compact",
+    "tool.check",
+    "tool.call",
+    "session.append",
+    "agent.spawn",
+    "turn.complete",
+    "ui.render{component=Pane, requestId=flightdeck}"
+  ],
+  "calls": [
+    "$.clock.now",
+    "$.command.register",
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.close",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.status"
+  ],
+  "gating": [
+    {
+      "hook": "classic.UserPromptSubmit",
+      "hasCatch": false
+    },
+    {
+      "hook": "agent.offer",
+      "hasCatch": false
+    },
+    {
+      "hook": "session.compact",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.check",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "session.append",
+      "hasCatch": false
+    },
+    {
+      "hook": "agent.spawn",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "flightdeck.agents",
+    "flightdeck.architect",
+    "flightdeck.gate",
+    "flightdeck.log",
+    "flightdeck.loops",
+    "flightdeck.main",
+    "flightdeck.meta",
+    "flightdeck.receipt",
+    "flightdeck.roster",
+    "flightdeck.turn",
+    "flightdeck.usage",
+    "flightdeck.view"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

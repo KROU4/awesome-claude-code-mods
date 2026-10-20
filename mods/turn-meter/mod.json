@@ -1,0 +1,47 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "turn-meter",
+  "title": "Turn Meter",
+  "tagline": "Each turn's duration, tool calls and tokens in a band above the prompt, with a 12-turn sparkline.",
+  "tagline_ru": "Время, вызовы инструментов и токены каждого хода над полем ввода, с мини-графиком последних 12 ходов.",
+  "description": "After each turn a band above the prompt shows how long the turn took (from your prompt to the final answer), how many tools the main conversation called and how many tokens it used (input, cache writes and output; cache reads are left out), next to a sparkline of the last 12 turns. A turn longer than `slowTurnSeconds` (120 by default, 0 turns it off) also raises a toast. Press Hide, or `h` once the band has focus (ctrl+x tab), to hide the band; `/turn-meter` brings it back.",
+  "description_ru": "После каждого хода над полем ввода появляется полоса: сколько длился ход (от отправки запроса до окончательного ответа), сколько инструментов вызвал основной диалог и сколько ушло токенов (вход, запись в кэш и вывод; чтение из кэша не считается), а рядом мини-график последних 12 ходов. Если ход длился дольше `slowTurnSeconds` (по умолчанию 120 секунд, 0 отключает), появляется всплывающее уведомление. Чтобы скрыть полосу, нажмите Hide или `h`, когда полоса в фокусе (ctrl+x tab); команда `/turn-meter` возвращает её.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "insights",
+  "tags": ["turns", "duration", "tokens", "sparkline", "toast"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/turn-meter",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Add percentage discount codes to the cart total and make the tests pass." },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  14 passed (14)", "status": "done" },
+      { "role": "assistant", "text": "Discount codes such as SAVE10 now apply in src/cart/total.ts, the checkout shows the saving, and all 14 tests pass." }
+    ],
+    "caption": "After a slow turn: time, tool calls and tokens above the prompt, the last 12 turns as bars (slow ones in orange) and a toast.",
+    "caption_ru": "После долгого хода: время, вызовы инструментов и токены над полем ввода, последние 12 ходов столбиками (долгие оранжевым) и уведомление.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "Last turn 3m 5s · 31 tools · 88.4k tokens", "dim": true },
+            " ",
+            { "text": "▁▂▂▃▁▃▅▂▄▃▂", "color": "#5f9ea0" },
+            { "text": "█", "color": "#e0783f" },
+            " ",
+            { "button": "Hide", "hotkey": "h" }
+          ]
+        ]
+      },
+      { "slot": "toast", "text": "Slow turn: 3m 5s · 31 tools · 88.4k tokens (over 2m)" }
+    ]
+  }
+}

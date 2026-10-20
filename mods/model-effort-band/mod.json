@@ -1,0 +1,57 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "model-effort-band",
+  "title": "Model Effort Band",
+  "tagline": "A colored band above the prompt with the selected model and the effort of its last request.",
+  "tagline_ru": "Цветная полоса над полем ввода: выбранная модель и усилие, с которым прошёл её последний запрос.",
+  "description": "A rounded band above the prompt shows the selected model on the left (Haiku green, Sonnet blue, Opus purple, any other model grey), the effort last seen on a main-conversation request as a five-cell gauge such as `▰▰▰▱▱ high` with a short Korean caption, and a family badge on the right. Effort appears only once observed: after a new session, a model switch or `/model`, `/effort`, `/config` it reads `unknown` until the next request, and subagent requests never change it. Under 60 columns the gauge, caption and badge are dropped; under 30 it is one plain line. No commands or settings; turn it off with `/plugin`.",
+  "description_ru": "Над полем ввода появляется скруглённая полоса: слева выбранная модель (Haiku зелёным, Sonnet синим, Opus фиолетовым, любая другая серым), рядом усилие (effort), замеченное в последнем запросе основного диалога, в виде шкалы из пяти делений вроде `▰▰▰▱▱ high` с короткой подписью на корейском, справа значок семейства модели. Усилие показывается только после того, как его удалось увидеть: после новой сессии, смены модели или команд `/model`, `/effort`, `/config` там стоит `unknown` до следующего запроса, а запросы субагентов его не меняют. В терминале уже 60 колонок шкала, подпись и значок пропадают, уже 30 остаётся одна строка без рамки. Команд и настроек нет, отключается через `/plugin`.",
+  "author": { "name": "YeonwooSung", "github": "YeonwooSung", "url": "https://github.com/YeonwooSung" },
+  "maintainers": ["YeonwooSung"],
+  "category": "interface",
+  "tags": ["model", "effort", "band", "above-prompt"],
+  "license": "Apache-2.0",
+  "version": "0.1.1",
+  "homepage": "https://github.com/YeonwooSung/my-claude-code-mods/tree/main/model-effort-band",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "YeonwooSung/my-claude-code-mods",
+    "plugin": "model-effort-band",
+    "path": "model-effort-band"
+  },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.292" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "scene": "coding",
+    "surface": "terminal",
+    "caption": "On Opus with high effort: the purple band above the prompt with the effort gauge and the family badge.",
+    "caption_ru": "Opus с высоким усилием: фиолетовая полоса над полем ввода со шкалой усилия и значком семейства.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "Opus 4.6", "color": "#B99CE5", "bold": true },
+            { "text": " │ ", "dim": true },
+            { "text": "effort ", "dim": true },
+            { "text": "▰▰▰▱▱ high · 깊게", "color": "#E4CC75", "bold": true },
+            "                              ",
+            { "text": " Opus ", "color": "#B99CE5", "bg": "#241C32", "bold": true }
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "After /model, /effort or /config the band reads \"effort unknown · 확인 전\" until the next main-conversation request reports its effort."
+      }
+    ]
+  }
+}

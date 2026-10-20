@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "hooks": [
+    "tool.call{tool=Bash}",
+    "ui.render{component=Pane}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.now",
+    "$.process.run",
+    "$.session.cwd",
+    "$.ui.close",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call{tool=Bash}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

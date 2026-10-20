@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=turn-meter}",
+    "prompt.submit",
+    "turn.start",
+    "tool.call",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.now",
+    "$.command.register",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "turn-meter.isHidden",
+    "turn-meter.turns"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

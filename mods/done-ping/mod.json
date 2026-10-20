@@ -1,0 +1,39 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "done-ping",
+  "title": "Done Ping",
+  "tagline": "A native notification when a long turn finishes, so you can look away.",
+  "tagline_ru": "Системное уведомление, когда долгий ход закончился: можно не следить за экраном.",
+  "description": "When a turn takes at least `minSeconds` (30 by default), done-ping sends a notification through your own channel: `Claude finished in 3m 5s · 31 tool calls`. Turns you interrupted are skipped, a turn that died on an API error says so, and where no notification can be sent (notifications off, no channel, the desktop app) the same line shows as a toast. `/done-ping test` sends a sample and tells you whether it went out and how.",
+  "description_ru": "Если ход длился не меньше `minSeconds` (по умолчанию 30 секунд), done-ping отправляет уведомление через ваш канал уведомлений: `Claude finished in 3m 5s · 31 tool calls`. Ходы, которые вы прервали, пропускаются; если ход оборвался на ошибке API, уведомление так и скажет. Если отправить уведомление нельзя (уведомления выключены, у терминала нет канала, десктопное приложение), та же строка появляется во всплывающем сообщении. `/done-ping test` отправляет пример и сообщает, ушло ли уведомление и каким путём.",
+  "author": { "name": "KROU4", "github": "KROU4", "url": "https://github.com/KROU4" },
+  "maintainers": ["KROU4"],
+  "category": "productivity",
+  "tags": ["notification", "turn", "focus", "long-running", "toast"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/done-ping",
+  "source": { "type": "hosted" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.299" },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Add percentage discount codes to the cart total and make the tests pass." },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  14 passed (14)", "status": "done" },
+      { "role": "assistant", "text": "Discount codes such as SAVE10 now apply in src/cart/total.ts, and all 14 tests pass." }
+    ],
+    "caption": "A turn of 30 s or more ends with a native notification: how long it took and how many tool calls it made.",
+    "caption_ru": "Ход длиной от 30 секунд заканчивается системным уведомлением: сколько он длился и сколько было вызовов инструментов.",
+    "elements": [
+      { "slot": "notification", "title": "Claude Code", "text": "Claude finished in 3m 5s · 31 tool calls" },
+      {
+        "slot": "command",
+        "command": "/done-ping",
+        "args": "test",
+        "output": [["Sample notification sent via kitty."]]
+      }
+    ]
+  }
+}

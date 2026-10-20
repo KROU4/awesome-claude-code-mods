@@ -1,0 +1,531 @@
+{
+  "name": "mod-showroom",
+  "description": "Mod Showroom: community mods for Claude Code (bands, panes, status entries, toasts, spinners, tool guards). See each one inside the client at https://krou4.github.io/claude-code-mod-showroom/",
+  "owner": {
+    "name": "KROU4",
+    "url": "https://github.com/KROU4"
+  },
+  "metadata": {
+    "description": "Mod Showroom: community mods for Claude Code (bands, panes, status entries, toasts, spinners, tool guards). See each one inside the client at https://krou4.github.io/claude-code-mod-showroom/"
+  },
+  "plugins": [
+    {
+      "name": "blast-radius",
+      "source": {
+        "source": "git-subdir",
+        "url": "anthropics/claude-code-playground",
+        "path": "claude-code/mods/blast-radius",
+        "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86"
+      },
+      "description": "Holds risky shell commands, lists the files, commits or migrations they'd touch: Proceed or Cancel.",
+      "author": {
+        "name": "Claude Code DevRel",
+        "url": "https://github.com/anthropics"
+      },
+      "homepage": "https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/blast-radius",
+      "repository": "https://github.com/anthropics/claude-code-playground",
+      "license": "Apache-2.0",
+      "keywords": [
+        "bash",
+        "rm-rf",
+        "git",
+        "force-push",
+        "migrations",
+        "confirm"
+      ],
+      "category": "safety",
+      "metadata": {
+        "showroom": {
+          "title": "Blast Radius",
+          "tagline": "Holds risky shell commands, lists the files, commits or migrations they'd touch: Proceed or Cancel.",
+          "tagline_ru": "Задерживает опасную команду и показывает, какие файлы, коммиты или миграции она затронет: Proceed или Cancel.",
+          "slots": [
+            "pane",
+            "tool-deny",
+            "toast"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.287",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/blast-radius"
+        }
+      }
+    },
+    {
+      "name": "context-gauge",
+      "source": "./mods/context-gauge/plugin",
+      "description": "See how full the context window is, right in the hint line under the prompt.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/context-gauge",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "context",
+        "context-window",
+        "tokens",
+        "prompt-hint",
+        "status"
+      ],
+      "category": "insights",
+      "metadata": {
+        "showroom": {
+          "title": "Context Gauge",
+          "tagline": "See how full the context window is, right in the hint line under the prompt.",
+          "tagline_ru": "Заполненность окна контекста прямо в строке подсказки под полем ввода.",
+          "slots": [
+            "prompt-hint"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/context-gauge"
+        }
+      }
+    },
+    {
+      "name": "done-ping",
+      "source": "./mods/done-ping/plugin",
+      "description": "A native notification when a long turn finishes, so you can look away.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/done-ping",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "notification",
+        "turn",
+        "focus",
+        "long-running",
+        "toast"
+      ],
+      "category": "productivity",
+      "metadata": {
+        "showroom": {
+          "title": "Done Ping",
+          "tagline": "A native notification when a long turn finishes, so you can look away.",
+          "tagline_ru": "Системное уведомление, когда долгий ход закончился: можно не следить за экраном.",
+          "slots": [
+            "notification",
+            "command",
+            "toast"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/done-ping"
+        }
+      }
+    },
+    {
+      "name": "fm",
+      "source": {
+        "source": "git-subdir",
+        "url": "kunchenguid/firstmate",
+        "path": ".claude/mods/firstmate-calm",
+        "sha": "3eabd356abc99bdb0c1d2cefc5a1dec4a9fe39c1"
+      },
+      "description": "Hides tool rows and turns the working spinner into a drifting two-row sailboat; toggled with /calm.",
+      "author": {
+        "name": "Kun Chen",
+        "url": "https://github.com/kunchenguid"
+      },
+      "homepage": "https://github.com/kunchenguid/firstmate/blob/main/docs/calm.md",
+      "repository": "https://github.com/kunchenguid/firstmate",
+      "license": "MIT",
+      "keywords": [
+        "calm",
+        "sailboat",
+        "spinner",
+        "hide-tools",
+        "firstmate"
+      ],
+      "category": "interface",
+      "metadata": {
+        "showroom": {
+          "title": "Firstmate Calm",
+          "tagline": "Hides tool rows and turns the working spinner into a drifting two-row sailboat; toggled with /calm.",
+          "tagline_ru": "Скрывает строки инструментов и превращает индикатор работы в плывущий парусник; включается командой /calm.",
+          "slots": [
+            "command",
+            "toast",
+            "above-prompt",
+            "message",
+            "background"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.287",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/fm"
+        }
+      }
+    },
+    {
+      "name": "focus-timer",
+      "source": "./mods/focus-timer/plugin",
+      "description": "A Pomodoro countdown above the prompt, with pause, stop and an end-of-session notification.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/focus-timer",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "pomodoro",
+        "timer",
+        "focus",
+        "band",
+        "notifications"
+      ],
+      "category": "productivity",
+      "metadata": {
+        "showroom": {
+          "title": "Focus Timer",
+          "tagline": "A Pomodoro countdown above the prompt, with pause, stop and an end-of-session notification.",
+          "tagline_ru": "Помодоро-таймер над полем ввода: пауза, стоп и уведомление в конце сессии.",
+          "slots": [
+            "command",
+            "above-prompt",
+            "toast",
+            "notification"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/focus-timer"
+        }
+      }
+    },
+    {
+      "name": "git-glance",
+      "source": "./mods/git-glance/plugin",
+      "description": "Branch, changed files and commits ahead or behind upstream, in a status entry under the prompt.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/git-glance",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "git",
+        "status",
+        "branch",
+        "status-line"
+      ],
+      "category": "git",
+      "metadata": {
+        "showroom": {
+          "title": "Git Glance",
+          "tagline": "Branch, changed files and commits ahead or behind upstream, in a status entry under the prompt.",
+          "tagline_ru": "Ветка, изменённые файлы и коммиты впереди или позади upstream в строке статуса под полем ввода.",
+          "slots": [
+            "status"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/git-glance"
+        }
+      }
+    },
+    {
+      "name": "prompt-snippets",
+      "source": "./mods/prompt-snippets/plugin",
+      "description": "Save a prompt once, insert it anywhere with /snip, and quote your selection with /quote.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/prompt-snippets",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "snippets",
+        "prompts",
+        "templates",
+        "slash-commands",
+        "quote",
+        "selection"
+      ],
+      "category": "productivity",
+      "metadata": {
+        "showroom": {
+          "title": "Prompt Snippets",
+          "tagline": "Save a prompt once, insert it anywhere with /snip, and quote your selection with /quote.",
+          "tagline_ru": "Сохраните промпт один раз, вставляйте его через /snip, а выделение цитируйте через /quote.",
+          "slots": [
+            "command"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/prompt-snippets"
+        }
+      }
+    },
+    {
+      "name": "replay-theater",
+      "source": {
+        "source": "git-subdir",
+        "url": "anthropics/claude-code-playground",
+        "path": "claude-code/mods/replay-theater",
+        "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86"
+      },
+      "description": "Step through the last turn's file edits in a pane, one red and green diff at a time.",
+      "author": {
+        "name": "Claude Code DevRel",
+        "url": "https://github.com/anthropics"
+      },
+      "homepage": "https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/replay-theater",
+      "repository": "https://github.com/anthropics/claude-code-playground",
+      "license": "Apache-2.0",
+      "keywords": [
+        "diff",
+        "edits",
+        "review",
+        "replay",
+        "pane",
+        "slash-command"
+      ],
+      "category": "productivity",
+      "metadata": {
+        "showroom": {
+          "title": "Replay Theater",
+          "tagline": "Step through the last turn's file edits in a pane, one red and green diff at a time.",
+          "tagline_ru": "Пролистайте правки файлов за последний ход в панели, по одному красно-зелёному диффу за шаг.",
+          "slots": [
+            "command",
+            "pane"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.287",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/replay-theater"
+        }
+      }
+    },
+    {
+      "name": "secret-guard",
+      "source": "./mods/secret-guard/plugin",
+      "description": "Stops Claude from reading .env files, private keys and credentials.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/secret-guard",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "secrets",
+        "env",
+        "credentials",
+        "ssh",
+        "guard",
+        "bash"
+      ],
+      "category": "safety",
+      "metadata": {
+        "showroom": {
+          "title": "Secret Guard",
+          "tagline": "Stops Claude from reading .env files, private keys and credentials.",
+          "tagline_ru": "Не даёт Claude читать .env, приватные ключи и файлы с учётными данными.",
+          "slots": [
+            "tool-deny",
+            "toast",
+            "status"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/secret-guard"
+        }
+      }
+    },
+    {
+      "name": "spinner-pack",
+      "source": "./mods/spinner-pack/plugin",
+      "description": "Themed spinner packs: moon, braille or coffee verbs and glyphs that follow each phase of a turn.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/spinner-pack",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "spinner",
+        "theme",
+        "moon",
+        "braille",
+        "coffee"
+      ],
+      "category": "fun",
+      "metadata": {
+        "showroom": {
+          "title": "Spinner Pack",
+          "tagline": "Themed spinner packs: moon, braille or coffee verbs and glyphs that follow each phase of a turn.",
+          "tagline_ru": "Тематический спиннер: луна, шрифт Брайля или кофе; слово и значок меняются с каждой фазой хода.",
+          "slots": [
+            "spinner"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop",
+            "vscode"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/spinner-pack"
+        }
+      }
+    },
+    {
+      "name": "token-weather",
+      "source": {
+        "source": "git-subdir",
+        "url": "anthropics/claude-code-playground",
+        "path": "claude-code/mods/token-weather",
+        "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86"
+      },
+      "description": "Context fill as weather above the prompt: icon, percent, tokens and a chart of the last 12 turns.",
+      "author": {
+        "name": "Claude Code DevRel",
+        "url": "https://github.com/anthropics"
+      },
+      "homepage": "https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/token-weather",
+      "repository": "https://github.com/anthropics/claude-code-playground",
+      "license": "Apache-2.0",
+      "keywords": [
+        "context-window",
+        "tokens",
+        "forecast",
+        "above-prompt",
+        "chart"
+      ],
+      "category": "insights",
+      "metadata": {
+        "showroom": {
+          "title": "Token Weather",
+          "tagline": "Context fill as weather above the prompt: icon, percent, tokens and a chart of the last 12 turns.",
+          "tagline_ru": "Заполненность контекста в виде прогноза погоды над полем ввода: значок, процент, токены и график 12 ходов.",
+          "slots": [
+            "above-prompt"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.287",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/token-weather"
+        }
+      }
+    },
+    {
+      "name": "tool-timeline",
+      "source": "./mods/tool-timeline/plugin",
+      "description": "A live pane of every tool call: its status, what it worked on and how long it took.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/tool-timeline",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "tools",
+        "timeline",
+        "pane",
+        "duration",
+        "observability"
+      ],
+      "category": "insights",
+      "metadata": {
+        "showroom": {
+          "title": "Tool Timeline",
+          "tagline": "A live pane of every tool call: its status, what it worked on and how long it took.",
+          "tagline_ru": "Панель со всеми вызовами инструментов по ходу работы: статус, файл или команда и время вызова.",
+          "slots": [
+            "command",
+            "pane"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/tool-timeline"
+        }
+      }
+    },
+    {
+      "name": "turn-meter",
+      "source": "./mods/turn-meter/plugin",
+      "description": "Each turn's duration, tool calls and tokens in a band above the prompt, with a 12-turn sparkline.",
+      "version": "0.1.0",
+      "author": {
+        "name": "KROU4",
+        "url": "https://github.com/KROU4"
+      },
+      "homepage": "https://github.com/KROU4/claude-code-mod-showroom/tree/main/mods/turn-meter",
+      "repository": "https://github.com/KROU4/claude-code-mod-showroom",
+      "license": "MIT",
+      "keywords": [
+        "turns",
+        "duration",
+        "tokens",
+        "sparkline",
+        "toast"
+      ],
+      "category": "insights",
+      "metadata": {
+        "showroom": {
+          "title": "Turn Meter",
+          "tagline": "Each turn's duration, tool calls and tokens in a band above the prompt, with a 12-turn sparkline.",
+          "tagline_ru": "Время, вызовы инструментов и токены каждого хода над полем ввода, с мини-графиком последних 12 ходов.",
+          "slots": [
+            "above-prompt",
+            "toast",
+            "command"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.299",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/turn-meter"
+        }
+      }
+    }
+  ]
+}

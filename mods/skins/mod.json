@@ -1,0 +1,162 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "skins",
+  "title": "Skins",
+  "tagline": "Tool rows with status, timings and +/− counts, shell and table cards, a usage band and 15 themes.",
+  "tagline_ru": "Строки инструментов со статусом, временем и счётом правок, карточки вывода и таблиц, полоса лимитов и 15 тем.",
+  "description": "Redraws the transcript in one of 15 skins (noir by default; tokyo-night, dracula, catppuccin, nord, gruvbox and more). Tool rows get a status node on a rail, the target, lines changed and time, and ▸ opens the call's input and answer. Shell output is a card with the command and ✓ or ✗ exit N; tables, code, math and 17 kinds of Mermaid chart become cards; the spinner shows the skin's word with a shimmer; a band above the prompt has context and plan-limit meters and a Compact button. `/skin` opens settings, `/skin <name>` switches, `/skin calm` and `/skin off`. Claude can build a skin with its `design` tool. Agents, plan mode and permission prompts keep Claude Code's own look.",
+  "description_ru": "Перерисовывает переписку в одной из 15 тем (по умолчанию noir; ещё tokyo-night, dracula, nord, gruvbox и другие). У строк инструментов появляются значок статуса на вертикальной линии, файл или команда, число изменённых строк и время, а ▸ раскрывает входные данные вызова и ответ. Вывод команд оформляется карточкой с командой и ✓ или ✗ exit N; таблицы, код, формулы и 17 видов диаграмм Mermaid тоже становятся карточками; спиннер показывает слово темы с бликом; над полем ввода появляется полоса с заполненностью контекста и лимитами тарифа и кнопкой Compact. `/skin` открывает настройки, `/skin <имя>` переключает тему, есть `/skin calm` и `/skin off`. Claude может собрать вам тему инструментом `design`. Агенты, режим планирования и запросы разрешений остаются в оформлении Claude Code.",
+  "author": { "name": "hellosverre", "github": "hellosverre", "url": "https://github.com/hellosverre" },
+  "maintainers": ["hellosverre"],
+  "category": "interface",
+  "tags": ["themes", "tool-rows", "mermaid", "tables", "usage-band", "spinner"],
+  "license": "MIT",
+  "version": "0.5.13",
+  "homepage": "https://github.com/hellosverre/claude-skins",
+  "source": { "type": "marketplace", "marketplace": "hellosverre/claude-skins", "plugin": "skins" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": true,
+    "blocksTools": false
+  },
+  "preview": {
+    "scene": "coding",
+    "surface": "terminal",
+    "caption": "After /skin tokyo-night: tool rows with timings and +/− counts, the npm test card, the shimmer spinner and the usage band.",
+    "caption_ru": "После /skin tokyo-night: строки инструментов со временем и счётом правок, карточка npm test, индикатор с бликом и полоса лимитов.",
+    "elements": [
+      { "slot": "command", "command": "/skin", "args": "tokyo-night" },
+      { "slot": "toast", "text": "skin: tokyo-night" },
+      {
+        "slot": "tool-row",
+        "tool": "Read",
+        "input": "src/checkout.ts",
+        "row": [
+          { "text": "●", "color": "#9ece6a" },
+          { "text": "─ ", "color": "#737aa2" },
+          { "text": "Read", "color": "#7dcfff" },
+          { "text": "  src/checkout.ts", "color": "#737aa2" },
+          "                                ",
+          { "text": "38ms", "color": "#737aa2" }
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Edit",
+        "input": "src/cart/total.ts",
+        "row": [
+          { "text": "●", "color": "#9ece6a" },
+          { "text": "─ ", "color": "#737aa2" },
+          { "text": "Edit", "color": "#ff9e64" },
+          { "text": "  src/cart/total.ts", "color": "#e0af68" },
+          "                      ",
+          { "text": "+12", "color": "#9ece6a" },
+          { "text": " −3", "color": "#f7768e" },
+          { "text": "  41ms", "color": "#737aa2" }
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Bash",
+        "input": "npm test",
+        "row": [
+          { "text": "●", "color": "#9ece6a" },
+          { "text": "─ ", "color": "#737aa2" },
+          { "text": "Bash", "color": "#e0af68" },
+          { "text": "  npm test", "color": "#737aa2" },
+          "                                       ",
+          { "text": "4.2s", "color": "#737aa2" }
+        ],
+        "result": [
+          [
+            { "text": "╭───────────────────────────────────", "color": "#737aa2" },
+            { "text": " Copy ", "dim": true },
+            { "text": "─╮", "color": "#737aa2" }
+          ],
+          [
+            { "text": "│", "color": "#737aa2" },
+            { "text": " $ ", "color": "#e0af68", "bg": "#1f2335" },
+            { "text": "npm test", "color": "#c0caf5", "bold": true, "bg": "#1f2335" },
+            { "text": "                             ", "bg": "#1f2335" },
+            { "text": "✓ ", "color": "#9ece6a", "bg": "#1f2335" },
+            { "text": "│", "color": "#737aa2" }
+          ],
+          [
+            { "text": "│ ", "color": "#737aa2" },
+            { "text": "✓", "color": "#9ece6a" },
+            { "text": " ", "color": "#c0caf5" },
+            { "text": "src/cart/total.test.ts", "color": "#7dcfff" },
+            { "text": " (", "color": "#c0caf5" },
+            { "text": "14", "color": "#bb9af7" },
+            { "text": " tests) ", "color": "#c0caf5" },
+            { "text": "18ms", "color": "#bb9af7" },
+            { "text": " │", "color": "#737aa2" }
+          ],
+          [
+            { "text": "│ ", "color": "#737aa2" },
+            { "text": "Tests  ", "color": "#c0caf5" },
+            { "text": "14", "color": "#bb9af7" },
+            { "text": " ", "color": "#c0caf5" },
+            { "text": "passed", "color": "#9ece6a" },
+            { "text": " (", "color": "#c0caf5" },
+            { "text": "14", "color": "#bb9af7" },
+            { "text": ")                    ", "color": "#c0caf5" },
+            { "text": "│", "color": "#737aa2" }
+          ],
+          [{ "text": "╰──────────────────────────────────────────╯", "color": "#737aa2" }]
+        ]
+      },
+      {
+        "slot": "spinner",
+        "glyphs": ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+        "verb": "Night-driving",
+        "color": "#7aa2f7"
+      },
+      { "slot": "turn-duration", "text": "◆ Shipped in 1m 4s  ·  3 tools  ·  +12 −3" },
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "▰▰▰▱▱▱▱▱", "color": "#7aa2f7" },
+            { "text": " 38% context", "color": "#737aa2" },
+            "   ",
+            { "text": "▰▰▱▱▱▱▱▱", "color": "#7aa2f7" },
+            { "text": " 22% 5h", "color": "#737aa2" },
+            "   ",
+            { "text": "▰▱▱▱▱▱▱▱", "color": "#7aa2f7" },
+            { "text": " 9% 7d", "color": "#737aa2" },
+            "  ",
+            { "button": "Compact", "variant": "secondary", "hotkey": "0" }
+          ]
+        ]
+      },
+      {
+        "slot": "model-tool",
+        "name": "mcp__skins__design",
+        "input": "{\"action\":\"save\",\"name\":\"sunset\",\"base\":\"tokyo-night\",\"palette\":{\"user\":\"#ff7e5f\"}}",
+        "result": [["saved sunset and applied it"]]
+      },
+      {
+        "slot": "background",
+        "text": "Adds a short model-only note that ```mermaid fences draw here (/skin hints off drops it), checks GitHub for a new release once a day and asks the OS for light or dark on auto."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hellosverre/claude-skins/db6834fce7ce10406d8651f0e5596676f30ddfc3/docs/demo.gif",
+      "alt": "Switching skins with /skin: a coding turn in Noir and Tokyo Night, then Mermaid chart cards in Dracula, Catppuccin, Rosé Pine and Gruvbox"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hellosverre/claude-skins/db6834fce7ce10406d8651f0e5596676f30ddfc3/docs/previews/hero-dark.svg",
+      "alt": "A turn in the noir skin: tool rows with icons, an edit as a diff card and a table card"
+    }
+  ]
+}

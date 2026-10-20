@@ -1,0 +1,51 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "sub-meter",
+  "title": "Sub Meter",
+  "tagline": "Your 5-hour and weekly subscription usage as a bar with the reset time, at the bottom right.",
+  "tagline_ru": "Расход подписки за 5 часов и за неделю полосой со временем до сброса, в правом нижнем углу.",
+  "description": "Shows your subscription usage at the bottom right of the footer, on the permission-mode line: a label (`5h` or `week`), a 10-cell bar, the percent used and, behind ↻, the time until that window resets. Every 8 seconds it switches between the 5-hour and the weekly window (`rotateSeconds`). The bar is Claude orange, yellow from 75% and red from 90%. On a narrow terminal it drops the bar, then the reset time, then itself. It hides `(shift+tab to cycle)` and `esc to interrupt` to make room (`hideCycleHint`, `hideInterruptHint`). The last reading is kept for the next session. With API key billing there is nothing to show.",
+  "description_ru": "Показывает расход подписки в правом нижнем углу, в строке режима разрешений: метку (`5h` или `week`), полосу из 10 делений, процент и после ↻ время до сброса этого окна. Каждые 8 секунд счётчик переключается между 5-часовым и недельным окном (`rotateSeconds`). Полоса оранжевая, с 75% жёлтая, с 90% красная. В узком терминале сначала пропадает полоса, затем время до сброса, а потом и сам счётчик. Чтобы освободить место, мод убирает подсказки `(shift+tab to cycle)` и `esc to interrupt` (`hideCycleHint`, `hideInterruptHint`). Последнее показание сохраняется для следующей сессии. При оплате по API-ключу показывать нечего, и строка остаётся прежней.",
+  "author": { "name": "Miguel Ángel Durán (midudev)", "github": "midudev", "url": "https://github.com/midudev" },
+  "maintainers": ["midudev"],
+  "category": "insights",
+  "tags": ["usage", "subscription", "rate-limits", "footer"],
+  "license": "MIT",
+  "version": "0.3.0",
+  "homepage": "https://github.com/midudev/better-claude",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "midudev/better-claude",
+    "plugin": "sub-meter",
+    "path": "plugins/sub-meter"
+  },
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "scene": "coding",
+    "surface": "terminal",
+    "caption": "The 5-hour window at the bottom right: 58% used, resets in 2h 10m. Every 8 seconds it switches to the weekly one.",
+    "caption_ru": "5-часовое окно в правом нижнем углу: израсходовано 58%, сброс через 2 ч 10 мин. Каждые 8 секунд — переключение на недельное.",
+    "elements": [
+      {
+        "slot": "session-mode",
+        "row": [
+          { "text": "5h", "dim": true },
+          { "text": " ━━━━━━", "color": "claude" },
+          { "text": "────", "dim": true },
+          " 58%",
+          { "text": " ↻ 2h 10m", "dim": true }
+        ]
+      },
+      { "slot": "background", "text": "Switches between the 5h and week windows every rotateSeconds (8); the bar turns warning at 75% and error at 90%." },
+      { "slot": "background", "text": "Drops “(shift+tab to cycle)” and “esc to interrupt” from the hint line to leave room for the meter." }
+    ]
+  }
+}

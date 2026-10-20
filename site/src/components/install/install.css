@@ -1,0 +1,28 @@
+/* InstallPanel stub styles (the Install owner replaces them). */
+.install-stub {
+  display: grid;
+  gap: var(--s-3);
+}
+.install-stub-cmd {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 8px 8px 8px 12px;
+  border-radius: var(--r-control);
+  background: var(--sunk);
+}
+.install-stub-cmd code {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--text-sm);
+}
+.install-stub-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.install-stub-note {
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+}

@@ -1,0 +1,80 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.end",
+    "turn.step",
+    "config.set",
+    "prompt.context",
+    "tool.call",
+    "ui.render{component=AbovePrompt}",
+    "turn.complete",
+    "classic.Stop",
+    "prompt.submit",
+    "command.run{command=handoff|ctx-handoff}"
+  ],
+  "calls": [
+    "$.agent.list",
+    "$.clock.after",
+    "$.clock.now",
+    "$.command.register",
+    "$.command.run",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.list",
+    "$.fs.read",
+    "$.fs.write",
+    "$.model.complete",
+    "$.model.fork",
+    "$.prompt.submit",
+    "$.session.id",
+    "$.session.messages",
+    "$.session.root",
+    "$.session.turns",
+    "$.session.usage",
+    "$.settings.read",
+    "$.state.get",
+    "$.state.set",
+    "$.store.delete",
+    "$.store.get",
+    "$.store.keys",
+    "$.store.set",
+    "$.ui.log",
+    "$.ui.resolve",
+    "$.ui.status",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "config.set",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.Stop",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "command.run{command=handoff|ctx-handoff}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "ctx-handoff.awayControl",
+    "ctx-handoff.idle",
+    "ctx-handoff.panelData",
+    "ctx-handoff.panelUi"
+  ],
+  "errors": [],
+  "warnings": [
+    "root: CLAUDE.md at the plugin root is not loaded as project context. To ship context with your plugin, use a skill (skills/<name>/SKILL.md) instead."
+  ],
+  "validatedWith": "2.1.302"
+}

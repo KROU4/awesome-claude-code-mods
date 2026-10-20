@@ -1,0 +1,97 @@
+# Checks every pull request to main. Runs with a read-only token and no secrets, so it may run
+# the PR's own code (unit tests, `claude plugin test` of hosted mods). Its last step uploads
+# pr.json ({ number, head_sha }) for the Automerge workflow, which treats it as untrusted input.
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Check the catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Mods need Claude Code 2.1.287+. If the install fails, validate.mjs skips the CLI checks
+      # with a warning instead of failing the run.
+      - name: Install the Claude Code CLI
+        continue-on-error: true
+        run: |
+          npm install -g @anthropic-ai/claude-code@2.1.302
+          claude --version
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Validate the catalog
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ -n "$BASE_SHA" ]; then
+            node scripts/validate.mjs --changed "$BASE_SHA"
+          else
+            node scripts/validate.mjs
+          fi
+
+      - name: Check whether the site changed
+        id: site
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ ! -f site/package.json ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          elif [ -z "$BASE_SHA" ] || git diff --name-only "$BASE_SHA...HEAD" | grep -q '^site/'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the site
+        if: steps.site.outputs.changed == 'true'
+        working-directory: site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Save pull request metadata
+        if: always() && github.event_name == 'pull_request'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          printf '{"number": %s, "head_sha": "%s"}\n' "$PR_NUMBER" "$HEAD_SHA" > pr.json
+
+      - name: Upload pull request metadata
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-meta
+          path: pr.json
+          retention-days: 1

@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "token-weather",
+  "title": "Token Weather",
+  "tagline": "Context fill as weather above the prompt: icon, percent, tokens and a chart of the last 12 turns.",
+  "tagline_ru": "Заполненность контекста в виде прогноза погоды над полем ввода: значок, процент, токены и график 12 ходов.",
+  "description": "After each main-loop turn, a band above the prompt shows a weather icon and word for how full the context window is (☀ Clear under 25%, ☁ Cloudy, ☂ Showers from 50%, ☇ Storm from 75%, ↯ Compact soon from 90%), the percentage used, tokens used out of the window, a block-character chart of the last 12 turns and how much the last turn added. The figures come from `$.session.usage()`, the same ones the status line shows, so no token-count request is sent. Subagent turns are skipped and the band updates once per turn. The percentage is of the full window, not the auto-compact point, so it can read lower than Claude Code's own notice. No commands or options; terminal only.",
+  "description_ru": "После каждого хода основного диалога над полем ввода появляется полоса: значок и слово погоды по заполненности окна контекста (☀ Clear до 25%, ☁ Cloudy, ☂ Showers от 50%, ☇ Storm от 75%, ↯ Compact soon от 90%), процент, сколько токенов занято из окна, график последних 12 ходов из блочных символов и сколько добавил последний ход. Цифры берутся из `$.session.usage()`, те же, что в строке статуса, поэтому отдельный запрос подсчёта токенов не отправляется. Ходы субагентов пропускаются, полоса обновляется раз за ход. Процент считается от всего окна, а не от точки автосжатия, поэтому он может быть ниже, чем во встроенном уведомлении Claude Code. Команд и настроек нет; работает только в терминале.",
+  "author": { "name": "Claude Code DevRel", "github": "anthropics", "url": "https://github.com/anthropics" },
+  "maintainers": ["anthropics"],
+  "category": "insights",
+  "tags": ["context-window", "tokens", "forecast", "above-prompt", "chart"],
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "homepage": "https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/token-weather",
+  "source": {
+    "type": "github",
+    "repo": "anthropics/claude-code-playground",
+    "path": "claude-code/mods/token-weather",
+    "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86"
+  },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Read the cart, checkout, payments and discounts modules and explain how a discount code reaches the charged total." },
+      { "role": "tool", "tool": "Read", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Read", "input": "src/checkout.ts", "status": "done" },
+      { "role": "tool", "tool": "Read", "input": "src/payments/charge.ts", "status": "done" },
+      { "role": "tool", "tool": "Read", "input": "src/cart/discounts.ts", "status": "done" },
+      { "role": "assistant", "text": "A code is validated in src/cart/discounts.ts and applied to the subtotal in src/cart/total.ts; src/checkout.ts then passes the discounted total to src/payments/charge.ts." }
+    ],
+    "caption": "After reading four large files: ☂ Showers at 67% of a 200k window, the last three turns as bars and what the last turn added.",
+    "caption_ru": "После чтения четырёх больших файлов: ☂ Showers, 67% окна в 200k, последние три хода столбиками и прирост за последний ход.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "☂  Showers", "color": "#2472c8", "bold": true },
+            "  67% of context",
+            { "text": "  134.4k / 200k", "dim": true },
+            { "text": "   last turns ", "dim": true },
+            { "text": "▁▂█", "color": "#2472c8" },
+            { "text": "  ▲ +98.3k last turn", "dim": true }
+          ]
+        ]
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/anthropics/claude-code-playground/569c5283d9a0a7ee7938df85bb32e4f48cbb8c86/claude-code/mods/token-weather/screenshots/token-weather-showers.png",
+      "alt": "Token Weather reading Showers at 67% of context",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/anthropics/claude-code-playground/569c5283d9a0a7ee7938df85bb32e4f48cbb8c86/claude-code/mods/token-weather/screenshots/token-weather-storm.png",
+      "alt": "Token Weather reading Storm at 81% of context",
+      "surface": "terminal"
+    }
+  ]
+}

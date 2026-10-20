@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "tool.call{tool=/\"^(Edit|Write|MultiEdit|NotebookEdit|Bash|PowerShell)$\"/}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.process.run",
+    "$.ui.status"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call{tool=/\"^(Edit|Write|MultiEdit|NotebookEdit|Bash|PowerShell)$\"/}",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}
