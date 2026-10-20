@@ -1,0 +1,64 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "mindful-breathing",
+  "title": "Mindful Breathing",
+  "tagline": "A guided breathing animation above the prompt while Claude works; the spinner counts the breath.",
+  "tagline_ru": "Пока Claude работает, над полем ввода идёт дыхательное упражнение, а спиннер отсчитывает фазы дыхания.",
+  "description": "While Claude works, a band above the prompt draws an orange shape that swells as you breathe in and shrinks as you breathe out (ten frames a second), with a countdown (`Breathe in... 3s`) and the exercise name under it; the spinner shows the same phase. Gone when Claude answers. Four exercises: Coherent Breathing (5.5s in, 5.5s out, default), Physiological Sigh, Box Breathing and 4-7-8. Each turn picks a random style (pulse, ripples, dots or wave; never the last) unless one is pinned. `/breathe` shows the settings; `on`, `off`, `hrv`, `sigh`, `box`, `478`, `style <name>`, `delay <s>` and `spinner on|off` change them, kept across sessions. No tokens: the model never sees it. Terminal only.",
+  "description_ru": "Пока Claude работает, над полем ввода появляется полоса с оранжевой фигурой: она растёт на вдохе и сжимается на выдохе (десять кадров в секунду), а под ней видны обратный отсчёт (`Breathe in... 3s`) и название упражнения. Спиннер показывает ту же фазу. Когда Claude отвечает, полоса исчезает. Упражнений четыре: когерентное дыхание (вдох 5,5 с, выдох 5,5 с; по умолчанию), физиологический вздох, квадратное дыхание и 4-7-8. Стиль (pulse, ripples, dots или wave) на каждый ход выбирается случайно и не повторяет предыдущий, если его не закрепить. `/breathe` показывает настройки, а `on`, `off`, `hrv`, `sigh`, `box`, `478`, `style <name>`, `delay <s>` и `spinner on|off` меняют их; настройки сохраняются между сессиями. Токены не тратятся: модель мод не видит. Работает только в терминале.",
+  "author": { "name": "Anthony", "github": "halluton", "url": "https://github.com/halluton" },
+  "maintainers": ["halluton"],
+  "category": "fun",
+  "tags": ["breathing", "mindfulness", "hrv", "animation", "spinner", "command"],
+  "license": "MIT",
+  "version": "2.0.0",
+  "homepage": "https://github.com/halluton/Mindful-Claude",
+  "source": { "type": "marketplace", "marketplace": "halluton/Mindful-Claude", "plugin": "mindful-claude" },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.269" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "Mid-inhale in Coherent Breathing: the pulse shape at about 80%, the countdown under it and the spinner reading the same phase.",
+    "caption_ru": "Середина вдоха в когерентном дыхании: фигура pulse почти на 80%, под ней обратный отсчёт, а спиннер показывает ту же фазу.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [" "],
+          [{ "text": "                                ░▒▓██▓▒░", "color": "#f7835d" }],
+          [{ "text": "                       ░▒▓████████████████████▓▒░", "color": "#f7835d" }],
+          [{ "text": "             ░▒▓████████████████████████████████████████▓▒░", "color": "#f7835d" }],
+          [{ "text": "                       ░▒▓████████████████████▓▒░", "color": "#f7835d" }],
+          [{ "text": "                                ░▒▓██▓▒░", "color": "#f7835d" }],
+          [" "],
+          [{ "text": "                            Breathe in... 3s", "color": "#f7835d" }],
+          [{ "text": "                           Coherent Breathing", "color": "#f7835d", "dim": true }]
+        ]
+      },
+      { "slot": "spinner", "verb": "Breathe in 3s" },
+      {
+        "slot": "command",
+        "command": "/breathe",
+        "output": [["breathe: on · Coherent Breathing (5.5s in, 5.5s out) · style random · delay 0s · spinner on"]]
+      },
+      { "slot": "background", "text": "The band animates ten frames a second while Claude works and is gone when the turn ends; this is one frame." }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/halluton/Mindful-Claude/main/demo.gif",
+      "alt": "Mindful Claude demo: the breathing animation above the Claude Code prompt while Claude works",
+      "surface": "terminal"
+    }
+  ]
+}

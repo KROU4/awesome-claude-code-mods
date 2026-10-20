@@ -1,0 +1,290 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "minefield",
+  "title": "Minefield",
+  "tagline": "Minesweeper in a pane: clear a 9×9 board with the mouse or the keys while Claude works.",
+  "tagline_ru": "Сапёр в панели: разминируйте поле 9×9 мышью или клавишами, пока Claude работает.",
+  "description": "`/mines` opens a 9×9 board with 10 mines in a pane. Click reveals (on a fully flagged number it opens the cells around), right-click or ctrl/alt+click flags; `w` `a` `s` `d` move the cursor, `r` reveals, `f` flags, `n` deals a new game. The first reveal is always safe, the clock runs from it and the best time is kept between sessions in the plugin's store. An orange face under the board follows the cursor, gasps at a reveal, winks at a flag and glances at the transcript when you stop. Docked in the fullscreen layout (`CLAUDE_CODE_NO_FLICKER=1`) the board grows into big tiles and takes clicks; above the prompt it is keys only. No prompt or tool hooks, no network.",
+  "description_ru": "`/mines` открывает в панели поле 9×9 с 10 минами. Клик открывает клетку (на числе, вокруг которого стоят все флажки, открывает соседние), правый клик или ctrl/alt+клик ставит флажок; `w` `a` `s` `d` двигают курсор, `r` открывает, `f` ставит флажок, `n` начинает новую игру. Первая клетка всегда безопасна, с неё же запускается таймер, а лучшее время сохраняется между сессиями в хранилище плагина. Оранжевое лицо под полем следит за курсором, ахает при открытии клетки, подмигивает, когда вы ставите флажок, а стоит вам задуматься — поглядывает на переписку с Claude. В полноэкранном режиме (`CLAUDE_CODE_NO_FLICKER=1`) панель встаёт справа, поле растёт до крупных плиток и принимает клики; над полем ввода играют только клавишами. Промпт и инструменты мод не перехватывает, в сеть не ходит.",
+  "author": {
+    "name": "Reporails",
+    "github": "reporails",
+    "url": "https://reporails.com"
+  },
+  "maintainers": [
+    "reporails"
+  ],
+  "category": "fun",
+  "tags": [
+    "game",
+    "minesweeper",
+    "puzzle",
+    "pane",
+    "mouse"
+  ],
+  "license": "MIT",
+  "version": "0.2.0",
+  "homepage": "https://github.com/reporails/arcade/tree/main/minefield",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "reporails/arcade",
+    "plugin": "minefield",
+    "path": "minefield"
+  },
+  "surfaces": [
+    "terminal"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "Mid-game in a short terminal: one row a cell, two flags set, the cursor tile in orange and the face watching it.",
+    "caption_ru": "Партия в невысоком терминале: клетка в одну строку, два флажка, клетка под курсором оранжевая, лицо следит за ней.",
+    "elements": [
+      {
+        "slot": "pane",
+        "title": "Minefield",
+        "width": "narrow",
+        "rows": [
+          [
+            " "
+          ],
+          [
+            "               ",
+            {
+              "text": "1  ",
+              "color": "#3b78ff",
+              "bold": true
+            },
+            {
+              "text": "▆▆ ▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            "               ",
+            {
+              "text": "2  ",
+              "color": "#16c60c",
+              "bold": true
+            },
+            {
+              "text": "⚑  ",
+              "color": "#e74856",
+              "bold": true
+            },
+            {
+              "text": "▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            "               ",
+            {
+              "text": "2  ",
+              "color": "#16c60c",
+              "bold": true
+            },
+            {
+              "text": "▆▆ ▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            "               ",
+            {
+              "text": "1  1  ",
+              "color": "#3b78ff",
+              "bold": true
+            },
+            {
+              "text": "▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "1  1  1  ",
+              "color": "#3b78ff",
+              "bold": true
+            },
+            "         ",
+            {
+              "text": "1  ",
+              "color": "#3b78ff",
+              "bold": true
+            },
+            {
+              "text": "▆▆ ",
+              "color": "inactive"
+            },
+            {
+              "text": "⚑  ",
+              "color": "#e74856",
+              "bold": true
+            }
+          ],
+          [
+            {
+              "text": "▆▆ ▆▆ ",
+              "color": "inactive"
+            },
+            {
+              "text": "2  2  ",
+              "color": "#16c60c",
+              "bold": true
+            },
+            {
+              "text": "1  1  1  ",
+              "color": "#3b78ff",
+              "bold": true
+            },
+            {
+              "text": "▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "▆▆ ▆▆ ▆▆ ▆▆ ",
+              "color": "inactive"
+            },
+            {
+              "text": "▆▆ ",
+              "color": "claude"
+            },
+            {
+              "text": "▆▆ ▆▆ ▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ▆▆ ",
+              "color": "inactive"
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": " ▄▄▄▄▄▄▄ ",
+              "color": "claude"
+            }
+          ],
+          [
+            {
+              "text": "  ●   ●  ",
+              "color": "#000000",
+              "bg": "claude",
+              "bold": true
+            },
+            "  ",
+            {
+              "text": "Mines 8 · Time 0:17 · Best 0:42 · ",
+              "bold": true
+            },
+            {
+              "link": "By Reporails",
+              "href": "https://github.com/reporails/cli"
+            }
+          ],
+          [
+            {
+              "text": "    ω    ",
+              "color": "#000000",
+              "bg": "claude",
+              "bold": true
+            },
+            "  ",
+            {
+              "text": "34 safe cells left.",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": " ▀▀▀▀▀▀▀ ",
+              "color": "claude"
+            }
+          ],
+          [
+            {
+              "button": "New",
+              "hotkey": "n"
+            },
+            "  ",
+            {
+              "button": "Reveal",
+              "hotkey": "r"
+            },
+            "  ",
+            {
+              "button": "Flag",
+              "hotkey": "f"
+            },
+            "  ",
+            {
+              "button": "↑",
+              "hotkey": "w",
+              "variant": "secondary"
+            },
+            "  ",
+            {
+              "button": "←",
+              "hotkey": "a",
+              "variant": "secondary"
+            },
+            "  ",
+            {
+              "button": "↓",
+              "hotkey": "s",
+              "variant": "secondary"
+            },
+            "  ",
+            {
+              "button": "→",
+              "hotkey": "d",
+              "variant": "secondary"
+            }
+          ],
+          [
+            {
+              "text": "Click reveals, right-click flags; click a fully flagged…",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "command",
+        "command": "/mines"
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/reporails/arcade/main/docs/minefield.png",
+      "alt": "Minefield docked beside a Claude Code session: the board in big tiles, the face looking over at Claude's answer",
+      "surface": "terminal"
+    }
+  ]
+}

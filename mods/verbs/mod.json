@@ -1,0 +1,1173 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "verbs",
+  "title": "Verbs",
+  "tagline": "A looping pixel-art picture of the spinner's verb (188 in all) above the spinner while Claude works.",
+  "tagline_ru": "Пока Claude работает, над спиннером крутится пиксельная картинка его глагола, своя для каждого из 188.",
+  "description": "While Claude works, the spinner's verb (one of 188, Accomplishing to Zigzagging) plays as a looping pixel-art picture above the spinner line, in the terminal. Buttons beside it grow (+) or shrink (−) the picture or open an about page (i). `/verb nesting` loops that verb twice in the transcript, then eases to a still on its key frame; with no argument it picks one at random. `/verbs` plays all 188 in turn, `/verbs on|off` switches the spinner pictures and `/verbs small|medium|large` sets their size (medium by default, smaller in a narrow or short terminal). Reduced motion holds the spinner picture still, NO_COLOR turns the pictures off, and once a day it checks GitHub for a newer version.",
+  "description_ru": "Пока Claude работает, глагол спиннера (один из 188, от Accomplishing до Zigzagging) оживает зацикленной пиксельной картинкой прямо над обычной строкой спиннера в терминале. Кнопки рядом увеличивают (+) или уменьшают (−) картинку либо открывают страницу «О моде» (i). `/verb nesting` проигрывает этот глагол в диалоге: два полных круга, затем плавная остановка на ключевом кадре; без аргумента глагол выбирается случайно. `/verbs` показывает все 188 подряд, `/verbs on|off` включает и выключает картинки в спиннере, а `/verbs small|medium|large` задаёт их размер (по умолчанию medium, в узком или низком терминале меньше). При reduced motion картинка в спиннере стоит на месте, при NO_COLOR картинок нет, а раз в день мод проверяет на GitHub, не вышла ли новая версия.",
+  "author": {
+    "name": "Ollie Wagner",
+    "github": "olliewagner",
+    "url": "https://ollie.md"
+  },
+  "maintainers": [
+    "olliewagner"
+  ],
+  "category": "fun",
+  "tags": [
+    "spinner",
+    "pixel-art",
+    "animation",
+    "flip-book",
+    "command"
+  ],
+  "license": "MIT",
+  "version": "0.2.4",
+  "homepage": "https://ollie.md/verbs",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "olliewagner/verbs",
+    "plugin": "verbs"
+  },
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "/verb nesting in the transcript, settled on its key frame; while Claude works, the spinner's verb loops as a picture above it.",
+    "caption_ru": "/verb nesting в диалоге, остановленный на ключевом кадре; пока Claude работает, картинка глагола крутится над спиннером.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/verb",
+        "args": "nesting",
+        "output": [
+          [
+            {
+              "text": "██████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄▄",
+              "color": "#f4cc62",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#f4cc62"
+            },
+            {
+              "text": "█",
+              "color": "#dca434"
+            },
+            {
+              "text": "██",
+              "color": "#b46e34"
+            },
+            {
+              "text": "▄",
+              "color": "#b46e34",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#15132e"
+            },
+            {
+              "text": "██████████████████████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "█████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#dca434",
+              "bg": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#dca434"
+            },
+            {
+              "text": "█",
+              "color": "#f4cc62"
+            },
+            {
+              "text": "▄",
+              "color": "#935426",
+              "bg": "#f4cc62"
+            },
+            {
+              "text": "▄▄▄",
+              "color": "#935426",
+              "bg": "#b46e34"
+            },
+            {
+              "text": "█",
+              "color": "#935426"
+            },
+            {
+              "text": "▄",
+              "color": "#935426",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#f27c50"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#f4cc62"
+            },
+            {
+              "text": "█",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "█",
+              "color": "#b82a26"
+            },
+            {
+              "text": "▄",
+              "color": "#b82a26",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#33305a"
+            },
+            {
+              "text": "███",
+              "color": "#33305a"
+            },
+            {
+              "text": "▄",
+              "color": "#33305a",
+              "bg": "#15132e"
+            },
+            {
+              "text": "█████████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "█████",
+              "color": "#15132e"
+            },
+            {
+              "text": "██",
+              "color": "#dca434"
+            },
+            {
+              "text": "█",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "█████",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "█",
+              "color": "#935426"
+            },
+            {
+              "text": "█",
+              "color": "#4e2814"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#fff4dc",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "▄▄▄",
+              "color": "#eed6ac",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#8a1820"
+            },
+            {
+              "text": "▄",
+              "color": "#8a1820",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#33305a"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "████████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "█████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#dca434"
+            },
+            {
+              "text": "█",
+              "color": "#dca434"
+            },
+            {
+              "text": "▄",
+              "color": "#f08080",
+              "bg": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#15132e"
+            },
+            {
+              "text": "██",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#f08080",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "█",
+              "color": "#935426"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#f08080",
+              "bg": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#15132e"
+            },
+            {
+              "text": "█",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#f08080",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#8a1820"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "██",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "███████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#dca434",
+              "bg": "#15132e"
+            },
+            {
+              "text": "█",
+              "color": "#dca434"
+            },
+            {
+              "text": "▄",
+              "color": "#f4cc62",
+              "bg": "#dca434"
+            },
+            {
+              "text": "█",
+              "color": "#f4cc62"
+            },
+            {
+              "text": "▄",
+              "color": "#b46e34",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "▄▄",
+              "color": "#b46e34",
+              "bg": "#b82a26"
+            },
+            {
+              "text": "▄",
+              "color": "#b46e34",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "██",
+              "color": "#935426"
+            },
+            {
+              "text": "▄",
+              "color": "#935426",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#94a278",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#94a278",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "▄",
+              "color": "#94a278",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#94a278",
+              "bg": "#b82a26"
+            },
+            {
+              "text": "▄",
+              "color": "#94a278",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "▄▄",
+              "color": "#94a278",
+              "bg": "#8a1820"
+            },
+            {
+              "text": "▄",
+              "color": "#94a278",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "███",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "██████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄▄",
+              "color": "#15132e",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "▄▄",
+              "color": "#15132e",
+              "bg": "#dca434"
+            },
+            {
+              "text": "▄▄▄▄",
+              "color": "#15132e",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "▄▄",
+              "color": "#15132e",
+              "bg": "#b46e34"
+            },
+            {
+              "text": "▄▄",
+              "color": "#3292b0",
+              "bg": "#b46e34"
+            },
+            {
+              "text": "█",
+              "color": "#5ab8c8"
+            },
+            {
+              "text": "▄",
+              "color": "#fff4dc",
+              "bg": "#5ab8c8"
+            },
+            {
+              "text": "▄",
+              "color": "#fff4dc",
+              "bg": "#1e6e92"
+            },
+            {
+              "text": "█",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "▄▄",
+              "color": "#eed6ac",
+              "bg": "#1e6e92"
+            },
+            {
+              "text": "██",
+              "color": "#164c70"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#33305a"
+            },
+            {
+              "text": "▄▄▄▄",
+              "color": "#15132e",
+              "bg": "#262448"
+            },
+            {
+              "text": "██████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "██████████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄▄",
+              "color": "#33305a",
+              "bg": "#15132e"
+            },
+            {
+              "text": "██",
+              "color": "#3292b0"
+            },
+            {
+              "text": "███",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "███",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "█",
+              "color": "#164c70"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#33305a",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄▄▄▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄▄",
+              "color": "#33305a",
+              "bg": "#15132e"
+            },
+            {
+              "text": "████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "███████████",
+              "color": "#15132e"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "██",
+              "color": "#3292b0"
+            },
+            {
+              "text": "▄",
+              "color": "#5ab8c8",
+              "bg": "#fff4dc"
+            },
+            {
+              "text": "█",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#fff4dc",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#f4cc62"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "█",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#164c70",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "█",
+              "color": "#164c70"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#33305a"
+            },
+            {
+              "text": "████",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "███████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "███",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#15132e"
+            },
+            {
+              "text": "████████",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄▄",
+              "color": "#15132e",
+              "bg": "#33305a"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#3292b0"
+            },
+            {
+              "text": "▄",
+              "color": "#3292b0",
+              "bg": "#5ab8c8"
+            },
+            {
+              "text": "█",
+              "color": "#5ab8c8"
+            },
+            {
+              "text": "▄",
+              "color": "#1e6e92",
+              "bg": "#3ca23a"
+            },
+            {
+              "text": "▄",
+              "color": "#1e6e92",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#1e6e92",
+              "bg": "#3ca23a"
+            },
+            {
+              "text": "██",
+              "color": "#164c70"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "████",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "██████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "███",
+              "color": "#15132e"
+            },
+            {
+              "text": "██",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#f27c50",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#fff4dc",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "██",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "▄▄",
+              "color": "#eed6ac",
+              "bg": "#fff4dc"
+            },
+            {
+              "text": "██",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#8a1820"
+            },
+            {
+              "text": "██",
+              "color": "#8a1820"
+            },
+            {
+              "text": "█",
+              "color": "#4e2814"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "███",
+              "color": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#33305a"
+            },
+            {
+              "text": "█",
+              "color": "#33305a"
+            },
+            {
+              "text": "████",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "██",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "█████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "███",
+              "color": "#15132e"
+            },
+            {
+              "text": "██",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "█",
+              "color": "#f27c50"
+            },
+            {
+              "text": "███",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "█",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "███",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "██",
+              "color": "#8a1820"
+            },
+            {
+              "text": "█",
+              "color": "#4e2814"
+            },
+            {
+              "text": "█",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "████",
+              "color": "#262448"
+            },
+            {
+              "text": "█",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#33305a"
+            },
+            {
+              "text": "████",
+              "color": "#262448"
+            },
+            {
+              "text": "██",
+              "color": "#33305a"
+            },
+            {
+              "text": "███",
+              "color": "#262448"
+            },
+            {
+              "text": "▄",
+              "color": "#262448",
+              "bg": "#15132e"
+            },
+            {
+              "text": "████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "███",
+              "color": "#15132e"
+            },
+            {
+              "text": "██",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "███",
+              "color": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#dc4a34",
+              "bg": "#f4cc62"
+            },
+            {
+              "text": "▄",
+              "color": "#eed6ac",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "██",
+              "color": "#eed6ac"
+            },
+            {
+              "text": "██",
+              "color": "#8a1820"
+            },
+            {
+              "text": "█",
+              "color": "#4e2814"
+            },
+            {
+              "text": "███████████████████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "███",
+              "color": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "██",
+              "color": "#dc4a34"
+            },
+            {
+              "text": "█",
+              "color": "#f27c50"
+            },
+            {
+              "text": "▄",
+              "color": "#f27c50",
+              "bg": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#b82a26",
+              "bg": "#fff4dc"
+            },
+            {
+              "text": "▄",
+              "color": "#b82a26",
+              "bg": "#3ca23a"
+            },
+            {
+              "text": "▄",
+              "color": "#b82a26",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "▄",
+              "color": "#b82a26",
+              "bg": "#3ca23a"
+            },
+            {
+              "text": "▄",
+              "color": "#8a1820",
+              "bg": "#eed6ac"
+            },
+            {
+              "text": "██",
+              "color": "#8a1820"
+            },
+            {
+              "text": "█",
+              "color": "#4e2814"
+            },
+            {
+              "text": "▄",
+              "color": "#15132e",
+              "bg": "#4e2814"
+            },
+            {
+              "text": "███████████████████████████████████████████████",
+              "color": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "▄▄▄▄",
+              "color": "#b46e34",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄",
+              "color": "#b46e34",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄▄",
+              "color": "#4e2814",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#f27c50"
+            },
+            {
+              "text": "▄",
+              "color": "#4e2814",
+              "bg": "#dc4a34"
+            },
+            {
+              "text": "▄▄▄",
+              "color": "#4e2814",
+              "bg": "#b82a26"
+            },
+            {
+              "text": "▄▄",
+              "color": "#4e2814",
+              "bg": "#8a1820"
+            },
+            {
+              "text": "██",
+              "color": "#4e2814"
+            },
+            {
+              "text": "▄▄",
+              "color": "#4e2814",
+              "bg": "#15132e"
+            },
+            {
+              "text": "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄",
+              "color": "#b46e34",
+              "bg": "#15132e"
+            }
+          ],
+          [
+            {
+              "text": "██████",
+              "color": "#935426"
+            },
+            {
+              "text": "▄",
+              "color": "#b46e34",
+              "bg": "#935426"
+            },
+            {
+              "text": "█████",
+              "color": "#b46e34"
+            },
+            {
+              "text": "████",
+              "color": "#935426"
+            },
+            {
+              "text": "██████████████",
+              "color": "#b46e34"
+            },
+            {
+              "text": "▄",
+              "color": "#b46e34",
+              "bg": "#935426"
+            },
+            {
+              "text": "█████████████████████████████████",
+              "color": "#935426"
+            }
+          ],
+          [
+            {
+              "text": "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄",
+              "color": "#4e2814",
+              "bg": "#935426"
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "spinner",
+        "verb": "Nesting"
+      },
+      {
+        "slot": "background",
+        "text": "While Claude works, the verb loops as a 48×12-cell pixel-art picture (Raster) above the spinner line, with + / − size and (i) about buttons at its right. Terminal only."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/olliewagner/verbs/be0664aaac3b846276584e0379541ba01af24c6d/.github/verbs.gif",
+      "alt": "Pixel-art pictures for spinner verbs drifting upward in three layers, each over its spinner line: Swirling, Nesting, Sock-hopping, Frolicking, Waddling, Galloping, Boogieing and more",
+      "surface": "terminal"
+    }
+  ]
+}

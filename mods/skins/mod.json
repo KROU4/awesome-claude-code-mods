@@ -3,9 +3,9 @@
   "name": "skins",
   "title": "Skins",
   "tagline": "Tool rows with status, timings and +/− counts, shell and table cards, a usage band and 15 themes.",
-  "tagline_ru": "Строки инструментов со статусом, временем и счётом правок, карточки вывода и таблиц, полоса лимитов и 15 тем.",
-  "description": "Redraws the transcript in one of 15 skins (noir by default; tokyo-night, dracula, catppuccin, nord, gruvbox and more). Tool rows get a status node on a rail, the target, lines changed and time, and ▸ opens the call's input and answer. Shell output is a card with the command and ✓ or ✗ exit N; tables, code, math and 17 kinds of Mermaid chart become cards; the spinner shows the skin's word with a shimmer; a band above the prompt has context and plan-limit meters and a Compact button. `/skin` opens settings, `/skin <name>` switches, `/skin calm` and `/skin off`. Claude can build a skin with its `design` tool. Agents, plan mode and permission prompts keep Claude Code's own look.",
-  "description_ru": "Перерисовывает переписку в одной из 15 тем (по умолчанию noir; ещё tokyo-night, dracula, nord, gruvbox и другие). У строк инструментов появляются значок статуса на вертикальной линии, файл или команда, число изменённых строк и время, а ▸ раскрывает входные данные вызова и ответ. Вывод команд оформляется карточкой с командой и ✓ или ✗ exit N; таблицы, код, формулы и 17 видов диаграмм Mermaid тоже становятся карточками; спиннер показывает слово темы с бликом; над полем ввода появляется полоса с заполненностью контекста и лимитами тарифа и кнопкой Compact. `/skin` открывает настройки, `/skin <имя>` переключает тему, есть `/skin calm` и `/skin off`. Claude может собрать вам тему инструментом `design`. Агенты, режим планирования и запросы разрешений остаются в оформлении Claude Code.",
+  "tagline_ru": "Строки инструментов со статусом, временем и числом правок, карточки вывода и таблиц, полоса лимитов и 15 тем.",
+  "description": "Redraws the transcript in one of 15 skins (noir by default; tokyo-night, dracula, nord and more). Tool rows get an icon or a status node on a rail, the target, lines changed and time; ▸ opens the call's input and answer. Shell output is a card with the command and ✓ or ✗ exit N; tables, code, math and 17 kinds of Mermaid chart become cards; the spinner shows the skin's word with a shimmer; a band above the prompt has context and plan-limit meters and a Compact button. `/skin` opens settings, `/skin <name>` switches, `/skin calm` drops motion, `/skin off` turns it off. Claude can build a skin with its `design` tool. Agents, plan mode and permission prompts keep Claude Code's own look.",
+  "description_ru": "Перерисовывает переписку в одной из 15 тем (по умолчанию noir; ещё tokyo-night, dracula, nord и другие). У строк инструментов появляются значок или отметка статуса на вертикальной линии, файл или команда, число изменённых строк и время; ▸ раскрывает параметры вызова и ответ. Вывод команд становится карточкой с командой и ✓ или ✗ exit N; таблицы, код, формулы и 17 видов диаграмм Mermaid тоже рисуются карточками; спиннер показывает слово темы с бликом; над полем ввода — полоса с заполненностью контекста, расходом лимитов тарифа и кнопкой Compact. `/skin` открывает настройки, `/skin <имя>` переключает тему, `/skin calm` убирает анимацию, `/skin off` выключает темы. Тему может собрать и Claude инструментом `design`. Агенты, режим планирования и запросы разрешений не перерисовываются.",
   "author": { "name": "hellosverre", "github": "hellosverre", "url": "https://github.com/hellosverre" },
   "maintainers": ["hellosverre"],
   "category": "interface",
@@ -22,13 +22,13 @@
     "filesystem": "read",
     "model": false,
     "promptRewrite": true,
-    "blocksTools": false
+    "blocksTools": true
   },
   "preview": {
     "scene": "coding",
     "surface": "terminal",
     "caption": "After /skin tokyo-night: tool rows with timings and +/− counts, the npm test card, the shimmer spinner and the usage band.",
-    "caption_ru": "После /skin tokyo-night: строки инструментов со временем и счётом правок, карточка npm test, индикатор с бликом и полоса лимитов.",
+    "caption_ru": "После /skin tokyo-night: строки инструментов со временем и числом правок, карточка npm test, спиннер с бликом и полоса лимитов.",
     "elements": [
       { "slot": "command", "command": "/skin", "args": "tokyo-night" },
       { "slot": "toast", "text": "skin: tokyo-night" },
@@ -42,7 +42,8 @@
           { "text": "Read", "color": "#7dcfff" },
           { "text": "  src/checkout.ts", "color": "#737aa2" },
           "                                ",
-          { "text": "38ms", "color": "#737aa2" }
+          { "text": "38ms", "color": "#737aa2" },
+          { "text": " ▸", "dim": true }
         ]
       },
       {
@@ -57,7 +58,8 @@
           "                      ",
           { "text": "+12", "color": "#9ece6a" },
           { "text": " −3", "color": "#f7768e" },
-          { "text": "  41ms", "color": "#737aa2" }
+          { "text": "  41ms", "color": "#737aa2" },
+          { "text": " ▸", "dim": true }
         ]
       },
       {
@@ -70,7 +72,8 @@
           { "text": "Bash", "color": "#e0af68" },
           { "text": "  npm test", "color": "#737aa2" },
           "                                       ",
-          { "text": "4.2s", "color": "#737aa2" }
+          { "text": "4.2s", "color": "#737aa2" },
+          { "text": " ▸", "dim": true }
         ],
         "result": [
           [

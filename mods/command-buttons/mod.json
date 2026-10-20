@@ -1,0 +1,227 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "command-buttons",
+  "title": "Command Buttons",
+  "tagline": "Run and Copy buttons for each shell command in a reply, plus a hotkey band above the prompt.",
+  "tagline_ru": "Кнопки Run и Copy для каждой команды оболочки в ответе и полоса горячих клавиш над полем ввода.",
+  "description": "Below an assistant reply with shell code blocks, a rounded frame lists each command with `[ ▶ Run ]` and `[ ⧉ Copy ]`; a run's output (up to 6 lines, red on error) appears under its row. Once the reply is finished, a band above the prompt repeats its commands: `1`–`9` run them, `a`–`i` copy them once the band has focus. Run goes through `$.tool.call` as a Bash call, so it takes the session's permission path and shows in the transcript. A command matching `confirmPattern` (by default delete, destroy, `kubectl delete`, `terraform apply` and similar) needs a second press. Copy tries pbcopy, wl-copy, xclip, then xsel. Options: `runInBackground`, `confirmPattern`, `maxButtons` (8).",
+  "description_ru": "Под ответом ассистента с блоками команд оболочки появляется рамка: у каждой команды кнопки `[ ▶ Run ]` и `[ ⧉ Copy ]`, а вывод запуска (до 6 строк, красным при ошибке) показывается под её строкой. Когда ответ закончен, над полем ввода появляется полоса с теми же командами: `1`–`9` запускают их, `a`–`i` копируют, если полоса в фокусе. Запуск идёт через `$.tool.call` как вызов Bash, поэтому проходит обычную проверку разрешений сессии и остаётся в истории разговора. Команда, подходящая под `confirmPattern` (по умолчанию delete, destroy, `kubectl delete`, `terraform apply` и похожие), запускается только со второго нажатия. Копирование пробует по очереди pbcopy, wl-copy, xclip и xsel. Настройки: `runInBackground`, `confirmPattern`, `maxButtons` (8).",
+  "author": {
+    "name": "Farid Murzone",
+    "github": "Faridmurzone",
+    "url": "https://github.com/Faridmurzone"
+  },
+  "maintainers": [
+    "Faridmurzone"
+  ],
+  "category": "productivity",
+  "tags": [
+    "shell",
+    "run",
+    "clipboard",
+    "buttons",
+    "hotkeys",
+    "band"
+  ],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Faridmurzone/command-buttons-claude-code",
+  "source": {
+    "type": "github",
+    "repo": "Faridmurzone/command-buttons-claude-code",
+    "sha": "55235447c457995873e7015c22d651b97c951673"
+  },
+  "requires": {
+    "claudeCode": ">=2.1.273"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      {
+        "role": "user",
+        "text": "The web pod is stuck in CrashLoopBackOff since I changed its ConfigMap."
+      }
+    ],
+    "caption": "The first command was run (its output sits under its row); the delete is armed and waits for a second press. The band offers both.",
+    "caption_ru": "Первая команда уже выполнена, её вывод под строкой; удаление ждёт второго нажатия. Полоса над полем ввода предлагает обе команды.",
+    "elements": [
+      {
+        "slot": "message",
+        "role": "assistant",
+        "rows": [
+          [
+            "The pod crashes on start-up. Read the previous container's logs,"
+          ],
+          [
+            "then delete the pod so the Deployment recreates it:"
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "kubectl logs web-7f9c6d5b8-x2km4 --previous"
+            }
+          ],
+          [
+            {
+              "text": "kubectl delete pod web-7f9c6d5b8-x2km4"
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "  ╭──────────────────────────────────────────────────────────────────╮",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "  │ ",
+              "color": "inactive"
+            },
+            {
+              "button": "▶ Run"
+            },
+            " ",
+            {
+              "button": "⧉ Copy"
+            },
+            " ",
+            {
+              "text": "kubectl logs web-7f9c6d5b8-x2km4 --previous",
+              "dim": true
+            },
+            "",
+            {
+              "text": " │",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "  │ ",
+              "color": "inactive"
+            },
+            "  ",
+            {
+              "text": "> web@1.4.0 start",
+              "dim": true
+            },
+            "                                             ",
+            {
+              "text": " │",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "  │ ",
+              "color": "inactive"
+            },
+            "  ",
+            {
+              "text": "> node dist/server.js",
+              "dim": true
+            },
+            "                                         ",
+            {
+              "text": " │",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "  │ ",
+              "color": "inactive"
+            },
+            "  ",
+            {
+              "text": "Error: config key \"database.url\" is not set",
+              "dim": true
+            },
+            "                   ",
+            {
+              "text": " │",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "  │ ",
+              "color": "inactive"
+            },
+            {
+              "button": "⚠ Confirm"
+            },
+            " ",
+            {
+              "button": "⧉ Copy"
+            },
+            " ",
+            {
+              "text": "kubectl delete pod web-7f9c6d5b8-x2km4",
+              "dim": true
+            },
+            " ",
+            {
+              "text": " │",
+              "color": "inactive"
+            }
+          ],
+          [
+            {
+              "text": "  ╰──────────────────────────────────────────────────────────────────╯",
+              "color": "inactive"
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            {
+              "text": "Quick run — last reply:",
+              "dim": true
+            }
+          ],
+          [
+            "1: Run",
+            " ",
+            "a: Copy",
+            " ",
+            {
+              "text": "kubectl logs web-7f9c6d5b8-x2km4 --previous",
+              "dim": true
+            }
+          ],
+          [
+            "2: Confirm",
+            " ",
+            "b: Copy",
+            " ",
+            {
+              "text": "kubectl delete pod web-7f9c6d5b8-x2km4",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "toast",
+        "text": "Sensitive command: press again to confirm"
+      }
+    ]
+  }
+}

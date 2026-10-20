@@ -4,8 +4,8 @@
   "title": "Pin Memo",
   "tagline": "Pinned notes and clickable todo checkboxes above the prompt, kept per folder and session.",
   "tagline_ru": "Закреплённые заметки и задачи с флажками над полем ввода, отдельно для каждой папки и сессии.",
-  "description": "Pins notes and todos in a teal rounded band above the prompt, titled with the count and how many are done (band labels are in Korean). `/pin <memo>` adds a note and `/pin - [ ] <todo>` a todo; `/pin toggle|check|uncheck|remove <id>`, `/pin edit <id> <memo>`, `/pin list`, `/pin clear` and `/pin help` manage them. Click a checkbox, or focus the band with ctrl+x tab and press Enter, to tick a todo; done ones stay dimmed and struck through. Notes are saved in the plugin store per folder and session and return when you resume it; a new session or `/clear` starts empty. Up to 100 notes of 2,000 characters; they never enter the model's context.",
-  "description_ru": "Закрепляет заметки и задачи в бирюзовой скруглённой полосе над полем ввода; в заголовке число записей и сколько из них выполнено (подписи в полосе на корейском). `/pin <заметка>` добавляет заметку, `/pin - [ ] <задача>` добавляет задачу; `/pin toggle|check|uncheck|remove <id>`, `/pin edit <id> <текст>`, `/pin list`, `/pin clear` и `/pin help` управляют списком. Чтобы отметить задачу, нажмите на флажок или переведите фокус на полосу (ctrl+x tab) и нажмите Enter; выполненные остаются в списке приглушёнными и зачёркнутыми. Записи хранятся в хранилище плагина отдельно для папки и сессии и возвращаются, когда вы продолжаете ту же сессию; новая сессия или `/clear` начинают с пустого списка. До 100 записей по 2000 символов; в контекст модели они не попадают.",
+  "description": "Pins notes and todos in a teal rounded band above the prompt, titled with the count and how many are done (band labels and command replies are in Korean). `/pin <memo>` adds a note and `/pin - [ ] <todo>` a todo; `/pin toggle|check|uncheck|remove <id>`, `/pin edit <id> <memo>`, `/pin list`, `/pin clear` and `/pin help` manage them. Click a checkbox, or focus the band with ctrl+x tab and use Tab and Enter, to tick a todo; done ones stay dimmed and struck through. Notes are saved in the plugin store per folder and session and return when you resume it; a new session or `/clear` starts empty. Up to 100 notes of 2,000 characters; they are not added to the model's context.",
+  "description_ru": "Закрепляет заметки и задачи в бирюзовой скруглённой полосе над полем ввода; в заголовке число записей и сколько из них выполнено (подписи в полосе и ответы команды на корейском). `/pin <заметка>` добавляет заметку, `/pin - [ ] <задача>` добавляет задачу; `/pin toggle|check|uncheck|remove <id>`, `/pin edit <id> <текст>`, `/pin list`, `/pin clear` и `/pin help` управляют списком. Чтобы отметить задачу, нажмите на флажок или переведите фокус на полосу (ctrl+x tab) и выберите флажок клавишами Tab и Enter; выполненные остаются приглушёнными и зачёркнутыми. Записи хранятся в хранилище плагина отдельно для папки и сессии и возвращаются при продолжении той же сессии; новая сессия или `/clear` начинают с пустого списка. До 100 записей по 2000 символов; в контекст модели они сами не попадают.",
   "author": { "name": "YeonwooSung", "github": "YeonwooSung", "url": "https://github.com/YeonwooSung" },
   "maintainers": ["YeonwooSung"],
   "category": "productivity",
@@ -32,8 +32,8 @@
   "preview": {
     "scene": "coding",
     "surface": "terminal",
-    "caption": "A todo just pinned with /pin: the band above the prompt lists notes and todos, the done one dimmed.",
-    "caption_ru": "Задача только что закреплена через /pin: полоса над полем ввода со списком, выполненная запись приглушена.",
+    "caption": "A todo just pinned with /pin: the teal band above the prompt lists notes and todos, the done one dimmed.",
+    "caption_ru": "Задача только что закреплена через /pin: бирюзовая полоса над полем ввода со списком, выполненная запись приглушена.",
     "elements": [
       {
         "slot": "command",
@@ -44,15 +44,47 @@
       {
         "slot": "above-prompt",
         "rows": [
-          [{ "text": "📌 핀 3 (완료 1)", "color": "#D5C57A", "bold": true }],
-          [{ "text": "1 · Remember to run tests", "color": "#D6D9E0" }],
-          [{ "button": "[x]" }, { "text": " 2 Update docs", "color": "#D6D9E0", "dim": true }],
-          [{ "button": "[ ]" }, { "text": " 3 Check SAVE10 rounding in src/checkout.ts", "color": "#D6D9E0" }]
+          [{ "text": "╭────────────────────────────────────────────────────────────╮", "color": "#62B8AD" }],
+          [
+            { "text": "│", "color": "#62B8AD" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "📌 핀 3 (완료 1)", "color": "#D5C57A", "bg": "#1D2029", "bold": true },
+            { "text": "                                          ", "bg": "#1D2029" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "│", "color": "#62B8AD" }
+          ],
+          [
+            { "text": "│", "color": "#62B8AD" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "1 · Remember to run tests", "color": "#D6D9E0", "bg": "#1D2029" },
+            { "text": "                                 ", "bg": "#1D2029" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "│", "color": "#62B8AD" }
+          ],
+          [
+            { "text": "│", "color": "#62B8AD" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "[x]", "bg": "#1D2029", "dim": true },
+            { "text": " 2 Update docs", "color": "#D6D9E0", "bg": "#1D2029", "dim": true },
+            { "text": "                                         ", "bg": "#1D2029" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "│", "color": "#62B8AD" }
+          ],
+          [
+            { "text": "│", "color": "#62B8AD" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "[ ]", "bg": "#1D2029" },
+            { "text": " 3 Check SAVE10 rounding in src/checkout.ts", "color": "#D6D9E0", "bg": "#1D2029" },
+            { "text": "            ", "bg": "#1D2029" },
+            { "text": " ", "bg": "#1D2029" },
+            { "text": "│", "color": "#62B8AD" }
+          ],
+          [{ "text": "╰────────────────────────────────────────────────────────────╯", "color": "#62B8AD" }]
         ]
       },
       {
         "slot": "background",
-        "text": "Notes are saved in the plugin store under this folder and session ID and come back when you resume it; they are never sent to the model."
+        "text": "Notes are saved in the plugin store under this folder and session ID and come back when you resume it; they are not added to the model's context."
       }
     ]
   }

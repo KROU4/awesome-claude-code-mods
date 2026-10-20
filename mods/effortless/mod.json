@@ -4,8 +4,8 @@
   "title": "effortless",
   "tagline": "Picks the reasoning effort for every prompt and shows a prompt-cache countdown above the prompt.",
   "tagline_ru": "Сам выбирает уровень рассуждений для каждого запроса и показывает над полем ввода, сколько ещё живёт кэш.",
-  "description": "Before each prompt a judge (Haiku 5.5 on your own Claude login, or TypeSafe's Jev if you add a key) picks the effort, low to max, and the request runs at it; short follow-ups such as \"ok\" keep the last one. A band above the prompt shows the effort, the prompt-cache countdown and how full the context is, with Auto on/off, Handoff and Settings; the terminal adds an Effort row to pick a level yourself. Other bands warn when the cache went cold, the chat is swamped or a limit passes 80%. Compactions are summarized by Haiku 5.5. Commands: `/effortless settings`, `setup`, `auto`, `handoff`, `stats`, `bench`, `debug`, `update`. Effort changes only on Opus 5.5 and Sonnet 5.5.",
-  "description_ru": "Перед каждым запросом судья (Haiku 5.5 через ваш собственный вход в Claude или Jev от TypeSafe, если добавить ключ) выбирает уровень рассуждений от low до max, и запрос уходит с ним; короткие ответы вроде «ok» сохраняют прежний уровень. Полоса над полем ввода показывает уровень, обратный отсчёт кэша промпта и заполненность контекста, рядом кнопки Auto on/off, Handoff и Settings; в терминале под ней есть строка Effort, чтобы выбрать уровень вручную. Отдельные полосы предупреждают, когда кэш остыл, чат перегружен или лимит перевалил за 80%. Сжатие чата пишет Haiku 5.5. Команды: `/effortless settings`, `setup`, `auto`, `handoff`, `stats`, `bench`, `debug`, `update`. Уровень меняется только на Opus 5.5 и Sonnet 5.5.",
+  "description": "Before each prompt a judge (Haiku 5.5 on your own Claude login, or TypeSafe's Jev if you add a key) picks the effort, low to max, and the request runs at it; short follow-ups such as \"ok\" keep the last one. A band above the prompt shows the effort, the prompt-cache countdown and how full the context is, with Auto, Compact or Handoff, and Settings; the terminal adds an Effort row to pick a level yourself. Other bands warn when the cache went cold, the chat is swamped or a limit passes 80%. Compactions are summarized by Haiku 5.5 by default. Commands: `/effortless settings`, `setup`, `auto`, `handoff`, `stats`, `bench`, `debug`, `update`. Effort changes only on Opus 5.5 and Sonnet 5.5.",
+  "description_ru": "Перед каждым запросом судья (Haiku 5.5 под вашей учётной записью Claude или Jev от TypeSafe, если добавить ключ) выбирает уровень рассуждений от low до max, и запрос уходит с ним; короткие реплики вроде «ok» оставляют прежний уровень. Полоса над полем ввода показывает уровень, обратный отсчёт кэша промпта и заполненность контекста, рядом кнопки Auto, Compact или Handoff и Settings; в терминале под ней есть строка Effort, чтобы выбрать уровень вручную. Отдельные полосы предупреждают, когда кэш остыл, чат перегружен или лимит перевалил за 80%. Сводку при сжатии чата по умолчанию пишет Haiku 5.5. Команды: `/effortless settings`, `setup`, `auto`, `handoff`, `stats`, `bench`, `debug`, `update`. Уровень меняется только на Opus 5.5 и Sonnet 5.5.",
   "author": { "name": "HeyCubit", "github": "HeyCubit", "url": "https://github.com/HeyCubit" },
   "maintainers": ["HeyCubit"],
   "category": "productivity",
@@ -34,8 +34,8 @@
       { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  14 passed (14)", "status": "done" },
       { "role": "assistant", "text": "The discount rules now live in src/cart/discounts.ts, checkout imports them, and all 14 tests pass." }
     ],
-    "caption": "After a refactor the judge picked High: the band shows effort, cache and context, with the Effort row under it.",
-    "caption_ru": "После рефакторинга судья выбрал High: полоса показывает уровень, кэш и контекст, под ней строка Effort.",
+    "caption": "For a refactor the judge picked High: the band shows effort, cache and context, with the Effort row under it.",
+    "caption_ru": "Для рефакторинга судья выбрал High: полоса показывает уровень, кэш и контекст, под ней строка Effort.",
     "elements": [
       {
         "slot": "above-prompt",
@@ -64,7 +64,7 @@
       },
       { "slot": "turn-duration", "text": "Baked 42s ✦ High · cache 58m" },
       { "slot": "command", "command": "/effortless", "args": "auto", "output": [["Auto on: effort is picked for every prompt."]] },
-      { "slot": "background", "text": "Before each prompt Haiku 5.5 (or Jev) judges the effort and the request is sent at it; every compaction is summarized by Haiku 5.5." }
+      { "slot": "background", "text": "Before each prompt Haiku 5.5 (or Jev) judges the effort and the request is sent at it; compactions are summarized by Haiku 5.5 by default." }
     ]
   },
   "media": [
@@ -77,7 +77,7 @@
     {
       "type": "image",
       "src": "https://raw.githubusercontent.com/HeyCubit/effortless/main/docs/readme/settings.png",
-      "alt": "The settings panel: Effort, Judge, Handoff, Customize",
+      "alt": "The settings panel: Effort, Judge, Handoff, Appearance",
       "surface": "desktop"
     }
   ]

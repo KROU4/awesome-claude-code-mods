@@ -3,9 +3,9 @@
   "name": "next-steps",
   "title": "Next Steps",
   "tagline": "Up to three suggested next prompts above the input after each answer; press 1-3 to draft one.",
-  "tagline_ru": "После каждого ответа над полем ввода до трёх следующих запросов: нажмите 1–3, чтобы вставить черновик.",
+  "tagline_ru": "После каждого ответа над полем ввода появляются до трёх следующих запросов; 1–3 вставляет один черновиком.",
   "description": "When a turn ends with an answer of at least `minAnswerChars` characters (80 by default), the mod forks the session with `$.model.fork` (it shares the prompt cache, so it costs about one short reply) and shows up to three likely next prompts as buttons above the input, with `next steps…` while it waits. Press 1, 2 or 3 from an empty prompt box, or click, to write that prompt into the box as a draft you edit and send yourself; 0 dismisses. The top one is also dim ghost text that Tab takes. With `suggestSkills` (on by default) the fork sees the session's skills and slash commands, so a suggestion can be `/skill args`. Terminal only; it never submits a prompt.",
-  "description_ru": "Когда ход заканчивается ответом не короче `minAnswerChars` символов (по умолчанию 80), мод ответвляет сессию через `$.model.fork` (оно делит кэш промпта и стоит примерно как один короткий ответ) и показывает над полем ввода до трёх вероятных следующих запросов кнопками, а пока ждёт — `next steps…`. Нажмите 1, 2 или 3 при пустом поле ввода или щёлкните по кнопке, и запрос встанет в поле как черновик: вы правите и отправляете его сами; 0 скрывает подсказки. Первая подсказка также видна в поле бледным текстом, который принимает Tab. С опцией `suggestSkills` (включена по умолчанию) ответвление видит навыки и слеш-команды сессии, и подсказка может быть вида `/skill аргументы`. Только терминал; запрос за вас не отправляется.",
+  "description_ru": "Когда ход заканчивается ответом не короче `minAnswerChars` символов (по умолчанию 80), мод ответвляет сессию через `$.model.fork` (ответвление делит с сессией кэш промпта, поэтому стоит примерно как один короткий ответ) и показывает над полем ввода до трёх вероятных следующих запросов кнопками, а пока ждёт — `next steps…`. Нажмите 1, 2 или 3 при пустом поле ввода или щёлкните по кнопке, и запрос встанет в поле как черновик: вы правите и отправляете его сами; 0 скрывает подсказки. Первая подсказка видна и в самом поле бледным текстом — Tab подставляет её. С опцией `suggestSkills` (включена по умолчанию) ответвление видит навыки и слеш-команды сессии, и подсказка может быть вида `/skill аргументы`. Работает только в терминале; сам мод запрос никогда не отправляет.",
   "author": { "name": "Thariq Shihipar", "github": "anthropics" },
   "maintainers": ["anthropics"],
   "category": "productivity",
@@ -51,7 +51,7 @@
           ["  ", { "button": "dismiss", "hotkey": "0" }]
         ]
       },
-      { "slot": "background", "text": "The top suggestion also fills the prompt box as dim ghost text (Tab takes it). A press only drafts the prompt; you edit it and press Enter yourself." }
+      { "slot": "background", "text": "The top suggestion also shows in the prompt box as dim ghost text (Tab takes it). A press only drafts the prompt; you edit it and press Enter yourself." }
     ]
   }
 }

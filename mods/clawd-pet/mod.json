@@ -1,0 +1,67 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "clawd-pet",
+  "title": "Clawd Pet",
+  "tagline": "A pixel Clawd above the prompt that shows the running tool, cheers passing tests and naps when idle.",
+  "tagline_ru": "Пиксельный Clawd над полем ввода: показывает текущий инструмент, радуется пройденным тестам и спит в простое.",
+  "description": "Clawd, the orange crab from the startup banner, lives in a band above the prompt and reacts to the session. While Claude works he shows the running tool with an icon and a line like `$ npm test` or `editing main.dart`; on a permission dialog, a question or a ready plan he hops and flashes \"Needs you!\", \"Question!\" or \"Plan ready\"; a test run gets \"Tests pass!\" with confetti or \"Tests failed\" with x eyes; a finished turn shows its time and tool count. Idle he shows the clock and today's tool count, then falls asleep. Three frustrated prompts in 20 minutes set off a tantrum. Moods add hats, pyjamas, coffee, seasons and holidays. Press pet (`p`); `/clawd demo` plays all 35 looks.",
+  "description_ru": "Clawd, оранжевый краб с заставки, живёт в полосе над полем ввода и реагирует на сессию. Пока Claude работает, он показывает текущий инструмент значком и строкой вроде `$ npm test` или `editing main.dart`; при запросе разрешения, вопросе или готовом плане подпрыгивает и мигает «Needs you!», «Question!» или «Plan ready»; после тестов радуется «Tests pass!» с конфетти или грустит «Tests failed» с глазами-крестиками; после хода показывает его длительность и число инструментов. В простое показывает часы и сколько инструментов запущено за день, потом засыпает. Три раздражённых запроса за 20 минут вызывают истерику. Настроения добавляют шапки, пижаму, кофе, времена года и праздники. Кнопка pet (`p`) гладит его, `/clawd demo` показывает все 35 образов.",
+  "author": { "name": "Revono", "github": "Revono", "url": "https://github.com/Revono" },
+  "maintainers": ["Revono"],
+  "category": "fun",
+  "tags": ["pet", "pixel-art", "band", "tests", "moods", "command"],
+  "license": "MIT",
+  "version": "1.0.6",
+  "homepage": "https://github.com/Revono/clawd-pet",
+  "source": { "type": "marketplace", "marketplace": "Revono/clawd-pet", "plugin": "clawd-pet", "path": "plugins/clawd-pet" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "The date parser test fails on leap years, fix it and run the tests." },
+      { "role": "tool", "tool": "Edit", "input": "src/parse-date.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  14 passed (14)", "status": "done" }
+    ],
+    "caption": "Right after npm test passes on an October afternoon: Clawd hops with a green check, confetti and autumn leaves.",
+    "caption_ru": "Сразу после успешного npm test октябрьским днём: Clawd подпрыгивает с зелёной галочкой, конфетти и осенними листьями.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [" ", { "text": "▀", "color": "#e04848" }, "            ", { "text": "▀", "color": "#3f6fd1", "bg": "#f2c94c" }, { "text": "▀", "color": "#f2c94c" }, "           ", { "text": "▄", "color": "#e04848" }, "      "],
+          ["   ", { "text": "█▄", "color": "#e04848" }, "          ", { "text": "▄▄", "color": "#e04848" }, " ", { "text": "▄", "color": "#f2c94c" }, "               "],
+          ["           ", { "text": "▀", "color": "#e04848" }, "   ", { "text": "▀", "color": "#e04848" }, "              ", { "text": "▄▀", "color": "#4caf50" }, " ", { "text": "▄", "color": "#7a4fc0" }],
+          ["                  ", { "text": "▄", "color": "#f2c94c" }, "        ", { "text": "▀▄▀", "color": "#4caf50" }, "    "],
+          ["         ", { "text": "█", "color": "#d97757" }, " ", { "text": "████", "color": "#d97757" }, { "text": "▀", "color": "#3f6fd1", "bg": "#d97757" }, { "text": "███████", "color": "#d97757" }, " ", { "text": "█", "color": "#d97757" }, "      ", { "text": "▄", "color": "#4caf50" }, "  ", "  ", { "text": "Tests pass!", "color": "#5cb85c", "bold": true }, "                     ", { "button": "pet", "hotkey": "p" }],
+          ["         ", { "text": "███", "color": "#d97757" }, { "text": "▀", "color": "#d97757", "bg": "#1f1e1d" }, { "text": "▀", "color": "#1f1e1d", "bg": "#d97757" }, { "text": "▀", "color": "#d97757", "bg": "#1f1e1d" }, { "text": "████", "color": "#d97757" }, { "text": "▀", "color": "#d97757", "bg": "#1f1e1d" }, { "text": "▀", "color": "#1f1e1d", "bg": "#d97757" }, { "text": "▀", "color": "#ff8fa3", "bg": "#1f1e1d" }, { "text": "███", "color": "#d97757" }, "        ", { "text": "▄", "color": "#4caf50" }, "  ", { "text": "14 passed", "dim": true }],
+          ["     ", { "text": "▄", "color": "#7a4fc0" }, "     ", { "text": "█", "color": "#d97757" }, { "text": "▀", "color": "#4caf50", "bg": "#d97757" }, { "text": "██████████", "color": "#d97757" }, "           "],
+          ["           ", { "text": "████████████", "color": "#d97757" }, "  ", { "text": "▄", "color": "#f2c94c" }, "        "],
+          ["      ", { "text": "▀", "color": "#ff8fa3" }, { "text": "█▀", "color": "#f0a030" }, "   ", { "text": "█", "color": "#d97757" }, " ", { "text": "█", "color": "#d97757" }, { "text": "▀", "color": "#f2c94c" }, "   ", { "text": "█", "color": "#d97757" }, " ", { "text": "█", "color": "#d97757" }, "   ", { "text": "▀▀", "color": "#f2c94c" }, "       "]
+        ]
+      },
+      { "slot": "background", "text": "The art animates at 4 frames a second (hops, confetti, falling leaves); the desktop app draws it as SVG, and under 64 columns you get the mini banner Clawd." },
+      { "slot": "command", "command": "/clawd", "args": "demo", "output": [["Clawd demo: 35 looks, 3.5s each. /clawd demo stop ends it."]] }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/Revono/clawd-pet/ca53ab1ae3365f2b1407541fa0069163a35496ae/assets/hero.svg",
+      "alt": "Clawd waving, thinking, running flutter test, cheering, done, getting petted, throwing a tantrum and falling asleep"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/Revono/clawd-pet/ca53ab1ae3365f2b1407541fa0069163a35496ae/assets/looks.svg",
+      "alt": "Clawd's looks: thinking, working, needs you, done, compacting, sleeping, oops, tests pass, tantrum, morning, night, winter, summer, xmas, 1. August, Halloween"
+    }
+  ]
+}

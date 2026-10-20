@@ -1,0 +1,137 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "fables",
+  "title": "Fables",
+  "tagline": "A live cartoon above the prompt: Sonnet or Haiku retells tool calls and replies as captioned scenes.",
+  "tagline_ru": "Мультфильм над полем ввода: Sonnet или Haiku пересказывает вызовы инструментов и реплики сценами с подписями.",
+  "description": "Claude Fables plays an animated cartoon in the band above the prompt while Claude works. It watches main-agent tool calls and replies, and every few seconds asks Sonnet (or Haiku) via `$.model.complete` for one JSON scene: one of 7 lit backdrops, one of 20 actions for the orange critter, and a caption bubble that types itself out with files, functions, numbers, failures and passes colored apart. Scenes queue so each is read through; the closing one stays 30 seconds. `/fables` toggles it, `/fables style <name>` picks one of 11 styles (pixel art by default), `/fables model haiku|sonnet` the writer. Draws only in the desktop app, yet asks in the terminal too: a few model requests a minute.",
+  "description_ru": "Claude Fables показывает над полем ввода мультфильм, пока Claude работает. Мод следит за вызовами инструментов и репликами основного агента и каждые несколько секунд просит Sonnet (или Haiku) через `$.model.complete` написать одну сцену в JSON: один из 7 фонов с продуманным светом, одно из 20 действий оранжевого зверька и реплику в пузыре, которая печатается по буквам; файлы, функции, числа, ошибки и успехи в ней выделены цветом. Сцены идут по очереди, чтобы каждую успели прочитать, а финальная держится 30 секунд. `/fables` включает и выключает мод, `/fables style <имя>` выбирает один из 11 стилей (по умолчанию пиксель-арт), `/fables model haiku|sonnet` — рассказчика. Рисует только в десктопном приложении, но сцены запрашивает и в терминале: несколько запросов к модели в минуту.",
+  "author": {
+    "name": "henrik the vibe",
+    "github": "henrik-thevibe",
+    "url": "https://github.com/henrik-thevibe"
+  },
+  "maintainers": [
+    "henrik-thevibe"
+  ],
+  "category": "fun",
+  "tags": [
+    "cartoon",
+    "animation",
+    "pixel-art",
+    "band",
+    "styles",
+    "command"
+  ],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/henrik-thevibe/Claude-Fables",
+  "source": {
+    "type": "github",
+    "repo": "henrik-thevibe/Claude-Fables",
+    "sha": "6d0ce80575a92f8f6c8c2493c2bf20413e255622"
+  },
+  "surfaces": [
+    "desktop"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": true,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "desktop",
+    "transcript": [
+      {
+        "role": "user",
+        "text": "The date helpers break on Feb 29. Fix isLeapYear in src/dates.ts and run the tests."
+      },
+      {
+        "role": "tool",
+        "tool": "Read",
+        "input": "src/dates.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Edit",
+        "input": "src/dates.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Bash",
+        "input": "npm test",
+        "result": "Tests  42 passed (42)",
+        "status": "done"
+      },
+      {
+        "role": "assistant",
+        "text": "isLeapYear now skips century years unless they divide by 400 (1900 no, 2000 yes), and all 42 tests pass."
+      }
+    ],
+    "caption": "The closing scene after npm test passes: Claude celebrates in a dawn forest, the caption led by a green ✓ with code, file and count colored.",
+    "caption_ru": "Финальная сцена после успешного npm test: Claude празднует в рассветном лесу, подпись начинается с зелёной ✓, команда, файл и числа выделены цветом.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [{"text":" ","bg":"#203a3c"},{"text":"┌","color":"#efe6d2","bg":"#203a3c"},{"text":" ","bg":"#203a3c"},{"text":"all","color":"#efe6d2","bg":"#203a3c"},{"text":" ","bg":"#203a3c"},{"text":"green","color":"#efe6d2","bg":"#203a3c"},{"text":" ","bg":"#203a3c"},{"text":"┐","color":"#efe6d2","bg":"#203a3c"},{"text":"                                                  ","bg":"#203a3c"}],
+          [{"text":"      ","bg":"#2f4a4a"},{"text":"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄","color":"#f6f1e7","bg":"#2f4a4a"},{"text":"                            ","bg":"#2f4a4a"}],
+          [{"text":"      ","bg":"#3f5a56"},{"text":"  ","bg":"#f6f1e7"},{"text":"✓","color":"#2e7d32","bg":"#f6f1e7","bold":true},{"text":" ","bg":"#f6f1e7"},{"text":"npm","color":"#186a5a","bg":"#f6f1e7"},{"text":" ","bg":"#f6f1e7"},{"text":"test","color":"#186a5a","bg":"#f6f1e7"},{"text":" ","bg":"#f6f1e7"},{"text":"on","color":"#2b2420","bg":"#f6f1e7"},{"text":" ","bg":"#f6f1e7"},{"text":"dates.ts","color":"#2b5f9e","bg":"#f6f1e7"},{"text":":","color":"#2b2420","bg":"#f6f1e7"},{"text":"     ","bg":"#f6f1e7"},{"text":"                            ","bg":"#3f5a56"}],
+          [{"text":"  ","bg":"#56726a"},{"text":"▲","color":"#4a6460","bg":"#56726a"},{"text":"   ","bg":"#56726a"},{"text":"  ","bg":"#f6f1e7"},{"text":"42/42","color":"#b5541a","bg":"#f6f1e7","bold":true},{"text":" ","bg":"#f6f1e7"},{"text":"passed","color":"#2e7d32","bg":"#f6f1e7","bold":true},{"text":".","color":"#2b2420","bg":"#f6f1e7"},{"text":" ","bg":"#f6f1e7"},{"text":"Leap","color":"#2b2420","bg":"#f6f1e7"},{"text":" ","bg":"#f6f1e7"},{"text":"years","color":"#2b2420","bg":"#f6f1e7"},{"text":"    ","bg":"#f6f1e7"},{"text":"   ","bg":"#56726a"},{"text":"▪","color":"#e3b341","bg":"#56726a"},{"text":"   ","bg":"#56726a"},{"text":"▪","color":"#e05252","bg":"#56726a"},{"text":"           ","bg":"#56726a"},{"text":"▲","color":"#4a6460","bg":"#56726a"},{"text":"    ","bg":"#56726a"},{"text":"▲","color":"#4a6460","bg":"#56726a"},{"text":"   ","bg":"#56726a"}],
+          [{"text":"▲","color":"#4a6460","bg":"#8a8c78"},{"text":" ","bg":"#8a8c78"},{"text":"▲","color":"#1d2e2b","bg":"#8a8c78"},{"text":"  ","bg":"#8a8c78"},{"text":"▲","color":"#4a6460","bg":"#8a8c78"},{"text":"  ","bg":"#f6f1e7"},{"text":"tamed","color":"#2b2420","bg":"#f6f1e7"},{"text":" ","bg":"#f6f1e7"},{"text":"\\o/","color":"#c4613f","bg":"#f6f1e7"},{"text":"                   ","bg":"#f6f1e7"},{"text":" ","bg":"#8a8c78"},{"text":"▪","color":"#6fc2c9","bg":"#8a8c78"},{"text":"   ","bg":"#8a8c78"},{"text":"▪","color":"#5e9c4a","bg":"#8a8c78"},{"text":"   ","bg":"#8a8c78"},{"text":"▪","color":"#7b5fb5","bg":"#8a8c78"},{"text":"      ","bg":"#8a8c78"},{"text":"▲","color":"#4a6460","bg":"#8a8c78"},{"text":"    ","bg":"#8a8c78"},{"text":"▲","color":"#1d2e2b","bg":"#8a8c78"},{"text":"▲","color":"#4a6460","bg":"#8a8c78"},{"text":"   ","bg":"#8a8c78"},{"text":"▲","color":"#4a6460","bg":"#8a8c78"},{"text":" ","bg":"#8a8c78"}],
+          [{"text":" ","bg":"#b4a888"},{"text":"▲▲▲","color":"#1d2e2b","bg":"#b4a888"},{"text":"  ","bg":"#b4a888"},{"text":"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀","color":"#f6f1e7","bg":"#b4a888"},{"text":" ","bg":"#b4a888"},{"text":"▀▄▄▄▄▄▄▀","color":"#d48a6e","bg":"#b4a888"},{"text":"    ","bg":"#b4a888"},{"text":"▄▄▄","color":"#fff4dc","bg":"#b4a888"},{"text":"    ","bg":"#b4a888"},{"text":"▲▲▲","color":"#1d2e2b","bg":"#b4a888"},{"text":"   ","bg":"#b4a888"},{"text":"▲","color":"#1d2e2b","bg":"#b4a888"},{"text":" ","bg":"#b4a888"}],
+          [{"text":" ","bg":"#ecca94"},{"text":"███","color":"#1d2e2b","bg":"#ecca94"},{"text":"  ","bg":"#ecca94"},{"text":"▲▲▲","color":"#1d2e2b","bg":"#ecca94"},{"text":"   ","bg":"#ecca94"},{"text":"███","color":"#1d2e2b","bg":"#ecca94"},{"text":"    ","bg":"#ecca94"},{"text":"▲▲▲","color":"#1d2e2b","bg":"#ecca94"},{"text":"   ","bg":"#ecca94"},{"text":"███","color":"#1d2e2b","bg":"#ecca94"},{"text":"      ","bg":"#ecca94"},{"text":"◥","color":"#f6f1e7","bg":"#ecca94"},{"text":"   ","bg":"#ecca94"},{"text":"█","color":"#d48a6e","bg":"#ecca94"},{"text":"█","color":"#1f1412","bg":"#ecca94"},{"text":"██","color":"#d48a6e","bg":"#ecca94"},{"text":"█","color":"#1f1412","bg":"#ecca94"},{"text":"█","color":"#d48a6e","bg":"#ecca94"},{"text":"    ","bg":"#ecca94"},{"text":"▐███▌","color":"#fff4dc","bg":"#ecca94"},{"text":"   ","bg":"#ecca94"},{"text":"███","color":"#1d2e2b","bg":"#ecca94"},{"text":"  ","bg":"#ecca94"},{"text":"▲▲▲","color":"#1d2e2b","bg":"#ecca94"}],
+          [{"text":"  ","bg":"#f6dcaa"},{"text":"█","color":"#3a2a1e","bg":"#f6dcaa"},{"text":"   ","bg":"#f6dcaa"},{"text":"███","color":"#1d2e2b","bg":"#f6dcaa"},{"text":"    ","bg":"#f6dcaa"},{"text":"█","color":"#3a2a1e","bg":"#f6dcaa"},{"text":"     ","bg":"#f6dcaa"},{"text":"███","color":"#1d2e2b","bg":"#f6dcaa"},{"text":"    ","bg":"#f6dcaa"},{"text":"█","color":"#3a2a1e","bg":"#f6dcaa"},{"text":"           ","bg":"#f6dcaa"},{"text":"██████","color":"#d48a6e","bg":"#f6dcaa"},{"text":"   ","bg":"#f6dcaa"},{"text":"▀▀▀▀▀▀▀","color":"#fff0c8","bg":"#f6dcaa"},{"text":"   ","bg":"#f6dcaa"},{"text":"█","color":"#3a2a1e","bg":"#f6dcaa"},{"text":"   ","bg":"#f6dcaa"},{"text":"███","color":"#1d2e2b","bg":"#f6dcaa"}],
+          [{"text":"    ","bg":"#2a3a26"},{"text":"▄","color":"#3c6e34","bg":"#2a3a26"},{"text":"  ","bg":"#2a3a26"},{"text":"█","color":"#3a2a1e","bg":"#2a3a26"},{"text":"        ","bg":"#2a3a26"},{"text":"▄","color":"#3c6e34","bg":"#2a3a26"},{"text":"   ","bg":"#2a3a26"},{"text":"█","color":"#3a2a1e","bg":"#2a3a26"},{"text":"      ","bg":"#2a3a26"},{"text":"▄","color":"#3c6e34","bg":"#2a3a26"},{"text":"          ","bg":"#2a3a26"},{"text":"█","color":"#b8664a","bg":"#2a3a26"},{"text":" ","bg":"#2a3a26"},{"text":"██","color":"#b8664a","bg":"#2a3a26"},{"text":" ","bg":"#2a3a26"},{"text":"█","color":"#b8664a","bg":"#2a3a26"},{"text":"        ","bg":"#2a3a26"},{"text":"▄","color":"#3c6e34","bg":"#2a3a26"},{"text":"      ","bg":"#2a3a26"},{"text":"▄","color":"#3c6e34","bg":"#2a3a26"},{"text":"  ","bg":"#2a3a26"},{"text":"█","color":"#3a2a1e","bg":"#2a3a26"},{"text":" ","bg":"#2a3a26"}],
+          [{"text":"▀▄▀▀▀▄▀▀▄▀▀▀▀▄▀▀▀▄▀▀▄▀▀▀▄▀▀▀▀▄▀▀▄▀▀▀▄▀▀▀▄▀▀▀▀▄▀▀▄▀▀▀▄▀▀▀▄▀▀▀▄▀","color":"#3c6e34","bg":"#1f2b1c"},{"text":"  ","bg":"#1f2b1c"}]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "Desktop app only: the model writes each scene as JSON, compiled into one self-animating SVG (3D Claude, pixel-art pass, typed caption); it stays until read, the last one 30s."
+      },
+      {
+        "slot": "command",
+        "command": "/fables",
+        "args": "style ukiyo-e",
+        "output": [
+          [
+            "Scenes are now drawn as Ukiyo-e."
+          ]
+        ]
+      },
+      {
+        "slot": "command",
+        "command": "/fables",
+        "args": "model haiku",
+        "output": [
+          [
+            "Haiku now writes the story."
+          ]
+        ]
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/henrik-thevibe/Claude-Fables/6d0ce80575a92f8f6c8c2493c2bf20413e255622/assets/styles.gif",
+      "alt": "Claude, the little orange critter, playing out coding moments in all eleven styles, from Pixel Art and the Original to Ukiyo-e and Kamon",
+      "surface": "desktop"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/henrik-thevibe/Claude-Fables/6d0ce80575a92f8f6c8c2493c2bf20413e255622/assets/captions.gif",
+      "alt": "Claude pointing at a caption that reads: npm test on dates.ts: 42/42 passed, 0 failed",
+      "surface": "desktop"
+    }
+  ]
+}

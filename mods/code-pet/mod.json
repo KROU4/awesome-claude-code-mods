@@ -53,7 +53,7 @@
           [{"text":"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀","color":"#2a3348","bg":"#161d2e"},{"text":"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀","color":"#0b0f17","bg":"#161d2e"},{"text":"▀▀▀▀▀▀▀▀▀▀▀▀","color":"#2a3348","bg":"#161d2e"}],
           [" "],
           [{"text":"BYTE","color":"#E8E2D6","bold":true},{"text":"  Lv 4 blob · 1h old · 38 meals","dim":true},"       ",{"text":" SICK ","bg":"#e5484d","color":"#0B1121","bold":true}],
-          [{"text":"HP ","dim":true},{"text":"█████░","color":"#c2a87e"},"  ",{"text":"FOOD ","dim":true},{"text":"████░░","color":"#61A5FA"},"  ",{"text":"XP ","dim":true},{"text":"███░░░","color":"#E8E2D6"}],
+          [{"text":"HP ","dim":true},{"text":"█████░","color":"#c2a87e"},"  ",{"text":"FOOD ","dim":true},{"text":"██████","color":"#61A5FA"},"  ",{"text":"XP ","dim":true},{"text":"███░░░","color":"#E8E2D6"}],
           [" "],
           [{"button":"snack","hotkey":"f"},"   ",{"button":"demo","hotkey":"d"}]
         ]

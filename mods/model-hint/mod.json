@@ -1,0 +1,60 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "model-hint",
+  "title": "Model Hint",
+  "tagline": "Suggests haiku, sonnet or opus for the prompt you are typing, with a reason and a Switch button.",
+  "tagline_ru": "Подсказывает haiku, sonnet или opus для запроса, который вы печатаете, с причиной и кнопкой Switch.",
+  "description": "As you type, a band above the prompt names the model tier the task wants and why. It reads `reading the draft...` until, after a 300 ms pause, a small model (haiku by default) reads up to 4,000 characters of the draft and answers, about 1.5 s after you stop. Drafts that look like secrets, slash commands, `!` and `#` lines are never sent; `engine: rules` uses local word rules and sends nothing. Switch (`s`) appears only when your model does not cover the verdict and sets `model` like `/model`, saved as your default. Hide (`h`) clears the band for this prompt; Off (`o`) or `/model-hint` turns it off for the session. Options: `judge`, `show`, `bias`.",
+  "description_ru": "Пока вы печатаете, полоса над полем ввода называет уровень модели, который нужен задаче, и объясняет почему. Сначала там написано `reading the draft...`, а после паузы в 300 мс небольшая модель (по умолчанию haiku) читает до 4000 символов черновика и отвечает примерно через 1,5 с после последнего нажатия. Не отправляются черновики, похожие на секреты, слэш-команды и строки с `!` или `#` в начале; с `engine: rules` работают только локальные правила по словам, и наружу не уходит ничего. Кнопка Switch (`s`) появляется, только если текущая модель не покрывает вердикт, и меняет `model` так же, как `/model`, и сохраняет её по умолчанию. Hide (`h`) прячет полосу до отправки или очистки запроса, Off (`o`) или `/model-hint` выключает мод до конца сессии. Настройки: `judge`, `show`, `bias`.",
+  "author": { "name": "Berwin D.", "github": "hashswingingslasher", "url": "https://github.com/hashswingingslasher" },
+  "maintainers": ["hashswingingslasher"],
+  "category": "productivity",
+  "tags": ["model", "routing", "haiku", "sonnet", "opus", "vscode"],
+  "license": "MIT",
+  "version": "0.6.3",
+  "homepage": "https://github.com/hashswingingslasher/model-hint",
+  "source": { "type": "marketplace", "marketplace": "hashswingingslasher/model-hint", "plugin": "model-hint" },
+  "surfaces": ["terminal", "vscode"],
+  "requires": { "claudeCode": ">=2.1.296" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": true,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "Typing \"there is a race condition in the job queue, find the root cause\" on Sonnet: the judge says opus.",
+    "caption_ru": "Черновик «there is a race condition in the job queue, find the root cause» в сессии на Sonnet: модель-судья предлагает opus.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "opus", "color": "suggestion", "bold": true },
+            " ",
+            { "text": "hard concurrency bug", "dim": true },
+            " ",
+            { "button": "Switch to opus", "hotkey": "s" },
+            " ",
+            { "button": "Hide", "hotkey": "h" },
+            " ",
+            { "button": "Off", "hotkey": "o" }
+          ]
+        ]
+      },
+      { "slot": "command", "command": "/model-hint", "output": [["Model hint on."]] }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/hashswingingslasher/model-hint/assets/demo.gif",
+      "alt": "model-hint suggesting opus, haiku and sonnet for three drafts in a Claude Code session on Sonnet",
+      "surface": "terminal"
+    }
+  ]
+}

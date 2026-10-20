@@ -1,0 +1,49 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "storytime",
+  "title": "Storytime",
+  "tagline": "A tiny local transformer types a short story above the prompt about what Claude is working on.",
+  "tagline_ru": "Крошечный локальный трансформер печатает над полем ввода сказку о том, чем сейчас занят Claude.",
+  "description": "A 260K-parameter TinyStories transformer (Karpathy's `stories260K`, int8 weights bundled) runs locally in plain TypeScript and types a short story above the prompt, two tokens every 80 ms. Your prompts and Claude's tool calls reseed it, at most once every 12 seconds: the tool picks the hero (Edit a pencil, Read a book, Bash a robot, Grep a dog, your prompt a girl), the file it touched names it (`auth-service.ts` makes Auth), and a word from your prompt is what the hero finds (a bug stays a bug, a test is a puzzle). No API tokens are spent. `/story` writes a new one, `/story <name>` names the hero, `/story off` hides the band across sessions, `/story on` brings it back. Terminal only.",
+  "description_ru": "Трансформер TinyStories на 260 тысяч параметров (`stories260K` Андрея Карпатого, веса int8 встроены в мод) работает локально на чистом TypeScript и печатает короткую сказку в полосе над полем ввода, по два токена каждые 80 мс. Новую сказку запускают ваши запросы и вызовы инструментов Claude, но не чаще раза в 12 секунд: инструмент выбирает героя (Edit — карандаш, Read — книга, Bash — робот, Grep — собака, ваш запрос — девочка), затронутый файл даёт ему имя (из `auth-service.ts` получается Auth), а слово из запроса становится находкой героя (баг остаётся багом, тест превращается в головоломку). Токены API не тратятся. `/story` пишет новую сказку, `/story <имя>` даёт герою это имя, `/story off` скрывает полосу (запоминается между сессиями), `/story on` возвращает её. Только в терминале.",
+  "author": { "name": "Maddie Dreese", "github": "maddiedreese", "url": "https://github.com/maddiedreese" },
+  "maintainers": ["maddiedreese"],
+  "category": "fun",
+  "tags": ["story", "transformer", "local-model", "tinystories", "band", "command"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/maddiedreese/cc-storytime",
+  "source": { "type": "marketplace", "marketplace": "maddiedreese/cc-storytime", "plugin": "storytime" },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.272" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Refresh expired tokens in the auth service before it retries a request." },
+      { "role": "tool", "tool": "Read", "input": "src/auth-service.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/auth-service.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "status": "running" }
+    ],
+    "caption": "Mid-story: Claude's Edit of auth-service.ts made the hero a pencil named Auth, typed locally; /story starts a new one.",
+    "caption_ru": "Посреди сказки: правка auth-service.ts сделала героем карандаш по имени Auth, текст печатает локальная модель; /story начинает новую.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [" ", { "text": "Storytime · TinyStories-260K · local transformer · 0 API tokens", "dim": true }],
+          [" Once upon a time, there was a little pencil named Auth. Auth loved to draw"],
+          [" pictures of the sun and the moon. One day, Auth saw a big tree▍"],
+          [" ", { "text": "seeded by Edit auth-service.ts · 4300 tok/s · /story", "dim": true }]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "time-blame",
+  "title": "Time Blame",
+  "tagline": "Under each answer, the turn's time split into Claude, tools, you and other; /blame sums the session.",
+  "tagline_ru": "Под каждым ответом время хода по частям: Claude, инструменты, вы и прочее; /blame подводит итог сессии.",
+  "description": "After each turn of 3 seconds or more, a line under the answer splits its time into Claude (before first output and writing), tools (by tool name, and for Bash by a fixed list of programs such as `npm test` or `cargo build`), you (permission dialogs, AskUserQuestion, plan approval) and other (hooks, local work, gaps); the parts always add up to the total. In the terminal it replaces the \"Worked for\" line and starts with a 10-cell coloured bar; in the Desktop app and VS Code it is a dim log line. `/blame` opens a pane with the whole session's split as one bar plus each bucket's time, share and top items. Totals live in memory and reset on /clear and /resume; nothing leaves the machine.",
+  "description_ru": "После каждого хода от 3 секунд под ответом появляется строка, которая делит его время на части: Claude (ожидание первого вывода и сам вывод), инструменты (по имени, а для Bash по фиксированному списку программ вроде `npm test` или `cargo build`), вы (окна разрешений, AskUserQuestion, одобрение плана) и прочее (хуки, локальная работа, паузы). Части всегда складываются в общее время. В терминале строка заменяет «Worked for» и начинается с цветной полосы из 10 клеток, в десктопном приложении и VS Code это тусклая строка лога. Команда `/blame` открывает панель с разбивкой всей сессии: одна полоса, а под ней время, доля и главные позиции каждой части. Итоги хранятся в памяти и сбрасываются при /clear и /resume, наружу ничего не уходит.",
+  "author": { "name": "Karan Bansal", "github": "karanb192", "url": "https://github.com/karanb192" },
+  "maintainers": ["karanb192"],
+  "category": "insights",
+  "tags": ["turns", "duration", "latency", "tools", "pane", "command"],
+  "license": "MIT",
+  "version": "0.2.1",
+  "homepage": "https://timeblame.aidojo.si",
+  "source": { "type": "marketplace", "marketplace": "karanb192/time-blame", "plugin": "time-blame" },
+  "surfaces": ["terminal", "desktop", "vscode"],
+  "requires": { "claudeCode": ">=2.1.302" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "The cart total test fails since the discount change. Fix it." },
+      { "role": "tool", "tool": "Read", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  1 failed | 13 passed (14)", "status": "error" },
+      { "role": "tool", "tool": "Edit", "input": "src/cart/total.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "result": "Tests  14 passed (14)", "status": "done" },
+      { "role": "assistant", "text": "The discount was applied after tax in src/cart/total.ts; it now comes off the subtotal first, and all 14 tests pass." }
+    ],
+    "caption": "In place of \"Worked for\": npm test took 27 of the turn's 47s. /blame opens the session's split as one coloured bar.",
+    "caption_ru": "Вместо «Worked for»: npm test занял 27 из 47 секунд хода. /blame открывает разбивку сессии одной цветной полосой.",
+    "elements": [
+      { "slot": "turn-duration", "text": "██████████ time-blame 47s · Claude 15s (5.7s before output) · tools 27s (npm test 27s, Read 0.1s, +1) · other 4.6s" },
+      { "slot": "command", "command": "/blame" },
+      {
+        "slot": "pane",
+        "title": "time-blame",
+        "rows": [
+          ["this session, this machine · 3 turns · 2m05s of turn time"],
+          [" "],
+          [
+            { "text": "███████████████", "color": "#d97757" },
+            { "text": "███████████████████", "color": "#6a9bcc" },
+            { "text": "████", "color": "#788c5d" },
+            { "text": "██", "color": "#b0aea5" }
+          ],
+          [" "],
+          [{ "text": "██ ", "color": "#d97757" }, "Claude  ", { "text": "    48s", "bold": true }, "   38%"],
+          [{ "text": "   before output 31s, writing 17s", "dim": true }],
+          [{ "text": "██ ", "color": "#6a9bcc" }, "tools   ", { "text": "    58s", "bold": true }, "   47%"],
+          [{ "text": "   npm test 41s, npm install 15s, Edit 2.4s, +1 more", "dim": true }],
+          [{ "text": "██ ", "color": "#788c5d" }, "you     ", { "text": "    12s", "bold": true }, "   10%"],
+          [{ "text": "   approvals 12s", "dim": true }],
+          [{ "text": "██ ", "color": "#b0aea5" }, "other   ", { "text": "   6.6s", "bold": true }, "    5%"],
+          [{ "text": "   not attributed: hooks, local work, gaps", "dim": true }],
+          [" "],
+          [{ "text": "Summed waits in this session, not server speed. Esc closes.", "dim": true }]
+        ]
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/karanb192/time-blame/main/site/assets/time-blame-demo.gif",
+      "alt": "time-blame in a real session: after the answer the line shows Claude 15s and npm test 27s, then /blame opens the panel",
+      "surface": "terminal"
+    }
+  ]
+}

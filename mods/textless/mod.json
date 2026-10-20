@@ -4,8 +4,8 @@
   "title": "textless",
   "tagline": "While Claude works, one pixel-art card stands in for the wall of tool steps in the chat.",
   "tagline_ru": "Пока Claude работает, вместо ленты шагов в чате стоит одна карточка с пиксельной картинкой.",
-  "description": "While Claude works, textless hides the turn's tool rows and draws one tall card in their place: an animated scene (SVG on desktop, coloured half blocks in the terminal, or a quote), \"Claude is working\" and the current step. The card's top row holds the Aa switch, ⚙ settings and Minimize, which shrinks it to one line. When the turn ends the steps fold under the answer behind \"show steps\". Pick a set or one scene, drop your own GIF, PNG, WebP, JPG or SVG in `~/.claude/textless/scenes`, or `/textless get <id>` from the Marketplace. `/textless` toggles it per chat, `/textless settings` opens the web page. `/chess` plays chess in the chat; `/chess claude` sends your moves to Claude as messages.",
-  "description_ru": "Пока Claude работает, textless прячет строки инструментов текущего хода и рисует на их месте одну высокую карточку: анимированную сцену (SVG в приложении, цветные полублоки в терминале или цитату), надпись «Claude is working» и текущий шаг. В верхней строке карточки переключатель Aa, настройки ⚙ и Minimize, который сворачивает её в одну строку. Когда ход закончен, шаги сворачиваются под ответом за кнопкой «show steps». Выберите набор или одну сцену, положите свои GIF, PNG, WebP, JPG или SVG в `~/.claude/textless/scenes` или возьмите сцену из Marketplace командой `/textless get <id>`. `/textless` включает и выключает мод в этом чате, `/textless settings` открывает настройки на сайте. `/chess` запускает шахматы в чате; с `/chess claude` ваши ходы уходят Claude как ваши сообщения.",
+  "description": "While Claude works, textless hides the turn's tool rows and draws one tall card in their place: an animated scene or a quote being written, \"Claude is working\" and the current step. The card's top row holds the Aa switch, ⚙ settings and Minimize, which shrinks it to one line. When the turn ends the steps fold under the answer behind \"show steps\". Pick a set or one scene, drop your own GIF, PNG, WebP, JPG or SVG in `~/.claude/textless/scenes`, or `/textless get <id>` from the Marketplace. `/textless` toggles it per chat, `/textless settings` opens the settings page on the website. `/chess` plays chess in the chat; `/chess claude` sends your moves to Claude as messages. Desktop app only.",
+  "description_ru": "Пока Claude работает, textless прячет строки инструментов текущего хода и рисует на их месте одну высокую карточку: анимированную сцену или цитату, надпись «Claude is working» и текущий шаг. В верхней строке карточки переключатель Aa, настройки ⚙ и Minimize, который сворачивает её в одну строку. Когда ход закончен, шаги прячутся под ответом за кнопкой «show steps». Выберите набор или одну сцену, положите свои GIF, PNG, WebP, JPG или SVG в `~/.claude/textless/scenes` или возьмите сцену из Marketplace командой `/textless get <id>`. `/textless` включает и выключает мод в этом чате, `/textless settings` открывает настройки на сайте. `/chess` запускает шахматы в чате; с `/chess claude` ваши ходы уходят Claude обычными сообщениями. Работает только в десктопном приложении.",
   "author": { "name": "HeyCubit", "github": "HeyCubit", "url": "https://github.com/HeyCubit" },
   "maintainers": ["HeyCubit"],
   "category": "fun",
@@ -14,7 +14,7 @@
   "version": "0.15.16",
   "homepage": "https://heycubit.github.io/effortless/textless/",
   "source": { "type": "marketplace", "marketplace": "HeyCubit/effortless", "plugin": "textless", "path": "textless/plugin" },
-  "surfaces": ["desktop", "terminal"],
+  "surfaces": ["desktop"],
   "requires": { "claudeCode": ">=2.1.287" },
   "capabilities": {
     "network": true,
@@ -25,7 +25,7 @@
     "blocksTools": false
   },
   "preview": {
-    "surface": "terminal",
+    "surface": "desktop",
     "transcript": [
       { "role": "user", "text": "Add percentage discount codes to the cart total and make the tests pass." }
     ],
@@ -38,7 +38,8 @@
         "input": "Run the test suite",
         "row": [
           "                              ",
-          { "button": "Aa" },
+          { "text": "Aa", "color": "#d77757", "bold": true },
+          " ",
           { "button": "⚙" },
           { "button": "Minimize" }
         ],
@@ -53,15 +54,8 @@
           [{ "text": "Run the test suite", "dim": true }]
         ]
       },
-      { "slot": "command", "command": "/textless", "output": [["textless on in this chat."]] },
-      { "slot": "background", "text": "Draws pixel art with Raster (terminal) and SVG scenes on desktop; the block art here only approximates a scene. The turn's tool rows are hidden behind the card." }
+      { "slot": "command", "command": "/textless", "args": "on", "output": [["textless on in this chat."]] },
+      { "slot": "background", "text": "On desktop the scene is an animated SVG and Minimize is an arrows icon; the block art here only approximates a Clawd scene. The turn's other tool rows draw nothing." }
     ]
-  },
-  "media": [
-    {
-      "type": "image",
-      "src": "https://raw.githubusercontent.com/HeyCubit/effortless/main/textless/brand/readme-banner.png",
-      "alt": "textless"
-    }
-  ]
+  }
 }

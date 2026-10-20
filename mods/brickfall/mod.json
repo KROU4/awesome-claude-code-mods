@@ -1,0 +1,896 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "brickfall",
+  "title": "Brickfall",
+  "tagline": "A loud Arkanoid brick breaker in a pane: steer with the mouse, catch capsules, chain volt bricks.",
+  "tagline_ru": "Яркий арканоид в панели: ракетка за мышью, капсулы с бонусами и цепные взрывы вольт-кирпичей.",
+  "description": "`/bricks` opens a brick breaker after Arkanoid in a pane: the paddle follows the mouse, a click launches the ball (or fires the laser) and moving off the field pauses, so you can read Claude's answer; `a` `d` steer, `w` launches, `p` pauses, `n` starts over. Ten rounds of coloured, silver, gold and volt bricks (a volt blows up its neighbours, in chains), thirteen kinds of capsule (laser, split, giant ball, barrier, zap...), a combo up to x4 and gems that fill a FEVER of double points. In kitty and Ghostty the field is a real picture, elsewhere quadrant blocks. The best score is kept in the plugin's store. The mouse needs `CLAUDE_CODE_NO_FLICKER=1`. No prompt or tool hooks, no network.",
+  "description_ru": "`/bricks` открывает в панели арканоид: ракетка идёт за мышью, клик запускает мяч (или стреляет лазером), а если увести мышь с поля, игра встаёт на паузу — можно спокойно прочитать ответ Claude; `a` `d` двигают ракетку, `w` запускает, `p` ставит паузу, `n` начинает новую игру. Десять раундов с цветными, серебряными, золотыми и вольт-кирпичами (вольт-кирпич взрывает соседние, и взрывы идут цепочкой), тринадцать видов капсул (лазер, тройной мяч, гигантский мяч, барьер, молния...), комбо до x4 и самоцветы, которые копят шкалу FEVER с двойными очками. В kitty и Ghostty поле рисуется настоящей картинкой, в остальных терминалах — блочными символами. Лучший счёт запоминается между сессиями. Для мыши нужен `CLAUDE_CODE_NO_FLICKER=1`. Промпт и инструменты мод не перехватывает, в сеть не ходит.",
+  "author": {
+    "name": "Reporails",
+    "github": "reporails",
+    "url": "https://reporails.com"
+  },
+  "maintainers": [
+    "reporails"
+  ],
+  "category": "fun",
+  "tags": [
+    "game",
+    "arkanoid",
+    "breakout",
+    "pane",
+    "mouse"
+  ],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/reporails/arcade/tree/main/brickfall",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "reporails/arcade",
+    "plugin": "brickfall",
+    "path": "brickfall"
+  },
+  "surfaces": [
+    "terminal"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "Round 2, Staircase, mid-combo: the score line, a falling split capsule and a gem; the field drawn here in rough blocks.",
+    "caption_ru": "Раунд 2, Staircase, в разгар комбо: строка счёта, падающая капсула тройного мяча и самоцвет; поле здесь нарисовано грубыми блоками.",
+    "elements": [
+      {
+        "slot": "pane",
+        "title": "Brickfall",
+        "width": "narrow",
+        "rows": [
+          [
+            {
+              "text": "0048200",
+              "color": "#ffe14a"
+            },
+            {
+              "text": " best 0127400",
+              "color": "#8a8fb0"
+            },
+            {
+              "text": "  round 2 · Staircase",
+              "color": "#9fe8ff"
+            },
+            {
+              "text": "  ●●●",
+              "color": "#ff5c7a"
+            },
+            {
+              "text": "  ◆ 7/12",
+              "color": "#7fe6ff"
+            }
+          ],
+          [
+            {
+              "text": "████████████████████████████████████████████████████████",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#2b2250"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#2b2250"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#2b2250"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "                                                ",
+              "bg": "#2b2250"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "                                            ",
+              "bg": "#2b2250"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "                                        ",
+              "bg": "#2b2250"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "                                    ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "                                ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "████",
+              "color": "#3b6cff"
+            },
+            {
+              "text": "                            ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "████",
+              "color": "#3b6cff"
+            },
+            {
+              "text": "████",
+              "color": "#ff4fd8"
+            },
+            {
+              "text": "                        ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "████",
+              "color": "#3b6cff"
+            },
+            {
+              "text": "████",
+              "color": "#ff4fd8"
+            },
+            {
+              "text": "████",
+              "color": "#ffe14a"
+            },
+            {
+              "text": "                    ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "████",
+              "color": "#3b6cff"
+            },
+            {
+              "text": "████",
+              "color": "#ff4fd8"
+            },
+            {
+              "text": "████",
+              "color": "#ffe14a"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "                ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "████",
+              "color": "#3b6cff"
+            },
+            {
+              "text": "████",
+              "color": "#ff4fd8"
+            },
+            {
+              "text": "████",
+              "color": "#ffe14a"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "            ",
+              "bg": "#251d46"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "    ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "████",
+              "color": "#ff4fd8"
+            },
+            {
+              "text": "████",
+              "color": "#ffe14a"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "        ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "            ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "████",
+              "color": "#ffe14a"
+            },
+            {
+              "text": "████",
+              "color": "#f2f2ff"
+            },
+            {
+              "text": "████",
+              "color": "#ff8a2a"
+            },
+            {
+              "text": "████",
+              "color": "#2ee6ff"
+            },
+            {
+              "text": "████",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "    ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "████████████████",
+              "color": "#c4ccde"
+            },
+            {
+              "text": "            ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "████████████████████",
+              "color": "#c4ccde"
+            },
+            {
+              "text": "████",
+              "color": "#ff3b5c"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                      ",
+              "bg": "#1e1838"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "COMBO X2",
+              "color": "#ffd65a",
+              "bold": true
+            },
+            {
+              "text": "                      ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                              ",
+              "bg": "#1e1838"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "●",
+              "color": "#ffffff",
+              "bold": true
+            },
+            {
+              "text": "                     ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "         ",
+              "bg": "#1e1838"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "◆",
+              "color": "#3dff7a"
+            },
+            {
+              "text": "                   ",
+              "bg": "#1e1838"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "·",
+              "color": "#59bfff"
+            },
+            {
+              "text": "                      ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                     ",
+              "bg": "#1e1838"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "▐",
+              "color": "#28e6ff"
+            },
+            {
+              "bg": "#d2faff",
+              "text": "D",
+              "color": "#1a1a24",
+              "bold": true
+            },
+            {
+              "bg": "#1e1838",
+              "text": "▌",
+              "color": "#28e6ff"
+            },
+            {
+              "text": "            ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                          ",
+              "bg": "#1e1838"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "▀",
+              "color": "#ff5161"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "▀▀▀▀▀▀",
+              "color": "#b8c2dc"
+            },
+            {
+              "bg": "#1e1838",
+              "text": "▀",
+              "color": "#ff5161"
+            },
+            {
+              "text": "                  ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            {
+              "text": "██",
+              "color": "#4b5266"
+            },
+            {
+              "text": "                                                    ",
+              "bg": "#1e1838"
+            },
+            {
+              "text": "██",
+              "color": "#4b5266"
+            }
+          ],
+          [
+            " ",
+            {
+              "text": "the mouse steers · click launches and fires · leave th…",
+              "color": "#9fe8ff"
+            }
+          ],
+          [
+            {
+              "button": "← a",
+              "hotkey": "a",
+              "variant": "secondary"
+            },
+            "  ",
+            {
+              "button": "d →",
+              "hotkey": "d",
+              "variant": "secondary"
+            },
+            "  ",
+            {
+              "button": "launch / fire",
+              "hotkey": "w",
+              "variant": "primary"
+            },
+            "  ",
+            {
+              "button": "pause",
+              "hotkey": "p"
+            },
+            "  ",
+            {
+              "button": "new game",
+              "hotkey": "n"
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "command",
+        "command": "/bricks"
+      },
+      {
+        "slot": "command",
+        "command": "/bricks",
+        "args": "quit",
+        "output": [
+          [
+            "Brickfall has closed."
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "In kitty and Ghostty the field is a real picture, elsewhere quadrant-block cells, repainted up to 60 times a second over a shimmering iridescent backdrop."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/reporails/arcade/main/docs/brickfall.png",
+      "alt": "Brickfall docked beside a Claude Code session in kitty: round two, Staircase, mid-combo, while Claude reports that all 11 tests passed (a recorded take, a bot at the paddle)",
+      "surface": "terminal"
+    }
+  ]
+}

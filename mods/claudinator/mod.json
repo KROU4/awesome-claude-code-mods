@@ -1,0 +1,142 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "claudinator",
+  "title": "Claudinator",
+  "tagline": "Six switchable looks for tool rows, the working line and turn receipts, and nine ingredients to mix.",
+  "tagline_ru": "Шесть сменных стилей для строк инструментов, индикатора работы и итога хода плюс девять ингредиентов.",
+  "description": "Redraws the parts of a turn: tool rows and folded groups, their results, your prompt row, the working line with a bar of where the time went, and a receipt closing each turn (`── ◆ Turn 1 · 48s · 1 file · +1 −1 · 12% ctx`). Pick one of six looks (Hairline by default, Broadsheet, Mission Control, Prism, Sumi, Blueprint) and mix in nine ingredients such as mini diffs, file colors, quiet, headlines, footnotes and a time strip. An attention ladder toasts after 30 s on a permission prompt (sound or notification at 2 min, off by default). `/claudinator` opens the picker, `/look <name>` switches, `/look share` shows a code like `HL-43H`; `/chapters`, `/ledger` and `/pins` open a navigator pane.",
+  "description_ru": "Перерисовывает ход: строки инструментов и свёрнутые группы, их результаты, строку вашего запроса, индикатор работы с полосой, на что ушло время, и итоговую строку хода (`── ◆ Turn 1 · 48s · 1 file · +1 −1 · 12% ctx`). Выберите один из шести стилей (по умолчанию Hairline, ещё Broadsheet, Mission Control, Prism, Sumi и Blueprint) и добавьте любые из девяти ингредиентов: мини-диффы, цвета файлов, тихий режим, заголовки, сноски, полоса времени и другие. Если запрос разрешения ждёт 30 секунд, всплывает уведомление, а через 2 минуты можно включить звук или системное уведомление (по умолчанию выключены). `/claudinator` открывает панель выбора, `/look <имя>` переключает стиль, `/look share` показывает код вроде `HL-43H`, а `/chapters`, `/ledger` и `/pins` открывают навигатор по сессии.",
+  "author": { "name": "patheonsceo", "github": "patheonsceo", "url": "https://github.com/patheonsceo" },
+  "maintainers": ["patheonsceo"],
+  "category": "interface",
+  "tags": ["looks", "tool-rows", "receipts", "themes", "panes", "spinner"],
+  "license": "MIT",
+  "version": "1.1.1",
+  "homepage": "https://github.com/patheonsceo/claudinator",
+  "source": { "type": "marketplace", "marketplace": "patheonsceo/claudinator", "plugin": "claudinator" },
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Fix total() in src/cart.js so it counts item.qty, then run npm test." }
+    ],
+    "caption": "The Hairline look after a turn: icon rows with a duration bar (amber when slow), a mini diff, the receipt and the /claudinator picker.",
+    "caption_ru": "Стиль Hairline после хода: строки со значками и полосой длительности (янтарной, если шаг долгий), мини-дифф, итоговая строка и панель /claudinator.",
+    "elements": [
+      {
+        "slot": "tool-row",
+        "tool": "Read",
+        "input": "src/cart.js",
+        "row": [
+          { "text": "◇", "color": "inactive" },
+          " ",
+          { "text": "Read  ", "color": "inactive" },
+          " ",
+          { "text": "src/", "color": "inactive" },
+          { "text": "cart.js", "color": "text" },
+          "                                              ",
+          { "text": "       ─", "color": "subtle" },
+          " ",
+          { "text": " 0.2s", "color": "inactive" }
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Edit",
+        "input": "src/cart.js",
+        "row": [
+          { "text": "◆", "color": "suggestion" },
+          " ",
+          { "text": "Edit  ", "color": "text" },
+          " ",
+          { "text": "src/", "color": "inactive" },
+          { "text": "cart.js", "color": "text" },
+          "                                        ",
+          { "text": "+1", "color": "success" },
+          " ",
+          { "text": "−1", "color": "error" },
+          " ",
+          { "text": "       ─", "color": "subtle" },
+          " ",
+          { "text": " 0.1s", "color": "inactive" }
+        ],
+        "result": [
+          ["      ", { "text": "- sum + item.price, 0)", "color": "text", "bg": "#7a2936" }],
+          ["      ", { "text": "+ sum + item.price * item.qty, 0)", "color": "text", "bg": "#225c2b" }]
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Bash",
+        "input": "npm test",
+        "row": [
+          { "text": "›", "color": "inactive" },
+          " ",
+          { "text": "Run   ", "color": "inactive" },
+          " ",
+          { "text": "npm test", "color": "text" },
+          "                                                 ",
+          { "text": "  ──────", "color": "warning" },
+          " ",
+          { "text": " 3.4s", "color": "inactive" }
+        ],
+        "result": [
+          ["      ", { "text": "✓ ", "color": "success" }, { "text": "2 passing (6ms)", "color": "inactive" }]
+        ]
+      },
+      { "slot": "turn-duration", "text": "── ◆ Turn 1 · 48s · 1 file · +1 −1 · ────────── 12% ctx ───────────────────────" },
+      { "slot": "command", "command": "/claudinator" },
+      {
+        "slot": "pane",
+        "title": "Claudinator",
+        "width": "wide",
+        "rows": [
+          [" ", { "text": "◆ Claudinator", "bold": true, "color": "suggestion" }],
+          [" ", { "text": "Hairline · 3 ingredients on", "color": "inactive" }],
+          [" "],
+          [" ", { "text": "LOOK", "bold": true, "color": "suggestion" }, " ", { "text": "───────────────────────────────────", "color": "subtle" }],
+          [" ", { "text": "› ", "bold": true, "color": "suggestion" }, "1: Hairline       ", " ", { "text": "■", "color": "#a0a3ff" }, { "text": "■", "color": "#7fd1a8" }, { "text": "■", "color": "#f2c66d" }],
+          [" ", "  ", { "text": "2: Broadsheet     ", "dim": true }, " ", { "text": "■", "color": "#e3b65c" }, { "text": "■", "color": "#d6a3b5" }, { "text": "■", "color": "#8fbfb4" }],
+          [" ", "  ", { "text": "3: Mission Control", "dim": true }, " ", { "text": "■", "color": "#ffb347" }, { "text": "■", "color": "#93d46b" }, { "text": "■", "color": "#6fd6c3" }],
+          [" ", "  ", { "text": "4: Prism          ", "dim": true }, " ", { "text": "■", "color": "#7c6cff" }, { "text": "■", "color": "#ff6fa8" }, { "text": "■", "color": "#6fd6e8" }],
+          [" ", "  ", { "text": "5: Sumi           ", "dim": true }, " ", { "text": "■", "color": "#8aa4e0" }, { "text": "■", "color": "#a9b8a0" }, { "text": "■", "color": "#c9b98e" }],
+          [" ", "  ", { "text": "6: Blueprint      ", "dim": true }, " ", { "text": "■", "color": "#7fd4ff" }, { "text": "■", "color": "#ffffff" }, { "text": "■", "color": "#ffe08a" }],
+          [" ", "  ", { "text": "7: Off            ", "dim": true }, " ", { "text": "□□□", "color": "subtle" }],
+          [" "],
+          [" ", { "text": "INGREDIENTS", "bold": true, "color": "suggestion" }, " ", { "text": "────────────────────────────", "color": "subtle" }],
+          [" ", { "text": "● ", "color": "success" }, "r: Recency fade", "  ", { "text": "● ", "color": "success" }, "d: Mini diffs"],
+          [" ", { "text": "○ ", "color": "subtle" }, { "text": "f: File colors", "dim": true }, "   ", { "text": "○ ", "color": "subtle" }, { "text": "q: Quiet", "dim": true }],
+          [" ", { "text": "○ ", "color": "subtle" }, { "text": "h: Headlines", "dim": true }, "     ", { "text": "○ ", "color": "subtle" }, { "text": "n: Footnotes", "dim": true }],
+          [" ", { "text": "○ ", "color": "subtle" }, { "text": "t: Time strip", "dim": true }, "    ", { "text": "● ", "color": "success" }, "a: Attention ladder"],
+          [" ", { "text": "○ ", "color": "subtle" }, { "text": "i: -inator mode", "dim": true }],
+          [" "],
+          [" ", { "text": "COMBOS", "bold": true, "color": "suggestion" }, " ", { "text": "─────────────────────────────────", "color": "subtle" }],
+          [" ", "w: Daily driver   s: Storyteller"],
+          [" ", "o: Show-off   x: Doof mode   z: Zen"],
+          [" "],
+          [" ", { "text": "SHARE", "bold": true, "color": "suggestion" }, " ", { "text": "──────────────────────────────────", "color": "subtle" }],
+          [" ", { "text": "Your code  ", "color": "inactive" }, { "text": "HL-43H", "bold": true, "color": "suggestion" }],
+          [" ", { "text": "Others type /look use HL-43H", "color": "inactive" }],
+          [" ", { "text": "Every row in this session follows your", "color": "inactive" }],
+          [" ", { "text": "choice. Esc closes.", "color": "inactive" }]
+        ]
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/patheonsceo/claudinator/media/1.1.1/hero.gif",
+      "alt": "One session switching through all six Claudinator looks from the /claudinator picker",
+      "surface": "terminal"
+    }
+  ]
+}

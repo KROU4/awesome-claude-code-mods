@@ -4,8 +4,8 @@
   "title": "Cat Spinner",
   "tagline": "A pixel-art cat walks above the spinner, sits down to think and reacts to Claude's tools.",
   "tagline_ru": "Пиксельный кот гуляет над спиннером, садится подумать и реагирует на инструменты Claude.",
-  "description": "While Claude works, a pixel-art cat walks back and forth above the spinner line, which keeps its word, time and tokens. It sits facing you with a thought bubble (hmm, ..., ?, !) while Claude thinks, types on a laptop during Edit or Write, sweeps a magnifying glass during Read, Grep, Glob and web tools, digs during Bash, and jumps with a `!` when a tool fails or is denied. Eight coats, four animations (walk, yarn, pounce, random), full or compact width, Halloween extras through October and an optional nap above the prompt between turns. `/cat-spinner` opens settings with a live preview; `/cat-spinner calico`, `pounce` or `nap` switch directly. Terminal only.",
-  "description_ru": "Пока Claude работает, над строкой спиннера ходит туда-сюда пиксельный кот, а слово, время и токены остаются на месте. Когда Claude думает, кот садится к вам лицом с облачком мыслей (hmm, ..., ?, !); во время Edit или Write печатает на ноутбуке, во время Read, Grep, Glob и веб-инструментов водит лупой, во время Bash копает, а если инструмент упал или был отклонён, подпрыгивает с `!`. Восемь окрасов, четыре анимации (walk, yarn, pounce, random), полная или компактная ширина, хеллоуинские украшения весь октябрь и, по желанию, сон над полем ввода между ходами. `/cat-spinner` открывает настройки с живым превью; `/cat-spinner calico`, `pounce` или `nap` переключают сразу. Работает только в терминале.",
+  "description": "While Claude works, a pixel-art cat walks back and forth above the spinner line, which still shows its word, time and tokens. It sits facing you with a thought bubble (hmm, ..., ?, !) while Claude thinks, types on a laptop during Edit or Write, sweeps a magnifying glass during Read, Grep, Glob and web tools, digs during Bash, and jumps with a `!` when a tool fails or is denied. Eight coats, four animations (walk, yarn, pounce, random), full or compact width, Halloween extras through October and an optional nap above the prompt between turns. `/cat-spinner` opens settings with a live preview; `/cat-spinner calico`, `pounce` or `nap` switch directly. Terminal only.",
+  "description_ru": "Пока Claude работает, над строкой спиннера ходит туда-сюда пиксельный кот, а слово, время и токены остаются на месте. Когда Claude думает, кот садится лицом к вам с облачком мыслей (hmm, ..., ?, !); во время Edit или Write печатает на ноутбуке, во время Read, Grep, Glob и веб-инструментов водит лупой, во время Bash копает, а если инструмент упал или был отклонён, подпрыгивает с `!`. Восемь окрасов, четыре анимации (walk, yarn, pounce, random), полная или компактная ширина, хеллоуинские украшения весь октябрь и, по желанию, сон над полем ввода между ходами. `/cat-spinner` открывает настройки с живым превью; `/cat-spinner calico`, `pounce` или `nap` переключают сразу. Работает только в терминале.",
   "author": {
     "name": "Scott Wicken",
     "github": "swicken",
@@ -47,8 +47,8 @@
   "preview": {
     "scene": "coding",
     "surface": "terminal",
-    "caption": "The /cat-spinner settings: a live preview of the Siamese above each setting and its current choice.",
-    "caption_ru": "Настройки /cat-spinner: живое превью сиамского кота над списком настроек с текущим выбором.",
+    "caption": "The /cat-spinner settings with a live preview of the walking Siamese; while Claude works, the cat walks above the spinner.",
+    "caption_ru": "Настройки /cat-spinner с живым превью: сиамский кот на ходу. Пока Claude работает, этот же кот ходит над спиннером.",
     "elements": [
       {
         "slot": "command",
@@ -62,212 +62,522 @@
       {
         "slot": "pane",
         "title": "cat-spinner",
-        "width": "narrow",
+        "width": "wide",
         "rows": [
           [
-            "        ",
-            "  ",
+            " ",
             {
               "text": "▄",
-              "color": "#4b3a31"
+              "color": "#1c1512"
             },
-            "                     ",
-            {
-              "text": "▄",
-              "color": "#4b3a31"
-            },
-            "   ",
-            {
-              "text": "▄",
-              "color": "#4b3a31"
-            },
-            "  "
-          ],
-          [
-            "        ",
-            "  ",
-            {
-              "text": "█",
-              "color": "#4b3a31"
-            },
-            "                    ",
-            {
-              "text": "█",
-              "color": "#4b3a31"
-            },
-            {
-              "text": "█████",
-              "color": "#6a564a"
-            },
-            {
-              "text": "█",
-              "color": "#4b3a31"
-            },
-            " "
-          ],
-          [
-            "        ",
-            "  ",
             {
               "text": "▀",
-              "color": "#4b3a31"
+              "color": "#1c1512",
+              "bg": "#4b3a31"
             },
             {
               "text": "█",
               "color": "#4b3a31"
             },
-            "  ",
             {
-              "text": "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄",
-              "color": "#9c8e82"
+              "text": "█",
+              "color": "#1c1512"
+            },
+            "                  ",
+            {
+              "text": "▄",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#382b24"
+            },
+            {
+              "text": "▄",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀▀",
+              "color": "#1c1512",
+              "bg": "#4b3a31"
+            },
+            {
+              "text": "▄",
+              "color": "#1c1512"
+            }
+          ],
+          [
+            " ",
+            {
+              "text": "█",
+              "color": "#1c1512"
             },
             {
               "text": "██",
-              "color": "#6a564a"
+              "color": "#4b3a31"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            },
+            "                 ",
+            {
+              "text": "▄",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#382b24"
+            },
+            {
+              "text": "▀",
+              "color": "#382b24",
+              "bg": "#9c8e82"
+            },
+            {
+              "text": "▀",
+              "color": "#b9ab9d",
+              "bg": "#9c8e82"
+            },
+            {
+              "text": "▀▀",
+              "color": "#5e4a40",
+              "bg": "#9c8e82"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#6a564a"
+            },
+            {
+              "text": "▄",
+              "color": "#1c1512"
+            }
+          ],
+          [
+            "  ",
+            {
+              "text": "█",
+              "color": "#1c1512"
+            },
+            {
+              "text": "█",
+              "color": "#4b3a31"
+            },
+            {
+              "text": "▀",
+              "color": "#4b3a31",
+              "bg": "#6a564a"
+            },
+            {
+              "text": "▀▀",
+              "color": "#1c1512",
+              "bg": "#6a564a"
+            },
+            {
+              "text": "▄▄▄▄▄",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀",
+              "color": "#1c1512",
+              "bg": "#b9ab9d"
+            },
+            {
+              "text": "▀▀",
+              "color": "#1c1512",
+              "bg": "#9c8e82"
+            },
+            {
+              "text": "████",
+              "color": "#9c8e82"
             },
             {
               "text": "█",
               "color": "#86c1ee"
             },
             {
-              "text": "████",
-              "color": "#6a564a"
+              "text": "█",
+              "color": "#101418"
             },
             {
-              "text": "▄",
-              "color": "#6a564a"
+              "text": "▀",
+              "color": "#6a564a",
+              "bg": "#1a1310"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
             }
           ],
           [
-            "        ",
             "   ",
             {
               "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀▀",
+              "color": "#6a564a",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#6a564a",
+              "bg": "#7e7066"
+            },
+            {
+              "text": "█",
+              "color": "#4a3d35"
+            },
+            {
+              "text": "██████████████",
+              "color": "#9c8e82"
+            },
+            {
+              "text": "▀",
+              "color": "#d9cdbb",
+              "bg": "#9c8e82"
+            },
+            {
+              "text": "█",
+              "color": "#d9cdbb"
+            },
+            {
+              "text": "▀",
+              "color": "#9c8e82",
+              "bg": "#d9cdbb"
+            },
+            {
+              "text": "█",
+              "color": "#9c8e82"
+            },
+            {
+              "text": "▀",
+              "color": "#6a564a",
+              "bg": "#9c8e82"
+            },
+            {
+              "text": "██",
+              "color": "#6a564a"
+            },
+            {
+              "text": "▀",
+              "color": "#4b3a31",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            }
+          ],
+          [
+            "      ",
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀▀▀",
+              "color": "#9c8e82",
+              "bg": "#7e7066"
+            },
+            {
+              "text": "██",
+              "color": "#7e7066"
+            },
+            {
+              "text": "▀▀▀▀▀▀",
+              "color": "#9c8e82",
+              "bg": "#7e7066"
+            },
+            {
+              "text": "█",
+              "color": "#d9cdbb"
+            },
+            {
+              "text": "███",
+              "color": "#7e7066"
+            },
+            {
+              "text": "▀",
+              "color": "#d9cdbb",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀▀▀▀▀",
+              "color": "#1c1512"
+            }
+          ],
+          [
+            "       ",
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀▀▀",
+              "color": "#7e7066",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀▀",
+              "color": "#7e7066",
+              "bg": "#6c5f56"
+            },
+            {
+              "text": "▀",
+              "color": "#7e7066",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "██",
+              "color": "#6a564a"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#6a564a",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "█",
+              "color": "#6a564a"
+            },
+            {
+              "text": "▀",
+              "color": "#6c5f56",
+              "bg": "#6a564a"
+            },
+            {
+              "text": "█",
+              "color": "#6c5f56"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            }
+          ],
+          [
+            "       ",
+            {
+              "text": "▄",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀▀▀",
+              "color": "#1c1512",
+              "bg": "#382b24"
+            },
+            {
+              "text": "██",
+              "color": "#6c5f56"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#6a564a",
+              "bg": "#4b3a31"
+            },
+            {
+              "text": "▀",
+              "color": "#6a564a",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            " ",
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#6c5f56",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#6c5f56",
+              "bg": "#4b3a31"
+            },
+            {
+              "text": "██",
               "color": "#4b3a31"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            }
+          ],
+          [
+            "       ",
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#382b24",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "█",
+              "color": "#382b24"
+            },
+            {
+              "text": "▀▀",
+              "color": "#1c1512",
+              "bg": "#382b24"
+            },
+            {
+              "text": "█",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#4b3a31",
+              "bg": "#1c1512"
             },
             {
               "text": "█",
               "color": "#4b3a31"
             },
             {
-              "text": "███████████████████",
-              "color": "#9c8e82"
+              "text": "▀▀",
+              "color": "#1c1512",
+              "bg": "#4b3a31"
             },
             {
-              "text": "█████",
-              "color": "#6a564a"
+              "text": "▄",
+              "color": "#1c1512"
+            },
+            " ",
+            {
+              "text": "▀",
+              "color": "#1c1512"
             },
             {
-              "text": "██",
-              "color": "#4b3a31"
+              "text": "█",
+              "color": "#1c1512"
+            },
+            {
+              "text": "█",
+              "color": "#382b24"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#382b24"
+            },
+            {
+              "text": "▄",
+              "color": "#1c1512"
             }
           ],
           [
-            "        ",
-            "     ",
+            "       ",
             {
-              "text": "███████████████████",
-              "color": "#9c8e82"
-            },
-            {
-              "text": "▀",
-              "color": "#d9cdbb"
-            },
-            {
-              "text": "███",
-              "color": "#d9cdbb"
-            },
-            {
-              "text": "▀",
-              "color": "#4b3a31"
-            },
-            "  "
-          ],
-          [
-            "        ",
-            "     ",
-            {
-              "text": "▀",
-              "color": "#9c8e82"
-            },
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            " ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            "         ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            " ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            {
-              "text": "▀",
-              "color": "#9c8e82"
-            },
-            "     "
-          ],
-          [
-            "        ",
-            "      ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            " ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            "         ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            " ",
-            {
-              "text": "██",
-              "color": "#4b3a31"
-            },
-            "      "
-          ],
-          [
-            "        ",
-            "    ",
-            {
-              "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
+              "text": "▄▄",
               "color": "#33333d"
             },
-            "    "
-          ],
-          [
-            " "
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#33333d"
+            },
+            {
+              "text": "▀",
+              "color": "#382b24",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#33333d"
+            },
+            {
+              "text": "▄▄▄",
+              "color": "#33333d"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#33333d"
+            },
+            {
+              "text": "▀",
+              "color": "#4b3a31",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#33333d"
+            },
+            {
+              "text": "▄▄▄",
+              "color": "#33333d"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#33333d"
+            },
+            {
+              "text": "▀▀",
+              "color": "#382b24",
+              "bg": "#1c1512"
+            },
+            {
+              "text": "▀",
+              "color": "#1c1512",
+              "bg": "#33333d"
+            },
+            {
+              "text": "▄",
+              "color": "#33333d"
+            }
           ],
           [
             {
-              "text": "Cat: Siamese",
+              "text": "[ Cat: Siamese ]",
               "inverse": true
             }
           ],
           [
-            "Animation: Walk: back and forth"
+            "[ Animation: Walk: back and forth ]"
           ],
           [
-            "Width: Full width"
+            "[ Width: Full width ]"
           ],
           [
-            "Season: Auto: Halloween through October"
+            "[ Season: Auto: Halloween through October ]"
           ],
           [
-            "Between turns: Hide: nothing between turns"
+            "[ Between turns: Hide: nothing between turns ]"
           ],
           [
             {
@@ -281,8 +591,12 @@
         ]
       },
       {
+        "slot": "spinner",
+        "verb": "Architecting"
+      },
+      {
         "slot": "background",
-        "text": "While Claude works, the cat is pixel art drawn with Raster (terminal) in 9 rows above the normal spinner line, repainted about 11 times a second."
+        "text": "While Claude works, the same pixel-art cat (a Raster, terminal only) walks in 9 rows above the normal spinner line, repainted about 11 times a second."
       }
     ]
   },
@@ -290,7 +604,7 @@
     {
       "type": "image",
       "src": "https://raw.githubusercontent.com/swicken/cat-spinner/main/assets/preview-reactions.gif",
-      "alt": "The cat reacting to Claude: working, thinking, editing a file, reading a file, running a command and a tool failing",
+      "alt": "Each reaction, labeled with what Claude is doing: working, thinking, editing a file, reading a file, running a command, and a tool failing",
       "surface": "terminal"
     },
     {

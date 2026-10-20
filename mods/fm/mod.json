@@ -4,8 +4,8 @@
   "title": "Firstmate Calm",
   "tagline": "Hides tool rows and turns the working spinner into a drifting two-row sailboat; toggled with /calm.",
   "tagline_ru": "Скрывает строки инструментов и превращает индикатор работы в плывущий парусник; включается командой /calm.",
-  "description": "Firstmate's Calm mod. It does nothing unless `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` is exactly `1`. Then `/calm` toggles Calm with a \"Calm on\" / \"Calm off\" toast and saves the choice to the Firstmate home's `config/calm` (or under `FM_HOME`). While Calm is on, the terminal's working row becomes a two-row sailboat (`◿│◣` over `╲▁▁▁╱`) drifting on a blue swell, and tool calls, tool results, short mid-turn notes and Firstmate's operational prompts draw at zero height; they stay in the model context and exports. Calm on or off, every 3 s it reads Firstmate's supervision state and adds dim notes such as `⛵ <task>: <summary>`, never sent to the model.",
-  "description_ru": "Мод Calm из Firstmate. Он ничего не делает, пока `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` не равна ровно `1`. Тогда команда `/calm` включает и выключает Calm с уведомлением «Calm on» / «Calm off» и сохраняет выбор в `config/calm` домашней папки Firstmate (или в `FM_HOME`). Пока Calm включён, строка работы в терминале превращается в двухстрочный парусник (`◿│◣` над `╲▁▁▁╱`) на синих волнах, а вызовы и результаты инструментов, короткие промежуточные реплики и служебные запросы Firstmate получают нулевую высоту; в контексте модели и в экспорте они остаются. Независимо от Calm мод каждые 3 секунды читает состояние надзора Firstmate и добавляет серые заметки вида `⛵ <task>: <summary>`, которые модели не отправляются.",
+  "description": "Calm from Firstmate, an agent distro for running a crew of agents. It does nothing unless `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` is exactly `1`. Then `/calm` toggles Calm with a \"Calm on\" / \"Calm off\" toast and saves it to `config/calm` in the Firstmate home (`FM_HOME`, else three folders above the plugin). While on, the terminal's working row becomes a two-row sailboat (`◿│◣` over `╲▁▁▁╱`) on a blue swell, and tool calls, tool results, short mid-turn notes and Firstmate's operational prompts draw at zero height but stay in the model context and exports. Calm on or off, every 3 s it reads Firstmate's supervision state and adds dim notes such as `⛵ <task>: <summary>`, never sent to the model.",
+  "description_ru": "Мод Calm из Firstmate, дистрибутива для работы с командой агентов. Ничего не делает, пока переменная `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` не равна ровно `1`. Тогда `/calm` включает и выключает Calm с уведомлением «Calm on» или «Calm off» и сохраняет выбор в `config/calm` домашней папки Firstmate (`FM_HOME`, иначе папка на три уровня выше плагина). Пока Calm включён, вместо индикатора работы в терминале по синим волнам плывёт двухстрочный парусник (`◿│◣` над `╲▁▁▁╱`), а вызовы и результаты инструментов, короткие промежуточные реплики и служебные сообщения Firstmate сворачиваются до нулевой высоты, но остаются в контексте и в экспорте. Независимо от Calm каждые 3 секунды мод читает состояние надзора Firstmate и пишет серые заметки вида `⛵ <task>: <summary>`, которые модели не отправляются.",
   "author": { "name": "Kun Chen", "github": "kunchenguid", "url": "https://github.com/kunchenguid" },
   "maintainers": ["kunchenguid"],
   "category": "interface",
@@ -48,9 +48,9 @@
             { "text": "◿│◣", "color": "#d77757" }
           ],
           [
-            { "text": "▄▄▄▃▃▃▂▂▁▁▁▁▁▁", "color": "#93a5ff" },
+            { "text": "▄▄▃▃▃▂▂▂▁▁▁▁▁▁", "color": "#93a5ff" },
             { "text": "╲▁▁▁╱", "color": "#d77757" },
-            { "text": "▁▁▁▁▁▂▂▂▃▃▃▄▄▄▄▄▃▃▃▂▂▁▁▁▁", "color": "#93a5ff" }
+            { "text": "▁▁▁▁▁▂▂▃▃▃▄▄▄▄▄▃▃▃▂▂▁▁▁▁▁", "color": "#93a5ff" }
           ]
         ]
       },

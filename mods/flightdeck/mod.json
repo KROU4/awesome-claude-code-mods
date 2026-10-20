@@ -4,8 +4,8 @@
   "title": "Flightdeck",
   "tagline": "A live pane of your session: context and cost, every permission check, subagents and a session log.",
   "tagline_ru": "Живая панель сессии: контекст и стоимость, все проверки разрешений, субагенты и журнал событий.",
-  "description": "Opens a Flightdeck pane (`/flightdeck`; by itself at session start on terminals 144+ columns wide) drawn only from real session events. Panels: main (model, effort, mode, requests, context gauge with ⟲ compactions, cost, rate-limit windows, ttft and tok/s), architect (advisor consults on a timeline), gate (a cell per permission check, f/s/o drill-downs with credentials masked), agents (cards, swimlanes past `maxCards`), other loops, turn receipt and log. Docked it is 66 columns; inline an 8-row summary. Also a status entry. `/flightdeck close|reset|layout`; options `panels`, `layout`, `palette`, `motion`. It only watches.",
-  "description_ru": "Открывает панель Flightdeck (`/flightdeck`; в терминале шириной от 144 колонок — сама при старте сессии), где всё взято из реальных событий сессии. Блоки: основная модель (модель, effort, режим, число запросов, заполнение контекста со сжатиями ⟲, стоимость, окна лимитов, ttft и tok/s), архитектор (консультации advisor на шкале времени), шлюз разрешений (клетка на каждую проверку, разбивка по клавишам f/s/o, секреты скрыты), субагенты (карточки, а сверх `maxCards` — дорожки на общей шкале), прочие циклы, итог хода и журнал. Сбоку панель занимает 66 колонок, над полем ввода — сводка до 8 строк. Ещё есть запись в строке статуса. Команды `/flightdeck close|reset|layout`, опции `panels`, `layout`, `palette`, `motion`. Мод только наблюдает и ничего не блокирует.",
+  "description": "Opens a Flightdeck pane (`/flightdeck`; by itself at session start in terminals 144+ columns wide) drawn only from real session events. Panels: main (model, effort, mode, requests, context gauge with ⟲ compactions, cost, rate-limit windows, ttft and tok/s), architect (advisor consults on a timeline), gate (a cell per permission check, f/s/o drill-downs with credentials masked), agents (cards, swimlanes past `maxCards`), other loops, turn receipt and log. Docked it asks for 66 columns (two columns of panels from 110); inline it is an 8-row summary. Also a status entry. `/flightdeck close|reset|layout`; options `panels`, `layout`, `palette`, `motion`. It only watches.",
+  "description_ru": "Открывает панель Flightdeck (`/flightdeck`; в терминале от 144 колонок — сама при старте сессии). Всё в ней — из реальных событий сессии. Блоки: основной цикл (модель, effort, режим, число запросов, шкала контекста со сжатиями ⟲, стоимость, окна лимитов, ttft и tok/s), архитектор (консультации advisor на шкале времени), шлюз (клетка на каждую проверку разрешений; f/s/o раскрывают проверки по файлам, командам и прочему, секреты скрыты), субагенты (карточки, а сверх `maxCards` — дорожки на общей шкале), прочие циклы, итог хода и журнал. Сбоку панель просит 66 колонок (от 110 — два столбца), над полем ввода это сводка до 8 строк. Ещё — запись в строке статуса. Команды `/flightdeck close|reset|layout`, опции `panels`, `layout`, `palette`, `motion`. Мод только наблюдает и ничего не блокирует.",
   "author": {
     "name": "Stephen Casella",
     "github": "scasella",
@@ -74,8 +74,8 @@
         "status": "running"
       }
     ],
-    "caption": "The docked pane mid-turn: model vitals, the permission gate with one denial, three agents as swimlanes, the log.",
-    "caption_ru": "Панель сбоку посреди хода: показатели модели, шлюз разрешений с одним отказом, три агента дорожками и журнал.",
+    "caption": "A 44-column docked pane mid-turn: model vitals, the permission gate with one denial, three agents as swimlanes, the log.",
+    "caption_ru": "Панель сбоку шириной 44 колонки посреди хода: показатели модели, шлюз с одним отказом, три агента дорожками и журнал.",
     "elements": [
       {
         "slot": "command",

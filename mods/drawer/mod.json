@@ -1,0 +1,90 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "drawer",
+  "title": "Drawer",
+  "tagline": "```dot (Graphviz) and ```svg fences in a reply become pictures in place while the reply streams.",
+  "tagline_ru": "Блоки ```dot (Graphviz) и ```svg в ответе превращаются в картинки прямо на месте, пока ответ печатается.",
+  "description": "When a reply holds a ```dot (or ```graphviz) fence, drawer swaps it for the drawn graph in place as the reply streams; an ```svg fence becomes a picture too. In kitty and ghostty, tmux passthrough included, it is a real image in Claude Code's theme colours (accent strokes, nodes on the user-message grey; `DRAWER_THEME` names a theme file). Behind GNU screen or mosh a graph is drawn in box-drawing glyphs, and a fence that will not draw shows a 'no diagram' notice over its source. A SessionStart hook tells the model to write diagrams as DOT and downloads a sha256-pinned Go binary (Graphviz and resvg built in) from the GitHub release, built for macOS and Linux. List bullets become bold ▪.",
+  "description_ru": "Если в ответе есть блок ```dot (или ```graphviz), drawer прямо на месте, пока ответ печатается, заменяет его нарисованным графом; блок ```svg тоже становится картинкой. В kitty и ghostty, в том числе через tmux, это настоящее изображение в цветах темы Claude Code (обводка акцентным цветом, узлы на сером фоне сообщений пользователя; `DRAWER_THEME` задаёт файл темы). За GNU screen или mosh граф рисуется символами псевдографики, а блок, который не удалось нарисовать, показывает над исходником рамку «no diagram» с причиной. Хук SessionStart подсказывает модели писать схемы на DOT и скачивает из релиза на GitHub Go-бинарник с закреплённым sha256 (Graphviz и resvg внутри), собранный для macOS и Linux. Маркеры списков становятся жирными ▪.",
+  "author": { "name": "Sureffi", "github": "Sureffi", "url": "https://github.com/Sureffi" },
+  "maintainers": ["Sureffi"],
+  "category": "interface",
+  "tags": ["graphviz", "diagrams", "svg", "terminal-images", "kitty", "ghostty"],
+  "license": "MIT",
+  "version": "0.9.0",
+  "homepage": "https://github.com/Sureffi/drawer",
+  "source": {
+    "type": "github",
+    "repo": "Sureffi/drawer",
+    "sha": "c8a1c48b02874d75d4726f2375d0d39376c76341"
+  },
+  "surfaces": ["terminal"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "write",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "Invoices go out through a queue now. Show how one failed send moves through it. Just the picture." }
+    ],
+    "caption": "A ```dot fence drawn in place in its box-drawing form (GNU screen, mosh); in kitty or ghostty it is a full-colour picture.",
+    "caption_ru": "Блок ```dot нарисован прямо в ответе псевдографикой (так в GNU screen и mosh); в kitty или ghostty это полноцветная картинка.",
+    "elements": [
+      {
+        "slot": "message",
+        "role": "assistant",
+        "rows": [
+          ["A failed send retries with backoff; only the last failure reaches a person."],
+          [" "],
+          ["     ", { "text": "╭──────────────────────╮", "dim": true }],
+          ["     ", { "text": "│", "dim": true }, "  queue: invoice #42  ", { "text": "│", "dim": true }],
+          ["     ", { "text": "╰──────────┬───────────╯", "dim": true }],
+          ["                ", { "text": "│", "dim": true }],
+          ["                ", { "text": "▼", "dim": true }],
+          ["     ", { "text": "╭──────────────────────╮", "dim": true }],
+          ["     ", { "text": "│", "dim": true }, "  worker: attempt 1   ", { "text": "│", "dim": true }],
+          ["     ", { "text": "╰──────────┬───────────╯", "dim": true }],
+          ["                ", { "text": "│", "dim": true }, " timeout"],
+          ["                ", { "text": "▼", "dim": true }],
+          ["     ", { "text": "╭──────────────────────╮", "dim": true }],
+          ["     ", { "text": "│", "dim": true }, "  retry with backoff  ", { "text": "│", "dim": true }],
+          ["     ", { "text": "╰───┬────────────────┬─╯", "dim": true }],
+          [" success ", { "text": "│", "dim": true }, "                ", { "text": "│", "dim": true }, " max attempts"],
+          ["         ", { "text": "▼", "dim": true }, "                ", { "text": "▼", "dim": true }],
+          [{ "text": "╭────────────────╮", "dim": true }, " ", { "text": "╭───────────────────╮", "dim": true }],
+          [{ "text": "│", "dim": true }, " send succeeds  ", { "text": "│", "dim": true }, " ", { "text": "│", "dim": true }, " dead-letter queue ", { "text": "│", "dim": true }],
+          [{ "text": "│", "dim": true }, "  mark sent_at  ", { "text": "│", "dim": true }, " ", { "text": "│", "dim": true }, "  alert + inspect  ", { "text": "│", "dim": true }],
+          [{ "text": "╰────────────────╯", "dim": true }, " ", { "text": "╰───────────────────╯", "dim": true }]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "In kitty and ghostty the fence becomes a Graphviz image: rounded boxes stroked in the accent colour on the user-message grey, edge labels in the success colour."
+      },
+      {
+        "slot": "background",
+        "text": "At session start the model is told: \"For any diagram, write graphviz DOT in a ```dot fence, not mermaid and not ASCII art.\""
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/Sureffi/drawer/main/demo/session.gif",
+      "alt": "A live session: Claude compares a queue and a cron job for invoices and draws each flow as a Graphviz picture inside the reply",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/Sureffi/drawer/main/demo/mock/take.gif",
+      "alt": "An invoices screen for a landlord app mocked up as an SVG picture in the reply, with the selected row's tint changed on request",
+      "surface": "terminal"
+    }
+  ]
+}

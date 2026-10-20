@@ -5,7 +5,7 @@
   "tagline": "Fresh-chat handoffs, a warm cache while you're away, and project notes from what you teach Claude.",
   "tagline_ru": "Передаёт длинную сессию в новый чат, держит кэш тёплым, пока вас нет, и ведёт заметки проекта.",
   "description": "Works in the background of long sessions. After about 50 idle minutes it sends a tiny request so the prompt cache stays warm (up to 3 times), then saves an away handoff summary: `/handoff resume` starts a new chat from it, `/handoff continue` stays. With `auto_handoff` on, at 600k tokens it writes a summary, runs /clear and continues in a new chat. Every 30 messages Sonnet turns the new part of the chat into a Markdown notes file per project, loaded into new chats. It nudges Claude on repeated failures or 'done' without a check, and drafts tool-call guards that apply only after you approve. `/handoff` shows status, `/handoff panel` opens a tabbed panel above the prompt (not in VS Code).",
-  "description_ru": "Работает в фоне длинных сессий. Через 50 минут простоя шлёт крошечный запрос, чтобы кэш промпта не истёк (до 3 раз), затем сохраняет сводку: `/handoff resume` начинает по ней новый чат, `/handoff continue` оставляет старый. С `auto_handoff` на 600k токенов пишет сводку, делает /clear и продолжает в новом чате. Каждые 30 сообщений Sonnet переносит новое из разговора в Markdown-файл заметок проекта, который подгружается в новые чаты. Подсказывает Claude, если инструмент дважды падает одинаково или работа названа готовой без проверки, и предлагает ограничители вызовов инструментов, которые включаются только с вашего согласия. `/handoff` показывает состояние, `/handoff panel` открывает панель с вкладками над полем ввода (в VS Code её нет).",
+  "description_ru": "Работает в фоне длинных сессий. Примерно через 50 минут простоя шлёт крошечный запрос, чтобы кэш промпта не истёк (до 3 раз), затем сохраняет сводку: `/handoff resume` начинает по ней новый чат, `/handoff continue` оставляет старый. Если включить `auto_handoff`, на 600k токенов контекста пишет сводку, делает /clear и продолжает в новом чате. Каждые 30 сообщений Sonnet переносит новое из разговора в Markdown-файл заметок проекта, который подгружается в новые чаты. Подсказывает Claude, если инструмент дважды падает одинаково или работа названа готовой без проверки, и предлагает ограничители вызовов инструментов, которые включаются только с вашего согласия. `/handoff` показывает состояние, `/handoff panel` открывает панель с вкладками над полем ввода (в VS Code её нет).",
   "author": { "name": "CabLate", "github": "cablate", "url": "https://github.com/cablate" },
   "maintainers": ["cablate"],
   "category": "productivity",
@@ -103,9 +103,9 @@
           ["  Next: in 18 messages, after 50 min idle, or before a handoff"],
           ["  Last: 10/20/2026, 2:14:09 PM · every 30 messages · 2 changes"],
           ["  input 41,250 (cache read 0 = 0.00%, written 0, uncached 41,250) · output 1,180 · 21.4s"],
-          ["  - Added memory: [feedback] Prices are stored in cents in src/cart/total.ts"],
-          ["  - Rule confirmed: Run npm test before git push → seen 3 times"],
-          ["  Workspace notes: /home/dev/.claude/projects/-home-dev-shop/memory/ctx-handoff.md (6 memories, 3 rules, 2 rules carried into new conversations)"],
+          ["  - Added memory: [project] Prices are stored in cents in src/cart/total.ts"],
+          ["  - Rule confirmed: Use forward slashes in Bash paths → seen 3 times"],
+          ["  Workspace notes: /home/dev/.claude/projects/-home-dev-shop/memory/ctx-handoff.md (6 memories, 3 rules, 3 rules carried into new conversations)"],
           ["  Memories carried in: 3 preferences and corrections in full, 3 facts and locations as titles only, 0 archived (not confirmed for over 30 days, not carried in)"],
           ["Guards: 2 on, 0 draft, 0 off; 1 rule appeared 3+ times without a guard (/handoff guard suggest)"],
           ["Nudges: repeated failure on, verify before done on, reply language auto → en"],
@@ -123,7 +123,7 @@
         "message": "[ctx-handoff] Guard #2 (Never force-push to main): Push to a branch and open a pull request instead.\nIf the user really wants this to run as is, ask them to run /handoff guard off 2 first."
       },
       { "slot": "toast", "text": "Guard #2 blocked Bash: Never force-push to main" },
-      { "slot": "toast", "text": "Notes updated: 2 changes: /home/dev/.claude/projects/-home-dev-shop/memory/ctx-handoff.md" },
+      { "slot": "toast", "text": "Notes updated: 2 changes, sent along with your next message: /home/dev/.claude/projects/-home-dev-shop/memory/ctx-handoff.md" },
       { "slot": "background", "text": "After about 50 idle minutes it sends a tiny request to keep the prompt cache warm, up to 3 times, then saves an away handoff summary." },
       { "slot": "background", "text": "With auto_handoff on, at 600k tokens it writes a handoff summary, runs /clear and sends it into a fresh conversation." }
     ]

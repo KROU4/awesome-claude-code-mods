@@ -4,8 +4,8 @@
   "title": "Show Your Work",
   "tagline": "Claude shows screenshots and Playwright recordings inline in the chat, with before/after and QA.",
   "tagline_ru": "Claude показывает скриншоты и записи Playwright прямо в чате: до и после, с проверками QA.",
-  "description": "Gives Claude `show_image` and `show_video` and draws what they show inline in the chat with the kitty graphics protocol (Ghostty, kitty; Warp, WezTerm, Konsole after Turn on pictures). A video plays with Play/Pause, a scrub bar, « 5s / 5s », Open page, Save to Downloads and Copy path, next to What changed (click a time to jump) and the QA checks. With a before file, Original / Updated / ⧉ Compare plays both in sync; pictures keep a History. `/img <path>` shows a file, `/show-your-work` opens Settings. Videos need ffmpeg. It installs its own updates daily via `claude plugin` and sends anonymous usage counts to PostHog unless you pick Don't share.",
-  "description_ru": "Даёт Claude инструменты `show_image` и `show_video` и рисует то, что они показывают, прямо в чате по протоколу графики kitty (Ghostty, kitty; в Warp, WezTerm и Konsole после Turn on pictures). Видео играет в плеере с Play/Pause, перемоткой, « 5s / 5s », Open page, Save to Downloads и Copy path, рядом список What changed (щелчок по времени переносит к моменту) и проверки QA. С файлом «до» вкладки Original / Updated / ⧉ Compare показывают обе записи рядом и синхронно; у картинок есть History версий. `/img <путь>` показывает файл, `/show-your-work` открывает настройки. Для видео нужен ffmpeg. Раз в день мод сам ставит обновления через `claude plugin` (отключается `SHOW_YOUR_WORK_AUTO_UPDATE=0`) и шлёт анонимную статистику в PostHog, если в настройках не выбрать Don't share.",
+  "description": "Gives Claude `show_image` and `show_video` and draws what they show inline in the chat with the kitty graphics protocol (Ghostty, kitty; Warp, WezTerm, Konsole after Turn on pictures). A video plays with Play/Pause, a scrub bar, « 5s / 5s », Open page, Save to Downloads and Copy path, next to What changed (click one to jump to it) and the QA checks. With a before file, Original / Updated switch sides and ⧉ Compare plays both side by side, in sync; pictures keep a History. `/img <path>` shows a file, `/show-your-work` opens Settings. Videos need ffmpeg. It installs its own updates daily via `claude plugin` and sends anonymous usage counts to PostHog unless you pick Don't share.",
+  "description_ru": "Даёт Claude инструменты `show_image` и `show_video` и рисует то, что они показывают, прямо в чате по протоколу графики kitty (Ghostty, kitty; в Warp, WezTerm и Konsole после Turn on pictures). Видео идёт в плеере с Play/Pause, перемоткой, « 5s / 5s », Open page, Save to Downloads и Copy path, рядом список What changed (щелчок по пункту переносит к его моменту) и проверки QA. С файлом «до» Original / Updated переключают версии, а ⧉ Compare показывает обе записи рядом и синхронно; у картинок есть History. `/img <путь>` показывает файл, `/show-your-work` открывает настройки. Для видео нужен ffmpeg. Раз в день мод сам ставит обновления через `claude plugin` (отключается `SHOW_YOUR_WORK_AUTO_UPDATE=0`) и шлёт анонимную статистику в PostHog, если в настройках не выбрать Don't share.",
   "author": { "name": "Umer Ansari", "github": "iamumeransari", "url": "https://github.com/iamumeransari" },
   "maintainers": ["iamumeransari"],
   "category": "interface",
@@ -22,7 +22,7 @@
     "filesystem": "write",
     "model": false,
     "promptRewrite": true,
-    "blocksTools": false
+    "blocksTools": true
   },
   "preview": {
     "surface": "terminal",
@@ -34,7 +34,7 @@
       { "role": "assistant", "text": "SAVE10 now takes 10% off in src/checkout.ts. I recorded the same Playwright steps on the old and the fixed checkout." }
     ],
     "caption": "A Playwright recording of a checkout fix plays inline, with What changed timestamps, QA checks and Original / Updated / Compare.",
-    "caption_ru": "Запись Playwright с исправлением оформления заказа играет прямо в чате: изменения с отметками времени, проверки QA и Original / Updated / Compare.",
+    "caption_ru": "Запись Playwright с исправленным оформлением заказа идёт прямо в чате: изменения с отметками времени, проверки QA и Original / Updated / Compare.",
     "elements": [
       {
         "slot": "tool-row",
@@ -72,7 +72,7 @@
         "slot": "model-tool",
         "name": "show_video",
         "input": "path: /tmp/qa/after.webm, compare: /tmp/qa/before.webm, title, url, changes, checks, compare_checks, summary",
-        "result": [["Shown: Checkout discount code (video, 0:08)."]]
+        "result": [["Shown: Checkout discount code (video, 0:08). #3f9a1c."], ["show-your-work:#3f9a1c"]]
       },
       { "slot": "background", "text": "Draws the picture and every video frame with the kitty graphics protocol (Image, terminal); the block glyphs here stand in for the recording." },
       { "slot": "background", "text": "Adds one line to Claude's instructions: \"This terminal shows pictures and videos inline. After visual work, screenshot or record it and show it with show_image or show_video...\"" },
@@ -84,8 +84,8 @@
         "rows": [
           [{ "button": "✕ Close" }, "  ", { "button": "Take a tour" }],
           [{ "text": "Show Your Work Settings", "bold": true }],
-          [{ "text": "Updates                 ", "dim": true }, { "text": "● Stable releases", "color": "success" }, "      ", { "text": "○ Latest", "color": "claude", "dim": true }],
-          [{ "text": "Usage data              ", "dim": true }, { "text": "● Share anonymously", "color": "success" }, "    ", { "text": "○ Don't share", "color": "claude", "dim": true }],
+          [{ "text": "Updates                 ", "dim": true }, { "text": "● Stable releases", "color": "success" }, "    ",{ "text": "○ Latest", "color": "claude", "dim": true }],
+          [{ "text": "Usage data              ", "dim": true }, { "text": "● Share anonymously", "color": "success" }, "  ",{ "text": "○ Don't share", "color": "claude", "dim": true }],
           [{ "text": "Usage data is anonymous and helps fix bugs and improve the product experience. No sensitive data is ever shared.", "dim": true }]
         ]
       }

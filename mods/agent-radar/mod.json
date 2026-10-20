@@ -3,9 +3,9 @@
   "name": "agent-radar",
   "title": "Agent Radar",
   "tagline": "A live line above the prompt per running subagent or background shell: time, tools, current step.",
-  "tagline_ru": "Над полем ввода по строке на каждый работающий субагент и фоновую команду: время, инструменты, текущий шаг.",
-  "description": "Draws one live line above the prompt per running subagent or background Bash command (up to 4, then `+N more · /radar`): a yellow ●, its description, `sub` or `sh`, elapsed time, a subagent's tool count and what it is doing now (reading, editing, searching, running…). A finished one shows a green ✓ (red ✗ if it failed) for 30 s, and a toast says it is done. Shells that run `codex exec`, `opencode run` and the like are labeled with that agent and model; their end is found with `lsof` every 5 s, so without `lsof` they stay running. `/radar` opens the Agent Radar pane: 1-9 open an agent's last messages or a shell's output tail, b goes back, c clears finished ones, q closes.",
-  "description_ru": "Над полем ввода по живой строке на каждый работающий субагент или фоновую команду Bash (до 4, дальше `+N more · /radar`): жёлтый ●, описание, `sub` или `sh`, сколько прошло времени, сколько инструментов вызвал субагент и что он делает сейчас (читает, правит, ищет, запускает). Завершённый показывает зелёную ✓ (или красный ✗ при ошибке) ещё 30 секунд, а всплывающее уведомление сообщает об окончании. Фоновые команды с `codex exec`, `opencode run` и похожими подписываются именем агента и модели; их окончание определяется через `lsof` каждые 5 секунд, поэтому без `lsof` они так и остаются выполняющимися. Команда `/radar` открывает панель Agent Radar: 1–9 открывают последние сообщения агента или хвост вывода команды, b возвращает назад, c убирает завершённые, q закрывает.",
+  "tagline_ru": "Живая строка над полем ввода на каждый работающий субагент и фоновую команду: время, инструменты, текущий шаг.",
+  "description": "Draws one live line above the prompt per running subagent or background Bash command (up to 4, then `+N more · /radar`): a yellow ●, its description, `sub` or `sh`, elapsed time, a subagent's tool count and what it is doing now (reading, editing, searching, running…). A finished one shows a green ✓ (red ✗ if it failed) for 30 s, and a toast reports it. Shells that run `codex exec`, `opencode run` and the like are labeled with that agent and model. A shell's end is found with `lsof` every 5 s, so without `lsof` it stays running. `/radar` opens the Agent Radar pane: 1-9 open an agent's last messages or a shell's output tail, b goes back, c clears finished ones, q closes.",
+  "description_ru": "Над полем ввода появляется по живой строке на каждый работающий субагент или фоновую команду Bash (до 4, дальше `+N more · /radar`): жёлтый ●, описание, `sub` или `sh`, сколько прошло времени, сколько инструментов вызвал субагент и что он делает сейчас (читает, правит, ищет, запускает). Завершённый показывает зелёную ✓ (или красный ✗ при ошибке) ещё 30 секунд, а всплывающее уведомление сообщает об окончании. Фоновые команды с `codex exec`, `opencode run` и похожими подписываются именем агента и модели. Конец фоновой команды определяется через `lsof` каждые 5 секунд, поэтому без `lsof` она так и числится выполняющейся. Команда `/radar` открывает панель Agent Radar: 1–9 открывают последние сообщения агента или хвост вывода команды, b возвращает назад, c убирает завершённые, q закрывает.",
   "author": { "name": "Hamza Zafar", "github": "hamzafer", "url": "https://github.com/hamzafer" },
   "maintainers": ["hamzafer"],
   "category": "insights",
@@ -27,8 +27,8 @@
     "surface": "terminal",
     "transcript": [
       { "role": "user", "text": "Add percentage discount codes to the cart total. Use subagents to find the callers and review the checkout flow, and run the tests in the background." },
-      { "role": "tool", "tool": "Task", "input": "Find applyDiscount callers", "result": "Found 3 callers in src/cart and src/checkout.ts.", "status": "done" },
-      { "role": "tool", "tool": "Task", "input": "Review checkout discounts", "status": "running" },
+      { "role": "tool", "tool": "Agent", "input": "Find applyDiscount callers", "result": "Found 3 callers in src/cart and src/checkout.ts.", "status": "done" },
+      { "role": "tool", "tool": "Agent", "input": "Review checkout discounts", "status": "running" },
       { "role": "tool", "tool": "Bash", "input": "npm test (in the background)", "status": "running" }
     ],
     "caption": "Two subagents and a background test run: live lines above the prompt, the /radar pane and a toast for the one that finished.",

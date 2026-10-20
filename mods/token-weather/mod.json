@@ -3,7 +3,7 @@
   "name": "token-weather",
   "title": "Token Weather",
   "tagline": "Context fill as weather above the prompt: icon, percent, tokens and a chart of the last 12 turns.",
-  "tagline_ru": "Заполненность контекста в виде прогноза погоды над полем ввода: значок, процент, токены и график 12 ходов.",
+  "tagline_ru": "Заполненность контекста как погода над полем ввода: значок, процент, токены и график последних 12 ходов.",
   "description": "After each main-loop turn, a band above the prompt shows a weather icon and word for how full the context window is (☀ Clear under 25%, ☁ Cloudy, ☂ Showers from 50%, ☇ Storm from 75%, ↯ Compact soon from 90%), the percentage used, tokens used out of the window, a block-character chart of the last 12 turns and how much the last turn added. The figures come from `$.session.usage()`, the same ones the status line shows, so no token-count request is sent. Subagent turns are skipped and the band updates once per turn. The percentage is of the full window, not the auto-compact point, so it can read lower than Claude Code's own notice. No commands or options; terminal only.",
   "description_ru": "После каждого хода основного диалога над полем ввода появляется полоса: значок и слово погоды по заполненности окна контекста (☀ Clear до 25%, ☁ Cloudy, ☂ Showers от 50%, ☇ Storm от 75%, ↯ Compact soon от 90%), процент, сколько токенов занято из окна, график последних 12 ходов из блочных символов и сколько добавил последний ход. Цифры берутся из `$.session.usage()`, те же, что в строке статуса, поэтому отдельный запрос подсчёта токенов не отправляется. Ходы субагентов пропускаются, полоса обновляется раз за ход. Процент считается от всего окна, а не от точки автосжатия, поэтому он может быть ниже, чем во встроенном уведомлении Claude Code. Команд и настроек нет; работает только в терминале.",
   "author": { "name": "Claude Code DevRel", "github": "anthropics", "url": "https://github.com/anthropics" },
@@ -46,11 +46,11 @@
         "slot": "above-prompt",
         "rows": [
           [
-            { "text": "☂  Showers", "color": "#2472c8", "bold": true },
+            { "text": "☂  Showers", "color": "#5f87d7", "bold": true },
             "  67% of context",
             { "text": "  134.4k / 200k", "dim": true },
             { "text": "   last turns ", "dim": true },
-            { "text": "▁▂█", "color": "#2472c8" },
+            { "text": "▁▂█", "color": "#5f87d7" },
             { "text": "  ▲ +98.3k last turn", "dim": true }
           ]
         ]

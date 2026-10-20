@@ -1,0 +1,186 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "rtl-terminal",
+  "title": "RTL Terminal",
+  "tagline": "Arabic, Hebrew, Persian and Urdu replies laid out right-to-left, with bullets on the right.",
+  "tagline_ru": "Ответы на арабском, иврите, фарси и урду выводятся справа налево, маркеры списков — справа.",
+  "description": "Claude Code draws right-to-left text like left-to-right text: rows sit on the left, bullets stay left and brackets come out backwards. RTL Terminal runs the full Unicode Bidirectional Algorithm (vendored bidi-js) on each RTL paragraph of a reply: rows wrapped and right-aligned, bullets, numbers and quote bars on the right, brackets the right way round, code and links kept left-to-right. Your own messages are reordered too (still left-aligned), and a mixed RTL draft gets a live preview above the prompt. It works where Claude Code reorders rows itself (Windows Terminal, conhost, VS Code's terminal) and steps aside elsewhere. Choices set with `/rtl`, `/rtl input` and `/rtl mode` persist.",
+  "description_ru": "Claude Code выводит текст с письмом справа налево так же, как обычный: строки прижаты влево, маркеры списков слева, скобки перевёрнуты. RTL Terminal пропускает каждый RTL-абзац ответа через полный алгоритм двунаправленного текста Unicode (встроенная bidi-js): строки переносятся и выравниваются по правому краю, маркеры, номера и линии цитат стоят справа, скобки повёрнуты правильно, код и ссылки остаются слева направо. Ваши сообщения переупорядочиваются так же, но остаются прижатыми влево, а над полем ввода виден живой предпросмотр смешанного черновика. Мод работает там, где Claude Code сам переупорядочивает строки (Windows Terminal, conhost, терминал VS Code), и не вмешивается в остальных терминалах. Выбор в `/rtl`, `/rtl input` и `/rtl mode` запоминается между сессиями.",
+  "author": {
+    "name": "MohammedSaud404",
+    "github": "MohammedSaud404",
+    "url": "https://github.com/MohammedSaud404"
+  },
+  "maintainers": [
+    "MohammedSaud404"
+  ],
+  "category": "accessibility",
+  "tags": [
+    "rtl",
+    "bidi",
+    "arabic",
+    "hebrew",
+    "persian",
+    "urdu"
+  ],
+  "license": "MIT",
+  "version": "1.0.7",
+  "homepage": "https://github.com/MohammedSaud404/rtl-terminal",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "MohammedSaud404/rtl-terminal",
+    "plugin": "rtl-terminal"
+  },
+  "surfaces": [
+    "terminal"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.294"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      {
+        "role": "user",
+        "text": "لماذا تفشل اختبارات التاريخ بعد التحديث؟"
+      }
+    ],
+    "caption": "An Arabic reply right-aligned with bullets on the right and code and brackets in order, plus the preview of a mixed draft.",
+    "caption_ru": "Ответ на арабском выровнен по правому краю, маркеры справа, код и скобки на местах; над полем ввода — предпросмотр смешанного черновика.",
+    "elements": [
+      {
+        "slot": "message",
+        "role": "assistant",
+        "rows": [
+          [
+            "                          ",
+            {
+              "text": "سبب فشل اختبارات التاريخ",
+              "bold": true
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            "            ",
+            "،",
+            "تقرأ التاريخ بالتوقيت المحلي",
+            " ",
+            {
+              "text": "parseDate",
+              "color": "permission"
+            },
+            " ",
+            "الدالة"
+          ],
+          [
+            "                     ",
+            ".",
+            "UTC",
+            " ",
+            "بينما تتوقع الاختبارات توقيت"
+          ],
+          [
+            " "
+          ],
+          [
+            "            ",
+            ".",
+            "النتيجة بنص ثابت",
+            " ",
+            {
+              "text": "date.test.ts",
+              "color": "permission"
+            },
+            " ",
+            "يقارن",
+            {
+              "text": " •"
+            }
+          ],
+          [
+            "              ",
+            ".",
+            "بتوقيت مختلف عن جهازك",
+            " ",
+            "CI",
+            " ",
+            "يعمل خادم",
+            {
+              "text": " •"
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            "       ",
+            ".",
+            "للدالة، ونجحت الاختبارات",
+            " ",
+            "(",
+            {
+              "text": "timeZone",
+              "color": "permission"
+            },
+            ")",
+            " ",
+            "مررت الخيار"
+          ]
+        ]
+      },
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            "                    ",
+            "parseDate",
+            " ",
+            "اكتب اختبارا للدالة",
+            {
+              "text": " ✎",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "command",
+        "command": "/rtl",
+        "args": "mode auto",
+        "output": [
+          [
+            "RTL mode is auto: Claude Code reorders RTL rows here, and the plugin lays them out."
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "In auto mode it lays RTL rows out only where Claude Code reorders them itself (Windows Terminal, conhost, VS Code's terminal); elsewhere it changes nothing."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/MohammedSaud404/rtl-terminal/main/docs/images/hero.png",
+      "alt": "The same Arabic reply without rtl-terminal (left-aligned, bullets left, brackets backwards) and with it (right-aligned, bullets right, brackets correct)",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/MohammedSaud404/rtl-terminal/main/docs/images/he.png",
+      "alt": "A Hebrew reply laid out right-to-left in Windows Terminal",
+      "surface": "terminal"
+    }
+  ]
+}

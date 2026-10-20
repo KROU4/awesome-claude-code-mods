@@ -1,0 +1,683 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "subagents-plus",
+  "title": "Subagents Plus",
+  "tagline": "A live tree and timeline of every subagent in a /subagents pane, plus a band above the prompt.",
+  "tagline_ru": "Живое дерево и шкала времени всех субагентов в панели /subagents, плюс полоса над полем ввода.",
+  "description": "`/subagents` opens an Agents pane; it also opens itself when a session's first subagent spawns, where it can dock beside the transcript. Every subagent sits under the agent that spawned it, with status, type, model, elapsed time, tool calls, tokens and a live line of what it is doing now. Expand a row for its token breakdown (cache reads apart), tool mix, recent calls, answer and transcript; Workflow runs get rows of their own, grouped by phase. Tab 2 draws a timeline of tool calls per agent. While agents run, a band above the prompt lists them with elapsed times and a two-minute sparkline. On the desktop each Agent row also gets a live card. Nothing is sent anywhere and no model is called.",
+  "description_ru": "`/subagents` открывает панель Agents; она открывается и сама, когда в сессии появляется первый субагент, если её можно пристыковать рядом с транскриптом. Каждый субагент показан под агентом, который его запустил: статус, тип, модель, время работы, число вызовов инструментов, токены и живая строка о том, чем он занят прямо сейчас. В раскрытой строке видны разбивка токенов (чтение из кэша отдельно), набор инструментов, последние вызовы, ответ и транскрипт; у запусков Workflow свои строки, сгруппированные по фазам. Вкладка 2 рисует шкалу времени вызовов по агентам. Пока агенты работают, полоса над полем ввода показывает их со временем работы и мини-графиком за две минуты. В десктопе у каждой строки Agent появляется живая карточка. Ничего никуда не отправляется, модель не вызывается.",
+  "author": {
+    "name": "algonormative",
+    "github": "algonormative",
+    "url": "https://github.com/algonormative"
+  },
+  "maintainers": [
+    "algonormative"
+  ],
+  "category": "insights",
+  "tags": [
+    "subagents",
+    "workflows",
+    "pane",
+    "timeline",
+    "band",
+    "tree"
+  ],
+  "license": "MIT",
+  "version": "0.2.3",
+  "homepage": "https://github.com/algonormative/subagents-plus",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "algonormative/subagents-plus",
+    "plugin": "subagents-plus"
+  },
+  "surfaces": [
+    "terminal",
+    "desktop"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.295"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      {
+        "role": "user",
+        "text": "Add percentage discount codes to the cart total. Use subagents: review the checkout flow, find the callers and draft migration notes."
+      },
+      {
+        "role": "tool",
+        "tool": "Agent",
+        "input": "Review checkout flow",
+        "status": "running"
+      },
+      {
+        "role": "tool",
+        "tool": "Agent",
+        "input": "Find discount callers",
+        "result": "Three callers: src/cart/total.ts, src/checkout.ts and src/api/orders.ts.",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Agent",
+        "input": "Draft migration notes",
+        "status": "running"
+      }
+    ],
+    "caption": "Three subagents running, one nested: the band above the prompt and the /subagents pane with live lines and one agent expanded.",
+    "caption_ru": "Три субагента в работе, один вложенный: полоса над полем ввода и панель /subagents с живыми строками и одним раскрытым агентом.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            {
+              "text": "◉ 3 agents ",
+              "bold": true
+            },
+            {
+              "text": "●",
+              "color": "#7090b0"
+            },
+            " Review checkout flow ",
+            {
+              "text": "1:12 ",
+              "dim": true
+            },
+            {
+              "text": "●",
+              "color": "#e0a458"
+            },
+            " Check coupon edges ",
+            {
+              "text": "31s ",
+              "dim": true
+            },
+            {
+              "text": "●",
+              "color": "#9b6b9e"
+            },
+            " Draft migration notes ",
+            {
+              "text": "22s ",
+              "dim": true
+            },
+            {
+              "text": "▁▁▁▁▁▁",
+              "color": "#5a5045"
+            },
+            {
+              "text": "▂",
+              "color": "#dcc8a8"
+            },
+            {
+              "text": "▄▆",
+              "color": "#7090b0"
+            },
+            {
+              "text": "█",
+              "color": "#609888"
+            },
+            {
+              "text": "▅",
+              "color": "#7090b0"
+            },
+            {
+              "text": "▃",
+              "color": "#9b6b9e"
+            },
+            {
+              "text": "▅▆",
+              "color": "#7090b0"
+            },
+            {
+              "text": "▄",
+              "color": "#9b6b9e"
+            },
+            {
+              "text": "▃",
+              "color": "#7090b0"
+            },
+            " ",
+            {
+              "button": "Agents",
+              "hotkey": "o",
+              "variant": "secondary"
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "command",
+        "command": "/subagents",
+        "output": [
+          [
+            "Agents pane opened."
+          ]
+        ]
+      },
+      {
+        "slot": "pane",
+        "title": "Agents",
+        "width": "wide",
+        "rows": [
+          [
+            "● 3 live  ·  ✓ 1 done  ·  24 tools  ·  106.3k tok  ·  412k cached  ·  1:12  ·  2.3× parallel  ·  $0.71",
+            "  ",
+            {
+              "text": "▁▁▁▁▁▁▁▁▁",
+              "color": "#5a5045"
+            },
+            {
+              "text": "▂",
+              "color": "#dcc8a8"
+            },
+            {
+              "text": "▃▅",
+              "color": "#7090b0"
+            },
+            {
+              "text": "▇",
+              "color": "#609888"
+            },
+            {
+              "text": "█▅",
+              "color": "#7090b0"
+            },
+            {
+              "text": "▄▆",
+              "color": "#609888"
+            },
+            {
+              "text": "▃",
+              "color": "#9b6b9e"
+            },
+            {
+              "text": "▅",
+              "color": "#7090b0"
+            },
+            {
+              "text": "▂▄",
+              "color": "#7090b0"
+            },
+            {
+              "text": "▆",
+              "color": "#9b6b9e"
+            },
+            {
+              "text": "▃▅",
+              "color": "#7090b0"
+            }
+          ],
+          [
+            {
+              "button": "Agents",
+              "hotkey": "1",
+              "variant": "primary"
+            },
+            " ",
+            {
+              "button": "Timeline",
+              "hotkey": "2"
+            }
+          ],
+          [
+            {
+              "text": "▾",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "◑",
+              "color": "claude"
+            },
+            " ",
+            {
+              "text": "main",
+              "bold": true,
+              "color": "claude"
+            },
+            " ",
+            {
+              "text": "running · 3 tools · 12.4k tok",
+              "dim": true
+            }
+          ],
+          [
+            "  ",
+            {
+              "text": "▶",
+              "color": "#dcc8a8"
+            },
+            " Agent",
+            {
+              "text": " Draft migration notes",
+              "dim": true
+            },
+            {
+              "text": " · 22s",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "├─▾",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "◑",
+              "color": "#7090b0"
+            },
+            " ",
+            {
+              "text": "Review checkout flow",
+              "bold": true,
+              "color": "#7090b0"
+            },
+            " ",
+            {
+              "text": "general-purpose · sonnet-4-5 · running · 1:12 · 9 tools · 48.2k tok",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "▶",
+              "color": "#7090b0"
+            },
+            " Read",
+            {
+              "text": " cart/coupons.ts",
+              "dim": true
+            },
+            {
+              "text": " · 2.4s",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│ └──",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "◑",
+              "color": "#e0a458"
+            },
+            " ",
+            {
+              "text": "Check coupon edges",
+              "bold": true,
+              "color": "#e0a458"
+            },
+            " ",
+            {
+              "text": "Explore · haiku-4-5 · running · 31s · 5 tools · 14.6k tok",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│     ",
+              "dim": true
+            },
+            {
+              "text": "writing",
+              "color": "#e0a458"
+            },
+            " Codes over 100% are clamped to the cart total, so a SAVE150 code"
+          ],
+          [
+            {
+              "text": "├──",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "✓",
+              "color": "#8cb369"
+            },
+            " ",
+            {
+              "text": "Find discount callers",
+              "bold": true
+            },
+            " ",
+            {
+              "text": "Explore · haiku-4-5 · done · 38s · 4 tools · 21.3k tok",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "╭────────────────────────────────────────────────────────────────────────────────────╮",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "21.3k tokens (in 3.4k · out 1.9k · cache write 16k) · 184k cached · from main",
+              "dim": true
+            },
+            "     ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "■",
+              "color": "#7090b0"
+            },
+            " Read 2  ",
+            {
+              "text": "■",
+              "color": "#609888"
+            },
+            " Search 2  ",
+            "                                                            ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "button": "Activity",
+              "variant": "primary"
+            },
+            " ",
+            {
+              "button": "Transcript"
+            },
+            " ",
+            {
+              "button": "Show in conversation"
+            },
+            "                              ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "Recent calls",
+              "dim": true
+            },
+            "                                                                      ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "+ 0.6s ",
+              "dim": true
+            },
+            {
+              "text": "▮",
+              "color": "#609888"
+            },
+            " Grep",
+            {
+              "text": " \"applyDiscount\" in src",
+              "dim": true
+            },
+            {
+              "text": " 0.3s",
+              "dim": true
+            },
+            "                                         ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "+ 2.1s ",
+              "dim": true
+            },
+            {
+              "text": "▮",
+              "color": "#7090b0"
+            },
+            " Read",
+            {
+              "text": " cart/total.ts",
+              "dim": true
+            },
+            {
+              "text": " 0.1s",
+              "dim": true
+            },
+            "                                                  ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "+ 4.8s ",
+              "dim": true
+            },
+            {
+              "text": "▮",
+              "color": "#7090b0"
+            },
+            " Read",
+            {
+              "text": " src/checkout.ts",
+              "dim": true
+            },
+            {
+              "text": " 0.1s",
+              "dim": true
+            },
+            "                                                ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            {
+              "text": "+  12s ",
+              "dim": true
+            },
+            {
+              "text": "▮",
+              "color": "#609888"
+            },
+            " Glob",
+            {
+              "text": " src/**/*.test.ts",
+              "dim": true
+            },
+            {
+              "text": " 0.1s",
+              "dim": true
+            },
+            "                                               ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "│ ",
+              "dim": true
+            },
+            "Three callers: src/cart/total.ts, src/checkout.ts and src/api/orders.ts.",
+            "          ",
+            {
+              "text": " │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│   ",
+              "dim": true
+            },
+            {
+              "text": "╰────────────────────────────────────────────────────────────────────────────────────╯",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "└──",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "◑",
+              "color": "#9b6b9e"
+            },
+            " ",
+            {
+              "text": "Draft migration notes",
+              "bold": true,
+              "color": "#9b6b9e"
+            },
+            " ",
+            {
+              "text": "general-purpose · sonnet-4-5 · running · 22s · 3 tools · 9.8k tok",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "    ",
+              "dim": true
+            },
+            {
+              "text": "▶",
+              "color": "#9b6b9e"
+            },
+            " Bash",
+            {
+              "text": " npm run migrate:dry",
+              "dim": true
+            },
+            {
+              "text": " · 4.1s",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "The Agents pane opens on its own when the session's first subagent spawns (autoOpen), where it can dock beside the transcript."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/algonormative/subagents-plus/main/docs/agents-tree.png",
+      "alt": "The Agents tree mid-run: seven subagents nested under their parents, each with a live line, one expanded to show its tokens and recent calls",
+      "surface": "desktop"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/algonormative/subagents-plus/main/demo/terminal.gif",
+      "alt": "Terminal demo: two subagents each spawning a nested one, shown live in the docked Agents pane and the band above the prompt",
+      "surface": "terminal"
+    }
+  ]
+}

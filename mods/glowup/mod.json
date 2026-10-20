@@ -1,0 +1,98 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "glowup",
+  "title": "glowup",
+  "tagline": "A cockpit pane, packs that restyle colors, tool rows and the spinner, and a pixel pet that reacts.",
+  "tagline_ru": "Панель-кокпит, паки, меняющие цвета, строки инструментов и спиннер, и пиксельный питомец, который реагирует.",
+  "description": "A side pane with tabs for the files Claude changed, their diff, subagents with time, tokens and current tool, the task list with a context breakdown, a context-use chart and turns left before auto-compact, and the Spotify track. A status box under the tabs shows the current action and hearts or an HP bar for the tighter of the 5-hour and weekly limits, above Clawd, a pixel pet reacting to the session. Wide fullscreen terminals dock the pane; others get a one-line band above the prompt. Packs (classic, crt, cozy, arcade) and JSON themes restyle colors, messages, tool rows and the spinner. It can draw your status line (it asks first); `/glowup config` fetches a settings TUI from its releases.",
+  "description_ru": "Боковая панель с вкладками: файлы, которые изменил Claude (число строк из git), их diff, субагенты со временем, токенами и текущим инструментом, список задач с разбивкой контекста, графиком его заполнения и числом ходов до автосжатия, а также трек из Spotify. Под вкладками блок статуса: текущее действие и сердечки или полоса HP по более жёсткому из лимитов (5 часов или неделя), а под ним Clawd, пиксельный питомец, который реагирует на сессию. На широком полноэкранном терминале панель закреплена сбоку, на остальных над полем ввода идёт однострочная полоса. Паки (classic, crt, cozy, arcade) и темы в JSON меняют цвета, сообщения, строки инструментов и спиннер. Мод может рисовать и строку статуса (сначала спрашивает), а `/glowup config` скачивает из релизов TUI-программу настроек.",
+  "author": { "name": "Aliasgar Khimani", "github": "NovusEdge", "url": "https://github.com/NovusEdge" },
+  "maintainers": ["NovusEdge"],
+  "category": "interface",
+  "tags": ["theme", "pane", "spinner", "pet", "status-line", "packs"],
+  "license": "MIT",
+  "version": "1.2.0",
+  "homepage": "https://glowup.khimani.dev/",
+  "source": { "type": "marketplace", "marketplace": "NovusEdge/glowup", "plugin": "glowup" },
+  "requires": { "claudeCode": ">=2.1.289" },
+  "capabilities": { "network": true, "processes": true, "filesystem": "write", "model": true, "promptRewrite": true, "blocksTools": true },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [{ "role": "user", "text": "Add a dark mode toggle and a test for it." }],
+    "caption": "Arcade pack mid-turn: docked pane on Changes, COMBO and an HP bar in the status box, Clawd typing, card tool rows with ✓.",
+    "caption_ru": "Пак arcade посреди хода: панель на вкладке Changes, COMBO и полоса HP в блоке статуса, Clawd печатает, карточки инструментов с ✓.",
+    "elements": [
+      {
+        "slot": "command",
+        "command": "/glowup",
+        "args": "pack arcade",
+        "output": [
+          ["Pack: arcade"]
+        ]
+      },
+      {
+        "slot": "message",
+        "role": "assistant",
+        "rows": [
+          [{ "text": "◆ ", "color": "#38e8ff" }, "I'll add the toggle to theme.css, a Toggle component and a test."]
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Edit",
+        "input": "theme.css",
+        "row": [{ "text": "Edit", "bold": true }, "(theme.css)", "  ", { "text": "✓", "color": "#39ff88" }],
+        "result": [
+          ["Added 12 lines, removed 3"]
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Write",
+        "input": "Toggle.tsx",
+        "row": [{ "text": "Write", "bold": true }, "(Toggle.tsx)", "  ", { "text": "✓", "color": "#39ff88" }],
+        "result": [
+          ["Wrote 24 lines to Toggle.tsx"]
+        ]
+      },
+      {
+        "slot": "tool-row",
+        "tool": "Edit",
+        "input": "theme.test.ts",
+        "row": [{ "text": "Edit", "bold": true }, "(theme.test.ts)", "  ", { "text": "✓", "color": "#39ff88" }],
+        "result": [
+          ["Added 2 lines, removed 1"]
+        ]
+      },
+      { "slot": "spinner", "glyphs": ["⠠⠔⡢⡄", "⠐⠶⡒⢄", "⢀⢎⣌ ", "⢀⣤⣅ ", "⢠⡠⣢⡀", "⢠⡴⡢⠂", "⣠⣚⡐⡀", "⣠⣘⡠ "], "verb": "Thinking", "color": "#38e8ff" },
+      {
+        "slot": "pane",
+        "title": "glowup",
+        "width": "wide",
+        "rows": [
+          [{ "button": "Plan & context", "hotkey": "1" }, " ", { "button": "Agents", "hotkey": "2" }, " ", { "button": "Diff", "hotkey": "3" }, " ", { "button": "Changes", "variant": "primary", "hotkey": "4" }, " ", { "button": "Music", "hotkey": "5" }],
+          [" "],
+          [{ "text": "┏━", "color": "#4a2a85" }, { "text": " CHANGES ", "color": "#f0e6ff", "bold": true }, { "text": "━━━━━━━━━━━━━━━━━━━━━━━━", "color": "#4a2a85" }, { "text": " 3 files  +38 −4 ", "color": "#9b86c9" }, { "text": "━┓", "color": "#4a2a85" }],
+          [{ "text": "┃ ", "color": "#4a2a85" }, { "text": "✎ ", "color": "#ffd23e" }, { "text": "theme.test.ts", "color": "#f0e6ff" }, "                              ", { "text": "+2", "color": "#39ff88" }, { "text": " −1", "color": "#ff4d6d" }, " ", { "text": "┃", "color": "#4a2a85" }],
+          [{ "text": "┃ ", "color": "#4a2a85" }, { "text": "✎ ", "color": "#ffd23e" }, { "text": "Toggle.tsx  new", "color": "#f0e6ff" }, "                           ", { "text": "+24", "color": "#39ff88" }, { "text": " −0", "color": "#ff4d6d" }, " ", { "text": "┃", "color": "#4a2a85" }],
+          [{ "text": "┃ ", "color": "#4a2a85" }, { "text": "✎ ", "color": "#ffd23e" }, { "text": "theme.css", "color": "#f0e6ff" }, "                                 ", { "text": "+12", "color": "#39ff88" }, { "text": " −3", "color": "#ff4d6d" }, " ", { "text": "┃", "color": "#4a2a85" }],
+          [{ "text": "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛", "color": "#4a2a85" }],
+          [" "],
+          [{ "text": "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, { "text": "✎ Editing theme.test.ts", "color": "#ffd23e", "bold": true }, { "text": " ", "color": "#ff3ec8", "bold": true }, { "text": "C", "color": "#e951ce", "bold": true }, { "text": "O", "color": "#d364d4", "bold": true }, { "text": "M", "color": "#bd77da", "bold": true }, { "text": "B", "color": "#a78ae0", "bold": true }, { "text": "O", "color": "#909ce7", "bold": true }, { "text": " ", "color": "#7aafed", "bold": true }, { "text": "x", "color": "#64c2f3", "bold": true }, { "text": "3", "color": "#4ed5f9", "bold": true }, { "text": " ", "color": "#38e8ff", "bold": true }, "  ", { "text": "Lv 2 ", "color": "#ff3ec8" }, { "text": "▰▰▰▰", "color": "#ff3ec8" }, { "text": "▱▱▱▱▱▱", "color": "#4a2a85" }, { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, { "text": "HP ", "color": "#ff3ec8", "bold": true }, { "text": "█", "color": "#ff4d6d" }, { "text": "█", "color": "#f4576f" }, { "text": "█", "color": "#e96170" }, { "text": "█", "color": "#de6b72" }, { "text": "█", "color": "#d37573" }, { "text": "█", "color": "#c87e75" }, { "text": "█", "color": "#bd8876" }, { "text": "█", "color": "#b29278" }, { "text": "█", "color": "#a79c79" }, { "text": "█", "color": "#9ca67b" }, { "text": "█", "color": "#91b07c" }, { "text": "█", "color": "#86ba7e" }, { "text": "█", "color": "#7bc47f" }, { "text": "█", "color": "#70ce81" }, { "text": "█", "color": "#65d782" }, { "text": "█", "color": "#5ae184" }, { "text": "█", "color": "#4feb85" }, { "text": "█", "color": "#44f587" }, { "text": "█", "color": "#39ff88" }, { "text": "░░░░░░░░", "color": "#4a2a85" }, { "text": "  70% 5h limit left", "color": "#9b86c9" }, { "text": "  ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, "                                                  ", { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, "           ", { "text": "      ▄", "color": "#d77757" }, { "text": "▀▀▀▀▀▀▀▀▀▀", "color": "#ee9f7b", "bg": "#d77757" }, { "text": "▄      ", "color": "#a8553b" }, "               ", { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, "           ", { "text": "      ██", "color": "#d77757" }, { "text": "█", "color": "#1b1214" }, { "text": "██████", "color": "#d77757" }, { "text": "█", "color": "#1b1214" }, { "text": "█", "color": "#d77757" }, { "text": "█", "color": "#a8553b" }, { "text": "▄▄    ", "color": "#d77757" }, "               ", { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, "           ", { "text": "    ▀████████████", "color": "#d77757" }, { "text": "█▀▀    ", "color": "#a8553b" }, "               ", { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, "           ", { "text": "     ▄", "color": "#26262e" }, { "text": "▀", "color": "#d77757", "bg": "#ffe68f" }, { "text": "▀", "color": "#a8553b", "bg": "#26262e" }, { "text": "▀", "color": "#a8553b", "bg": "#aab0c8" }, { "text": "▀", "color": "#a8553b", "bg": "#26262e" }, { "text": "▀", "color": "#a8553b", "bg": "#aab0c8" }, { "text": "▀▀", "color": "#a8553b", "bg": "#26262e" }, { "text": "▀", "color": "#a8553b", "bg": "#aab0c8" }, { "text": "▀", "color": "#a8553b", "bg": "#26262e" }, { "text": "▀", "color": "#a8553b", "bg": "#aab0c8" }, { "text": "▀", "color": "#a8553b", "bg": "#26262e" }, { "text": "▄", "color": "#aab0c8" }, { "text": "▄     ", "color": "#26262e" }, "               ", { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┃ ", "color": "#ff3ec8" }, "           ", { "text": "     ", "color": "#aab0c8" }, { "text": "▀", "color": "#aab0c8", "bg": "#55555f" }, { "text": "▀", "color": "#26262e", "bg": "#55555f" }, { "text": "▀", "color": "#aab0c8", "bg": "#55555f" }, { "text": "▀", "color": "#26262e", "bg": "#aab0c8" }, { "text": "█", "color": "#aab0c8" }, { "text": "▀", "color": "#26262e", "bg": "#aab0c8" }, { "text": "██", "color": "#aab0c8" }, { "text": "▀", "color": "#26262e", "bg": "#aab0c8" }, { "text": "█", "color": "#aab0c8" }, { "text": "▀", "color": "#26262e", "bg": "#aab0c8" }, { "text": "▀", "color": "#aab0c8", "bg": "#55555f" }, { "text": "▀", "color": "#26262e", "bg": "#55555f" }, { "text": "▀", "color": "#aab0c8", "bg": "#55555f" }, { "text": "     ", "color": "#aab0c8" }, "               ", { "text": " ┃", "color": "#ff3ec8" }],
+          [{ "text": "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛", "color": "#ff3ec8" }]
+        ]
+      },
+      { "slot": "status", "text": "◆ editing · ctx 34% · ◐ high · 5h 30% ↻2h10m · wk 12% ↻Fri" },
+      { "slot": "background", "text": "Clawd is a 24×12 pixel sprite that types, walks, hops on passing tests and sweats on failing ones. The arcade spinner is a 4×2 braille orb; only its top row is shown." }
+    ]
+  },
+  "media": [{ "type": "image", "src": "https://raw.githubusercontent.com/NovusEdge/glowup/main/docs/assets/pack-arcade.png", "alt": "The arcade pack: neon pink and cyan on deep purple, bold cards around tool calls, the docked Changes tab and an HP bar in the status box", "surface": "terminal" }, { "type": "image", "src": "https://raw.githubusercontent.com/NovusEdge/glowup/main/docs/assets/pane-wide.png", "alt": "The docked pane on the Changes tab: three files with added and removed counts, the status box reading Done, four hearts and Clawd", "surface": "terminal" }]
+}

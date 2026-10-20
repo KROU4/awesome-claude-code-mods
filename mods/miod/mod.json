@@ -1,0 +1,61 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "miod",
+  "title": "miod",
+  "tagline": "A tune made up on the spot for every task; its mood follows what the agent does and its token pace.",
+  "tagline_ru": "Своя мелодия для каждой задачи, сочинённая на лету; настроение задают действия агента и темп расхода токенов.",
+  "description": "miod writes music while Claude works: no music files, no model. Each task gets its own flavour (lo-fi, chiptune, ambient, jazzy and 8 more), key, chords, tempo and sound. The mood follows what the agent does (reading, editing, testing, shipping, deleting, failing and more) and picks a scale to match; faster token spend makes it busier, each subagent adds a harmony voice and a filling context lifts the melody. A line above the prompt shows mood, flavour, key, tempo and energy over a scrolling wave in the mood's colour. When the turn ends a closing chord fades out. `/miod off` and `/miod on` toggle it, `/miod wave <name>` picks bars, line, mirror, dots or pulse. Sound plays on macOS only.",
+  "description_ru": "miod сочиняет музыку, пока Claude работает: без музыкальных файлов и без модели. У каждой задачи свой стиль (lo-fi, chiptune, ambient, jazzy и ещё 8), тональность, аккорды, темп и звук. Настроение следует за тем, что делает агент (читает, правит, тестирует, коммитит, удаляет, ошибается и так далее), и подбирает лад; чем быстрее расходуются токены, тем плотнее музыка, каждый субагент добавляет голос гармонии, а заполнение контекста поднимает мелодию. Строка над полем ввода показывает настроение, стиль, тональность, темп и энергию, а под ней бежит волна в цвете настроения. Когда ход заканчивается, звучит затихающий финальный аккорд. `/miod off` и `/miod on` выключают и включают музыку, `/miod wave <name>` выбирает вид волны: bars, line, mirror, dots или pulse. Звук работает только на macOS.",
+  "author": { "name": "Yang Liu", "github": "delexw", "url": "https://github.com/delexw" },
+  "maintainers": ["delexw"],
+  "category": "fun",
+  "tags": ["music", "generative-music", "audio", "mood", "wave"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/delexw/miod",
+  "source": { "type": "marketplace", "marketplace": "delexw/miod", "plugin": "miod" },
+  "requires": { "claudeCode": ">=2.1.290" },
+  "capabilities": {
+    "network": false,
+    "processes": false,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      { "role": "user", "text": "The login tests fail after the session refactor. Fix them." },
+      { "role": "tool", "tool": "Read", "input": "src/auth/session.ts", "status": "done" },
+      { "role": "tool", "tool": "Edit", "input": "src/auth/session.ts", "status": "done" },
+      { "role": "tool", "tool": "Bash", "input": "npm test", "status": "running" }
+    ],
+    "caption": "While the tests run: mood, flavour, key, tempo and energy above the prompt, over the bars wave in the mood's colour.",
+    "caption_ru": "Пока идут тесты: настроение, стиль, тональность, темп и энергия над полем ввода, а под ними волна-столбики в цвете настроения.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [{ "text": "♪ focused · lo-fi · E dorian · 92 bpm · energy 71%", "color": "#26C6DA" }],
+          [{ "text": "    ▃ ▆ ▁     ▄ ▇ ▂       ▃ ▅ ▁ ", "color": "#26C6DA" }, { "text": "      ▂ ▄       ", "dim": true }],
+          [{ "text": "▃ ▆ █ █ █ ▅ █ █ █ █ ▆ ▄ ▇ █ █ █ ", "color": "#26C6DA" }, { "text": "▅ ▃ ▆ █ █ █ ▄ ▂ ", "dim": true }]
+        ]
+      },
+      {
+        "slot": "command",
+        "command": "/miod",
+        "args": "wave",
+        "output": [["waves: bars, line, mirror, dots, pulse. Now: bars. Use /miod wave <name>."]]
+      },
+      { "slot": "background", "text": "Each 8-beat phrase is synthesised on the spot into a WAV clip and played with $.audio at low gain; on macOS through afplay, Linux and Windows play nothing." }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/delexw/miod/main/docs/miod-wave.gif",
+      "alt": "miod's line above the prompt with mood, flavour, key, tempo and energy, and the wave scrolling with the music under it"
+    }
+  ]
+}

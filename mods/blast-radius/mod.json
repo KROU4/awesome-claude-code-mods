@@ -43,9 +43,9 @@
         "title": "Blast Radius",
         "width": "wide",
         "rows": [
-          [{ "text": "⚠ Blast Radius · rm -rf", "color": "warning", "bold": true }],
+          [{ "text": "⚠ Blast Radius · rm -rf", "color": "#ffd700", "bold": true }],
           [{ "text": "Command  ", "dim": true }, { "text": "rm -rf build", "bold": true }],
-          [{ "text": "Would    ", "dim": true }, { "text": "delete 37 files (about 1.2 MB)", "color": "error", "bold": true }],
+          [{ "text": "Would    ", "dim": true }, { "text": "delete 37 files (about 1.2 MB)", "color": "#d75f87", "bold": true }],
           [" "],
           ["  build/checkout.js"],
           ["  build/checkout.js.map"],

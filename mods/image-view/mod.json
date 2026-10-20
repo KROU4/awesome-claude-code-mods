@@ -1,0 +1,309 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "image-view",
+  "title": "Image View",
+  "tagline": "Thumbnails of the images you paste, shown above the prompt instead of bare [Image #1] tags.",
+  "tagline_ru": "Показывает миниатюры вставленных картинок над полем ввода, а не одни теги [Image #1].",
+  "description": "Paste one or more images and a row of rounded tiles appears above the prompt, one per `[Image #n]` tag in the draft, each labelled `#n` and keeping the picture's shape. In Ghostty and kitty (outside tmux and screen) a tile is the real picture, drawn by the client's Image element; in other terminals the mod decodes the PNG itself and draws it in colored half blocks (▀). Tiles shrink to fit the band, ending with `+N` when there are too many; the row clears once the prompt is sent or the tags are deleted. It checks the draft every 200ms. No network: it reads the session's image cache and converts non-PNG pastes with `sips` on macOS. `CLAUDE_IMAGE_VIEW_RENDERER=blocks|image` overrides the guess.",
+  "description_ru": "Вставьте одну или несколько картинок, и над полем ввода появится ряд скруглённых плиток: по одной на каждый тег `[Image #n]` в черновике, с подписью `#n` и с сохранением пропорций картинки. В Ghostty и kitty (вне tmux и screen) в плитке настоящая картинка, её рисует элемент Image самого клиента; в остальных терминалах мод сам декодирует PNG и рисует его цветными полублоками (▀). Плитки уменьшаются, чтобы поместиться над полем ввода, а если их слишком много, ряд заканчивается на `+N`. Ряд исчезает после отправки запроса или удаления тегов. Черновик проверяется каждые 200 мс. В сеть мод не ходит: читает кэш картинок сессии, а картинки в других форматах на macOS переводит в PNG через `sips`. Переменная `CLAUDE_IMAGE_VIEW_RENDERER=blocks|image` задаёт способ отрисовки вручную.",
+  "author": {
+    "name": "Jarrod Watts",
+    "github": "jarrodwatts",
+    "url": "https://github.com/jarrodwatts"
+  },
+  "maintainers": [
+    "jarrodwatts"
+  ],
+  "category": "interface",
+  "tags": [
+    "images",
+    "paste",
+    "thumbnails",
+    "band",
+    "half-blocks"
+  ],
+  "license": "MIT",
+  "version": "0.2.0",
+  "homepage": "https://github.com/jarrodwatts/claude-image-view",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "jarrodwatts/claude-image-view",
+    "plugin": "image-view"
+  },
+  "surfaces": [
+    "terminal"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "idle",
+    "caption": "Two pastes in the draft: a wide screenshot (#1) and a tall phone photo (#2) as tiles above the prompt, in half blocks.",
+    "caption_ru": "В черновике две вставки: широкий скриншот (#1) и вытянутое фото с телефона (#2) плитками над полем ввода, полублоками.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            {
+              "text": "╭─────────────────────╮ ╭──────╮",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│",
+              "dim": true
+            },
+            {
+              "text": "▀▀",
+              "color": "#d97757",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
+              "color": "#1f2937",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "│ │",
+              "dim": true
+            },
+            {
+              "text": "▀▀▀▀▀▀",
+              "color": "#5fa8e0",
+              "bg": "#6fb2e6"
+            },
+            {
+              "text": "│",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│",
+              "dim": true
+            },
+            {
+              "text": "▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀▀▀▀",
+              "color": "#ffffff",
+              "bg": "#111827"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "│ │",
+              "dim": true
+            },
+            {
+              "text": "▀▀▀▀",
+              "color": "#7dbdea",
+              "bg": "#8cc6ee"
+            },
+            {
+              "text": "▀",
+              "color": "#f5d76e",
+              "bg": "#f5d76e"
+            },
+            {
+              "text": "▀",
+              "color": "#7dbdea",
+              "bg": "#8cc6ee"
+            },
+            {
+              "text": "│",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│",
+              "dim": true
+            },
+            {
+              "text": "▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
+              "color": "#9ca3af",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "│ │",
+              "dim": true
+            },
+            {
+              "text": "▀▀",
+              "color": "#9ccdf0",
+              "bg": "#8a9bab"
+            },
+            {
+              "text": "▀▀",
+              "color": "#8a9bab",
+              "bg": "#6b7f8f"
+            },
+            {
+              "text": "▀▀",
+              "color": "#9ccdf0",
+              "bg": "#8a9bab"
+            },
+            {
+              "text": "│",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│",
+              "dim": true
+            },
+            {
+              "text": "▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
+              "color": "#ffffff",
+              "bg": "#9ca3af"
+            },
+            {
+              "text": "▀▀▀▀▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "│ │",
+              "dim": true
+            },
+            {
+              "text": "▀▀▀▀▀▀",
+              "color": "#6b7f8f",
+              "bg": "#4f8a3a"
+            },
+            {
+              "text": "│",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│",
+              "dim": true
+            },
+            {
+              "text": "▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
+              "color": "#9ca3af",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "│ │",
+              "dim": true
+            },
+            {
+              "text": "▀▀▀▀▀▀",
+              "color": "#4f8a3a",
+              "bg": "#3f7a2e"
+            },
+            {
+              "text": "│",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│",
+              "dim": true
+            },
+            {
+              "text": "▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀",
+              "color": "#3b82f6",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
+              "color": "#ffffff",
+              "bg": "#ffffff"
+            },
+            {
+              "text": "│ │",
+              "dim": true
+            },
+            {
+              "text": "▀▀▀▀▀▀",
+              "color": "#3a6b2a",
+              "bg": "#2f5a22"
+            },
+            {
+              "text": "│",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "│         #1          │ │  #2  │",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "╰─────────────────────╯ ╰──────╯",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "In Ghostty and kitty (outside tmux and screen) the tiles hold the real pictures. Tiles appear as soon as you paste and clear when the prompt is sent."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/jarrodwatts/claude-image-view/main/claude-image-view.png",
+      "alt": "A pasted docs page as a rounded #1 thumbnail, drawn as a real picture, above a prompt holding [Image #1]",
+      "surface": "terminal"
+    }
+  ]
+}

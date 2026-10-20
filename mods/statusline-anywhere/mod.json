@@ -1,0 +1,68 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "statusline-anywhere",
+  "title": "Status Line Anywhere",
+  "tagline": "Runs your own statusLine command and draws its output in color above the prompt in the desktop app.",
+  "tagline_ru": "Запускает вашу команду statusLine и рисует её вывод в цвете над полем ввода в десктопном приложении.",
+  "description": "The desktop app doesn't draw custom status lines; this mod does. Outside the terminal it runs the `statusLine` command from your settings through `sh -c`, feeding it on stdin the same kind of JSON Claude Code sends (session, folders, model, version, cost, context window, rate limits), and draws each output line above the prompt with its ANSI colors, bold, dim and italics. It refreshes at session start, after each reply and every 60 seconds (or `refreshInterval`), stops the command after 10 seconds and shows a dim error row if it fails. In a terminal it does nothing. Lines changed, PR, vim mode, prompt cache, effort and output style are not sent. Not on Windows yet.",
+  "description_ru": "Десктопное приложение не рисует пользовательскую строку состояния, а этот мод рисует. Вне терминала он запускает через `sh -c` команду `statusLine` из ваших настроек, передаёт ей на stdin такой же JSON, какой отправляет Claude Code (сессия, папки, модель, версия, стоимость, окно контекста, лимиты), и выводит каждую строку результата над полем ввода, сохраняя ANSI-цвета, жирный шрифт, приглушённый текст и курсив. Обновляется при старте сессии, после каждого ответа и раз в 60 секунд (или раз в `refreshInterval` секунд), прерывает команду через 10 секунд, а если она падает, показывает приглушённую строку с текстом ошибки. В терминале ничего не делает. Число изменённых строк, PR, режим vim, кеш промпта, effort и стиль вывода не передаются. На Windows пока не работает.",
+  "author": { "name": "statuslin.es", "github": "NathanAB", "url": "https://statuslin.es" },
+  "maintainers": ["NathanAB"],
+  "category": "interface",
+  "tags": ["status-line", "desktop", "ansi", "band", "shell"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "homepage": "https://github.com/NathanAB/statusline-anywhere",
+  "source": { "type": "marketplace", "marketplace": "NathanAB/statusline-anywhere", "plugin": "statusline-anywhere" },
+  "surfaces": ["desktop"],
+  "requires": { "claudeCode": ">=2.1.286" },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "none",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "desktop",
+    "scene": "coding",
+    "caption": "In the desktop app: a Catppuccin Frappé status line from statuslin.es, drawn in its own colors above the prompt.",
+    "caption_ru": "В десктопном приложении: строка состояния Catppuccin Frappé со statuslin.es в своих цветах над полем ввода.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "Opus 5.5", "color": "#babbf1" },
+            { "text": " | ", "color": "#737994" },
+            { "text": "main", "color": "#ca9ee6" },
+            { "text": "●", "color": "#ef9f76" },
+            { "text": " | ", "color": "#737994" },
+            { "text": "my-app", "color": "#81c8be" },
+            { "text": " | ", "color": "#737994" },
+            { "text": "▓", "color": "#8caaee" },
+            { "text": "░░░░░░░░░", "color": "#737994" },
+            { "text": " 100k/1000k", "color": "#a5adce" },
+            { "text": " | ", "color": "#737994" },
+            { "text": "$0.65", "color": "#a6d189" },
+            { "text": " | ", "color": "#737994" },
+            { "text": "v2.1.290", "color": "#a5adce" }
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "Runs sh -c \"<your statusLine command>\" at session start, after each reply and every 60 s (10 s timeout); draws nothing in the terminal."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/NathanAB/statusline-anywhere/main/docs/desktop-status-line.png",
+      "alt": "The Catppuccin Frappé status line drawn above the prompt in Claude Desktop",
+      "surface": "desktop"
+    }
+  ]
+}

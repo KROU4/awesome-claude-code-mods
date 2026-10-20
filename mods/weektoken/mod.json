@@ -1,0 +1,110 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "weektoken",
+  "title": "WeekToken",
+  "tagline": "Rate-limit pace: 5-hour and weekly usage against elapsed time, with a forecast and burn-up history.",
+  "tagline_ru": "Темп расхода лимитов: сколько потрачено за 5 часов и за неделю против прошедшего времени, прогноз и история.",
+  "description": "Puts what you have used of your rate limits next to how much of the window has passed: the 5-hour and 7-day windows and per-model weekly quotas such as Fable. A band above the prompt shows the tightest quota (`❮ 7-day ❯ · 64% used · 71% elapsed`) and a bar in its color, with a pace-colored time marker in the terminal; the arrows switch quota. `/weektoken` opens a pane with the burn rate, a forecast such as \"At this rate, runs out ~Sat 20:12\" and a burn-up chart of past windows (drawn in the desktop app). Refresh asks Anthropic's usage endpoint through Claude Code, falling back to `claude -p /usage`. `/weektoken hide` and `show` toggle the band. English or Chinese.",
+  "description_ru": "Показывает, сколько вы израсходовали из лимитов, рядом с тем, сколько времени окна уже прошло: для 5-часового и 7-дневного окон и недельных квот отдельных моделей, например Fable. Над полем ввода полоса с самой напряжённой квотой (`❮ 7-day ❯ · 64% used · 71% elapsed`) и шкала в цвете квоты, в терминале с отметкой времени в цвете темпа; стрелки переключают квоту. `/weektoken` открывает панель с темпом расхода, прогнозом вроде «At this rate, runs out ~Sat 20:12» и графиком прошлых окон (график рисуется в десктопном приложении). Кнопка Refresh запрашивает данные у Anthropic через сам Claude Code, а если не выходит, запускает `claude -p /usage`. `/weektoken hide` и `show` скрывают и возвращают полосу. Интерфейс на английском или китайском.",
+  "author": { "name": "mj0111", "github": "3dnow", "url": "https://x.com/mj0011sec" },
+  "maintainers": ["3dnow"],
+  "category": "insights",
+  "tags": ["rate-limit", "usage", "pace", "quota", "forecast", "band"],
+  "license": "MIT",
+  "version": "0.2.20",
+  "homepage": "https://github.com/3dnow/claude-mods/tree/main/weektoken",
+  "source": { "type": "marketplace", "marketplace": "3dnow/claude-mods", "plugin": "weektoken", "path": "weektoken" },
+  "surfaces": ["terminal", "desktop"],
+  "requires": { "claudeCode": ">=2.1.287" },
+  "capabilities": {
+    "network": true,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": false,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "scene": "coding",
+    "caption": "The 7-day quota above the prompt: 64% used, 71% elapsed, a green time marker (under pace); /weektoken docks the pace pane.",
+    "caption_ru": "Квота 7-day над полем ввода: израсходовано 64%, прошло 71%, зелёная отметка времени (расход отстаёт от времени); /weektoken открывает панель темпа.",
+    "elements": [
+      {
+        "slot": "above-prompt",
+        "rows": [
+          [
+            { "text": "h:", "color": "suggestion" },
+            " ❮ ",
+            { "text": "7-day ", "color": "#3987E5" },
+            { "text": "l:", "color": "suggestion" },
+            " ❯ ",
+            { "text": "· 64% used", "color": "#3987E5", "bold": true },
+            " ",
+            { "text": "· 71% elapsed", "dim": true },
+            " ",
+            { "text": "███████████████", "color": "#3987E5" },
+            { "text": "░░", "dim": true },
+            { "text": "│", "color": "#0CA30C" },
+            { "text": "░░░░░░", "dim": true },
+            "        ",
+            { "text": "Details", "dim": true },
+            " ",
+            { "text": "Hide", "dim": true },
+            " ",
+            { "text": "[-]", "dim": true }
+          ]
+        ]
+      },
+      {
+        "slot": "pane",
+        "title": "WeekToken",
+        "rows": [
+          [{ "text": "7-day · All models", "color": "#3987E5", "bold": true }],
+          [" "],
+          [{ "button": "Pace", "hotkey": "1", "variant": "primary" }, " ", { "button": "Burn-up", "hotkey": "2", "variant": "secondary" }],
+          [" "],
+          [
+            { "text": "███████████████████", "color": "#3987E5" },
+            { "text": "░░", "dim": true },
+            { "text": "│", "color": "#0CA30C" },
+            { "text": "░░░░░░░░", "dim": true },
+            " ",
+            { "text": "0.91×", "color": "#0CA30C", "bold": true },
+            " ",
+            { "text": "Under pace", "dim": true }
+          ],
+          [" "],
+          [{ "text": "Usage 10h 55m behind the clock", "bold": true }],
+          [" "],
+          [{ "text": "At this rate, ~91% by reset", "dim": true }],
+          [" "],
+          [{ "text": "↘ Slowing down lately", "dim": true }],
+          [" "],
+          ["Used 64%   Elapsed 71%   Resets in 2d 1h"],
+          [" "],
+          [{ "button": "‹ 5-hour session", "hotkey": "h" }, "  ", { "button": "7-day · Fable ›", "hotkey": "l" }],
+          [" "],
+          ["            ", { "button": "⊖ Hide band" }, " ", { "button": "↻ Refresh", "hotkey": "r" }],
+          [" "],
+          ["                              ", { "text": "@mj0011sec · v0.2.20", "dim": true }]
+        ]
+      },
+      { "slot": "command", "command": "/weektoken", "output": [["WeekToken pace pane opened"]] }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/3dnow/claude-mods/main/weektoken/screenshots/terminal-pane.png",
+      "alt": "WeekToken in the terminal: the band above the prompt and the /weektoken pace pane docked on the right",
+      "surface": "terminal"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/3dnow/claude-mods/main/weektoken/screenshots/band-dark.png",
+      "alt": "The WeekToken band in the desktop app: Fable quota 38% used, 64% elapsed, a striped pace bar, Details and Hide",
+      "surface": "desktop"
+    }
+  ]
+}

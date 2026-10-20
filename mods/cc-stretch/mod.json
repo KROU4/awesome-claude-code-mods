@@ -4,8 +4,8 @@
   "title": "Stretchtext Replies",
   "tagline": "Replies arrive short; click an underlined phrase and it grows in place into the longer version.",
   "tagline_ru": "Ответы приходят короткими: нажмите на подчёркнутую фразу, и она развернётся на месте в подробный текст.",
-  "description": "A system-prompt section asks Claude to write replies as stretches, `{{short|long}}`, and the mod draws only the short forms, underlined. In the fullscreen terminal or the Claude desktop app a click grows a phrase in place, its added words tinted; `«` shrinks it back. alt+↓ or ctrl+↓ puts letters over closed stretches in the latest three replies (alt+↑ or ctrl+↑ over each `«`); type one to act. `/cc-stretch:style` shows a toolbar above the prompt for marks and a highlight (a hex colour or `tinted`), saved as the `marks` and `highlight` settings. Your next prompt tells Claude which stretches you opened. Elsewhere every stretch shows open; on Windows clicks are reported not to work yet.",
-  "description_ru": "Раздел системного промпта просит Claude писать ответы растяжками `{{short|long}}`, а мод показывает только короткие формы, подчёркнутыми. В полноэкранном режиме терминала или в приложении Claude для компьютера щелчок разворачивает фразу на месте, добавленные слова выделяются цветом; `«` сворачивает её обратно. alt+↓ или ctrl+↓ ставит буквы над закрытыми растяжками в трёх последних ответах; наберите букву, чтобы открыть или закрыть. Команда `/cc-stretch:style` показывает над полем ввода панель для выбора начертания и подсветки (цвет в hex или `tinted`); выбор сохраняется в настройках `marks` и `highlight`. Вместе со следующим запросом Claude узнаёт, какие растяжки вы открыли. В остальных местах все растяжки показаны раскрытыми; в Windows щелчки, по отзывам, пока не работают.",
+  "description": "A system-prompt section has Claude write replies as stretches, `{{short|long}}`, and the mod draws only the short forms. In the fullscreen terminal a click on an underlined phrase grows it in place, its added words tinted, and `«` shrinks it back; in the Claude desktop app stretches are links. In the terminal, alt+↓ or ctrl+↓ puts letters over closed stretches in the latest three replies (alt+↑ or ctrl+↑ over each `«`); type one to act. `/cc-stretch:style` shows a toolbar above the prompt for marks and a highlight, saved as the `marks` and `highlight` settings. Your next prompt tells Claude which stretches you opened. Elsewhere every stretch shows open; clicks reportedly fail on Windows.",
+  "description_ru": "Раздел в системном промпте просит Claude писать ответы раскрывающимися фрагментами `{{short|long}}`, а мод показывает только их короткие формы. В полноэкранном терминале щелчок по подчёркнутой фразе разворачивает её на месте, новые слова выделяются цветом, а `«` сворачивает обратно; в десктопном приложении Claude фрагменты становятся ссылками. В терминале alt+↓ или ctrl+↓ ставит буквы над закрытыми фрагментами трёх последних ответов (alt+↑ или ctrl+↑ — над `«`); нажмите букву, чтобы раскрыть или свернуть. `/cc-stretch:style` открывает над полем ввода панель оформления и подсветки, выбор сохраняется в настройках `marks` и `highlight`. Со следующим запросом Claude узнаёт, какие фрагменты вы раскрыли. В остальных местах всё показано раскрытым; в Windows щелчки, по отзывам, пока не работают.",
   "author": { "name": "Provi", "github": "pro-vi", "url": "https://github.com/pro-vi" },
   "maintainers": ["pro-vi"],
   "category": "interface",
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/pro-vi/cc-stretch",
   "source": { "type": "marketplace", "marketplace": "pro-vi/cc-stretch", "plugin": "cc-stretch" },
   "surfaces": ["terminal", "desktop"],
-  "requires": { "claudeCode": ">=2.1.287" },
+  "requires": { "claudeCode": ">=2.1.292" },
   "capabilities": {
     "network": false,
     "processes": false,
@@ -33,7 +33,7 @@
       { "role": "tool", "tool": "Read", "input": "src/cart/total.ts", "status": "done" }
     ],
     "caption": "One stretch opened (new words tinted, « closes it), the rest closed under a highlight being tried in the style toolbar.",
-    "caption_ru": "Одна растяжка открыта (новые слова цветом, « сворачивает), остальные закрыты под подсветкой, которую вы пробуете на панели стиля.",
+    "caption_ru": "Один фрагмент раскрыт (новые слова выделены цветом, « сворачивает его), остальные закрыты под подсветкой, которую пробуют на панели стиля.",
     "elements": [
       {
         "slot": "message",

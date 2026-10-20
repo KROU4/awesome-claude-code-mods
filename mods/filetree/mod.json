@@ -1,0 +1,517 @@
+{
+  "$schema": "../../schema/mod.schema.json",
+  "name": "filetree",
+  "title": "Filetree",
+  "tagline": "A sidebar file tree with git status and +/- line counts; files Claude reads and writes shimmer.",
+  "tagline_ru": "Дерево файлов сбоку: статус git, число изменённых строк, а файлы, которые Claude читает и пишет, переливаются.",
+  "description": "Docks a Files pane in the sidebar with the working directory as a tree; it follows the cwd, or `/filetree <path>` pins another folder. Names take their git status color, changed files show exact `+N -N`, folders show `?:N M:N D:N` counts and the header shows branch, upstream and ahead/behind. Files Claude reads or searches shimmer purple, writes orange and commits green, opening collapsed folders to show them; git and gh actions (commit, push, PR and more) show at the bottom. The file you select goes to Claude as prompt context, `d` shows its diff, search covers unopened folders and `Σ` swaps dates for sizes. The terminal needs `/tui fullscreen` and 110 columns.",
+  "description_ru": "Открывает в боковой колонке панель Files с деревом рабочей папки: дерево следует за cwd, а `/filetree <путь>` закрепляет другую папку. Имена окрашены по статусу git, у изменённых файлов точные `+N -N`, у папок счётчики `?:N M:N D:N`, в заголовке ветка, upstream и ahead/behind. Файлы, которые Claude читает или находит поиском, переливаются фиолетовым, файлы, в которые он пишет, — оранжевым, закоммиченные — зелёным, а свёрнутые папки раскрываются, чтобы их показать; действия git и gh (commit, push, PR и другие) видны внизу панели. Выбранный файл передаётся Claude как контекст запроса, `d` показывает его diff, поиск находит файлы и в неоткрытых папках, а `Σ` меняет даты на размеры. В терминале нужны `/tui fullscreen` и ширина от 110 колонок.",
+  "author": {
+    "name": "Kurt Buhler",
+    "github": "data-goblin",
+    "url": "https://github.com/data-goblin"
+  },
+  "maintainers": [
+    "data-goblin"
+  ],
+  "category": "interface",
+  "tags": [
+    "file-tree",
+    "git",
+    "pane",
+    "shimmer",
+    "diff",
+    "search"
+  ],
+  "license": "MIT",
+  "version": "0.3.2",
+  "homepage": "https://github.com/data-goblin/claude-code-filetree",
+  "source": {
+    "type": "marketplace",
+    "marketplace": "data-goblin/claude-code-filetree",
+    "plugin": "filetree"
+  },
+  "surfaces": [
+    "terminal",
+    "desktop"
+  ],
+  "requires": {
+    "claudeCode": ">=2.1.287"
+  },
+  "capabilities": {
+    "network": false,
+    "processes": true,
+    "filesystem": "read",
+    "model": false,
+    "promptRewrite": true,
+    "blocksTools": false
+  },
+  "preview": {
+    "surface": "terminal",
+    "transcript": [
+      {
+        "role": "user",
+        "text": "Add percentage discount codes to this and show the saving at checkout."
+      },
+      {
+        "role": "tool",
+        "tool": "Read",
+        "input": "src/cart/total.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Read",
+        "input": "src/checkout.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Edit",
+        "input": "src/cart/total.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Edit",
+        "input": "src/checkout.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Write",
+        "input": "src/cart/total.test.ts",
+        "status": "done"
+      },
+      {
+        "role": "tool",
+        "tool": "Bash",
+        "input": "npm test",
+        "status": "running"
+      }
+    ],
+    "caption": "Mid-turn: git colors and line counts in the tree, the test file Claude just wrote shimmering orange, your selection highlighted.",
+    "caption_ru": "Посреди хода: цвета git и число изменённых строк в дереве, только что записанный тест переливается оранжевым, выбранный файл подсвечен.",
+    "elements": [
+      {
+        "slot": "pane",
+        "title": "Files: shop-api",
+        "width": "wide",
+        "rows": [
+          [
+            {
+              "text": "shop-api",
+              "bold": true,
+              "color": "#5b9bd5"
+            },
+            "                        ",
+            {
+              "text": "↑",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "⌂"
+            },
+            " ",
+            {
+              "text": "↻",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "○",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "Σ",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "⊟",
+              "dim": true
+            },
+            " ",
+            {
+              "text": "⊘"
+            },
+            " "
+          ],
+          [
+            {
+              "text": "⑂ ",
+              "color": "#5b9bd5"
+            },
+            {
+              "text": "main",
+              "bold": true
+            },
+            {
+              "text": " ↑1",
+              "color": "#2dd4bf"
+            },
+            {
+              "text": " origin/main",
+              "color": "#808a96"
+            },
+            "          ",
+            {
+              "text": " +31",
+              "color": "#98c379"
+            },
+            {
+              "text": " -6",
+              "color": "#e06c75"
+            },
+            {
+              "text": " ?:1",
+              "color": "#98c379"
+            },
+            {
+              "text": " M:2",
+              "color": "#e5c07b"
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "/ "
+            },
+            {
+              "text": "search",
+              "dim": true
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "↓  ↑  ←  →  open  search",
+              "dim": true
+            }
+          ],
+          [
+            {
+              "text": "▸ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "■ ",
+              "color": "#5b9bd5"
+            },
+            "docs"
+          ],
+          [
+            {
+              "text": "▸ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "■ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "node_modules",
+              "color": "#808a96"
+            },
+            "                            ",
+            {
+              "text": " ⊘",
+              "color": "#808a96",
+              "bold": true
+            }
+          ],
+          [
+            {
+              "text": "▾ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "■ ",
+              "color": "#e5c07b"
+            },
+            {
+              "text": "src",
+              "color": "#e5c07b"
+            },
+            "                        ",
+            {
+              "text": " +31",
+              "color": "#98c379"
+            },
+            {
+              "text": " -6",
+              "color": "#e06c75"
+            },
+            {
+              "text": " ?:1",
+              "color": "#98c379"
+            },
+            {
+              "text": " M:2",
+              "color": "#e5c07b"
+            }
+          ],
+          [
+            "  ",
+            {
+              "text": "▾ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "■ ",
+              "color": "#e5c07b"
+            },
+            {
+              "text": "cart",
+              "color": "#e5c07b"
+            },
+            "                     ",
+            {
+              "text": " +22",
+              "color": "#98c379"
+            },
+            {
+              "text": " -4",
+              "color": "#e06c75"
+            },
+            {
+              "text": " ?:1",
+              "color": "#98c379"
+            },
+            {
+              "text": " M:1",
+              "color": "#e5c07b"
+            }
+          ],
+          [
+            "    ",
+            "  ",
+            {
+              "text": "· ",
+              "color": "#f97316"
+            },
+            {
+              "text": "tota",
+              "color": "#f97316",
+              "bold": true
+            },
+            {
+              "text": "l",
+              "color": "#fb923c",
+              "bold": true
+            },
+            {
+              "text": ".",
+              "color": "#fdba74",
+              "bold": true
+            },
+            {
+              "text": "t",
+              "color": "#ffedd5",
+              "bold": true
+            },
+            {
+              "text": "e",
+              "color": "#fdba74",
+              "bold": true
+            },
+            {
+              "text": "s",
+              "color": "#fb923c",
+              "bold": true
+            },
+            {
+              "text": "t.ts",
+              "color": "#f97316",
+              "bold": true
+            },
+            "      ",
+            {
+              "text": " 2026-10-20 14:32",
+              "color": "#808a96"
+            },
+            {
+              "text": " ?",
+              "color": "#98c379",
+              "bold": true
+            }
+          ],
+          [
+            {
+              "text": "    ",
+              "bg": "#6b7280"
+            },
+            {
+              "text": "  ",
+              "bg": "#6b7280"
+            },
+            {
+              "text": "· ",
+              "color": "#e5c07b",
+              "bg": "#6b7280"
+            },
+            {
+              "text": "total.ts",
+              "color": "#e5c07b",
+              "bold": true,
+              "bg": "#6b7280"
+            },
+            {
+              "text": "                     ",
+              "bg": "#6b7280"
+            },
+            {
+              "text": " +22",
+              "color": "#98c379",
+              "bg": "#6b7280"
+            },
+            {
+              "text": " -4",
+              "color": "#e06c75",
+              "bg": "#6b7280"
+            },
+            {
+              "text": " M",
+              "color": "#e5c07b",
+              "bold": true,
+              "bg": "#6b7280"
+            }
+          ],
+          [
+            "  ",
+            {
+              "text": "▸ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "■ ",
+              "color": "#5b9bd5"
+            },
+            "lib"
+          ],
+          [
+            "  ",
+            "  ",
+            {
+              "text": "· ",
+              "color": "#e5c07b"
+            },
+            {
+              "text": "checkout.ts",
+              "color": "#e5c07b"
+            },
+            "                     ",
+            {
+              "text": " +9",
+              "color": "#98c379"
+            },
+            {
+              "text": " -2",
+              "color": "#e06c75"
+            },
+            {
+              "text": " M",
+              "color": "#e5c07b",
+              "bold": true
+            }
+          ],
+          [
+            "  ",
+            "  ",
+            {
+              "text": "· ",
+              "color": "#808a96"
+            },
+            "index.ts",
+            "             ",
+            {
+              "text": " 2026-10-14 09:05",
+              "color": "#808a96"
+            }
+          ],
+          [
+            {
+              "text": "▸ ",
+              "color": "#808a96"
+            },
+            {
+              "text": "■ ",
+              "color": "#5b9bd5"
+            },
+            "tests"
+          ],
+          [
+            "  ",
+            {
+              "text": "· ",
+              "color": "#808a96"
+            },
+            "package.json",
+            "           ",
+            {
+              "text": " 2026-10-02 11:47",
+              "color": "#808a96"
+            }
+          ],
+          [
+            "  ",
+            {
+              "text": "· ",
+              "color": "#808a96"
+            },
+            "README.md",
+            "              ",
+            {
+              "text": " 2026-09-28 16:20",
+              "color": "#808a96"
+            }
+          ],
+          [
+            "  ",
+            {
+              "text": "· ",
+              "color": "#808a96"
+            },
+            "tsconfig.json",
+            "          ",
+            {
+              "text": " 2026-09-12 10:03",
+              "color": "#808a96"
+            }
+          ],
+          [
+            " "
+          ],
+          [
+            {
+              "text": "selected: src/cart/total.ts",
+              "dim": true
+            }
+          ]
+        ]
+      },
+      {
+        "slot": "background",
+        "text": "Your prompt carries the file selected in the tree as context, so \"this\" means src/cart/total.ts."
+      }
+    ]
+  },
+  "media": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/data-goblin/claude-code-filetree/main/media/filetree-shimmer.gif",
+      "alt": "The filetree pane shimmering the file Claude is editing"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/data-goblin/claude-code-filetree/main/media/filetree-git.gif",
+      "alt": "A committed file shimmers green and the footer of the pane shows the commit"
+    }
+  ]
+}
