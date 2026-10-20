@@ -1,0 +1,844 @@
+/*
+  Desktop surface: the Claude desktop app, Code tab. claude.ai palette (visual-4.md §4.2):
+  light bg-100 #faf9f5 / bg-200 #f5f4ed / bg-300 #f0eee6, text #141413 #3d3d3a, muted
+  #6b6a65 (the doc's #73726c misses 4.5:1 on bg-200); dark #262624 / #1f1e1d / #30302e,
+  text #faf9f5 #c2c0b6 #9c9a92. Sizes scale with the window like the terminal does, so
+  switching surfaces keeps the frame's height.
+*/
+
+.dk {
+  --dk-fs: clamp(11px, 1.3cqi, 13.5px);
+  --dk-bg: #faf9f5;
+  --dk-side: #f5f4ed;
+  --dk-raised: #ffffff;
+  --dk-chip: #ffffff;
+  --dk-pane: #ffffff;
+  --dk-sunk: #f0eee6;
+  --dk-ink: #141413;
+  --dk-ink-2: #3d3d3a;
+  --dk-ink-3: #6b6a65;
+  --dk-line: rgba(31, 30, 29, 0.14);
+  --dk-line-2: rgba(31, 30, 29, 0.28);
+  --dk-tint: rgba(31, 30, 29, 0.05);
+  --dk-brand: #c6613f;
+  --dk-brand-fill: #b5502f;
+  --dk-on-brand: #ffffff;
+  --dk-add: #2f7613;
+  --dk-rem: #b53333;
+  --dk-shadow: 0 1px 2px rgba(20, 20, 19, 0.04), 0 6px 22px rgba(20, 20, 19, 0.06);
+  --dk-shadow-pop: 0 2px 6px rgba(20, 20, 19, 0.06), 0 14px 36px rgba(20, 20, 19, 0.13);
+
+  --nv-font: var(--font-sans);
+  --nv-mono: var(--font-mono);
+  --nv-ink: var(--dk-ink);
+  --nv-ink-2: var(--dk-ink-2);
+  --nv-ink-3: var(--dk-ink-3);
+  --nv-line: var(--dk-line);
+  --nv-line-strong: var(--dk-line-2);
+  --nv-btn-bg: var(--dk-raised);
+  --nv-btn-line: var(--dk-line-2);
+  --nv-brand-fill: var(--dk-brand-fill);
+  --nv-on-brand: var(--dk-on-brand);
+  --nv-key-bg: var(--dk-sunk);
+  --nv-code-bg: var(--dk-tint);
+  --nv-code-ink: var(--dk-ink);
+  --nv-link: #1b67b2;
+  --nv-radius: 0.55em;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(34px + (var(--rows, 26) * 1.45 + 1.4) * clamp(10.5px, 1.6cqi, 13.5px));
+  overflow: hidden;
+  background: var(--dk-side);
+  color: var(--dk-ink);
+  font-family: var(--font-sans);
+  font-size: var(--dk-fs);
+  line-height: 1.5;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+}
+.dk[data-dk-theme='dark'] {
+  --dk-bg: #262624;
+  --dk-side: #1f1e1d;
+  --dk-raised: #30302e;
+  --dk-chip: #2c2c2a;
+  --dk-pane: #1f1e1d;
+  --dk-sunk: #141413;
+  --dk-ink: #faf9f5;
+  --dk-ink-2: #c2c0b6;
+  --dk-ink-3: #9c9a92;
+  --dk-line: rgba(222, 220, 209, 0.14);
+  --dk-line-2: rgba(222, 220, 209, 0.28);
+  --dk-tint: rgba(222, 220, 209, 0.07);
+  --dk-brand: #d97757;
+  --dk-brand-fill: #d97757;
+  --dk-on-brand: #141413;
+  --dk-add: #6cb33f;
+  --dk-rem: #e86b6b;
+  --dk-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 22px rgba(0, 0, 0, 0.22);
+  --dk-shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.42);
+  --nv-link: #74abe2;
+}
+.dk ::selection {
+  background: color-mix(in srgb, var(--dk-brand) 26%, transparent);
+}
+.dk[data-compact] {
+  --dk-fs: clamp(10.5px, 2.8cqi, 12px);
+  height: calc((var(--rows, 10) * 1.45 + 1.1) * clamp(10.5px, 2.8cqi, 12px));
+  background: var(--dk-bg);
+}
+
+/* ── app bar: neutral window dots, Chat · Cowork · Code ─────────── */
+.dk-appbar {
+  flex: none;
+  height: 34px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--dk-ink-2);
+  user-select: none;
+}
+.dk-dots {
+  display: inline-flex;
+  gap: 7px;
+}
+.dk-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--dk-ink-3) 38%, transparent);
+}
+.dk-tabs {
+  grid-column: 2;
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: var(--dk-tint);
+}
+.dk-tab {
+  padding: 5px 13px;
+  border-radius: 6px;
+  color: var(--dk-ink-3);
+  font-weight: 500;
+}
+.dk-tab.is-active {
+  background: var(--dk-raised);
+  color: var(--dk-ink);
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.08), 0 0 0 0.5px var(--dk-line);
+}
+
+.dk-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+/* ── session list ───────────────────────────────────────────────── */
+.dk-side {
+  flex: 0 0 15.5em;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0.35em 0.6em 0.7em;
+  user-select: none;
+}
+.dk-new {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.5em 0.6em;
+  border-radius: 0.6em;
+  color: var(--dk-ink);
+  font-weight: 500;
+}
+.dk-new > .nv-icon {
+  width: 1.45em;
+  height: 1.45em;
+  padding: 0.22em;
+  border-radius: 50%;
+  background: var(--dk-brand-fill);
+  color: var(--dk-on-brand);
+}
+.dk-kbd {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 0.78em;
+  color: var(--dk-ink-3);
+}
+.dk-side-label {
+  margin: 1em 0.6em 0.3em;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--dk-ink-3);
+}
+.dk-session {
+  display: grid;
+  gap: 1px;
+  padding: 0.45em 0.6em;
+  border-radius: 0.6em;
+  min-width: 0;
+}
+.dk-session.is-active {
+  background: var(--dk-tint);
+}
+.dk-session-title {
+  font-size: 0.92em;
+  color: var(--dk-ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-session.is-active .dk-session-title {
+  color: var(--dk-ink);
+  font-weight: 500;
+}
+.dk-session-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.78em;
+  color: var(--dk-ink-3);
+}
+.dk-session-dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--dk-brand);
+}
+/* slim list (700–899px windows): 150px, the titles truncated, no shortcut or labels */
+.dk-side[data-slim] {
+  flex-basis: 150px;
+  padding-inline: 0.45em;
+}
+.dk-side[data-slim] .dk-session-meta,
+.dk-side[data-slim] .dk-side-label {
+  display: none;
+}
+.dk-side[data-slim] .dk-session {
+  padding-block: 0.5em;
+}
+.dk-side-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.5em 0.6em;
+  font-size: 0.92em;
+  color: var(--dk-ink-2);
+}
+
+/* ── main panel ─────────────────────────────────────────────────── */
+.dk-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--dk-bg);
+}
+.dk:not([data-compact]) .dk-main {
+  border-top: 1px solid var(--dk-line);
+}
+.dk-side + .dk-main {
+  border-left: 1px solid var(--dk-line);
+  border-top-left-radius: 12px;
+}
+
+.dk-sessbar {
+  flex: none;
+  height: 2.9em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0 0.6em 0 1.1em;
+  border-bottom: 1px solid var(--dk-line);
+  user-select: none;
+}
+.dk-sessbar-l {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  min-width: 0;
+}
+.dk-sess-title {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-sess-folder {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.12em 0.45em;
+  border-radius: 0.4em;
+  background: var(--dk-tint);
+  color: var(--dk-ink-3);
+  font-size: 0.85em;
+}
+.dk-sessbar-r {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+.dk-hbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  height: 2.05em;
+  padding: 0 0.62em;
+  border: 1px solid var(--dk-line);
+  border-radius: 0.55em;
+  color: var(--dk-ink-2);
+  font-size: 0.88em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.dk-counts {
+  display: inline-flex;
+  gap: 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  font-variant-numeric: tabular-nums;
+}
+.dk-counts .is-add {
+  color: var(--dk-add);
+}
+.dk-counts .is-rem {
+  color: var(--dk-rem);
+}
+.dk-iconbtn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.05em;
+  height: 2.05em;
+  border-radius: 0.55em;
+  color: var(--dk-ink-3);
+}
+
+.dk-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  position: relative;
+}
+.dk-chat {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+/* the chat slides under the session bar: its top fades, so no message is cut by a hard edge */
+.dk-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 24px);
+}
+.dk[data-compact] .dk-scroll {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 2.6em);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 2.6em);
+}
+
+/* ── transcript ─────────────────────────────────────────────────── */
+.dk-thread {
+  max-width: 46em;
+  margin: 0 auto;
+  padding: 1.5em 1.6em 1em;
+  display: flex;
+  flex-direction: column;
+}
+/* the conversation's wrapper (it fades in on a loop) lays out like the thread itself */
+.dk-convo {
+  display: flex;
+  flex-direction: column;
+}
+.dk-thread > * + *,
+.dk-convo > * + * {
+  margin-top: 1.05em;
+}
+.dk-convo > .dk-turn-tool + .dk-turn-tool {
+  margin-top: 0.4em;
+}
+.dk-convo > * + .dk-turn-user {
+  margin-top: 1.6em;
+}
+.dk-turn-asst {
+  color: var(--dk-ink);
+  line-height: 1.62;
+}
+
+.dk-user {
+  display: flex;
+  justify-content: flex-end;
+}
+.dk-bubble {
+  max-width: min(85%, 34em);
+  padding: 0.6em 0.95em;
+  border-radius: 0.95em;
+  background: var(--dk-sunk);
+  color: var(--dk-ink);
+  overflow-wrap: anywhere;
+}
+.dk-bubble.is-command {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+.dk-user.is-rewritten .dk-bubble {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--dk-line);
+  color: var(--dk-ink-3);
+  text-decoration-line: line-through;
+}
+.dk-rewrite-note {
+  margin: 0.4em 0.3em;
+  text-align: right;
+  font-size: 0.8em;
+  color: var(--dk-ink-3);
+}
+
+.dk-tool {
+  border: 1px solid var(--dk-line);
+  border-radius: 0.7em;
+  background: var(--dk-chip);
+  overflow: hidden;
+}
+.dk-tool-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 2.35em;
+  padding: 0.3em 0.75em;
+  font-size: 0.93em;
+  min-width: 0;
+}
+.dk-tool-head.is-custom {
+  display: block;
+  padding: 0.45em 0.8em;
+}
+.dk-tool-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.1em;
+  flex: none;
+  color: var(--dk-ink-3);
+}
+.dk-tool[data-status='error'] .dk-tool-icon {
+  color: var(--dk-rem);
+}
+.dk-tool-run {
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--dk-ink-3);
+}
+.dk-tool-name {
+  flex: none;
+  font-weight: 600;
+}
+.dk-tool-arg {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  color: var(--dk-ink-2);
+}
+.dk-arg-dir {
+  color: var(--dk-ink-3);
+}
+.dk-tool-right {
+  margin-left: auto;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding-left: 0.4em;
+  font-size: 0.88em;
+  color: var(--dk-ink-3);
+}
+.dk-tool-sum.is-error {
+  color: var(--dk-rem);
+}
+.dk-tool-chev {
+  display: inline-grid;
+  color: var(--dk-ink-3);
+}
+.dk-tool-body {
+  padding: 0.55em 0.85em 0.6em;
+  border-top: 1px solid var(--dk-line);
+  font-size: 0.9em;
+}
+.dk-tool-out {
+  color: var(--dk-ink-2);
+}
+.dk-tool-out.is-error,
+.dk-tool-deny {
+  color: var(--dk-rem);
+}
+.dk-tool-deny {
+  min-height: 1.5em;
+}
+
+.dk-cmdout {
+  margin-top: 0.5em;
+  padding: 0.6em 0.85em 0.7em;
+  border: 1px solid var(--dk-line);
+  border-radius: 0.7em;
+  background: var(--dk-tint);
+  font-size: 0.93em;
+}
+.dk-cmdout-label {
+  display: block;
+  margin-bottom: 0.25em;
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  color: var(--dk-ink-3);
+}
+.dk-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  font-size: 0.88em;
+  color: var(--dk-ink-3);
+}
+.dk-note > .nv-icon {
+  margin-top: 0.22em;
+}
+.dk-spin {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.95em;
+}
+
+/* ── bottom: inline pane, band, prompt box, under-row, status ───── */
+.dk-bottom {
+  flex: none;
+  width: 100%;
+  max-width: 46em;
+  margin: 0 auto;
+  padding: 0 1.6em 0.75em;
+}
+.dk-band {
+  margin: 0 0.9em;
+  border: 1px solid var(--dk-line);
+  border-bottom: 0;
+  border-radius: 0.8em 0.8em 0 0;
+  background: color-mix(in srgb, var(--dk-side) 70%, var(--dk-bg));
+}
+.dk-band-item {
+  padding: 0.5em 0.9em;
+  font-size: 0.93em;
+}
+.dk-band > * + * .dk-band-item {
+  border-top: 1px solid var(--dk-line);
+}
+
+.dk-composer {
+  position: relative;
+  z-index: 1;
+  padding: 0.75em 0.7em 0.55em 1em;
+  border: 1px solid var(--dk-line);
+  border-radius: 0.95em;
+  background: var(--dk-raised);
+  box-shadow: var(--dk-shadow);
+}
+.dk-input {
+  min-height: 1.6em;
+  color: var(--dk-ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.dk-ph {
+  color: var(--dk-ink-3);
+}
+.dk-composer-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.55em;
+}
+.dk-plus {
+  border: 1px solid var(--dk-line);
+  color: var(--dk-ink-2);
+}
+.dk-composer-r {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+}
+.dk-model {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0 0.3em;
+  font-size: 0.88em;
+  color: var(--dk-ink-2);
+  white-space: nowrap;
+}
+.dk-usage {
+  display: inline-grid;
+  color: var(--dk-ink-3);
+}
+.dk-send {
+  display: inline-grid;
+  place-items: center;
+  width: 2.05em;
+  height: 2.05em;
+  border-radius: 0.6em;
+  background: color-mix(in srgb, var(--dk-brand-fill) 42%, var(--dk-raised));
+  color: var(--dk-on-brand);
+  transition: background-color var(--dur-exit) var(--ease-out);
+}
+.dk-send[data-state='ready'] {
+  background: var(--dk-brand-fill);
+}
+.dk-send[data-state='stop'] {
+  background: var(--dk-ink);
+  color: var(--dk-bg);
+}
+
+.dk-under {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  min-height: 1.9em;
+  margin-top: 0.4em;
+  padding: 0 0.3em;
+  font-size: 0.82em;
+  color: var(--dk-ink-3);
+}
+.dk-under-l {
+  flex: 0 1 auto;
+  display: flex;
+  gap: 0.25em;
+  min-width: 0;
+  overflow: hidden;
+}
+.dk-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.2em 0.45em;
+  border-radius: 0.45em;
+  white-space: nowrap;
+}
+.dk-under-r {
+  flex: 0 100 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dk-hint,
+.dk-mode {
+  flex: 0 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dk-hint .nv-inline,
+.dk-mode .nv-inline {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-amp {
+  color: var(--dk-ink-3);
+}
+.dk-status {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+  min-height: 1.6em;
+  padding: 0.05em 0.75em 0;
+  font-size: 0.8em;
+  color: var(--dk-ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.dk-status-entry {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── toasts (and desktop notifications) at the chat's top-right ─── */
+.dk-toasts {
+  position: absolute;
+  top: 0.8em;
+  right: 0.9em;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5em;
+  width: min(21em, calc(100% - 1.8em));
+  pointer-events: none;
+}
+.dk-toast {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6em;
+  padding: 0.65em 0.7em 0.7em 0.9em;
+  border: 1px solid var(--dk-line);
+  border-radius: 0.8em;
+  background: var(--dk-raised);
+  box-shadow: var(--dk-shadow-pop);
+  font-size: 0.92em;
+}
+.dk-toast-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 0.12em;
+}
+.dk-toast-src {
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--dk-ink-3);
+}
+.dk-toast-title {
+  font-weight: 600;
+}
+.dk-toast-text {
+  overflow-wrap: anywhere;
+}
+.dk-toast-close {
+  display: inline-grid;
+  color: var(--dk-ink-3);
+}
+
+/* ── mod pane: a session pane beside the chat ───────────────────── */
+.dk-pane {
+  flex: 0 0 clamp(15em, 38%, 24em);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--dk-line);
+  background: var(--dk-pane);
+}
+.dk-pane[data-wide] {
+  flex-basis: clamp(18em, 50%, 34em);
+}
+.dk-pane.is-inline {
+  margin-bottom: 0.6em;
+  border: 1px solid var(--dk-line);
+  border-radius: 0.8em;
+  overflow: hidden;
+}
+.dk-pane-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  height: 2.9em;
+  padding: 0 0.45em 0 0.95em;
+  border-bottom: 1px solid var(--dk-line);
+  font-size: 0.92em;
+}
+.dk-pane.is-inline .dk-pane-head {
+  height: 2.5em;
+}
+.dk-pane-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-pane-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  gap: 0.2em;
+  overflow: hidden;
+}
+.dk-pane-tab {
+  padding: 0.25em 0.6em;
+  border-radius: 0.45em;
+  color: var(--dk-ink-3);
+  white-space: nowrap;
+}
+.dk-pane-tab.is-active {
+  background: var(--dk-tint);
+  color: var(--dk-ink);
+  font-weight: 500;
+}
+.dk-pane-close {
+  margin-left: auto;
+}
+.dk-pane-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.8em 0.95em;
+  font-size: 0.92em;
+}
+.dk-pane.is-inline .dk-pane-body {
+  max-height: 12em;
+  padding: 0.6em 0.85em;
+}
+
+/* ── narrow windows and cards ───────────────────────────────────── */
+.dk[data-narrow] .dk-thread {
+  padding: 1.1em 0.95em 0.7em;
+}
+.dk[data-narrow] .dk-bottom {
+  padding: 0 0.75em 0.55em;
+}
+.dk[data-narrow] .dk-sessbar {
+  padding: 0 0.4em 0 0.5em;
+}
+.dk[data-narrow] .dk-sess-folder {
+  display: none;
+}
+.dk[data-narrow] .dk-hbtn {
+  border-color: transparent;
+  padding: 0 0.4em;
+}
+.dk[data-narrow] .dk-band {
+  margin: 0 0.5em;
+}
+/* narrow windows: toasts sit at the top of the chat, in the flow, not over the pane and band */
+.dk[data-narrow] .dk-toasts {
+  position: static;
+  order: -1;
+  width: auto;
+  align-items: stretch;
+  padding: 0.6em 0.75em 0;
+}
+.dk[data-narrow] .dk-pane.is-inline .dk-pane-body {
+  max-height: 8.5em;
+}
+.dk[data-compact] .dk-thread {
+  padding: 0.6em 0.85em 0.5em;
+}
+.dk[data-compact] .dk-bottom {
+  padding: 0 0.7em 0.45em;
+}
+.dk[data-compact] .dk-under {
+  min-height: 1.5em;
+  margin-top: 0.25em;
+}
+.dk[data-compact] .dk-under-r {
+  margin-left: auto;
+}

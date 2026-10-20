@@ -1,0 +1,59 @@
+/*
+  Terminal symbols. The @fontsource JetBrains Mono files carry letters only, so box drawing,
+  block elements, geometric shapes and arrows (─ │ ╭ █ ░ ▁ ● ◆ ▶ ❯ ✕ ⚠ ↑ …) fell back to
+  Consolas / Segoe UI Symbol at other widths and broke the mock's 1ch grid. This is the
+  same font (JetBrains Mono 2.211, SIL OFL 1.1, see ../assets/fonts/OFL-JetBrainsMono.txt)
+  cut down to its 270 glyphs in U+2100–2BFF, every one exactly 1ch wide. Glyphs it does not
+  have (spinner stars, ⎿, ▰, ⏵, ✓ …) are put in 1ch cells by components/mock/terminal/cells.tsx.
+*/
+/*
+  While Source Serif 4 loads, Georgia stands in at Source Serif's metrics (measured at the
+  hero's display size, opsz 60: Georgia sets the headline 9% wider and its line box 17%
+  shorter), so the headline wraps the same way before and after: no layout shift.
+*/
+@font-face {
+  font-family: 'Source Serif Fallback';
+  src: local('Georgia');
+  size-adjust: 91%;
+  ascent-override: 114%;
+  descent-override: 37%;
+  line-gap-override: 0%;
+}
+
+/* The same for Onest: Arial at Onest's metrics, measured per script (Onest sets Latin 6% wider
+   than Arial and Cyrillic 7% narrower), so paragraphs wrap the same before and after the swap. */
+@font-face {
+  font-family: 'Onest Fallback';
+  src: local('Arial');
+  size-adjust: 105.7%;
+  ascent-override: 91.8%;
+  descent-override: 29.3%;
+  line-gap-override: 0%;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: 'Onest Fallback';
+  src: local('Arial');
+  size-adjust: 93.5%;
+  ascent-override: 103.7%;
+  descent-override: 33.2%;
+  line-gap-override: 0%;
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Showroom Mono Symbols';
+  font-style: normal;
+  font-weight: 100 500;
+  font-display: swap;
+  src: url('../assets/fonts/showroom-mono-symbols-400.woff2') format('woff2');
+  unicode-range: U+2100-2BFF;
+}
+@font-face {
+  font-family: 'Showroom Mono Symbols';
+  font-style: normal;
+  font-weight: 501 900;
+  font-display: swap;
+  src: url('../assets/fonts/showroom-mono-symbols-700.woff2') format('woff2');
+  unicode-range: U+2100-2BFF;
+}

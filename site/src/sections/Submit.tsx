@@ -1,13 +1,13 @@
-// Submit a mod — STUB with the final props. Owner: Submit agent (see src/CONTRACTS.md).
-// Loaded lazily by App (it will carry ajv). Final: the rules in plain words, an entry
-// builder (name, title, tagline EN/RU, description, category, source, author, license,
-// preview elements) with a live MockClient beside it, the JSON with Copy, and
-// "Open a pull request on GitHub" →
-//   https://github.com/<owner>/<repo>/new/main?filename=mods/<name>/mod.json&value=<urlencoded JSON>
-// Client-side validation against schema/mod.schema.json with ajv imported inside this chunk.
+// Submit a mod: the rules in plain words, then the entry builder (form + structured preview
+// editor + live MockClient + JSON + "Open a pull request on GitHub"). App loads this section
+// lazily; ajv and the schema load later still, when the builder comes near (submit/validate.ts).
+// The section's strings ship in this chunk too: the first import registers them.
+import '../i18n/registerSubmit'
+import { rich } from '../components/how/Command'
+import EntryBuilder from '../components/submit/EntryBuilder'
+import Rules from '../components/submit/Rules'
 import { useT } from '../i18n'
-import { useRegistry } from '../lib/registry'
-import './sections.css'
+import '../components/submit/submit.css'
 
 export type SubmitProps = {
   /** DOM id of the section (scroll target for "#/submit"). */
@@ -16,17 +16,22 @@ export type SubmitProps = {
 
 export default function Submit({ id = 'submit' }: SubmitProps) {
   const { t } = useT()
-  const { registry } = useRegistry()
-  const newFile = `${registry.repo.url}/new/${registry.repo.branch}?filename=${encodeURIComponent('mods/<name>/mod.json')}`
   return (
-    <section id={id} className="wrap section" aria-labelledby={`${id}-title`}>
+    <section id={id} className="wrap section sb" aria-labelledby={`${id}-title`}>
       <div className="section-head">
         <h2 id={`${id}-title`}>{t('submit.title')}</h2>
         <p>{t('submit.lead')}</p>
       </div>
-      <a className="btn btn-secondary" href={newFile}>
-        {t('submit.pr.open')}
-      </a>
+
+      <Rules idBase={id} />
+
+      <div className="sb-builder-head">
+        <h3 id={`${id}-builder`} className="sb-builder-title">
+          {t('submit.builder.title')}
+        </h3>
+        <p>{rich(t('submit.builder.lead'))}</p>
+      </div>
+      <EntryBuilder />
     </section>
   )
 }

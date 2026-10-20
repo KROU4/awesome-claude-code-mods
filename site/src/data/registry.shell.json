@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "repo": {
+    "owner": "KROU4",
+    "name": "claude-code-mod-showroom",
+    "branch": "main",
+    "url": "https://github.com/KROU4/claude-code-mod-showroom",
+    "pagesUrl": "https://krou4.github.io/claude-code-mod-showroom/"
+  },
+  "marketplace": {
+    "name": "mod-showroom",
+    "repo": "KROU4/claude-code-mod-showroom",
+    "addCommand": "/plugin marketplace add KROU4/claude-code-mod-showroom",
+    "addShell": "claude plugin marketplace add KROU4/claude-code-mod-showroom"
+  },
+  "surfacesBySlot": {
+    "above-prompt": [
+      "terminal",
+      "desktop"
+    ],
+    "pane": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "status": [
+      "terminal",
+      "desktop"
+    ],
+    "toast": [
+      "terminal",
+      "desktop"
+    ],
+    "notification": [
+      "terminal",
+      "desktop"
+    ],
+    "command": [
+      "terminal",
+      "desktop"
+    ],
+    "tool-deny": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "prompt-rewrite": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "spinner": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "prompt-hint": [
+      "terminal",
+      "desktop"
+    ],
+    "session-mode": [
+      "terminal",
+      "desktop"
+    ],
+    "turn-duration": [
+      "terminal"
+    ],
+    "tool-row": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "message": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "info-notice": [
+      "terminal"
+    ],
+    "model-tool": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ],
+    "background": [
+      "terminal",
+      "desktop",
+      "vscode"
+    ]
+  },
+  "capabilityLabels": {
+    "network": {
+      "en": "uses the network",
+      "ru": "ходит в сеть"
+    },
+    "processes": {
+      "en": "runs programs",
+      "ru": "запускает программы"
+    },
+    "filesystem": {
+      "en": "reads or writes files",
+      "ru": "читает или пишет файлы"
+    },
+    "model": {
+      "en": "calls the model",
+      "ru": "обращается к модели"
+    },
+    "promptRewrite": {
+      "en": "sees prompts and can change them",
+      "ru": "видит промпты и может их менять"
+    },
+    "blocksTools": {
+      "en": "sees tool calls and can refuse them",
+      "ru": "видит вызовы инструментов и может их отклонять"
+    }
+  },
+  "minVersions": {
+    "mods": "2.1.287",
+    "desktop": "2.1.286",
+    "terminal": "2.1.275",
+    "shell": "2.1.292",
+    "vscode": "2.1.299"
+  },
+  "generatedAt": "",
+  "categories": [
+    {
+      "id": "interface",
+      "title": "Interface",
+      "title_ru": "Интерфейс",
+      "count": 0
+    },
+    {
+      "id": "insights",
+      "title": "Insights",
+      "title_ru": "Аналитика",
+      "count": 0
+    },
+    {
+      "id": "safety",
+      "title": "Safety",
+      "title_ru": "Безопасность",
+      "count": 0
+    },
+    {
+      "id": "productivity",
+      "title": "Productivity",
+      "title_ru": "Продуктивность",
+      "count": 0
+    },
+    {
+      "id": "git",
+      "title": "Git",
+      "title_ru": "Git",
+      "count": 0
+    },
+    {
+      "id": "integrations",
+      "title": "Integrations",
+      "title_ru": "Интеграции",
+      "count": 0
+    },
+    {
+      "id": "fun",
+      "title": "Fun",
+      "title_ru": "Развлечения",
+      "count": 0
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "title_ru": "Доступность",
+      "count": 0
+    }
+  ],
+  "mods": []
+}

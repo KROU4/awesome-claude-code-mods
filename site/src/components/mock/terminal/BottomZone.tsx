@@ -2,14 +2,14 @@
 // prompt → the prompt between two ─ lines → status line → hint line. Plus the docked pane
 // and the toast stack used by the fullscreen layout. Mod elements arrive with motion:
 // the band grows up out of the input, panes slide in from the right, toasts rise,
-// status entries fade in place.
+// status entries fade in place. Every mod element carries data-src (the mod's id).
 import { AnimatePresence, m } from 'motion/react'
 import type { Row } from '../../../data/types'
 import { enter, exit } from '../../../lib/motion'
 import { RowView, Segs } from '../dsl/Segments'
 import TreeRenderer from '../TreeRenderer'
 import type { Frame, MockModel, ModelChrome } from '../types'
-import { Box, Caret, CLOSE_MARK, HRule, POINTER } from './atoms'
+import { Box, Caret, CLOSE_MARK, HRule, Pointer } from './atoms'
 
 type Pane = ModelChrome['panes'][number]
 
@@ -38,8 +38,10 @@ function visible<T extends { id: string }>(list: T[], frame: Frame): T[] {
   return list.filter((x) => frame.chrome[x.id])
 }
 
-function PaneBody({ panes }: { panes: Pane[] }) {
+function PaneBody({ panes, frame }: { panes: Pane[]; frame: Frame }) {
   const [first] = panes
+  const shown = frame.paneRows[first.id]
+  const rows = shown === undefined ? first.rows : first.rows.slice(0, shown)
   return (
     <>
       {panes.length > 1 ? (
@@ -55,20 +57,20 @@ function PaneBody({ panes }: { panes: Pane[] }) {
       {first.tree && first.tree.surface === 'terminal' ? (
         <TreeRenderer tree={first.tree.tree} />
       ) : (
-        first.rows.map((r, i) => <RowView key={i} row={r} className="is-clip" />)
+        rows.map((r, i) => <RowView key={i} row={r} className="is-clip" />)
       )}
     </>
   )
 }
 
 /** Inline pane (classic layout or a narrow fullscreen): framed box, title tab, ✕ in the top border. */
-export function InlinePane({ panes }: { panes: Pane[] }) {
+export function InlinePane({ panes, frame }: { panes: Pane[]; frame: Frame }) {
   return (
     <AnimatePresence initial>
       {panes.length ? (
         <m.div key="pane" className="tm-anim-clip" {...grow}>
-          <Box title={panes[0].title} close className="tm-pane">
-            <PaneBody panes={panes} />
+          <Box title={panes[0].title} close className="tm-pane" src={panes[0].source}>
+            <PaneBody panes={panes} frame={frame} />
           </Box>
         </m.div>
       ) : null}
@@ -77,18 +79,18 @@ export function InlinePane({ panes }: { panes: Pane[] }) {
 }
 
 /** Docked pane (fullscreen ≥ the dock width): ✕ row at the top, rows below. */
-export function DockedPane({ panes, wide }: { panes: Pane[]; wide: boolean }) {
+export function DockedPane({ panes, wide, frame }: { panes: Pane[]; wide: boolean; frame: Frame }) {
   return (
     <AnimatePresence initial>
       {panes.length ? (
-        <m.aside key="dock" className="tm-dock" data-wide={wide || undefined} {...slideIn}>
+        <m.aside key="dock" className="tm-dock" data-wide={wide || undefined} data-src={panes[0].source} {...slideIn}>
           <div className="tm-dock-rule" aria-hidden="true" />
           <div className="tm-dock-inner">
             <div className="tl tm-dock-head">
               <span className="is-bold">{panes[0].title}</span>
               <span className="is-dim">{CLOSE_MARK}</span>
             </div>
-            <PaneBody panes={panes} />
+            <PaneBody panes={panes} frame={frame} />
           </div>
         </m.aside>
       ) : null}
@@ -98,10 +100,10 @@ export function DockedPane({ panes, wide }: { panes: Pane[]; wide: boolean }) {
 
 function Band({ model, frame }: { model: MockModel; frame: Frame }) {
   const bands = visible(model.chrome.bands, frame)
-  const rows: { key: string; row?: Row; tree?: (typeof bands)[number]['tree'] }[] = []
+  const rows: { key: string; src: string; row?: Row; tree?: (typeof bands)[number]['tree'] }[] = []
   for (const b of bands) {
-    if (b.tree && b.tree.surface === 'terminal') rows.push({ key: b.id, tree: b.tree })
-    else b.rows.forEach((r, i) => rows.push({ key: `${b.id}:${i}`, row: r }))
+    if (b.tree && b.tree.surface === 'terminal') rows.push({ key: b.id, src: b.source, tree: b.tree })
+    else b.rows.forEach((r, i) => rows.push({ key: `${b.id}:${i}`, src: b.source, row: r }))
   }
   return (
     <AnimatePresence initial>
@@ -109,7 +111,7 @@ function Band({ model, frame }: { model: MockModel; frame: Frame }) {
         <m.div key="band" className="tm-anim-clip" {...grow}>
           <div className="tm-band">
             {rows.map((r, i) => (
-              <div className="tm-band-row" key={r.key}>
+              <div className="tm-band-row" key={r.key} data-src={r.src}>
                 <div className="tm-band-body">{r.tree ? <TreeRenderer tree={r.tree.tree} /> : <RowView row={r.row as Row} />}</div>
                 <span className="tm-band-handle is-dim">{i === 0 ? '[-]' : ''}</span>
               </div>
@@ -121,17 +123,26 @@ function Band({ model, frame }: { model: MockModel; frame: Frame }) {
   )
 }
 
-function PromptInput({ frame, animate }: { frame: Frame; animate: boolean }) {
+function PromptInput({ frame, animate, bottomRule }: { frame: Frame; animate: boolean; bottomRule: boolean }) {
   const typing = frame.prompt.length > 0
   return (
     <div className="tm-prompt">
       <HRule />
+      {/* One row while typing: a long prompt scrolls left, so the screen never reflows when
+          it is sent (the line's tail and the caret stay in view). */}
       <div className="tl tm-input">
-        <span className="is-dim">{POINTER}&nbsp;</span>
-        {frame.prompt}
-        <Caret steady={typing || !animate} />
+        <span className="tm-input-lead">
+          <Pointer className="is-dim" />
+          {' '}
+        </span>
+        <span className="tm-input-line">
+          <span className="tm-input-text">
+            {frame.prompt}
+            <Caret steady={typing || !animate} />
+          </span>
+        </span>
       </div>
-      <HRule />
+      {bottomRule ? <HRule /> : null}
     </div>
   )
 }
@@ -145,7 +156,7 @@ function StatusLine({ model, frame, classicToasts }: { model: MockModel; frame: 
       <div className="tm-status-left">
         <AnimatePresence initial>
           {statuses.map((s, i) => (
-            <m.span key={s.id} className="tm-status-entry" {...fade}>
+            <m.span key={s.id} className="tm-status-entry" data-src={s.source} {...fade}>
               {i > 0 ? '  ' : ''}
               {s.text}
             </m.span>
@@ -155,7 +166,7 @@ function StatusLine({ model, frame, classicToasts }: { model: MockModel; frame: 
       <div className="tm-status-right">
         <AnimatePresence initial>
           {toasts.slice(-1).map((t) => (
-            <m.span key={t.id} className="tm-notice" {...slideIn}>
+            <m.span key={t.id} className="tm-notice" data-src={t.source} {...slideIn}>
               <span className="is-dim">{t.source} · </span>
               {t.text}
             </m.span>
@@ -176,7 +187,7 @@ function HintLine({ model, frame }: { model: MockModel; frame: Frame }) {
           {hints.length ? (
             <m.span key={hints.map((h) => h.id).join('|')} {...fade}>
               {hints.map((h, i) => (
-                <span key={h.id}>
+                <span key={h.id} data-src={h.source}>
                   {i > 0 ? '  ' : ''}
                   {h.tree && h.tree.surface === 'terminal' ? <TreeRenderer tree={h.tree.tree} inline /> : <Segs row={h.row} />}
                 </span>
@@ -192,7 +203,7 @@ function HintLine({ model, frame }: { model: MockModel; frame: Frame }) {
       <div className="tm-hint-right">
         <AnimatePresence initial>
           {modes.map((md, i) => (
-            <m.span key={md.id} className="is-dim" {...fade}>
+            <m.span key={md.id} className="is-dim" data-src={md.source} {...fade}>
               {i > 0 ? ' & ' : ''}
               <Segs row={md.row} />
             </m.span>
@@ -211,7 +222,7 @@ export function ToastStack({ model, frame }: { model: MockModel; frame: Frame })
       <AnimatePresence initial>
         {toasts.map((t) => (
           <m.div key={t.id} {...rise}>
-            <Box title={<span className="is-dim">{t.source}</span>} className="tm-toast">
+            <Box title={<span className="is-dim">{t.source}</span>} className="tm-toast" src={t.source}>
               <div className="tl">{t.text}</div>
             </Box>
           </m.div>
@@ -227,6 +238,7 @@ export function BottomZone({
   animate,
   inlinePanes,
   classicToasts,
+  compact = false,
 }: {
   model: MockModel
   frame: Frame
@@ -235,14 +247,22 @@ export function BottomZone({
   inlinePanes: Pane[]
   /** Toasts as one line at the right of the status row (classic layout). */
   classicToasts: boolean
+  /**
+   * Cards: the prompt is its top rule and the ❯ line; the bottom rule, status and hint rows
+   * only when the mod draws there.
+   */
+  compact?: boolean
 }) {
+  const c = model.chrome
+  const below = !compact || c.statuses.length > 0 || c.hints.length > 0 || c.modes.length > 0 || (classicToasts && c.toasts.length > 0)
+  const hint = !compact || c.hints.length > 0 || c.modes.length > 0
   return (
     <div className="tm-bottom">
-      <InlinePane panes={inlinePanes} />
+      <InlinePane panes={inlinePanes} frame={frame} />
       <Band model={model} frame={frame} />
-      <PromptInput frame={frame} animate={animate} />
-      <StatusLine model={model} frame={frame} classicToasts={classicToasts} />
-      <HintLine model={model} frame={frame} />
+      <PromptInput frame={frame} animate={animate} bottomRule={below} />
+      {below ? <StatusLine model={model} frame={frame} classicToasts={classicToasts} /> : null}
+      {hint ? <HintLine model={model} frame={frame} /> : null}
     </div>
   )
 }

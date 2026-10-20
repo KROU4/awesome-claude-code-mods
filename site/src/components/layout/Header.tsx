@@ -59,7 +59,8 @@ function ThemeToggle() {
 function GitHubLink({ compact = false }: { compact?: boolean }) {
   const { registry } = useRegistry()
   const { t, num } = useT()
-  const stars = repoStars(registry)
+  // a new repository has no stars yet: show the count once there is one
+  const stars = repoStars(registry) || undefined
   return (
     <a className="hdr-gh" href={registry.repo.url} aria-label={stars !== undefined ? `${t('common.nav.githubAria')}, ${t('common.nav.starsAria', { n: num(stars) })}` : t('common.nav.githubAria')}>
       <IconGitHub size={17} />

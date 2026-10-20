@@ -143,9 +143,11 @@
 /* ── Theme-independent scales ────────────────────────────────────── */
 :root {
   /* type */
-  --font-serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Onest Variable', 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-serif: 'Source Serif 4 Variable', 'Source Serif Fallback', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Onest Variable', 'Onest Fallback', 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* symbols: styles/fonts.css; then the system's terminal fonts, then its symbol fonts */
+  --font-mono: 'JetBrains Mono Variable', 'Showroom Mono Symbols', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo,
+    'Cascadia Mono', Consolas, 'DejaVu Sans Mono', 'Segoe UI Symbol', 'Apple Symbols', monospace;
 
   --text-xs: 0.75rem; /* 12 */
   --text-sm: 0.8125rem; /* 13 */

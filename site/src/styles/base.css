@@ -126,6 +126,11 @@ video {
   border-radius: 4px;
 }
 
+/* `hidden` wins over component display rules (flex/grid lists). */
+[hidden] {
+  display: none !important;
+}
+
 .tabular {
   font-variant-numeric: tabular-nums;
 }

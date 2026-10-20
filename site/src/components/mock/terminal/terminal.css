@@ -5,11 +5,19 @@
   middle of their cells, so they stay crisp at any size.
 */
 
+/* --fit (TerminalSurface): columns the widest drawn frame or pane row needs. The font shrinks
+   so it fits (the window is 100cqi; 0.6em is one JetBrains Mono cell; the padding is 2 × --pad-x),
+   down to a floor; past the floor the row is clipped at the edge, as a narrow terminal would. */
 .tm {
-  --fs: clamp(10.5px, 1.6cqi, 13.5px);
+  --fit: 0;
+  /* the size the mock is drawn at; the screen's height follows it, so a font fitted smaller
+     shows more rows instead of a shorter window (cards in a row stay the same height) */
+  --fs-base: clamp(10.5px, 1.6cqi, 13.5px);
+  --fs: max(10px, min(var(--fs-base), 100cqi / (var(--fit) * 0.6 + 1.68)));
   --row: 1.45em;
   --pad-x: 1.4ch;
   --pad-y: 0.7em;
+  --pad-y-base: 0.7;
   font-family: var(--font-mono);
   font-size: var(--fs);
   line-height: 1.45;
@@ -25,16 +33,18 @@
   position: relative;
 }
 .tm[data-compact] {
-  --fs: clamp(10.5px, 2.8cqi, 12px);
+  --fs-base: clamp(10.5px, 2.8cqi, 12px);
+  --fs: max(9px, min(var(--fs-base), 100cqi / (var(--fit) * 0.6 + 1.44)));
   --pad-x: 1.2ch;
   --pad-y: 0.55em;
+  --pad-y-base: 0.55;
 }
 .tm ::selection {
   background: var(--t-selectionBg);
 }
 
 .tm-screen {
-  height: calc(var(--rows, 26) * var(--row) + 2 * var(--pad-y));
+  height: calc((var(--rows, 26) * 1.45 + 2 * var(--pad-y-base)) * var(--fs-base));
   padding: var(--pad-y) var(--pad-x);
   overflow: hidden;
   position: relative;
@@ -44,8 +54,8 @@
   overflow: hidden;
 }
 .tm[data-compact] .tm-scroll {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 2.4em);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 2.4em);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 1.2em);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 1.2em);
 }
 
 /* fullscreen: transcript | rule | dock, bottom zone pinned */
@@ -78,6 +88,12 @@
   overflow-wrap: anywhere;
 }
 .tl.is-clip {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* a row of a drawn frame keeps its columns: clipped at the edge, never wrapped (Segments RowView) */
+.tl.is-frame {
   white-space: pre;
   overflow: hidden;
 }
@@ -165,12 +181,12 @@
 .tm-note {
   padding-left: 2ch;
 }
-.tm-flow > .tm-header:first-child + .tm-item,
-.tm-flow > .tm-item:first-child,
-.tm-flow > .tm-item-group:first-child {
+.tm-convo > .tm-header:first-child + .tm-item,
+.tm-convo > .tm-item:first-child,
+.tm-convo > .tm-item-group:first-child {
   margin-top: var(--row);
 }
-.tm[data-compact] .tm-flow > :first-child {
+.tm[data-compact] .tm-convo > :first-child {
   margin-top: 0;
 }
 
@@ -183,11 +199,48 @@
   }
 }
 
-/* spinner: glyph + message with the claudeShimmer sweep */
+/* A glyph the bundled fonts lack, held to its cell (terminal/cells.tsx): the fallback font's
+   wider or narrower glyph is centred in exactly 1ch (2ch for emoji), so the grid holds. */
+.tm-cell,
 .tm-spin-glyph {
-  display: inline-block;
-  min-width: 1ch;
+  display: inline-flex;
+  justify-content: center;
+  width: 1ch;
+  white-space: pre;
+  font-variant-emoji: text;
 }
+.tm-cell.is-wide {
+  width: 2ch;
+  font-variant-emoji: emoji;
+}
+
+/* Box drawing and blocks fill the row as in a terminal, so │ on stacked rows joins: the glyphs
+   are 1.32em tall, the row 1.45em (cells.tsx). */
+.tm-bx {
+  display: inline-block;
+  height: var(--row);
+  line-height: var(--row);
+  vertical-align: top;
+  transform: scaleY(1.1);
+  transform-origin: center;
+}
+
+/* the result connector's ⎿, as two strokes (atoms.tsx Connector) */
+.tm-elbow {
+  display: inline-block;
+  width: 1ch;
+  height: 0.9em;
+  border-left: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translate(0.4ch, -0.15em);
+}
+
+/* ❯ at the heavy weight the client uses (the symbols font has a 700 cut) */
+.tm-pointer {
+  font-weight: 700;
+}
+
+/* spinner: glyph + message with the claudeShimmer sweep */
 .tm-shimmer {
   --shim-base: var(--t-claude);
   color: var(--shim-base);
@@ -205,6 +258,27 @@
   100% {
     color: var(--shim-base);
   }
+}
+
+/* the prompt: one row; a long line slides left so its tail and the caret stay in view */
+.tm-input {
+  display: flex;
+  min-width: 0;
+}
+.tm-input-lead {
+  flex: none;
+  white-space: pre;
+}
+.tm-input-line {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.tm-input-text {
+  flex: none;
+  white-space: pre;
 }
 
 .tm-caret {
@@ -231,6 +305,18 @@
 /* ── bottom zone ────────────────────────────────────────────────── */
 .tm-bottom {
   margin-top: var(--row);
+}
+/* Classic: the screen starts full, as a terminal with history above, so the prompt and the
+   mods' rows around it sit at the bottom from the first frame; the conversation fills the
+   space above and then scrolls. Nothing on the page moves while the session plays. */
+.tm[data-layout='classic']:not([data-compact]) .tm-flow {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.tm[data-layout='classic']:not([data-compact]) .tm-flow > .tm-bottom {
+  margin-top: auto;
+  padding-top: var(--row);
 }
 .tm[data-layout='fullscreen'] .tm-bottom {
   flex: none;
@@ -394,6 +480,11 @@
   min-width: 0;
   padding-left: 1ch;
   overflow: hidden;
+}
+.tm-dock-inner .tl {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tm-dock-head {
   display: flex;

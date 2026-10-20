@@ -1,8 +1,9 @@
 // Merge one or more mod previews into a single mock session: the conversation (a scene or
 // the preview's own transcript), the mods' transcript elements placed where they happen,
 // and the "chrome" elements (band, pane, status, toast…) with the moment each arrives.
-import type { CapturedTree, Row, Turn } from '../../data/types'
+import type { CapturedTree, Row, Slot, Turn } from '../../data/types'
 import { SCENES, formatElapsed, type Scene, type SceneName, type SceneTurn } from './scenes'
+import type { MockSurface } from './availability'
 import type { MockModel, ModelChrome, ModelItem, PreviewInput } from './types'
 
 const TREE_SLOT: Record<string, keyof ModelChrome | 'spinner'> = {
@@ -79,6 +80,12 @@ function fromTurn(t: Turn, id: string): ModelItem | null {
 
 export type MergeOptions = {
   scene?: SceneName | Turn[]
+  /** Chrome of these slots arrives at the start of the session (MockClientProps.arriveAtStart). */
+  arriveAtStart?: readonly Slot[]
+  /** Whose captured trees to use (default terminal). Elements without one draw from the DSL. */
+  surface?: MockSurface
+  /** Preview ids whose panes fill in one row per tool call (MockClientProps.paneFollowsTools). */
+  paneFollowsTools?: readonly string[]
 }
 
 export function mergePreviews(previews: readonly PreviewInput[], opts: MergeOptions = {}): MockModel {
@@ -130,7 +137,7 @@ export function mergePreviews(previews: readonly PreviewInput[], opts: MergeOpti
       const key = TREE_SLOT[tr.component]
       if (key && !trees.has(`${key}:${tr.surface}`)) trees.set(`${key}:${tr.surface}`, tr)
     }
-    const treeFor = (key: string) => trees.get(`${key}:terminal`) ?? [...trees.entries()].find(([k]) => k.startsWith(`${key}:`))?.[1]
+    const treeFor = (key: string) => trees.get(`${key}:${opts.surface ?? 'terminal'}`)
 
     p.elements.forEach((el, ei) => {
       const id = `${source}:${ei}`
@@ -180,7 +187,16 @@ export function mergePreviews(previews: readonly PreviewInput[], opts: MergeOpti
           chrome.bands.push({ id, source, slot: el.slot, rows: el.rows, tree: treeFor('bands') })
           break
         case 'pane':
-          chrome.panes.push({ id, source, slot: el.slot, title: el.title, rows: el.rows, width: el.width ?? 'narrow', tree: treeFor('panes') })
+          chrome.panes.push({
+            id,
+            source,
+            slot: el.slot,
+            title: el.title,
+            rows: el.rows,
+            width: el.width ?? 'narrow',
+            tree: treeFor('panes'),
+            followTools: opts.paneFollowsTools?.includes(source) || undefined,
+          })
           break
         case 'status':
           chrome.statuses.push({ id, source, slot: el.slot, text: el.text })
@@ -268,7 +284,7 @@ export function mergePreviews(previews: readonly PreviewInput[], opts: MergeOpti
     ...chrome.modes,
     ...chrome.backgrounds,
   ]
-  for (const c of all) anchors[c.id] = lastOf.get(c.source) ?? fallback
+  for (const c of all) anchors[c.id] = opts.arriveAtStart?.includes(c.slot) ? 'start' : (lastOf.get(c.source) ?? fallback)
   for (const c of chrome.infoNotices) anchors[c.id] = 'start'
 
   return {

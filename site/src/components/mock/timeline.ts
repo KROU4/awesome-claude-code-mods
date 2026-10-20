@@ -1,7 +1,7 @@
 // The playback timeline: when each part of the merged session appears.
 //   prompt typed into the input (~28 ms a char, capped at 1.2 s) → submitted as a user row →
 //   spinner starts → assistant rows and tool rows (running → done) → the turn ends →
-//   each mod element arrives after its anchor → hold 4 s → loop.
+//   each mod element arrives after its anchor → hold (4 s by default) → loop.
 // frameAt(schedule, t) is pure: the surfaces draw whatever it returns.
 import type { Frame, ItemFrame, MockModel, ModelItem } from './types'
 
@@ -13,6 +13,8 @@ const SUBMIT_PAUSE_MS = 380
 const CHROME_DELAY_MS = 520
 const CHROME_STAGGER_MS = 420
 const SPINNER_TICK_MS = 500
+/** A loop that restarts at the first tool call starts this long before it shows. */
+const LOOP_LEAD_MS = 260
 
 type Typed = { id: string; text: string; start: number; perChar: number; submit: number }
 type ItemTiming = { show: number; done?: number; typeFrom?: number; typeMs?: number; len?: number }
@@ -21,9 +23,13 @@ export type Schedule = {
   typed: Typed[]
   items: Record<string, ItemTiming>
   chrome: Record<string, number>
+  /** Panes whose rows appear one per tool call: when each row shows. */
+  paneRows: Record<string, number[]>
   spinner: { start: number; end: number | null } | null
   /** When the final frame is reached (ms). */
   duration: number
+  /** Where a loop may restart instead of 0: just before the first tool call (0 when none). */
+  firstTool: number
   /** Every moment the frame changes, sorted, for the playback clock. */
   events: number[]
   seconds: number
@@ -136,12 +142,23 @@ export function buildSchedule(model: MockModel): Schedule {
     chrome[id] = a === 'start' ? 300 + k * 200 : anchorTime(a) + CHROME_DELAY_MS + k * CHROME_STAGGER_MS
   }
 
+  // A pane that lists the session's tool calls fills in as they happen: row i with call i.
+  const toolShows = model.items.filter((it) => it.kind === 'tool').map((it) => items[it.id]?.show ?? end)
+  const paneRows: Record<string, number[]> = {}
+  for (const p of model.chrome.panes) {
+    if (!p.followTools || !toolShows.length) continue
+    const from = chrome[p.id] ?? 0
+    paneRows[p.id] = p.rows.map((_, i) => Math.max(from, toolShows[Math.min(i, toolShows.length - 1)]))
+  }
+
   const spinner =
     model.finalPhase === 'idle' || spinnerStart === null
       ? null
       : { start: spinnerStart as number, end: model.finalPhase === 'working' ? null : spinnerEnd }
 
   const duration = Math.max(end, ...Object.values(chrome), 0) + 300
+  const firstToolAt = toolShows.length ? Math.max(0, Math.min(...toolShows) - LOOP_LEAD_MS) : 0
+  const firstTool = firstToolAt < duration ? firstToolAt : 0
 
   // Every change of the frame, so the clock re-renders only when something moves.
   const ev = new Set<number>([0, duration])
@@ -159,18 +176,22 @@ export function buildSchedule(model: MockModel): Schedule {
     }
   }
   for (const v of Object.values(chrome)) ev.add(v)
+  for (const rows of Object.values(paneRows)) for (const v of rows) ev.add(v)
   if (spinner) {
     const stop = spinner.end ?? duration
     for (let s = spinner.start; s <= stop; s += SPINNER_TICK_MS) ev.add(Math.round(s))
     ev.add(stop)
   }
+  if (firstTool) ev.add(firstTool)
 
   return {
     typed,
     items,
     chrome,
+    paneRows,
     spinner,
     duration,
+    firstTool,
     events: [...ev].sort((a, b) => a - b),
     seconds: model.seconds,
     tokens: model.tokens,
@@ -199,13 +220,16 @@ export function frameAt(s: Schedule, t: number): Frame {
   const chrome: Record<string, true> = {}
   for (const [id, at] of Object.entries(s.chrome)) if (t >= at) chrome[id] = true
 
+  const paneRows: Record<string, number> = {}
+  for (const [id, times] of Object.entries(s.paneRows)) paneRows[id] = final ? times.length : times.filter((at) => t >= at).length
+
   let spinner: Frame['spinner'] = null
   if (s.spinner && t >= s.spinner.start && (s.spinner.end === null || t < s.spinner.end)) {
     const stop = s.spinner.end ?? s.duration
     const p = final ? 1 : Math.min(1, (t - s.spinner.start) / Math.max(1, stop - s.spinner.start))
     spinner = { seconds: Math.max(1, Math.round(p * s.seconds)), tokens: Math.round(p * s.tokens) }
   }
-  return { final, prompt, items, chrome, spinner }
+  return { final, prompt, items, chrome, paneRows, spinner }
 }
 
 export function finalFrame(s: Schedule): Frame {

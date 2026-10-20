@@ -9,14 +9,24 @@ import mock from './mock'
 import hero from './hero'
 import catalog from './catalog'
 import install from './install'
-import submit from './submit'
+import type submit from './submit'
 import how from './how'
 
 export type { Lang } from './define'
 
-const dicts = { common, mock, hero, catalog, install, submit, how }
-type Dicts = typeof dicts
+/**
+ * Areas the main page needs are bundled; `submit` ships with its lazy section, which calls
+ * registerDict('submit', …) when its chunk loads (sections/Submit.tsx).
+ */
+const bundled = { common, mock, hero, catalog, install, how }
+type Dicts = typeof bundled & { submit: typeof submit }
 type Area = keyof Dicts
+const dicts: Partial<Dicts> = { ...bundled }
+
+/** Adds a lazily loaded area's strings. */
+export function registerDict<A extends Area>(area: A, dict: Dicts[A]): void {
+  dicts[area] = dict
+}
 
 /** Every translation key, e.g. "common.nav.catalog". */
 export type TKey = { [A in Area]: `${A}.${keyof Dicts[A]['en'] & string}` }[Area]

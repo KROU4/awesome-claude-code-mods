@@ -1,4 +1,4 @@
-// Prebuild: bundle a copy of the catalog into the site so it works offline.
+// Predev/prebuild: publish a copy of the catalog next to the site, outside the JS bundle.
 //
 // 1. If the repository root has registry.json (written by scripts/build-registry.mjs), copy it.
 // 2. Otherwise build it in memory with the repository's own generator (scripts/lib/*), writing
@@ -6,17 +6,24 @@
 // 3. If the generator is not there either (the site checked out alone), build a minimal registry
 //    from mods/*/mod.json that matches schema/registry.d.ts.
 //
-// Output: site/src/data/registry.snapshot.json (written only when the content changes).
+// Output (each written only when its content changes):
+// - site/public/registry.json: the whole catalog, minified. The app fetches it from the same
+//   origin when the live copy on GitHub does not answer (src/lib/registry.tsx). Not committed.
+// - site/src/data/registry.shell.json: the registry without mods and without dates (repo,
+//   marketplace, categories, labels), bundled so the page can draw before the catalog arrives.
 // MS_SNAPSHOT=entries skips registry.json (when it is older than the entries you are editing).
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const siteDir = resolve(here, '..')
 const repoRoot = resolve(siteDir, '..')
-const outFile = join(siteDir, 'src', 'data', 'registry.snapshot.json')
+const outFile = join(siteDir, 'public', 'registry.json')
+const shellFile = join(siteDir, 'src', 'data', 'registry.shell.json')
+/** Written by older versions of this script; removed so it cannot be bundled by mistake. */
+const legacyFile = join(siteDir, 'src', 'data', 'registry.snapshot.json')
 
 const OWNER = 'KROU4'
 const REPO = 'claude-code-mod-showroom'
@@ -196,11 +203,30 @@ async function main() {
       how = `built ${json.mods.length} mods from mods/*/mod.json (no registry.json, no generator)`
     }
   }
-  const text = JSON.stringify(json, null, 2) + '\n'
-  mkdirSync(dirname(outFile), { recursive: true })
-  const prev = existsSync(outFile) ? readFileSync(outFile, 'utf8') : ''
-  if (prev !== text) writeFileSync(outFile, text)
-  console.log(`[snapshot] ${how}${prev === text ? ' (unchanged)' : ''}`)
+  const changed = writeIfChanged(outFile, JSON.stringify(json) + '\n')
+  writeIfChanged(shellFile, JSON.stringify(shellOf(json), null, 2) + '\n')
+  if (existsSync(legacyFile)) rmSync(legacyFile)
+  const kb = Math.round(statSync(outFile).size / 1024)
+  console.log(`[snapshot] ${how} → public/registry.json, ${kb} KB${changed ? '' : ' (unchanged)'}`)
+}
+
+/** Everything but the mods; no dates and no counts, so the bundled file rarely changes. */
+function shellOf(registry) {
+  const { mods: _mods, generatedAt: _at, categories, ...rest } = registry
+  return {
+    ...rest,
+    generatedAt: '',
+    categories: categories.map((c) => ({ ...c, count: 0 })),
+    mods: [],
+  }
+}
+
+function writeIfChanged(file, text) {
+  mkdirSync(dirname(file), { recursive: true })
+  const prev = existsSync(file) ? readFileSync(file, 'utf8') : ''
+  if (prev === text) return false
+  writeFileSync(file, text)
+  return true
 }
 
 await main()

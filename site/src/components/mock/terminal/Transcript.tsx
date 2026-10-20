@@ -6,7 +6,7 @@ import { inlineMd, Markdown } from '../dsl/markdown'
 import { RowView, Segs } from '../dsl/Segments'
 import { formatElapsed, formatTokens, HEADER } from '../scenes'
 import type { Frame, MockModel, ModelItem } from '../types'
-import { Gutter, MARKER, POINTER, Result, Shimmer, SpinnerGlyph } from './atoms'
+import { Gutter, MARKER, Pointer, Result, Shimmer, SpinnerGlyph } from './atoms'
 
 export function SessionHeader() {
   return (
@@ -28,11 +28,11 @@ function textRows(text: string, key: string): ReactNode[] {
   ))
 }
 
-function UserRow({ text, className }: { text: ReactNode; className?: string }) {
+function UserRow({ text, className, src }: { text: ReactNode; className?: string; src?: string }) {
   return (
-    <div className={className ? `tm-user ${className}` : 'tm-user'}>
+    <div className={className ? `tm-user ${className}` : 'tm-user'} data-src={src}>
       <span className="tm-mark" style={{ color: 'var(--t-inactive)' }} aria-label="you:">
-        {POINTER}
+        <Pointer />
       </span>
       <div className="tm-gutter-body">{text}</div>
     </div>
@@ -70,7 +70,7 @@ function ToolItem({ it, phase, chars }: { it: Extract<ModelItem, { kind: 'tool' 
     }
   }
   return (
-    <div className="tm-item">
+    <div className="tm-item" data-src={it.source}>
       <Gutter
         mark={
           <span className={status === 'running' ? 'is-dim tm-blink' : undefined} style={markColor ? { color: markColor } : undefined}>
@@ -90,10 +90,10 @@ function Item({ it, frame, model }: { it: ModelItem; frame: Frame; model: MockMo
   if (!f) return null
   switch (it.kind) {
     case 'user':
-      return <UserRow text={textRows(it.text, it.id)} />
+      return <UserRow text={textRows(it.text, it.id)} src={it.source} />
     case 'assistant':
       return (
-        <div className="tm-item">
+        <div className="tm-item" data-src={it.source}>
           <Gutter mark={<span style={{ color: 'var(--t-text)' }}>{MARKER}</span>}>
             {it.text ? textRows(it.text, it.id) : rowsOrMd(it.rows, it.markdown, it.id)}
           </Gutter>
@@ -103,7 +103,7 @@ function Item({ it, frame, model }: { it: ModelItem; frame: Frame; model: MockMo
       return <ToolItem it={it} phase={f.phase} chars={f.chars} />
     case 'command':
       return (
-        <div className="tm-item-group">
+        <div className="tm-item-group" data-src={it.source}>
           <UserRow text={<div className="tl">{[it.command, it.args].filter(Boolean).join(' ')}</div>} />
           {f.phase === 'done' && (it.output || it.markdown) ? (
             <Result>{[<div key="o">{rowsOrMd(it.output, it.markdown, it.id)}</div>]}</Result>
@@ -113,7 +113,7 @@ function Item({ it, frame, model }: { it: ModelItem; frame: Frame; model: MockMo
     case 'rewrite': {
       const label = model.sources.find((s) => s.id === it.source)?.id ?? it.source
       return (
-        <div className="tm-item-group">
+        <div className="tm-item-group" data-src={it.source}>
           <UserRow className="is-rewritten" text={<div className="tl">{it.before}</div>} />
           {f.phase === 'done' ? (
             <>
@@ -125,12 +125,18 @@ function Item({ it, frame, model }: { it: ModelItem; frame: Frame; model: MockMo
       )
     }
     case 'note':
-      return <div className="tm-item tm-note is-dim">{rowsOrMd(it.rows, it.markdown, it.id)}</div>
+      return (
+        <div className="tm-item tm-note is-dim" data-src={it.source}>
+          {rowsOrMd(it.rows, it.markdown, it.id)}
+        </div>
+      )
     case 'turn-end':
       return (
-        <div className="tm-item">
+        <div className="tm-item" data-src={it.source}>
           <div className="tl is-dim">
-            <span aria-hidden="true">✻ </span>
+            <span aria-hidden="true">
+              <span className="tm-cell">✻</span>{' '}
+            </span>
             {it.text}
           </div>
         </div>
@@ -138,12 +144,14 @@ function Item({ it, frame, model }: { it: ModelItem; frame: Frame; model: MockMo
   }
 }
 
-export function TranscriptItems({ model, frame }: { model: MockModel; frame: Frame }) {
+/** The transcript. Cards (compact) leave out the client's own line that closes the turn
+ *  (unless a mod redraws it): a card has few rows, and they belong to the mod. */
+export function TranscriptItems({ model, frame, compact = false }: { model: MockModel; frame: Frame; compact?: boolean }) {
   return (
     <>
-      {model.items.map((it) => (
-        <Item key={it.id} it={it} frame={frame} model={model} />
-      ))}
+      {model.items.map((it) =>
+        compact && it.kind === 'turn-end' && !it.source ? null : <Item key={it.id} it={it} frame={frame} model={model} />,
+      )}
     </>
   )
 }
@@ -166,7 +174,7 @@ export function SpinnerLine({ model, frame, animate }: { model: MockModel; frame
   const { verb, glyphs, color } = model.spinner
   const c = resolveColor(color) ?? 'var(--t-claude)'
   return (
-    <div className="tm-item tm-spinner">
+    <div className="tm-item tm-spinner" data-src={model.spinner.source}>
       <Gutter mark={<SpinnerGlyph frames={glyphs && glyphs.length ? glyphs : undefined} animate={animate} color={c} />}>
         <div className="tl">
           <Shimmer text={`${verb}…`} color={c} />{' '}

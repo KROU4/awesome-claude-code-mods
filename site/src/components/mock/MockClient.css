@@ -4,6 +4,8 @@
 .mc {
   position: relative;
   min-width: 0;
+  /* the toolbar adapts to the mock's own width (hero column, sheet, phone) */
+  container: mc / inline-size;
 }
 
 /* ── toolbar ─────────────────────────────────────────────────────── */
@@ -82,22 +84,79 @@
   color: var(--ink);
   border-color: var(--line-strong);
 }
+/* one 'selected' idiom across the site: the raised neutral pill of .mc-seg-btn */
 .mc-btn[aria-pressed='true'] {
-  background: var(--accent-soft);
-  color: var(--accent-soft-ink);
-  border-color: transparent;
+  background: var(--raised);
+  color: var(--ink);
+  border-color: var(--line);
+  box-shadow: var(--shadow-1);
 }
 .mc-btn-icon {
   width: 36px;
   padding: 0;
 }
-@media (max-width: 520px) {
-  .mc-btn-label {
-    display: none;
+.mc-seg-short,
+.mc-theme-flip {
+  display: none;
+}
+/* A mid-width mock (the hero below 1360px, the detail sheet): short surface names and
+   the theme as one flip button, so the toolbar holds one row. */
+@container mc (max-width: 739px) {
+  .mc-toolbar {
+    column-gap: 8px;
+  }
+  .mc-tools {
+    gap: 4px;
   }
   .mc-seg-btn {
     padding: 0 9px;
   }
+  .mc-seg-long,
+  .mc-theme-seg {
+    display: none;
+  }
+  .mc-seg-short {
+    display: inline;
+  }
+  .mc-theme-flip {
+    display: inline-flex;
+  }
+}
+/* Phone width: one row of the surface switch (no icons), the theme flip, pause and replay; the
+   layout switch goes (a mock this narrow never docks a pane, so both layouts look alike). */
+@container mc (max-width: 539px) {
+  .mc-toolbar {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .mc-seg-surface {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  .mc-seg-surface .mc-seg-btn {
+    padding: 0 9px;
+  }
+  .mc-seg-surface .mc-seg-btn svg {
+    display: none;
+  }
+  .mc-layout-seg {
+    display: none;
+  }
+  .mc-tools {
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+  .mc-btn-icon {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* the mod a hero chip points at: its elements get a thin accent outline (MockClient highlight) */
+.mc [data-src] {
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color 120ms var(--ease-out);
 }
 
 /* ── window ──────────────────────────────────────────────────────── */
@@ -256,38 +315,9 @@
   color: var(--ink-3);
 }
 
-/* ── placeholder surfaces ───────────────────────────────────────── */
-.mc-coming,
+/* ── while the desktop / VS Code chunk loads: same size as the window ── */
 .mc-surface-loading {
   font-size: clamp(10.5px, 1.6cqi, 13.5px);
   height: calc(34px + var(--rows, 26) * 1.45em + 1.4em);
   background: var(--raised);
-}
-.mc-coming {
-  display: grid;
-  align-content: center;
-  padding: 0 clamp(20px, 6cqi, 56px);
-  font-family: var(--font-sans);
-  background:
-    linear-gradient(var(--sunk), var(--sunk)) top / 100% 34px no-repeat,
-    var(--raised);
-}
-.mc-coming-inner {
-  display: grid;
-  justify-items: start;
-  gap: 10px;
-  max-width: 44ch;
-}
-.mc-coming-title {
-  font-family: var(--font-serif);
-  font-size: clamp(20px, 2.6cqi, 26px);
-  line-height: 1.2;
-  color: var(--ink);
-}
-.mc-coming-body {
-  font-size: 15px;
-  color: var(--ink-2);
-}
-.mc-coming .mc-btn {
-  margin-top: 6px;
 }

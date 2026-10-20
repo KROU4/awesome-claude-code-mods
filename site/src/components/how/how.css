@@ -1,0 +1,466 @@
+/* How it works: steps, anatomy of a mod (tree + code), docs and other catalogs. */
+
+/* inline code inside step text (not the code viewer's <pre><code>) */
+.how :not(pre) > code:not(.how-cmd-text) {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--sunk);
+  color: var(--ink);
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/* ── steps ──────────────────────────────────────────────────────── */
+.how-steps {
+  display: grid;
+  gap: var(--s-7);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 1000px) {
+  .how-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-6);
+  }
+}
+@media (min-width: 1240px) {
+  .how-steps {
+    gap: var(--s-7);
+  }
+}
+.how-step {
+  display: grid;
+  align-content: start;
+  gap: var(--s-3);
+  min-width: 0;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-strong);
+}
+.how-step-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: var(--s-1);
+  font-size: var(--text-h3);
+  line-height: 1.2;
+}
+.how-step-n {
+  flex: none;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+}
+.how-step-body {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+.how-step-body + .how-cmd {
+  margin-top: -4px;
+}
+.how-step-note {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+/* a command with its copy button */
+.how-cmd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 5px 5px 5px 12px;
+  border-radius: var(--r-control);
+  background: var(--sunk);
+}
+/* one line that scrolls sideways, never broken inside a name */
+.how-cmd-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 4px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.how-cmd-text::-webkit-scrollbar {
+  display: none;
+}
+.how-cmd-text[data-overflow='start'] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+}
+.how-cmd-text[data-overflow='end'] {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 24px), transparent);
+}
+.how-cmd-text[data-overflow='both'] {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+}
+.how-cmd-copy {
+  flex: none;
+  align-self: flex-start;
+  width: 32px;
+  justify-content: center;
+  padding: 0;
+}
+
+.how-result {
+  display: grid;
+  gap: var(--s-2);
+  margin: var(--s-1) 0 0;
+}
+
+/* ── anatomy ────────────────────────────────────────────────────── */
+.how-anatomy-block {
+  margin-top: var(--s-9);
+}
+.how-anatomy-head {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 62ch;
+  margin-bottom: var(--s-5);
+}
+.how-anatomy-head p {
+  font-size: var(--text-md);
+  color: var(--ink-2);
+}
+.how-sub {
+  font-size: var(--text-h3);
+  line-height: 1.2;
+}
+.how-sub-lg {
+  font-size: clamp(1.5rem, 0.8vw + 1.2rem, 1.875rem);
+}
+
+.how-anatomy {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .how-anatomy {
+    grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
+    gap: var(--s-6);
+    align-items: start;
+  }
+}
+
+.how-tree-wrap {
+  display: grid;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-variant-ligatures: none;
+}
+.how-tree-root,
+.how-tree-dir {
+  margin: 0;
+  padding: 3px 8px;
+  white-space: pre;
+  color: var(--ink-2);
+}
+
+/* The tree's connectors are 1px lines, not │ ├ └ text (those glyphs never join across rows):
+   each item draws its vertical (stopping at its own elbow when it is the last) and its elbow. */
+.how-tree-list {
+  --tree-x: calc(8px + 0.5ch);
+  margin: 0 0 0 var(--tree-x);
+  padding: 0;
+  list-style: none;
+}
+.how-tree-item {
+  --elbow: calc(3px + 0.75em);
+  position: relative;
+  padding-left: 1.6ch;
+}
+.how-tree-item.is-file {
+  --elbow: calc(6px + 0.75em);
+}
+.how-tree-item::before,
+.how-tree-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+}
+.how-tree-item::before {
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--line-strong);
+}
+.how-tree-item:last-child::before {
+  bottom: auto;
+  height: var(--elbow);
+}
+.how-tree-item::after {
+  top: var(--elbow);
+  width: 1.3ch;
+  border-top: 1px solid var(--line-strong);
+}
+.how-tree-item .how-tree-dir {
+  padding-left: 4px;
+}
+.how-tree-item .how-tree-file {
+  padding-left: 6px;
+}
+.how-tree-item > .how-tree-list {
+  --tree-x: calc(4px + 0.5ch);
+}
+.how-tree-folder {
+  color: var(--ink);
+  font-weight: 600;
+}
+.how-tree-guide {
+  color: var(--ink-3);
+  white-space: pre;
+}
+.how-tree {
+  display: grid;
+  gap: 2px;
+}
+.how-tree-group {
+  display: grid;
+  gap: 2px;
+}
+.how-tree-file {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  text-align: left;
+  transition:
+    background-color var(--dur-exit) var(--ease-out),
+    color var(--dur-exit) var(--ease-out);
+}
+.how-tree-file:hover {
+  background: color-mix(in srgb, var(--sunk) 60%, transparent);
+  color: var(--ink);
+}
+.how-tree-file[aria-selected='true'] {
+  background: var(--sunk);
+  color: var(--ink);
+}
+.how-tree-text {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.how-tree-name {
+  font-weight: 500;
+}
+.how-tree-file[aria-selected='true'] .how-tree-name {
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+.how-tree-note {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink-3);
+  white-space: normal;
+}
+.how-tree-source {
+  justify-self: start;
+  margin-top: var(--s-3);
+  padding: 2px 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* the code viewer */
+.how-code {
+  --hl-keyword: #a94e2f;
+  --hl-string: #2f7613;
+  --hl-comment: #6b6a65;
+  --hl-tag: #2f5c8f;
+  --hl-number: #875a08;
+  --hl-key: #2f5c8f;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+:root[data-theme='dark'] .how-code {
+  --hl-keyword: #e89272;
+  --hl-string: #9cc27a;
+  --hl-comment: #9c9a92;
+  --hl-tag: #8db7e2;
+  --hl-number: #ddb15c;
+  --hl-key: #8db7e2;
+  background: var(--sunk);
+}
+.how-code:focus-visible {
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+.how-code-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.how-code-path {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--ink);
+}
+.how-code-range {
+  color: var(--ink-3);
+}
+.how-code-body {
+  margin: 0;
+  padding: 12px 0 14px;
+  max-height: 560px;
+  overflow: auto;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink);
+  tab-size: 2;
+}
+@media (min-width: 768px) {
+  .how-code-body {
+    font-size: 13px;
+  }
+}
+.how-code-line,
+.how-code-gap {
+  display: block;
+  padding-right: 16px;
+  white-space: pre;
+}
+.how-code-n {
+  display: inline-block;
+  width: 3ch;
+  margin: 0 14px 0 12px;
+  text-align: right;
+  color: var(--ink-3);
+  user-select: none;
+}
+.how-code-gap {
+  display: flex;
+  align-items: baseline;
+  padding-block: 4px;
+  background: color-mix(in srgb, var(--sunk) 70%, transparent);
+}
+.how-code-gap .how-code-n {
+  flex: none;
+}
+:root[data-theme='dark'] .how-code-gap {
+  background: color-mix(in srgb, var(--raised) 70%, transparent);
+}
+.how-code-gap-text {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  white-space: normal;
+}
+.hl-keyword {
+  color: var(--hl-keyword);
+}
+.hl-string {
+  color: var(--hl-string);
+}
+.hl-comment {
+  color: var(--hl-comment);
+  font-style: italic;
+}
+.hl-tag {
+  color: var(--hl-tag);
+}
+.hl-number {
+  color: var(--hl-number);
+}
+.hl-key {
+  color: var(--hl-key);
+}
+
+/* ── docs and other catalogs ────────────────────────────────────── */
+.how-more {
+  display: grid;
+  gap: var(--s-7);
+  margin-top: var(--s-9);
+}
+/* the docs: three links in a row on wide screens */
+@media (min-width: 900px) {
+  .how-more .how-link-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--s-6);
+    border-top: 0;
+  }
+  .how-more .how-link-list li {
+    border-top: 1px solid var(--line);
+  }
+}
+.how-links {
+  display: grid;
+  align-content: start;
+  gap: var(--s-2);
+  min-width: 0;
+}
+.how-links-note {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.how-link-list {
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.how-link-list li {
+  border-bottom: 1px solid var(--line);
+}
+.how-link {
+  display: grid;
+  gap: 2px;
+  padding: 12px 4px;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 6px;
+}
+.how-link-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: color var(--dur-exit) var(--ease-out);
+}
+.how-link-title svg {
+  color: var(--ink-3);
+  transition: transform var(--dur-exit) var(--ease-out);
+}
+.how-link:hover .how-link-title {
+  color: var(--accent-ink);
+}
+.how-link:hover .how-link-title svg {
+  color: currentColor;
+  transform: translate(1px, -1px);
+}
+.how-link-note {
+  font-size: 14px;
+  color: var(--ink-2);
+}

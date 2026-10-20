@@ -13,6 +13,10 @@ export type PlaybackOptions = {
   still: boolean
   loop: boolean
   replayKey: number
+  /** Hold of the final frame before a loop restarts (ms). */
+  holdMs?: number
+  /** Restart loops just before the first tool call instead of at 0 (Schedule.firstTool). */
+  loopFromFirstTool?: boolean
 }
 
 export type Playback = {
@@ -37,13 +41,17 @@ function lastEventAtOrBefore(events: number[], t: number): number {
 }
 
 export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback {
-  const { play, visible, still, loop, replayKey } = opts
+  const { play, visible, still, loop, replayKey, holdMs = HOLD_MS, loopFromFirstTool = false } = opts
   const [t, setT] = useState(0)
   const [cycle, setCycle] = useState(0)
   const acc = useRef(0)
   const startedAt = useRef<number | null>(null)
   const hasPlayed = useRef(false)
   const lastQ = useRef(0)
+  // The session reached its end (holding, or stopped there). If the schedule changes now (a mod
+  // switched on in the hero, an element added in the entry builder), show the new end at once
+  // instead of the old end time, which may fall before the new elements arrive.
+  const atEnd = useRef(false)
   const scheduleRef = useRef(schedule)
   scheduleRef.current = schedule
 
@@ -58,6 +66,7 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
     }
     acc.current = 0
     lastQ.current = 0
+    atEnd.current = false
     startedAt.current = running ? performance.now() : null
     setT(0)
     setCycle((c) => c + 1)
@@ -72,16 +81,21 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
     const tick = (now: number) => {
       const s = scheduleRef.current
       const elapsed = acc.current + (now - (startedAt.current ?? now))
-      if (elapsed >= s.duration + HOLD_MS) {
+      if (elapsed >= s.duration + holdMs) {
         if (loop) {
-          acc.current = 0
+          // restart at the first tool call (persistent mod UI stays put) or at the empty session
+          const from = loopFromFirstTool ? s.firstTool : 0
+          const q = lastEventAtOrBefore(s.events, from)
+          acc.current = from
           startedAt.current = now
-          lastQ.current = 0
-          setT(0)
+          lastQ.current = q
+          atEnd.current = false
+          setT(q)
           setCycle((c) => c + 1)
         } else {
           acc.current = s.duration
           startedAt.current = now
+          atEnd.current = true
           if (lastQ.current !== s.duration) {
             lastQ.current = s.duration
             setT(s.duration)
@@ -89,7 +103,9 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
           return
         }
       } else {
-        const q = elapsed >= s.duration ? s.duration : lastEventAtOrBefore(s.events, elapsed)
+        // sticky until the next loop or replay, so a longer schedule never steps back
+        if (elapsed >= s.duration) atEnd.current = true
+        const q = atEnd.current ? s.duration : lastEventAtOrBefore(s.events, elapsed)
         if (q !== lastQ.current) {
           lastQ.current = q
           setT(q)
@@ -103,10 +119,11 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
       if (startedAt.current !== null) acc.current += performance.now() - startedAt.current
       startedAt.current = null
     }
-  }, [running, loop])
+  }, [running, loop, holdMs, loopFromFirstTool])
 
   if (still) return { t: Number.POSITIVE_INFINITY, cycle, running: false }
   // Asked not to play and never played: show the finished session, not an empty one.
   if (!play && !hasPlayed.current) return { t: Number.POSITIVE_INFINITY, cycle, running: false }
+  if (atEnd.current) return { t: schedule.duration, cycle, running }
   return { t, cycle, running }
 }

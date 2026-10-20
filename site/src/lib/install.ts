@@ -45,8 +45,13 @@ export function resolveInstall(mod: SiteMod): ResolvedInstall {
   }
 }
 
-/** One block for a loadout: each marketplace added once, then one install line per mod. */
-export function loadoutCommands(mods: SiteMod[], form: 'terminal' | 'shell' = 'terminal'): string {
+/**
+ * A loadout's install lines: each marketplace added once, then one install line per mod.
+ * 'shell' lines (claude plugin …) run one after another when pasted into a shell; 'terminal'
+ * lines (/plugin …) must be sent one at a time, since Claude Code sends a multi-line paste
+ * as a single prompt.
+ */
+export function loadoutLines(mods: SiteMod[], form: 'terminal' | 'shell' = 'shell'): string[] {
   const adds = new Set<string>()
   const installs: string[] = []
   for (const m of mods) {
@@ -54,7 +59,36 @@ export function loadoutCommands(mods: SiteMod[], form: 'terminal' | 'shell' = 't
     adds.add(form === 'terminal' ? i.marketplaceAdd : `claude plugin marketplace add ${i.marketplaceRepo}`)
     installs.push(form === 'terminal' ? `/plugin install ${i.pluginId}` : `claude plugin install ${i.pluginId}`)
   }
-  return [...adds, ...installs].join('\n')
+  return [...adds, ...installs]
+}
+
+/** The shell lines as one block, ready to paste into a terminal (not into Claude Code). */
+export function loadoutCommands(mods: SiteMod[], form: 'terminal' | 'shell' = 'shell'): string {
+  return loadoutLines(mods, form).join('\n')
+}
+
+function semver(v: string): number[] | null {
+  const m = /(\d+)\.(\d+)\.(\d+)/.exec(v)
+  return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null
+}
+
+/**
+ * The version a mod asks for (its `requires.claudeCode`, e.g. ">=2.1.299"), when that is newer
+ * than `base` (the version mods first loaded in). Null otherwise.
+ */
+export function needsVersion(range: string | undefined, base: string): string | null {
+  if (!range) return null
+  const want = semver(range)
+  const have = semver(base)
+  if (!want) return null
+  if (have && (want[0] - have[0] || want[1] - have[1] || want[2] - have[2]) <= 0) return null
+  return want.join('.')
+}
+
+/** ">=2.1.299" → "2.1.299" with `orLater` filled in; other ranges as written. */
+export function formatRange(range: string, orLater: (v: string) => string): string {
+  const m = /^\s*>=\s*v?(\d+\.\d+\.\d+)\s*$/.exec(range)
+  return m ? orLater(m[1]) : range
 }
 
 /** The registry's own marketplace command (hero "Add the marketplace"). */

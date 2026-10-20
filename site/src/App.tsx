@@ -8,7 +8,6 @@ import { useT } from './i18n'
 import { useMotionPref } from './lib/motionPref'
 import { back, useRoute } from './lib/router'
 import Catalog from './sections/Catalog'
-import DevMockShowcase from './sections/DevMockShowcase'
 import Hero from './sections/Hero'
 import HowItWorks from './sections/HowItWorks'
 
@@ -61,8 +60,6 @@ export default function App() {
       <Header />
       <main id="main" ref={main} tabIndex={-1}>
         <Hero id="top" />
-        {/* TEMPORARY: the Hero agent replaces this with the live client in the hero. */}
-        <DevMockShowcase />
         <Catalog id="catalog" />
         <HowItWorks id="how" />
         <Suspense fallback={<div className="lazy-placeholder" aria-hidden="true" />}>

@@ -1,0 +1,442 @@
+/* Hero layouts, in the DOM order title → explainer and buttons → stats → client:
+     phones and tablets (< 960): one column; the client follows the buttons, the stats close it.
+     960–1099: the headline across the top; the explainer left, the client right.
+     ≥ 1100: headline and explainer in a left column, the client spanning the right, so the whole
+             client (and the bottom of its screen, where mods draw) is in the first viewport. */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'title'
+    'intro'
+    'client'
+    'foot';
+  row-gap: var(--s-5);
+  padding-block: var(--s-6) var(--s-7);
+}
+@media (min-width: 768px) {
+  .hero {
+    row-gap: var(--s-6);
+    padding-block: var(--s-7) var(--s-8);
+  }
+}
+
+/* measures in em, not ch: ch follows whichever font is drawing, so it moved when the
+   headline font arrived and the headline rewrapped (a layout shift) */
+.hero-title {
+  grid-area: title;
+  max-width: 10em;
+}
+.hero-title-lead {
+  display: block;
+}
+@media (min-width: 768px) {
+  .hero-title {
+    max-width: 12.5em;
+  }
+}
+
+/* Single column: the copy column dissolves so the client sits right under the buttons. The
+   marketplace line under the buttons waits for How it works, where the steps explain it. */
+.hero-copy {
+  display: contents;
+}
+.hero-intro {
+  grid-area: intro;
+  display: grid;
+  gap: var(--s-4);
+  max-width: 60ch;
+}
+.hero-foot {
+  grid-area: foot;
+  display: grid;
+  gap: var(--s-2);
+  max-width: 60ch;
+}
+.hero-client {
+  grid-area: client;
+  min-width: 0;
+}
+@media (max-width: 959px) {
+  .hero .hero-cmd {
+    display: none;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1099px) {
+  .hero {
+    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-areas:
+      'title title'
+      'copy client';
+    column-gap: var(--s-6);
+    row-gap: var(--s-6);
+  }
+  .hero-title {
+    max-width: 11.5em;
+    font-size: 2.75rem;
+  }
+  .hero-copy {
+    grid-area: copy;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-foot {
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (min-width: 1100px) {
+  .hero {
+    grid-template-columns: 400px minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'title client'
+      'copy client';
+    column-gap: var(--s-7);
+    row-gap: var(--s-5);
+    padding-block: var(--s-6) var(--s-7);
+  }
+  .hero-title {
+    max-width: none;
+    /* the top of the cap height meets the terminal window, under the mock toolbar */
+    padding-top: 40px;
+    /* sized so "Mods for Claude Code." holds one line of the column (≈ 8.8 em wide) */
+    font-size: 2.8125rem;
+  }
+  .hero-copy {
+    grid-area: copy;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+  }
+  .hero-foot {
+    margin-top: auto;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line);
+  }
+}
+@media (min-width: 1360px) {
+  .hero {
+    grid-template-columns: 440px minmax(0, 1fr);
+    column-gap: var(--s-7);
+  }
+  .hero-title {
+    font-size: 3.125rem;
+  }
+}
+
+.hero-lead {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+@media (min-width: 768px) {
+  .hero-lead {
+    font-size: var(--text-lg);
+  }
+}
+@media (min-width: 1100px) {
+  .hero-lead {
+    font-size: 1.125rem;
+  }
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-1);
+}
+@media (max-width: 479px) {
+  .hero-actions > * {
+    flex: 1 1 auto;
+  }
+}
+
+.hero-cmd {
+  display: grid;
+  gap: 2px;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+.hero-cmd-hint {
+  color: var(--ink-3);
+}
+.hero-cmd-line {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  overflow-wrap: break-word;
+}
+
+/* ── stats and the why line ─────────────────────────────────────── */
+/* Every item carries a leading "·"; the row is shifted left by one separator and clipped, so
+   the separator of an item that starts a line is cut off: no line starts or ends on a dot. */
+.hero-stats {
+  overflow: hidden;
+  padding: 4px;
+  margin: -4px;
+  font-size: 15px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.hero-stat {
+  white-space: nowrap;
+}
+a.hero-stat {
+  color: var(--ink);
+  font-weight: 600;
+}
+.hero-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 2px;
+  margin-left: -1.25em;
+}
+.hero-stats-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.hero-stats-item::before {
+  content: '·';
+  content: '·' / '';
+  flex: none;
+  width: 1.25em;
+  text-align: center;
+  color: var(--ink-3);
+}
+.hero-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.hero-updated-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+.hero-updated[data-source='live'] .hero-updated-dot {
+  background: var(--success);
+}
+.hero-stats-wait {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink-3);
+}
+.hero-updated-dot.is-waiting {
+  animation: hero-wait 1.2s ease-in-out infinite alternate;
+}
+@keyframes hero-wait {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-updated-dot.is-waiting {
+    animation: none;
+  }
+}
+:root[data-motion='off'] .hero-updated-dot.is-waiting {
+  animation: none;
+}
+.hero-stats-retry {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero-why {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  max-width: 46ch;
+}
+
+/* ── chips under the client ─────────────────────────────────────── */
+.hero-mods {
+  margin-top: var(--s-4);
+}
+.hero-mods-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 16px;
+  min-height: 32px;
+  margin-bottom: 10px;
+}
+.hero-mods-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--ink-3);
+}
+.hero-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  margin-right: -10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-ink);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition:
+    background-color var(--dur-exit) var(--ease-out),
+    color var(--dur-exit) var(--ease-out);
+}
+button.hero-add:hover {
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+.hero-add.is-done {
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* phones: one row that scrolls sideways, its end fading out to say there is more */
+@media (max-width: 599px) {
+  .hero-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    padding: 3px 2px 6px;
+    margin-inline: -2px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  .hero-chips::-webkit-scrollbar {
+    display: none;
+  }
+  .hero-chips > li {
+    flex: none;
+    scroll-snap-align: start;
+  }
+}
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-round);
+  background: var(--raised);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-exit) var(--ease-out),
+    border-color var(--dur-exit) var(--ease-out),
+    color var(--dur-exit) var(--ease-out),
+    transform var(--dur-instant) var(--ease-out);
+}
+.hero-chip-skel {
+  height: 38px;
+  border-radius: var(--r-round);
+  background: var(--sunk);
+  border: 1px solid var(--line);
+}
+.hero-chip:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.hero-chip:active {
+  transform: translateY(1px);
+}
+.hero-chip:focus-visible {
+  border-radius: var(--r-round);
+}
+/* off: an empty ring; on: the ring filled, like a radio dot */
+.hero-chip-mark {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-3);
+  background: transparent;
+  transition:
+    background-color var(--dur-exit) var(--ease-out),
+    border-color var(--dur-exit) var(--ease-out),
+    box-shadow var(--dur-exit) var(--ease-out);
+}
+.hero-chip-title {
+  font-weight: 600;
+}
+.hero-chip-slot {
+  color: var(--ink-3);
+}
+.hero-chip[aria-pressed='true'] {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--accent-soft-ink);
+}
+.hero-chip[aria-pressed='true'] .hero-chip-mark {
+  border-color: var(--accent-fill);
+  background: var(--accent-fill);
+  box-shadow: inset 0 0 0 2px var(--accent-soft);
+}
+.hero-chip[aria-pressed='true'] .hero-chip-slot {
+  color: var(--ink-2);
+}
+
+/* what the chip pointed at (or pressed last) does, with a way to its page */
+.hero-focus {
+  min-height: 1.5em;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 72ch;
+}
+.hero-focus-title {
+  font-weight: 600;
+  color: var(--ink);
+}
+.hero-focus-link {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.hero-mods-none {
+  min-height: 1.5em;
+  margin-top: 10px;
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+}
+.hero-mods-none:empty {
+  margin-top: 0;
+  min-height: 0;
+}

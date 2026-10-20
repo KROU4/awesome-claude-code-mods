@@ -12,6 +12,7 @@ import type {
   SparkSegment,
   TextSegment,
 } from '../../../data/types'
+import { cells, FRAME_STROKE } from '../terminal/cells'
 import { resolveColor } from './colors'
 
 export type SegmentVariant = 'terminal' | 'native'
@@ -23,6 +24,7 @@ export const isSpark = (s: Segment): s is SparkSegment => typeof s === 'object' 
 export const isLink = (s: Segment): s is LinkSegment => typeof s === 'object' && 'link' in s
 export const isKbd = (s: Segment): s is KbdSegment => typeof s === 'object' && 'kbd' in s
 
+const NBSP = '\u00A0'
 const SPARK = '▁▂▃▄▅▆▇█'
 
 export function sparkline(values: readonly number[]): string {
@@ -75,12 +77,14 @@ function textStyle(s: TextSegment): { className: string; style: CSSProperties } 
 }
 
 export function Seg({ seg, variant = 'terminal' }: { seg: Segment; variant?: SegmentVariant }): ReactNode {
-  if (typeof seg === 'string') return seg
+  // the terminal holds glyphs its fonts lack to one cell each (terminal/cells.tsx)
+  const cell = variant === 'terminal' ? cells : (x: string) => x
+  if (typeof seg === 'string') return cell(seg)
   if (isText(seg)) {
     const { className, style } = textStyle(seg)
     return (
       <span className={className} style={style}>
-        {seg.text}
+        {cell(seg.text)}
       </span>
     )
   }
@@ -96,8 +100,11 @@ export function Seg({ seg, variant = 'terminal' }: { seg: Segment; variant?: Seg
     const primary = seg.variant === 'primary'
     return (
       <span className="tseg-btn" data-variant={primary ? 'primary' : 'secondary'}>
-        <span className="tseg-brk">[</span> {seg.hotkey ? <span className="is-dim">{seg.hotkey}: </span> : null}
-        {seg.button} <span className="tseg-brk">]</span>
+        {/* NBSP inside the brackets: a wrap never leaves a lone "]" on the next row */}
+        <span className="tseg-brk">[</span>{NBSP}{seg.hotkey ? <span className="is-dim">{seg.hotkey}: </span> : null}
+        {cell(seg.button)}
+        {NBSP}
+        <span className="tseg-brk">]</span>
       </span>
     )
   }
@@ -116,17 +123,21 @@ export function Seg({ seg, variant = 'terminal' }: { seg: Segment; variant?: Seg
   if (isLink(seg)) {
     return (
       <span className="tseg-link" title={seg.href}>
-        {seg.link}
+        {cell(seg.link)}
       </span>
     )
   }
   if (isKbd(seg)) {
-    return <span className="tseg-kbd">{seg.kbd}</span>
+    return <span className="tseg-kbd">{cell(seg.kbd)}</span>
   }
   return null
 }
 
-/** One terminal row of segments. */
+/**
+ * One terminal row of segments. A row with a vertical frame stroke (│ ╭ ├ …) is part of a
+ * drawn box: it keeps its columns and is clipped at the edge instead of wrapping, which
+ * would break the frame into pieces.
+ */
 export function RowView({
   row,
   className,
@@ -136,8 +147,10 @@ export function RowView({
   className?: string
   variant?: SegmentVariant
 }) {
+  const frame = variant !== 'native' && FRAME_STROKE.test(rowText(row))
+  const cls = ['tl', frame ? 'is-frame' : null, className].filter(Boolean).join(' ')
   return (
-    <div className={className ? `tl ${className}` : 'tl'}>
+    <div className={cls}>
       {row.map((s, i) => (
         <Seg key={i} seg={s} variant={variant} />
       ))}

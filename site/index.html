@@ -23,6 +23,17 @@
         if (lang !== 'ru' && lang !== 'en') lang = /^ru\b/i.test(navigator.language || '') ? 'ru' : 'en'
         d.setAttribute('lang', lang)
         if (read('ms.motion') === 'off') d.setAttribute('data-motion', 'off')
+        // Russian pages also need the headline font's Cyrillic file early (the build fills the URL)
+        var cyr = '__SERIF_CYRILLIC__'
+        if (lang === 'ru' && cyr.charAt(0) !== '_') {
+          var l = document.createElement('link')
+          l.rel = 'preload'
+          l.as = 'font'
+          l.type = 'font/woff2'
+          l.crossOrigin = 'anonymous'
+          l.href = cyr
+          document.head.appendChild(l)
+        }
       })()
     </script>
   </head>

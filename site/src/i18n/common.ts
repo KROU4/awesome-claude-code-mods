@@ -30,10 +30,13 @@ export default defineDict(
     'theme.button': 'Theme: {current}. Switch to {next}',
 
     'data.live': 'live from GitHub',
-    'data.snapshot': 'offline copy',
+    'data.snapshot': 'copy on this site',
     'data.checking': 'checking GitHub',
     'data.updated': 'updated {when}',
-    'data.snapshotTitle': 'The live catalog could not be loaded, so this is the copy bundled with the site.',
+    'data.snapshotTitle': 'The catalog on GitHub could not be loaded, so this is the copy published with the site.',
+    'data.loading': 'Loading the catalog',
+    'data.failed': 'The catalog did not load. Check your connection and try again.',
+    'data.retry': 'Try again',
 
     'copy.button': 'Copy',
     'copy.aria': 'Copy: {what}',
@@ -115,10 +118,13 @@ export default defineDict(
     'theme.button': 'Тема: {current}. Переключить на: {next}',
 
     'data.live': 'данные с GitHub',
-    'data.snapshot': 'копия из сборки',
+    'data.snapshot': 'копия на сайте',
     'data.checking': 'проверяем GitHub',
     'data.updated': 'обновлено {when}',
-    'data.snapshotTitle': 'Не удалось загрузить каталог с GitHub, поэтому показана копия, собранная вместе с сайтом.',
+    'data.snapshotTitle': 'Не удалось загрузить каталог с GitHub, поэтому показана копия, опубликованная вместе с сайтом.',
+    'data.loading': 'Загружаем каталог',
+    'data.failed': 'Каталог не загрузился. Проверьте подключение и попробуйте ещё раз.',
+    'data.retry': 'Повторить',
 
     'copy.button': 'Копировать',
     'copy.aria': 'Скопировать: {what}',
@@ -129,7 +135,7 @@ export default defineDict(
     'time.justNow': 'только что',
 
     'footer.disclaimer':
-      'Проект сообщества. Не связан с Anthropic и не одобрен ею. Claude и Claude Code — товарные знаки Anthropic.',
+      'Проект сообщества. Не связан с Anthropic и не одобрен ею. Claude и Claude Code\u00a0— товарные знаки Anthropic.',
     'footer.project': 'Проект',
     'footer.repo': 'Репозиторий',
     'footer.research': 'Исследование',
@@ -150,13 +156,13 @@ export default defineDict(
     'category.fun': 'Для настроения',
     'category.accessibility': 'Доступность',
 
-    'slot.above-prompt': 'Полоса над промптом',
+    'slot.above-prompt': 'Полоса над полем ввода',
     'slot.pane': 'Панель',
     'slot.status': 'Строка статуса',
     'slot.toast': 'Всплывающее сообщение',
     'slot.notification': 'Уведомление',
     'slot.command': 'Слеш-команда',
-    'slot.tool-deny': 'Страж инструментов',
+    'slot.tool-deny': 'Контроль вызовов',
     'slot.prompt-rewrite': 'Переписывает промпт',
     'slot.spinner': 'Спиннер',
     'slot.prompt-hint': 'Строка подсказки',

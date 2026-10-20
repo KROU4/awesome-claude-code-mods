@@ -29,20 +29,22 @@
   text-decoration: none;
   border-radius: 6px;
 }
+/* a mark, not a line of text: heavier than the nav, the caret a cap-height block on the baseline */
 .wordmark-name {
-  display: inline-flex;
-  align-items: center;
   font-family: var(--font-mono);
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: -0.01em;
   font-variant-ligatures: none;
+  white-space: nowrap;
 }
 .wordmark-caret {
   display: inline-block;
+  vertical-align: baseline;
   width: 0.5ch;
-  height: 1.05em;
-  margin-left: 2px;
+  height: 0.78em;
+  margin-left: 3px;
   background: var(--accent);
   border-radius: 1px;
   animation: caret-blink 1.1s steps(1, end) 5;

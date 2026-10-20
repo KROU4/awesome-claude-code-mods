@@ -1,0 +1,800 @@
+/*
+  VS Code surface: a VS Code window in the default Dark Modern / Light Modern colors with
+  the Claude Code panel docked right. The window chrome uses VS Code's system UI font
+  stack (no web font request), the editor and code use JetBrains Mono.
+*/
+
+.vs {
+  --vs-fs: clamp(10.5px, 1.25cqi, 13px);
+  --vs-font: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, Ubuntu, 'Droid Sans', sans-serif;
+  --vs-title: #f8f8f8;
+  --vs-chrome: #f8f8f8;
+  --vs-editor: #ffffff;
+  --vs-panel: #f8f8f8;
+  --vs-line: #e5e5e5;
+  --vs-ink: #3b3b3b;
+  --vs-ink-strong: #1f1f1f;
+  --vs-ink-3: #616161;
+  --vs-act-ink: #1f1f1f;
+  --vs-act-off: #616161;
+  --vs-accent: #005fb8;
+  --vs-on-accent: #ffffff;
+  --vs-input: #ffffff;
+  --vs-input-line: #cecece;
+  --vs-hover: rgba(0, 0, 0, 0.05);
+  --vs-notif: #ffffff;
+  --vs-ln: #6e7681;
+  --vs-add: #2c7a39;
+  --vs-rem: #c72e0f;
+  --vs-ok: #388a34;
+  --vs-err: #e51400;
+  --vs-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.16);
+
+  --nv-font: var(--vs-font);
+  --nv-mono: var(--font-mono);
+  --nv-ink: var(--vs-ink);
+  --nv-ink-2: var(--vs-ink);
+  --nv-ink-3: var(--vs-ink-3);
+  --nv-line: var(--vs-line);
+  --nv-line-strong: var(--vs-input-line);
+  --nv-btn-bg: var(--vs-input);
+  --nv-btn-line: var(--vs-input-line);
+  --nv-brand-fill: var(--vs-accent);
+  --nv-on-brand: var(--vs-on-accent);
+  --nv-key-bg: var(--vs-hover);
+  --nv-code-bg: var(--vs-hover);
+  --nv-code-ink: var(--vs-ink-strong);
+  --nv-link: var(--vs-accent);
+  --nv-radius: 4px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(34px + (var(--rows, 26) * 1.45 + 1.4) * clamp(10.5px, 1.6cqi, 13.5px));
+  overflow: hidden;
+  background: var(--vs-chrome);
+  color: var(--vs-ink);
+  font-family: var(--vs-font);
+  font-size: var(--vs-fs);
+  line-height: 1.45;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+}
+.vs[data-vs-theme='dark'] {
+  --vs-title: #181818;
+  --vs-chrome: #181818;
+  --vs-editor: #1f1f1f;
+  --vs-panel: #181818;
+  --vs-line: #2b2b2b;
+  --vs-ink: #cccccc;
+  --vs-ink-strong: #e7e7e7;
+  --vs-ink-3: #9d9d9d;
+  --vs-act-ink: #d7d7d7;
+  --vs-act-off: #868686;
+  --vs-accent: #0078d4;
+  --vs-input: #313131;
+  --vs-input-line: #3c3c3c;
+  --vs-hover: rgba(255, 255, 255, 0.07);
+  --vs-notif: #1f1f1f;
+  --vs-add: #89d185;
+  --vs-rem: #f14c4c;
+  --vs-ok: #89d185;
+  --vs-err: #f14c4c;
+  --vs-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.36);
+  --nv-link: #4daafc;
+}
+.vs ::selection {
+  background: color-mix(in srgb, var(--vs-accent) 30%, transparent);
+}
+.vs[data-compact] {
+  --vs-fs: clamp(10.5px, 2.8cqi, 12px);
+  height: calc((var(--rows, 10) * 1.45 + 1.1) * clamp(10.5px, 2.8cqi, 12px));
+  background: var(--vs-panel);
+}
+
+/* ── title bar, activity bar, status bar ────────────────────────── */
+.vs-titlebar {
+  flex: none;
+  height: 34px;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, auto) 1fr;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--vs-title);
+  border-bottom: 1px solid var(--vs-line);
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+}
+.vs-dots {
+  display: inline-flex;
+  gap: 7px;
+}
+.vs-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--vs-ink-3) 40%, transparent);
+}
+.vs-cc {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: min(38cqi, 320px);
+  height: 22px;
+  border: 1px solid var(--vs-input-line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vs-input) 60%, transparent);
+  color: var(--vs-ink-3);
+}
+
+.vs-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+.vs-activity {
+  flex: 0 0 3.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.2em;
+  background: var(--vs-chrome);
+  border-right: 1px solid var(--vs-line);
+  color: var(--vs-act-off);
+  font-size: 0.95em;
+}
+.vs-act {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.6em;
+  height: 3.6em;
+}
+.vs-act .nv-icon {
+  width: 1.75em;
+  height: 1.75em;
+}
+.vs-act-bottom {
+  margin-top: auto;
+}
+.vs-badge {
+  position: absolute;
+  right: 0.75em;
+  bottom: 0.7em;
+  min-width: 1.4em;
+  height: 1.4em;
+  padding: 0 0.3em;
+  border-radius: 999px;
+  background: var(--vs-accent);
+  color: var(--vs-on-accent);
+  font-size: 0.72em;
+  font-weight: 600;
+  line-height: 1.4em;
+  text-align: center;
+}
+
+.vs-statusbar {
+  flex: none;
+  height: 1.85em;
+  display: flex;
+  align-items: stretch;
+  gap: 0.15em;
+  background: var(--vs-chrome);
+  border-top: 1px solid var(--vs-line);
+  color: var(--vs-ink);
+  font-size: 0.9em;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: none;
+}
+.vs-remote {
+  display: grid;
+  place-items: center;
+  padding: 0 0.7em;
+  background: var(--vs-accent);
+  color: var(--vs-on-accent);
+}
+.vs-sb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0 0.5em;
+}
+.vs-sb-right {
+  margin-left: auto;
+  display: flex;
+  padding-right: 0.4em;
+}
+
+/* ── editor (dimmed) ────────────────────────────────────────────── */
+.vs-editor {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--vs-editor);
+  user-select: none;
+}
+.vs-tabs {
+  flex: none;
+  display: flex;
+  height: 2.65em;
+  background: var(--vs-chrome);
+  border-bottom: 1px solid var(--vs-line);
+  overflow: hidden;
+}
+.vs-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0 0.9em;
+  border-right: 1px solid var(--vs-line);
+  color: var(--vs-ink-3);
+  white-space: nowrap;
+}
+.vs-tab.is-active {
+  background: var(--vs-editor);
+  color: var(--vs-ink-strong);
+  box-shadow: inset 0 1px 0 var(--vs-accent);
+  margin-bottom: -1px;
+}
+.vs-tab-x {
+  margin-left: 0.25em;
+  color: var(--vs-ink-3);
+}
+.vs-ts {
+  color: #3178c6;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.vs[data-vs-theme='dark'] .vs-ts {
+  color: #519aba;
+}
+.vs-crumbs {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  height: 1.9em;
+  padding: 0 1.1em;
+  color: var(--vs-ink-3);
+  font-size: 0.92em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.vs-code {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 0.2em;
+  font-family: var(--font-mono);
+  font-size: 0.93em;
+  line-height: 1.6;
+  font-variant-ligatures: none;
+  white-space: pre;
+  opacity: 0.5;
+}
+.vs-line {
+  display: flex;
+}
+.vs-line.is-current {
+  box-shadow: inset 0 0 0 1px var(--vs-line);
+}
+.vs-ln {
+  flex: none;
+  width: 4.2em;
+  padding-right: 1.6em;
+  text-align: right;
+  color: var(--vs-ln);
+}
+.vs-src {
+  color: var(--vs-ink-strong);
+}
+.vs-tk-kw {
+  color: #0000ff;
+}
+.vs-tk-ctl {
+  color: #af00db;
+}
+.vs-tk-str {
+  color: #a31515;
+}
+.vs-tk-num {
+  color: #098658;
+}
+.vs-tk-type {
+  color: #267f99;
+}
+.vs-tk-fn {
+  color: #795e26;
+}
+.vs-tk-var {
+  color: #001080;
+}
+.vs-tk-com {
+  color: #008000;
+}
+.vs[data-vs-theme='dark'] .vs-tk-kw {
+  color: #569cd6;
+}
+.vs[data-vs-theme='dark'] .vs-tk-ctl {
+  color: #c586c0;
+}
+.vs[data-vs-theme='dark'] .vs-tk-str {
+  color: #ce9178;
+}
+.vs[data-vs-theme='dark'] .vs-tk-num {
+  color: #b5cea8;
+}
+.vs[data-vs-theme='dark'] .vs-tk-type {
+  color: #4ec9b0;
+}
+.vs[data-vs-theme='dark'] .vs-tk-fn {
+  color: #dcdcaa;
+}
+.vs[data-vs-theme='dark'] .vs-tk-var {
+  color: #9cdcfe;
+}
+.vs[data-vs-theme='dark'] .vs-tk-com {
+  color: #6a9955;
+}
+
+/* ── Claude Code panel ──────────────────────────────────────────── */
+.vs-panel {
+  flex: 0 0 clamp(21em, 42%, 31em);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--vs-panel);
+  border-left: 1px solid var(--vs-line);
+}
+.vs[data-narrow] .vs-panel {
+  flex: 1 1 auto;
+  border-left: 0;
+}
+.vs-panel-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  height: 2.65em;
+  padding: 0 0.5em 0 1em;
+  font-size: 0.92em;
+  user-select: none;
+}
+.vs-panel-name {
+  flex: none;
+  font-size: 0.85em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.vs-panel-session {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--vs-ink-3);
+}
+.vs-panel-actions {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 0.75em;
+  padding: 0 0.3em;
+  color: var(--vs-ink-3);
+}
+.vs-panel-actions .nv-icon {
+  width: 1.2em;
+  height: 1.2em;
+}
+.vs-panel-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.vs-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+.vs[data-compact] .vs-scroll {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 2.6em);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 2.6em);
+}
+.vs-thread {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6em 0.9em 0.7em;
+}
+.vs-convo {
+  display: flex;
+  flex-direction: column;
+}
+
+/* thread: user boxes; every other item on a timeline of dots */
+.vs-turn + .vs-turn {
+  margin-top: 0.85em;
+}
+.vs-turn-user + .vs-turn-step,
+.vs-turn-step + .vs-turn-user {
+  margin-top: 1em;
+}
+.vs-turn-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25em minmax(0, 1fr);
+}
+.vs-turn-step + .vs-turn-step::before {
+  content: '';
+  position: absolute;
+  left: calc(0.35em + 3px);
+  top: -0.85em;
+  height: calc(0.85em + 0.35em);
+  border-left: 1px solid var(--vs-line);
+}
+.vs-dot {
+  width: 7px;
+  height: 7px;
+  margin: 0.48em 0 0 0.35em;
+  border-radius: 50%;
+  background: var(--vs-ink-3);
+}
+.vs-turn-step[data-dot='success'] .vs-dot {
+  background: var(--vs-ok);
+}
+.vs-turn-step[data-dot='error'] .vs-dot {
+  background: var(--vs-err);
+}
+.vs-turn-body {
+  min-width: 0;
+  color: var(--vs-ink);
+}
+.vs-turn-step[data-dot='none'] .vs-turn-body {
+  grid-column: 1 / -1;
+}
+.vs-turn-body .nv-md {
+  gap: 0.5em;
+  line-height: 1.5;
+}
+
+.vs-user {
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--vs-input-line);
+  border-radius: 6px;
+  background: var(--vs-input);
+  color: var(--vs-ink-strong);
+  overflow-wrap: anywhere;
+}
+.vs-user.is-rewritten {
+  background: transparent;
+  color: var(--vs-ink-3);
+  text-decoration-line: line-through;
+}
+.vs-rewrite-note {
+  margin: 0.3em 0.2em;
+  font-size: 0.85em;
+  color: var(--vs-ink-3);
+}
+.vs-rewrite-note + .vs-user {
+  margin-top: 0;
+}
+
+.vs-tool-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  min-width: 0;
+}
+.vs-tool-name {
+  flex: none;
+  font-weight: 600;
+  color: var(--vs-ink-strong);
+}
+.vs-tool-arg {
+  min-width: 0;
+  padding: 0 0.35em;
+  border-radius: 3px;
+  background: var(--vs-hover);
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vs-tool-head.is-custom {
+  display: block;
+}
+.vs-tool-res {
+  margin-top: 0.15em;
+  color: var(--vs-ink-3);
+  font-size: 0.92em;
+}
+.vs-tool-res.is-error {
+  color: var(--vs-rem);
+}
+.vs-tool-custom {
+  margin-top: 0.3em;
+}
+.vs-counts {
+  display: flex;
+  gap: 0.45em;
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+.vs-counts .is-add {
+  color: var(--vs-add);
+}
+.vs-counts .is-rem {
+  color: var(--vs-rem);
+}
+
+/* Bash: IN / OUT */
+.vs-io {
+  margin-top: 0.35em;
+  border: 1px solid var(--vs-line);
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 0.92em;
+}
+.vs-io-row {
+  display: grid;
+  grid-template-columns: 3.1em minmax(0, 1fr);
+}
+.vs-io-row + .vs-io-row {
+  border-top: 1px solid var(--vs-line);
+}
+.vs-io-label {
+  padding: 0.35em 0.5em;
+  border-right: 1px solid var(--vs-line);
+  color: var(--vs-ink-3);
+  font-size: 0.82em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.vs-io-cmd,
+.vs-io-out {
+  min-width: 0;
+  padding: 0.35em 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow: hidden;
+}
+.vs-io-cmd {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--vs-ink-strong);
+}
+.vs-io-out.is-error {
+  color: var(--vs-rem);
+}
+.vs-io-out.nv-rows {
+  font-size: 0.92em;
+}
+
+.vs-note {
+  color: var(--vs-ink-3);
+  font-size: 0.92em;
+}
+.vs-turn-step.vs-spin {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45em;
+}
+.vs-spin > .nv-spin-glyph {
+  width: 0.8em;
+  margin-right: 0.0em;
+}
+.vs-spin > .nv-spin-meta {
+  font-size: 0.9em;
+}
+
+/* the mod's pane: a section at the top of the panel */
+.vs-pane {
+  flex: none;
+  max-height: 52%;
+  display: flex;
+  flex-direction: column;
+  margin: 0.15em 0.75em 0.35em;
+  border: 1px solid var(--vs-line);
+  border-radius: 6px;
+  background: var(--vs-editor);
+  overflow: hidden;
+}
+.vs-pane-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  height: 2.3em;
+  padding: 0 0.4em 0 0.55em;
+  border-bottom: 1px solid var(--vs-line);
+  font-size: 0.92em;
+}
+.vs-pane-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vs-pane-tabs {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 0.2em;
+  overflow: hidden;
+}
+.vs-pane-tab {
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  color: var(--vs-ink-3);
+  white-space: nowrap;
+}
+.vs-pane-tab.is-active {
+  background: var(--vs-hover);
+  color: var(--vs-ink-strong);
+}
+.vs-pane-close {
+  margin-left: auto;
+  display: inline-grid;
+  color: var(--vs-ink-3);
+}
+.vs-pane-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.55em 0.75em 0.65em;
+  font-size: 0.95em;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6em), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6em), transparent);
+}
+
+/* prompt box */
+.vs-composer {
+  flex: none;
+  margin: 0 0.75em 0.75em;
+  padding: 0.55em 0.6em 0.45em 0.7em;
+  border: 1px solid var(--vs-input-line);
+  border-radius: 6px;
+  background: var(--vs-input);
+}
+.vs-input {
+  min-height: 2.9em;
+  color: var(--vs-ink-strong);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.vs-ph {
+  color: var(--vs-ink-3);
+}
+.vs-input-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  margin-top: 0.3em;
+  color: var(--vs-ink-3);
+  font-size: 0.9em;
+}
+.vs-ctx {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  min-width: 0;
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--vs-line);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.vs-input-r {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-width: 0;
+}
+.vs-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+.vs-send {
+  display: inline-grid;
+  place-items: center;
+  width: 1.85em;
+  height: 1.85em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--vs-accent) 35%, var(--vs-input));
+  color: var(--vs-on-accent);
+}
+.vs-send[data-state='ready'] {
+  background: var(--vs-accent);
+}
+.vs-send[data-state='stop'] {
+  background: var(--vs-ink-strong);
+  color: var(--vs-input);
+}
+
+/* toasts as VS Code notifications */
+.vs-notifs {
+  position: absolute;
+  right: 0.7em;
+  bottom: calc(1.85em + 0.7em);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: min(26em, calc(100% - 1.4em));
+  pointer-events: none;
+}
+.vs[data-compact] .vs-notifs {
+  bottom: 0.6em;
+}
+.vs-notif {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6em;
+  padding: 0.7em 0.6em 0.75em 0.8em;
+  border: 1px solid var(--vs-line);
+  border-radius: 4px;
+  background: var(--vs-notif);
+  box-shadow: var(--vs-shadow);
+}
+.vs-notif-icon {
+  display: inline-grid;
+  color: var(--vs-accent);
+}
+.vs[data-vs-theme='dark'] .vs-notif-icon {
+  color: #3794ff;
+}
+.vs-notif-icon .nv-icon {
+  width: 1.25em;
+  height: 1.25em;
+}
+.vs-notif-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 0.35em;
+}
+.vs-notif-text {
+  color: var(--vs-ink-strong);
+  overflow-wrap: anywhere;
+}
+.vs-notif-src {
+  font-size: 0.88em;
+  color: var(--vs-ink-3);
+}
+.vs-notif-actions {
+  display: inline-flex;
+  gap: 0.5em;
+  color: var(--vs-ink-3);
+}
+
+/* narrow windows and cards */
+.vs[data-narrow] .vs-activity {
+  flex-basis: 2.9em;
+}
+.vs[data-narrow] .vs-act {
+  width: 2.9em;
+  height: 3em;
+}
+.vs[data-narrow] .vs-act .nv-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+.vs[data-compact] .vs-thread {
+  padding: 0.5em 0.75em;
+}
+.vs[data-compact] .vs-composer {
+  margin: 0 0.6em 0.6em;
+}
+.vs[data-compact] .vs-input {
+  min-height: 1.5em;
+}
