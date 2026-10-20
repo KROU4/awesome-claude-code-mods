@@ -1,0 +1,44 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=miod}",
+    "turn.start",
+    "tool.call{tool=Bash}",
+    "tool.call",
+    "turn.step",
+    "session.measure",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}",
+    "session.end"
+  ],
+  "calls": [
+    "$.audio.play",
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call{tool=Bash}",
+      "hasCatch": true
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "miod.isEnabled",
+    "miod.nowPlaying",
+    "miod.wave"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

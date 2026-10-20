@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "hooks": [
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.process.run",
+    "$.tool.call",
+    "$.ui.invalidate",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

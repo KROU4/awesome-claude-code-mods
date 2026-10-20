@@ -1,0 +1,60 @@
+{
+  "ok": true,
+  "hooks": [
+    "command.run{command=cc-stretch:style}",
+    "ui.render{component=AbovePrompt}",
+    "classic.MessageDisplay",
+    "prompt.compose",
+    "prompt.submit",
+    "ui.render{component=AssistantMessage}",
+    "ui.message",
+    "prompt.edit",
+    "prompt.change"
+  ],
+  "calls": [
+    "$.config.list",
+    "$.config.set",
+    "$.session.messages",
+    "$.session.surfaces",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.copy",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "command.run{command=cc-stretch:style}",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.MessageDisplay",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "cc-stretch.ask",
+    "cc-stretch.busy",
+    "cc-stretch.groups",
+    "cc-stretch.lettering",
+    "cc-stretch.look",
+    "cc-stretch.newest",
+    "cc-stretch.open",
+    "cc-stretch.order",
+    "cc-stretch.seen",
+    "cc-stretch.streams",
+    "cc-stretch.toolbar"
+  ],
+  "errors": [],
+  "warnings": [
+    "description: No marketplace description provided. Adding a description helps users understand what this marketplace offers",
+    "plugins[0] plugin.json → author: No author information provided. Consider adding author details for plugin attribution",
+    "author: No author information provided. Consider adding author details for plugin attribution",
+    "root: CLAUDE.md at the plugin root is not loaded as project context. To ship context with your plugin, use a skill (skills/<name>/SKILL.md) instead."
+  ],
+  "validatedWith": "2.1.302"
+}

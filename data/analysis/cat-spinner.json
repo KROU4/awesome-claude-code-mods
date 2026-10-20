@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "ui.close{id=cat-spinner-settings}",
+    "ui.render{component=Pane, requestId=cat-spinner-settings}",
+    "command.run{command=cat-spinner}",
+    "tool.call",
+    "prompt.submit",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=Spinner}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.command.register",
+    "$.config.set",
+    "$.ui.blit",
+    "$.ui.close",
+    "$.ui.focus",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.panes",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "ui.close{id=cat-spinner-settings}",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [
+    "root: CLAUDE.md at the plugin root is not loaded as project context. To ship context with your plugin, use a skill (skills/<name>/SKILL.md) instead."
+  ],
+  "validatedWith": "2.1.302"
+}

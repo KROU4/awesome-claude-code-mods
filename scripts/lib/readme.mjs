@@ -4,10 +4,10 @@
 import { CATEGORIES } from './constants.mjs'
 
 export const SLOT_LABELS = {
-  'above-prompt': { en: 'band above the prompt', ru: 'полоса над промптом' },
+  'above-prompt': { en: 'band above the prompt', ru: 'полоса над полем ввода' },
   pane: { en: 'pane', ru: 'панель' },
   status: { en: 'status line', ru: 'строка статуса' },
-  toast: { en: 'toast', ru: 'всплывающее сообщение' },
+  toast: { en: 'toast', ru: 'всплывающее уведомление' },
   notification: { en: 'notification', ru: 'системное уведомление' },
   command: { en: 'slash command', ru: 'слеш-команда' },
   'tool-deny': { en: 'tool guard', ru: 'блокировка инструментов' },
@@ -18,7 +18,7 @@ export const SLOT_LABELS = {
   'turn-duration': { en: 'turn duration line', ru: 'строка длительности хода' },
   'tool-row': { en: 'tool rows', ru: 'строки инструментов' },
   message: { en: 'transcript messages', ru: 'сообщения в переписке' },
-  'info-notice': { en: 'info notice', ru: 'инфо-строка' },
+  'info-notice': { en: 'info notice', ru: 'информационная строка' },
   'model-tool': { en: 'tool for Claude', ru: 'инструмент для Claude' },
   background: { en: 'background behaviour', ru: 'работа в фоне' },
 }

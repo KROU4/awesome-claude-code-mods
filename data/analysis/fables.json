@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=fables}",
+    "prompt.submit",
+    "tool.call",
+    "session.append",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.model.complete",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "session.append",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "fables.enabled",
+    "fables.scene",
+    "fables.style"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

@@ -1,0 +1,79 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "config.set{key=theme}",
+    "command.run{command=filetree}",
+    "tool.call",
+    "tool.call{tool=Read}",
+    "tool.call{tool=Grep|Glob}",
+    "ui.message",
+    "session.end",
+    "ui.focus{component=Pane, requestId=filetree}",
+    "ui.scroll{component=Pane, requestId=filetree}",
+    "prompt.submit",
+    "ui.render{component=Pane, requestId=filetree}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.config.list",
+    "$.env.get",
+    "$.fs.list",
+    "$.fs.read",
+    "$.fs.stat",
+    "$.process.run",
+    "$.session.cwd",
+    "$.session.id",
+    "$.session.surfaces",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.close",
+    "$.ui.copy",
+    "$.ui.focus",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "config.set{key=theme}",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call{tool=Read}",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call{tool=Grep|Glob}",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.focus{component=Pane, requestId=filetree}",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.scroll{component=Pane, requestId=filetree}",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "filetree.activity",
+    "filetree.theme",
+    "filetree.tree"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

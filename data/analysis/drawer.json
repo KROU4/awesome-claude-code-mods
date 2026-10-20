@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "hooks": [
+    "turn.step",
+    "ui.render{component=UserMessage}",
+    "ui.render{component=AssistantMessage}"
+  ],
+  "calls": [
+    "$.env.get",
+    "$.process.run",
+    "$.settings.read",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

@@ -83,11 +83,17 @@ export function git(args, cwd) {
   return r.stdout.trim()
 }
 
-/** First and last commit dates of a file ({ addedAt, updatedAt }), or {} without history. */
+/** An ISO date with any offset as UTC ("2026-10-20T18:03:58+03:00" -> "2026-10-20T15:03:58Z"). */
+export function toUtc(date) {
+  const t = Date.parse(date)
+  return Number.isNaN(t) ? undefined : new Date(t).toISOString().replace(/\.000Z$/, 'Z')
+}
+
+/** First and last commit dates of a file in UTC ({ addedAt, updatedAt }), or {} without history. */
 export function gitDates(root, file) {
   const out = git(['log', '--follow', '--format=%cI', '--', file], root)
   if (!out) return {}
-  const dates = out.split(/\r?\n/).filter(Boolean)
+  const dates = out.split(/\r?\n/).map(toUtc).filter(Boolean)
   if (!dates.length) return {}
   return { addedAt: dates[dates.length - 1], updatedAt: dates[0] }
 }

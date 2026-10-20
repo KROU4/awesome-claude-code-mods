@@ -26,7 +26,7 @@ The smallest entry for a mod in your own repository:
   "name": "neon-band",
   "title": "Neon Band",
   "tagline": "A neon band above the prompt with the session's cost.",
-  "tagline_ru": "Неоновая полоса над промптом со стоимостью сессии.",
+  "tagline_ru": "Неоновая полоса над полем ввода со стоимостью сессии.",
   "description": "Draws a one-line band above the prompt with the session's cost and model.",
   "author": { "name": "Alice", "github": "alice" },
   "maintainers": ["alice"],
@@ -49,7 +49,7 @@ The smallest entry for a mod in your own repository:
 
 | Field | Required | What to write |
 | --- | --- | --- |
-| `name` | yes | The plugin name: the same as in the mod's `.claude-plugin/plugin.json` and as the folder. Lower-case letters, digits and hyphens, up to 50 characters. It may not start with `claude-`, `anthropic-` or `cc-plugin-` and should not have `claude` as a separate word: `claude plugin validate` enforces this. |
+| `name` | yes | The plugin name: the same as in the mod's `.claude-plugin/plugin.json` and as the folder. Lower-case letters, digits and hyphens, up to 50 characters. It may not start with `claude-`, `anthropic-`, `anthropics-` or `cc-plugin-`, may not be `claude`, `anthropic`, `anthropics`, `claude-code` or `claude-mods`, and should not contain `claude` or `anthropic` as a separate word: `claude plugin validate` enforces this. |
 | `title` | yes | The name on the site, 2–40 characters. |
 | `tagline` | yes | One line in English on what the mod does for the person, 8–100 characters. |
 | `tagline_ru` | no | The same in Russian, up to 110 characters. |
@@ -68,15 +68,15 @@ The smallest entry for a mod in your own repository:
 | `capabilities` | no | What the mod does beyond drawing: `network`, `processes`, `filesystem` (`none`, `read`, `write`), `model`, `promptRewrite`, `blocksTools`. CI works them out from `claude plugin validate` whenever it can read the code; declare them for code it cannot read. |
 | `preview` | yes | What the mod draws, for the mock client on the site, see [preview](#preview). |
 | `media` | no | Up to 6 images or videos: `{ "type": "image" \| "video", "src", "alt", "surface"? }`. `src` is an https URL or a path relative to mod.json (`media/band.png`), at most 2 MB. |
-| `verified` | — | Set by catalog maintainers only: a person read the code at the pinned version. The bot does not merge a pull request that changes it. |
+| `verified` | — | Set by catalog maintainers only: a person read the code at the pinned version (an external `github`/`git` mod needs a `sha`). The bot does not merge a pull request that changes it or an entry with `verified: true`. |
 
 ## Where it installs from: source
 
 | `type` | Fields | When |
 | --- | --- | --- |
 | `hosted` | — | The code lives here, in `mods/<name>/plugin/`, and CI checks it on every change. |
-| `github` | `repo` (`owner/repo`), `path`?, `ref`?, `sha`? | The plugin is the root of a GitHub repository, or the folder `path`. A 40-character `sha` pins the commit that gets installed. |
-| `git` | `url` (https, ending in `.git`), `path`?, `ref`?, `sha`? | Any git host. |
+| `github` | `repo` (`owner/repo`), `path`?, `ref`?, `sha`? | The plugin is the root of a GitHub repository, or the folder `path`. A 40-character `sha` pins the commit that gets installed. `ref` is a branch or tag name: letters, digits, `.`, `_`, `/` and `-`, not starting with `-`. The name in the plugin's `.claude-plugin/plugin.json` must equal `name`. |
+| `git` | `url` (https, ending in `.git`), `path`?, `ref`?, `sha`? | Any git host. `ref` and `sha` as for `github`. |
 | `marketplace` | `marketplace` (`owner/repo` with `.claude-plugin/marketplace.json`), `plugin`?, `repo`?, `path`? | The mod is already in your own marketplace. The catalog shows it, and its install commands point at your marketplace. |
 
 Mods from `hosted`, `github` and `git` sources are served by this repository's marketplace, `mod-showroom`: `/plugin install <name> --marketplace KROU4/claude-code-mod-showroom`.
@@ -105,17 +105,17 @@ The site draws every mod inside a mock of Claude Code from its `preview`: behind
 | `model-tool` | `{ "slot": "model-tool", "name": "search_docs", "input": "hooks", "result": [["3 hits"]] }` | Everywhere |
 | `background` | `{ "slot": "background", "text": "Saves each prompt to a journal" }` | Nothing on screen |
 
-What each slot renders and all its fields: [docs/preview-dsl.md](docs/preview-dsl.md). Show what the mod really draws: previews are compared with the code, and for hosted mods the bot reads the hooks and calls from `claude plugin validate`.
+What each slot renders and all its fields: [docs/preview-dsl.md](docs/preview-dsl.md). Show what the mod really draws: previews are compared with the code, and for every mod whose code CI can read (hosted, and external sources it can clone) the bot reads the hooks and calls from `claude plugin validate`.
 
 ## When the bot merges by itself
 
 The bot merges a pull request without a human only when all of this holds:
 
 1. The Validate check passed for the pull request's latest commit.
-2. Every changed file is inside `mods/<name>/` (several entries are fine), there are at most 60 files and each is at most 2 MB. Allowed types: json, md, ts, tsx, js, mjs, cjs, mts, cts, jsx, png, jpg, jpeg, gif, webp, svg, mp4, webm, txt, wav, mp3, ogg and a file named `LICENSE`. Symbolic links are not accepted.
-3. For an entry that already exists, you are in its `maintainers` (case does not matter). For a new entry, you are in the new entry's `maintainers`.
+2. Every changed file is inside `mods/<name>/` (several entries are fine), there are at most 60 files and each is at most 2 MB. Allowed types: json, md, ts, tsx, js, mjs, cjs, mts, cts, jsx, png, jpg, jpeg, gif, webp, svg, mp4, webm, txt, wav, mp3, ogg and a file named `LICENSE`. Symbolic links and submodules are not accepted, and neither are files whose size or type the bot could not determine.
+3. For an entry that already exists, you are in its `maintainers` (case does not matter). For a new entry, you are in the new entry's `maintainers`. The bot checks both the login and the numeric GitHub account id.
 4. Only an entry's maintainers can remove it.
-5. `verified` is unchanged (a new entry does not set it).
+5. `verified` is unchanged (a new entry does not set it). The bot does not change an entry with `verified: true` by itself: a catalog maintainer reviews those pull requests.
 6. The pull request is not a draft, has no `hold` label and targets `main`.
 
 When something is off, the bot adds the `needs-maintainer` label and keeps one comment listing the reasons in English and Russian; a catalog maintainer then reviews the pull request. When Validate itself failed, the comment links to its log: fix the problem and push a new commit. Details, and how to appeal, are in [docs/governance.md](docs/governance.md).
@@ -157,7 +157,7 @@ You need Node.js 22 or later. The mod checks need Claude Code 2.1.287+ (`claude`
 | `npm test` | Tests of the catalog scripts. |
 | `npm run analyze` | Summarises `claude plugin validate --json` for every mod into `data/analysis/`. |
 | `npm run build:registry` | Builds `registry.json`, `.claude-plugin/marketplace.json` and the README blocks. The bot normally does this. |
-| `npm run enrich` | Stars and dates from GitHub into `data/github.json` (uses `GITHUB_TOKEN` when set). |
+| `npm run enrich` | Stars, dates and marketplace names from GitHub into `data/github.json`, maintainer ids into `data/maintainers.json` (uses `GITHUB_TOKEN` when set). |
 | `npm run discover` | Lists mods on GitHub that the catalog lacks (topics `claude-code-mod`, `claude-code-mods`, `claude-mod`). |
 
 Community behaviour follows [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). To report a harmful mod, see [SECURITY.md](SECURITY.md).

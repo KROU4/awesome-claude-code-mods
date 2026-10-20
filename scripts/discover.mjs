@@ -46,7 +46,8 @@ export function knownSources(entries) {
       if (repo) known.add(`${repo.toLowerCase()}:${s.path || ''}`)
     }
     if (s.type === 'marketplace') {
-      known.add(`${s.marketplace.toLowerCase()}:*`)
+      // Only the listed plugin's folder: the marketplace's other mods stay discoverable.
+      known.add(`${s.marketplace.toLowerCase()}:${s.path || '*'}`)
       if (s.repo) known.add(`${s.repo.toLowerCase()}:${s.path || '*'}`)
     }
   }
@@ -56,9 +57,15 @@ export function knownSources(entries) {
 export const isCatalogued = (candidate, known) =>
   known.has(`${candidate.repo.toLowerCase()}:*`) || known.has(`${candidate.repo.toLowerCase()}:${candidate.path}`)
 
-const clip = (text, n) => (text.length > n ? `${text.slice(0, n - 1)}…` : text)
+/** Repository names and folder paths from other people's repositories that are safe to print. */
+export const SAFE_REPO = /^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9._-]{1,100}$/
+export const SAFE_PATH = /^[A-Za-z0-9._/-]{0,200}$/
+export const isSafeCandidate = c => SAFE_REPO.test(c?.repo || '') && SAFE_PATH.test(c?.path ?? '')
 
-/** The checklist body. Repo descriptions are untrusted: escaped and clipped. */
+const clip = (text, n) => (text.length > n ? `${text.slice(0, n - 1)}…` : text)
+const encodePath = path => path.split('/').map(encodeURIComponent).join('/')
+
+/** The checklist body. Repo descriptions are untrusted: escaped and clipped; odd names are left out. */
 export function renderChecklist(candidates, { date = new Date().toISOString().slice(0, 10), scanned = 0 } = {}) {
   const lines = [
     `Mods on GitHub that the catalog does not list yet (topics ${TOPICS.map(t => `\`${t}\``).join(', ')}; a \`hooks/hooks.json\` with \`modules\`). Scanned ${scanned} repositories on ${date}.`,
@@ -66,12 +73,13 @@ export function renderChecklist(candidates, { date = new Date().toISOString().sl
     'Tick one when you have opened a PR for it or decided to skip it. Nothing here was installed or run.',
     '',
   ]
-  if (!candidates.length) lines.push('Nothing new this week.')
-  for (const c of candidates) {
-    const where = c.path ? ` · \`${c.path.replace(/`/g, '')}\`` : ''
+  const shown = candidates.filter(isSafeCandidate)
+  if (!shown.length) lines.push('Nothing new this week.')
+  for (const c of shown) {
+    const where = c.path ? ` · \`${c.path}\`` : ''
     const stars = typeof c.stars === 'number' ? ` · ★${c.stars}` : ''
     const about = c.description ? ` — ${mdEscape(clip(c.description, 140))}` : ''
-    lines.push(`- [ ] [${c.repo}](https://github.com/${c.repo}${c.path ? `/tree/HEAD/${c.path}` : ''})${where}${stars}${about}`)
+    lines.push(`- [ ] [${c.repo}](https://github.com/${c.repo}${c.path ? `/tree/HEAD/${encodePath(c.path)}` : ''})${where}${stars}${about}`)
   }
   return clip(lines.join('\n'), 60_000)
 }
@@ -116,7 +124,7 @@ async function main() {
       const tree = await gh(`/repos/${r.full_name}/git/trees/${encodeURIComponent(r.default_branch)}?recursive=1`, { allow404: true })
       for (const path of modFoldersInTree(tree?.tree).slice(0, 20)) {
         const candidate = { repo: r.full_name, path, stars: r.stargazers_count, description: r.description || '' }
-        if (isCatalogued(candidate, known)) continue
+        if (!isSafeCandidate(candidate) || isCatalogued(candidate, known)) continue
         const text = await rawFile(r.full_name, r.default_branch, `${path ? `${path}/` : ''}hooks/hooks.json`)
         if (text && hasModules(text)) candidates.push(candidate)
       }

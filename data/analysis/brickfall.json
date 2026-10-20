@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=bricks}",
+    "ui.render{component=Pane}",
+    "ui.message",
+    "ui.close",
+    "session.end"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.command.register",
+    "$.env.get",
+    "$.session.surfaces",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.blit",
+    "$.ui.close",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.panes",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "ui.close",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

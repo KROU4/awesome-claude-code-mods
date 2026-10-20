@@ -148,14 +148,28 @@ export function deriveSlots(entry, analysis) {
 }
 
 const CAPABILITY_KEYS = ['network', 'processes', 'filesystem', 'model', 'promptRewrite', 'blocksTools']
+const FS_LEVELS = ['none', 'read', 'write']
 
-/** Declared capabilities, overridden field by field by what the analysis proves. */
+/** The higher of two values of one capability flag (false < true, none < read < write). */
+const higher = (key, a, b) => {
+  if (key === 'filesystem') {
+    const level = v => Math.max(0, FS_LEVELS.indexOf(v))
+    return a === undefined ? b : b === undefined ? a : FS_LEVELS[Math.max(level(a), level(b))]
+  }
+  return a === undefined ? b : b === undefined ? a : Boolean(a) || Boolean(b)
+}
+
+/**
+ * Declared capabilities, overridden field by field by what the analysis shows. When the analysis
+ * is `truncated` (validate cut its notes), it can only raise a flag, never lower a declared one.
+ */
 export function deriveCapabilities(entry, analysis) {
   const declared = entry.capabilities || {}
-  const proven = analysis ? capabilitiesFromAnalysis(analysis) : {}
+  const ownNames = [entry.name, entry.source?.plugin].filter(Boolean)
+  const proven = analysis ? capabilitiesFromAnalysis(analysis, { ownNames }) : {}
   const out = {}
   for (const key of CAPABILITY_KEYS) {
-    const value = key in proven ? proven[key] : declared[key]
+    const value = !(key in proven) ? declared[key] : analysis.truncated ? higher(key, declared[key], proven[key]) : proven[key]
     if (value !== undefined) out[key] = value
   }
   return out
@@ -205,15 +219,50 @@ export function toRegistryMod(entry, ctx = {}) {
   return mod
 }
 
-/** Verified first, then newest `addedAt`, then name. */
+/** Milliseconds of an ISO date (any offset), or -Infinity when absent or unreadable. */
+const timeOf = date => {
+  const t = Date.parse(date || '')
+  return Number.isNaN(t) ? -Infinity : t
+}
+
+/** Verified first, then newest `addedAt` (compared as instants, not strings), then name. */
 export function sortMods(mods) {
   return [...mods].sort((a, b) => {
     if (Boolean(a.verified) !== Boolean(b.verified)) return a.verified ? -1 : 1
-    const ad = a.addedAt || ''
-    const bd = b.addedAt || ''
+    const ad = timeOf(a.addedAt)
+    const bd = timeOf(b.addedAt)
     if (ad !== bd) return ad < bd ? 1 : -1
     return a.name < b.name ? -1 : a.name > b.name ? 1 : 0
   })
+}
+
+/** { "<owner/repo>": "<marketplace name>" } from data/github.json. */
+export const marketplaceNamesFrom = github =>
+  Object.fromEntries(
+    Object.entries(github || {}).filter(([, v]) => v && typeof v.marketplaceName === 'string').map(([k, v]) => [k, v.marketplaceName]),
+  )
+
+/**
+ * `marketplace` sources from different repositories whose marketplace.json has the same `name`
+ * (data/github.json `marketplaceName`): [{ name, repos: [...], mods: [...] }]. Claude Code keys
+ * the marketplaces a person added by name, so installing from both may clash.
+ */
+export function marketplaceNameClashes(entries, marketplaceNames = {}) {
+  const byName = new Map()
+  for (const entry of entries) {
+    if (entry?.source?.type !== 'marketplace') continue
+    const repo = entry.source.marketplace
+    const name = marketplaceNames[repo]
+    if (!name) continue
+    const row = byName.get(name) || { name, repos: new Set(), mods: [] }
+    row.repos.add(repo)
+    row.mods.push(entry.name)
+    byName.set(name, row)
+  }
+  return [...byName.values()]
+    .filter(r => new Set([...r.repos].map(x => x.toLowerCase())).size > 1)
+    .map(r => ({ name: r.name, repos: [...r.repos].sort(), mods: r.mods.sort() }))
+    .sort((a, b) => (a.name < b.name ? -1 : 1))
 }
 
 const RESERVED_PREFIXES = ['claude-', 'anthropic-', 'anthropics-', 'cc-plugin-']

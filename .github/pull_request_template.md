@@ -10,5 +10,5 @@ Rules / правила: docs/governance.md
 - [ ] My GitHub login is in the entry's `maintainers`. / Мой логин есть в `maintainers`.
 - [ ] `npm run check` passes locally, or I used the online builder. / `npm run check` проходит или запись собрана конструктором.
 - [ ] The preview shows what the mod really draws. / Превью показывает то, что мод рисует на самом деле.
-- [ ] I did not set or change `verified`. / Поле `verified` не трогал.
+- [ ] I did not set or change `verified` (changes to a `verified: true` entry wait for a maintainer). / Поле `verified` не трогал (изменения записи с `verified: true` ждут мейнтейнера).
 - [ ] Hosted mod only: `plugin/` has tests, and `claude plugin validate --strict` and `claude plugin test` pass. / Только для мода в этом репозитории: в `plugin/` есть тесты, обе проверки проходят.

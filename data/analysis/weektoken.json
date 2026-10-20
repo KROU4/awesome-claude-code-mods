@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.complete",
+    "session.measure",
+    "command.run{command=weektoken}",
+    "ui.press",
+    "ui.focus",
+    "config.set{key=language}",
+    "ui.close{id=weektoken}",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=Pane, requestId=weektoken}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.config.list",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.fs.stat",
+    "$.http.fetch",
+    "$.process.run",
+    "$.session.authorize",
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.close",
+    "$.ui.open",
+    "$.ui.panes",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "command.run{command=weektoken}",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.focus",
+      "hasCatch": false
+    },
+    {
+      "hook": "config.set{key=language}",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.close{id=weektoken}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "weektoken.activity",
+    "weektoken.band",
+    "weektoken.bandKey",
+    "weektoken.bandShow",
+    "weektoken.confirmHide",
+    "weektoken.lang",
+    "weektoken.note",
+    "weektoken.paneOpen",
+    "weektoken.samples",
+    "weektoken.version",
+    "weektoken.view"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

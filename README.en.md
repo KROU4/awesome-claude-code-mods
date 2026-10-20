@@ -6,7 +6,7 @@
 
 [![Validate](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml/badge.svg)](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml)
 
-The catalog lists <!-- count:start -->32 mods<!-- count:end -->. The repository is also the Claude Code marketplace `mod-showroom`.
+The catalog lists <!-- count:start -->56 mods<!-- count:end -->. The repository is also the Claude Code marketplace `mod-showroom`.
 
 ## Contents
 
@@ -68,10 +68,34 @@ A mod runs inside your session with your permissions. Read an external mod's cod
 Each mod says what it draws, who wrote it and where its code lives: "hosted here" means the code is in `mods/<name>/plugin/` and checked by CI, "external" means it lives in the author's repository. The install command is under the fold.
 
 <!-- mods:start -->
-Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety) · [Productivity](#productivity) · [Git](#git) · [Fun](#fun)
+Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety) · [Productivity](#productivity) · [Git](#git) · [Fun](#fun) · [Accessibility](#accessibility)
 
 ### Interface
 
+- **[Claudinator](https://krou4.github.io/claude-code-mod-showroom/#/mod/claudinator)** — Six switchable looks for tool rows, the working line and turn receipts, and nine ingredients to mix. <sub>draws: tool rows, turn duration line, slash command, pane, toast · by @patheonsceo · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install claudinator --marketplace patheonsceo/claudinator
+  ```
+
+  </details>
+- **[Drawer](https://krou4.github.io/claude-code-mod-showroom/#/mod/drawer)** — \`\`\`dot (Graphviz) and \`\`\`svg fences in a reply become pictures in place while the reply streams. <sub>draws: transcript messages · by @Sureffi · external</sub>
+  <details><summary>Install</summary>
+
+  ```text
+  /plugin install drawer --marketplace KROU4/claude-code-mod-showroom
+  ```
+
+  </details>
+- **[Filetree](https://krou4.github.io/claude-code-mod-showroom/#/mod/filetree)** — A sidebar file tree with git status and +/- line counts; files Claude reads and writes shimmer. <sub>draws: pane, toast, slash command · by @data-goblin · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install filetree --marketplace data-goblin/claude-code-filetree
+  ```
+
+  </details>
 - **[Firstmate Calm](https://krou4.github.io/claude-code-mod-showroom/#/mod/fm)** — Hides tool rows and turns the working spinner into a drifting two-row sailboat; toggled with /calm. <sub>draws: slash command, toast, band above the prompt, transcript messages · by @kunchenguid · external</sub>
   <details><summary>Install</summary>
 
@@ -80,7 +104,23 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
-- **[Intelligent UI](https://krou4.github.io/claude-code-mod-showroom/#/mod/intelligent-ui)** — Claude's answers as typeset pictures: tables, LaTeX math, charts and diagrams rendered by Typst. <sub>draws: slash command, transcript messages, toast · by @razorback16 · external</sub>
+- **[glowup](https://krou4.github.io/claude-code-mod-showroom/#/mod/glowup)** — A cockpit pane, packs that restyle colors, tool rows and the spinner, and a pixel pet that reacts. <sub>draws: slash command, transcript messages, tool rows, spinner, pane, status line · by @NovusEdge · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install glowup --marketplace NovusEdge/glowup
+  ```
+
+  </details>
+- **[Image View](https://krou4.github.io/claude-code-mod-showroom/#/mod/image-view)** — Thumbnails of the images you paste, shown above the prompt instead of bare \[Image \#1\] tags. <sub>draws: band above the prompt · by @jarrodwatts · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install image-view --marketplace jarrodwatts/claude-image-view
+  ```
+
+  </details>
+- **[Intelligent UI](https://krou4.github.io/claude-code-mod-showroom/#/mod/intelligent-ui)** — Claude's answers as typeset pictures: tables, LaTeX math, charts and diagrams rendered by Typst. <sub>draws: slash command, transcript messages, toast, pane · by @razorback16 · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
@@ -112,6 +152,22 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
+- **[Status Line Anywhere](https://krou4.github.io/claude-code-mod-showroom/#/mod/statusline-anywhere)** — Runs your own statusLine command and draws its output in color above the prompt in the desktop app. <sub>draws: band above the prompt · by @NathanAB · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install statusline-anywhere --marketplace NathanAB/statusline-anywhere
+  ```
+
+  </details>
+- **[Stretchtext Replies](https://krou4.github.io/claude-code-mod-showroom/#/mod/cc-stretch)** — Replies arrive short; click an underlined phrase and it grows in place into the longer version. <sub>draws: transcript messages, slash command, band above the prompt, toast · by @pro-vi · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install cc-stretch --marketplace pro-vi/cc-stretch
+  ```
+
+  </details>
 
 ### Insights
 
@@ -123,7 +179,7 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
-- **[Burn Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/burn-meter)** — Session cost above the prompt with a fire bar, plan-limit bars and the price in burritos. <sub>draws: band above the prompt, toast, slash command, pane · by @OneWave-AI · external</sub>
+- **[Burn Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/burn-meter)** — Session cost above the prompt with a fire bar, plan limits and the price in burritos. <sub>draws: band above the prompt, toast, slash command, pane · by @OneWave-AI · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
@@ -131,7 +187,7 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
-- **[Cache Clock](https://krou4.github.io/claude-code-mod-showroom/#/mod/cache-clock)** — A prompt-cache line under your status line: time left while warm, hit rate, misses, re-cache cost. <sub>draws: slash command, status line · by @hamzafer · external</sub>
+- **[Cache Clock](https://krou4.github.io/claude-code-mod-showroom/#/mod/cache-clock)** — A prompt-cache line under your status line: time left while warm, hit rate, misses, re-cache tokens. <sub>draws: slash command, status line · by @hamzafer · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
@@ -163,11 +219,27 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
-- **[Sub Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/sub-meter)** — Your 5-hour and weekly subscription usage as a bar with the reset time, at the bottom right. <sub>draws: mode label · by @midudev · external</sub>
+- **[Sub Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/sub-meter)** — Your 5-hour and weekly subscription usage as a bar with the reset time, at the bottom right. <sub>draws: hint line, mode label · by @midudev · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
   /plugin install sub-meter --marketplace midudev/better-claude
+  ```
+
+  </details>
+- **[Subagents Plus](https://krou4.github.io/claude-code-mod-showroom/#/mod/subagents-plus)** — A live tree and timeline of every subagent in a /subagents pane, plus a band above the prompt. <sub>draws: band above the prompt, slash command, pane, tool for Claude · by @algonormative · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install subagents-plus --marketplace algonormative/subagents-plus
+  ```
+
+  </details>
+- **[Time Blame](https://krou4.github.io/claude-code-mod-showroom/#/mod/time-blame)** — Under each answer, the turn's time split into Claude, tools, you and other; /blame sums the session. <sub>draws: turn duration line, slash command, pane · by @karanb192 · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install time-blame --marketplace karanb192/time-blame
   ```
 
   </details>
@@ -203,6 +275,22 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
+- **[WeekToken](https://krou4.github.io/claude-code-mod-showroom/#/mod/weektoken)** — Rate-limit pace: 5-hour and weekly usage against elapsed time, with a forecast and burn-up history. <sub>draws: band above the prompt, pane, slash command, toast · by @3dnow · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install weektoken --marketplace 3dnow/claude-mods
+  ```
+
+  </details>
+- **[What's Agent Doing](https://krou4.github.io/claude-code-mod-showroom/#/mod/whats-agent-doing)** — A box above the prompt saying what the agent is doing right now, for how long, and each step so far. <sub>draws: band above the prompt · by @tzafrir · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install whats-agent-doing --marketplace tzafrir/whats-agent-doing
+  ```
+
+  </details>
 
 ### Safety
 
@@ -225,6 +313,14 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
 
 ### Productivity
 
+- **[Command Buttons](https://krou4.github.io/claude-code-mod-showroom/#/mod/command-buttons)** — Run and Copy buttons for each shell command in a reply, plus a hotkey band above the prompt. <sub>draws: transcript messages, band above the prompt, toast · by @Faridmurzone · external</sub>
+  <details><summary>Install</summary>
+
+  ```text
+  /plugin install command-buttons --marketplace KROU4/claude-code-mod-showroom
+  ```
+
+  </details>
 - **[ctx-handoff](https://krou4.github.io/claude-code-mod-showroom/#/mod/ctx-handoff)** — Fresh-chat handoffs, a warm cache while you're away, and project notes from what you teach Claude. <sub>draws: band above the prompt, status line, slash command, tool guard, toast · by @cablate · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
@@ -262,6 +358,14 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
 
   ```text
   /plugin install mod-store --marketplace hellosverre/mod-store
+  ```
+
+  </details>
+- **[Model Hint](https://krou4.github.io/claude-code-mod-showroom/#/mod/model-hint)** — Suggests haiku, sonnet or opus for the prompt you are typing, with a reason and a Switch button. <sub>draws: band above the prompt, slash command, status line, toast · by @hashswingingslasher · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install model-hint --marketplace hashswingingslasher/model-hint
   ```
 
   </details>
@@ -311,7 +415,7 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
 
 ### Fun
 
-- **[Boss Fight](https://krou4.github.io/claude-code-mod-showroom/#/mod/boss-fight)** — Failing tests spawn a pixel boss with one HP per failure; each run that fixes tests lands a hit. <sub>draws: pane, toast, status line · by @OneWave-AI · external</sub>
+- **[Boss Fight](https://krou4.github.io/claude-code-mod-showroom/#/mod/boss-fight)** — Failing tests spawn a pixel boss with one HP per failure; each run that fixes tests lands a hit. <sub>draws: pane, toast, status line, slash command · by @OneWave-AI · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
@@ -319,11 +423,67 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
-- **[Code Pet](https://krou4.github.io/claude-code-mod-showroom/#/mod/code-pet)** — A pixel pet in a pane that eats on tool calls, gets sick on failures and panics at rm -rf. <sub>draws: slash command, pane, status line · by @OneWave-AI · external</sub>
+- **[Brickfall](https://krou4.github.io/claude-code-mod-showroom/#/mod/brickfall)** — A loud Arkanoid brick breaker in a pane: steer with the mouse, catch capsules, chain volt bricks. <sub>draws: pane, slash command · by @reporails · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install brickfall --marketplace reporails/arcade
+  ```
+
+  </details>
+- **[Cat Spinner](https://krou4.github.io/claude-code-mod-showroom/#/mod/cat-spinner)** — A pixel-art cat walks above the spinner, sits down to think and reacts to Claude's tools. <sub>draws: slash command, pane, spinner · by @swicken · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install cat-spinner --marketplace swicken/cat-spinner
+  ```
+
+  </details>
+- **[Clawd Pet](https://krou4.github.io/claude-code-mod-showroom/#/mod/clawd-pet)** — A pixel Clawd above the prompt that shows the running tool, cheers passing tests and naps when idle. <sub>draws: band above the prompt, slash command · by @Revono · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install clawd-pet --marketplace Revono/clawd-pet
+  ```
+
+  </details>
+- **[Code Pet](https://krou4.github.io/claude-code-mod-showroom/#/mod/code-pet)** — A pixel pet in a pane that eats on tool calls, gets sick on failures and panics at rm -rf. <sub>draws: slash command, pane, status line, toast · by @OneWave-AI · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
   /plugin install code-pet --marketplace OneWave-AI/claude-code-mods
+  ```
+
+  </details>
+- **[Fables](https://krou4.github.io/claude-code-mod-showroom/#/mod/fables)** — A live cartoon above the prompt: Sonnet or Haiku retells tool calls and replies as captioned scenes. <sub>draws: band above the prompt, slash command · by @henrik-thevibe · external</sub>
+  <details><summary>Install</summary>
+
+  ```text
+  /plugin install fables --marketplace KROU4/claude-code-mod-showroom
+  ```
+
+  </details>
+- **[Mindful Breathing](https://krou4.github.io/claude-code-mod-showroom/#/mod/mindful-breathing)** — A guided breathing animation above the prompt while Claude works; the spinner counts the breath. <sub>draws: band above the prompt, spinner, slash command · by @halluton · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install mindful-claude --marketplace halluton/Mindful-Claude
+  ```
+
+  </details>
+- **[Minefield](https://krou4.github.io/claude-code-mod-showroom/#/mod/minefield)** — Minesweeper in a pane: clear a 9×9 board with the mouse or the keys while Claude works. <sub>draws: pane, slash command · by @reporails · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install minefield --marketplace reporails/arcade
+  ```
+
+  </details>
+- **[miod](https://krou4.github.io/claude-code-mod-showroom/#/mod/miod)** — A tune made up on the spot for every task; its mood follows what the agent does and its token pace. <sub>draws: band above the prompt, slash command, toast · by @delexw · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install miod --marketplace delexw/miod
   ```
 
   </details>
@@ -335,11 +495,46 @@ Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety
   ```
 
   </details>
+- **[Storytime](https://krou4.github.io/claude-code-mod-showroom/#/mod/storytime)** — A tiny local transformer types a short story above the prompt about what Claude is working on. <sub>draws: band above the prompt, slash command · by @maddiedreese · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install storytime --marketplace maddiedreese/cc-storytime
+  ```
+
+  </details>
+- **[Terminal Gym](https://krou4.github.io/claude-code-mod-showroom/#/mod/terminal-gym)** — A daily rep goal above the prompt: log sets with +5/+10/+25 and keep a streak while Claude works. <sub>draws: band above the prompt, spinner, toast, slash command, pane · by @DrumAndCode · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install terminal-gym --marketplace DrumAndCode/terminal-gym
+  ```
+
+  </details>
 - **[textless](https://krou4.github.io/claude-code-mod-showroom/#/mod/textless)** — While Claude works, one pixel-art card stands in for the wall of tool steps in the chat. <sub>draws: tool rows, slash command · by @HeyCubit · external</sub>
   <details><summary>Install (from the author’s marketplace)</summary>
 
   ```text
   /plugin install textless --marketplace HeyCubit/effortless
+  ```
+
+  </details>
+- **[Verbs](https://krou4.github.io/claude-code-mod-showroom/#/mod/verbs)** — A looping pixel-art picture of the spinner's verb (188 in all) above the spinner while Claude works. <sub>draws: slash command, spinner, toast · by @olliewagner · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install verbs --marketplace olliewagner/verbs
+  ```
+
+  </details>
+
+### Accessibility
+
+- **[RTL Terminal](https://krou4.github.io/claude-code-mod-showroom/#/mod/rtl-terminal)** — Arabic, Hebrew, Persian and Urdu replies laid out right-to-left, with bullets on the right. <sub>draws: transcript messages, band above the prompt, slash command · by @MohammedSaud404 · external</sub>
+  <details><summary>Install (from the author’s marketplace)</summary>
+
+  ```text
+  /plugin install rtl-terminal --marketplace MohammedSaud404/rtl-terminal
   ```
 
   </details>

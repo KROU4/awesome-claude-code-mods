@@ -1,0 +1,4355 @@
+[
+ {
+  "repo": "anthropics/claude-code-playground",
+  "conf": "confirmed-mod",
+  "paths": [
+   "claude-code/mods/token-weather (а также blast-radius, replay-theater)",
+   "claude-code/mods/token-weather",
+   "claude-code/mods/blast-radius",
+   "claude-code/mods/replay-theater",
+   "claude-code/mods/{token-weather,blast-radius,replay-theater}",
+   "claude-code/mods/"
+  ],
+  "ev": [
+   "sweep-1.json: claude-code/mods/token-weather/hooks/hooks.json = {\"modules\": [\"./token-weather.mjs\"]}; официальная документация code.claude.com/docs/en/plugins/mods/overview называет эти три образца модов",
+   "sweep-2.json: hooks/hooks.json = {\"modules\": [\"./token-weather.mjs\"]}; plugin.json name token-weather v0.1.0; README: draws a context-window forecast in the AbovePrompt band using session.start, turn.complete, ui.render{component:AbovePrompt} and $.session.usage(); has screenshots/ (token-weather-clear/showers/storm.png). Linked from official docs plugins/mods/overview 'Try a sample mod'. Added in commit e9ab132d on 2026-10-01.",
+   "sweep-2.json: hooks/blast-radius.mjs + hooks/hooks.json (modules); plugin.json keywords [mods, safety, git]; holds risky shell commands and shows Proceed/Cancel buttons; screenshots/blast-radius-band.png, -pane.png, -cancelled.png, -proceeded.png. Listed in claude-code/mods/.claude-plugin/marketplace.json (name claude-code-playground-mods).",
+   "sweep-2.json: hooks/replay-theater.mjs + hooks/hooks.json (modules); adds /replay to step through last turn's file edits; screenshots/replay-theater-pane.png, -hint.png, -80-columns.png, -write.png. Listed in the same playground marketplace.json.",
+   "sweep-3.json: hooks/hooks.json modules=['./token-weather.mjs'] etc. Official sample mods linked from docs overview and claude.dev blog; repo initial public release 2026-09-25; marketplace name claude-code-playground-mods.",
+   "sweep-5.json: Official DevRel example mods blast-radius, replay-theater and token-weather. hooks.json = {\"modules\":[\"./blast-radius.mjs\"]} etc. claude-code/mods/.claude-plugin/marketplace.json name=claude-code-playground-mods. README: 'The mods need Claude Code 2.1.287 or later' and install via claude plugin install token-weather@claude-code-playground-mods. Each mod has screenshots/*.png. Added 2026-10-01."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-2.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "anthropics/claude-code",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/diff (также agents-md, sec-default, telemetry)",
+   "mods/diff",
+   "mods/agents-md",
+   "mods/sec-default",
+   "mods/telemetry",
+   "mods/types/claude-code.d.ts",
+   "mods/ (agents-md, diff, sec-default, telemetry)",
+   "mods/",
+   "mods/ (agents-md, diff, sec-default, telemetry, types)"
+  ],
+  "ev": [
+   "sweep-1.json: mods/diff/hooks/hooks.json: {\"description\": \"The diff pane: /diff and its Pane drawing...\"; встроенные моды перечислены в официальных доках",
+   "sweep-2.json: Built-in mod source (cc-plugin-diff): /diff pane; .claude-plugin/plugin.json + hooks/ TypeScript tree + tests run with `claude plugin test mods/diff`. mods/README.md says these are built into the binary and NOT listed in the repo's marketplace.",
+   "sweep-2.json: Built-in mod (cc-plugin-agents-md) loading AGENTS.md, with a userConfig option; listed in mods/README.md table.",
+   "sweep-2.json: Built-in guard mod (sec-default@builtin / cc-plugin-sec-default) that protects org-managed policy from user-installed mods; docs reference it as model for policy mods.",
+   "sweep-2.json: Built-in mod adding $.telemetry noun via engine.create and shipping its types contract (types/index.d.ts).",
+   "sweep-2.json: Not a mod: the public TypeScript declarations for the mods API (517,451 bytes). Docs say it can lag the installed build; the build-specific copy is written into <mod>/.claude-plugin/types/claude-code/index.d.ts.",
+   "sweep-3.json: Official built-in mod sources; mods/README.md: 'A mod is a Claude Code plugin whose behaviour lives in a hooks module: one register(on, options) entry...'. First commit 'Add mods: sec-default, diff and telemetry' 2026-09-09T22:30:08Z. Types at mods/types/claude-code.d.ts (RenderSurface = 'terminal' | 'desktop' | 'mobile' | 'vscode').",
+   "sweep-5.json: 4 built-in mods: mods/{agents-md,diff,sec-default,telemetry}/hooks/hooks.json = {\"modules\":[\"./register.ts\"]}. mods/README.md says they ship inside Claude Code, the API is early access, and they are not listed in the repo's marketplace (claude-code-plugins). Tests in mods/*/tests/register.test.ts use 'claude-code/testing'. Last commit 2026-10-19 'chore: Update mods/'.",
+   "sweep-6.json: Official built-in mods. #91870 Sep 9 update: 'source listings for our first three built-in mods' at github.com/anthropics/claude-code/tree/main/mods; HN 2026-09-18/20 stories link mods/agents-md; gh api listing 2026-10-20: mods/agents-md, diff, sec-default, telemetry, types"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-2.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "hamzafer/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/context-bar (25 модов)",
+   "mods/{agent-radar,blast-radius,browser-lanes,cache-clock,...}",
+   "mods/"
+  ],
+  "ev": [
+   "sweep-1.json: mods/context-bar/hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; ★303; свой маркетплейс + npm-установщик claude-code-mods",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; 303 stars; site hamzafer.github.io/claude-code-mods; 'Context bar' listed on statuslin.es.",
+   "sweep-5.json: 25 mods, e.g. mods/agent-radar/hooks/hooks.json modules [./register.tsx]. marketplace claude-code-mods whose entries carry category/tags/needs. Site hamzafer.github.io/claude-code-mods, npm package claude-code-mods. 303 stars."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "NathanAB/statusline-anywhere",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.ts\"] }; на statuslin.es отмечен как мод, рисующий только в Desktop"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "OneWave-AI/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "burn-meter, code-pet и др.",
+   "agent-narrator, agent-race, boss-fight, burn-meter, code-pet, ..."
+  ],
+  "ev": [
+   "sweep-1.json: burn-meter/hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; есть в каталогах claudemods.chat и statuslin.es (pin e6da26c)",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; 'Ten open-source mods'; Burn Meter and Code Pet listed on statuslin.es.",
+   "sweep-5.json: karanb192 data: 11 mods (agent-narrator, boss-fight, burn-meter...)."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "nateherkai/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "recording-mode",
+   "cache-keeper, collision-guard, goal-meter, recording-mode"
+  ],
+  "ev": [
+   "sweep-1.json: recording-mode/hooks/hooks.json: \"modules\": [\"./register.mjs\"]",
+   "sweep-3.json: hooks.json modules=['./register.mjs']; Recording Mode on statuslin.es.",
+   "sweep-5.json: karanb192 data: 4 mods (cache-keeper, collision-guard, goal-meter, recording-mode), modules [./register.mjs].",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-10 (IT-BAER) forked Nate Herk's Cache Keeper; repo has cache-keeper, collision-guard (+2) with modules"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "BayramAnnakov/claude-reflect",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mod"
+  ],
+  "ev": [
+   "sweep-1.json: mod/hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "matthlh/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/pixel-cat"
+  ],
+  "ev": [
+   "sweep-1.json: plugins/pixel-cat/hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "furqan-khan07/pixelband",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"modules\": [\"./register.ts\"]; пиксель-арт полоса над промптом",
+   "sweep-3.json: hooks.json modules=['./register.ts']; animated pixel-art band above prompt (also on statuslin.es).",
+   "sweep-6.json: cc#91870 comment 2026-09-26 + Reddit r/ClaudeCode 2026-09-28 (1wsltwe): animated pixel art above the prompt; install claude plugin marketplace add furqan-khan07/pixelband; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "robdmac/flow",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] } (плагин flow-scenes)"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "augiefra/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/token-weather-usage"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./token-weather-usage.mjs\"] }",
+   "sweep-5.json: hooks.json modules [./token-weather-usage.mjs]. In the Anthropic directory as token-weather-usage@anthropic-plugin-directory, per karanb192 data.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-16 token-weather-usage band; install /plugin install token-weather-usage@augiefra-mods (1x7i4v6); modules in plugins/token-weather-usage"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "nvr0x5/claude-deck",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"modules\": [\"./register.js\"] (Deck, кокпит)"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "dominikmartn/leitstand",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "karanb192/cache-tax",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"description\": \"cache-tax (Mod): session.start, ... prompt.submit, turn.step, turn.complete...\"",
+   "sweep-3.json: hooks.json modules=['./register.ts']; keeps prompt cache warm, /keepwarm; featured in karanb192/awesome-claude-code-mods and statuslin.es; HN post 2026-09-18.",
+   "sweep-5.json: hooks/hooks.json modules [./register.ts]. No marketplace.json. Featured by karanb192.",
+   "sweep-6.json: Reddit r/ClaudeAI 2026-09-18 'Keep Claude Code's cache warm...' (1wk12g9); cc#91870 2026-10-09 links hooks/register.ts; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "data-goblin/claude-code-filetree",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; Featured в karanb192 списке",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; 248 stars; file tree with git status (featured by karanb192 list, statuslin.es).",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. File tree pane. Featured by karanb192."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "scasella/claude-flightdeck",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; ★114",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; live agent dashboard pane; install `claude plugin marketplace add scasella/claude-flightdeck` + `claude plugin install flightdeck@claude-flightdeck` (issue comment 2026-10-02).",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Live agent dashboard pane. Featured by karanb192. About 114 stars.",
+   "sweep-6.json: cc#91870 comment 2026-10-02: Flightdeck docked live agent dashboard; install claude plugin marketplace add scasella/claude-flightdeck; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "NahumLitvin/prismantis",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; рестайлинг ответов, 15 тем",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; 145 stars; themeable replies (tables, Mermaid, charts).",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Themed replies. Listed in hesreallyhim/awesome-claude-code under 'Mods' and featured by karanb192.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 mod rendering tables/code/mermaid in color (1wvvv38), 2026-10-12 '88 stars and 9 contributors'; install /plugin marketplace add NahumLitvin/prismantis; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "cablate/ctx-handoff-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.ts\"] }; ★119",
+   "sweep-5.json: karanb192 data: modules [./register.ts], draws AbovePrompt."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "midudev/better-claude",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/after, plugins/sub-meter, plugins/token-meter, plugins/use-haiku",
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-1.json: plugins/after/hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; сайт betterclaude.dev",
+   "sweep-5.json: plugins/after/hooks/hooks.json modules [./register.tsx]. 7 hooks.json files, marketplace. 148 stars. Not in the karanb192 dataset."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "uppinote20/claude-pets",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }",
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-03 pixel pet in a pane (1wwwq8v); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "VibeMage/claude-mod-pet",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] } (Pixipet)",
+   "sweep-5.json: karanb192 data: in Anthropic directory as pixipet@anthropic-plugin-directory. The same author's claude-mod-glance is in the directory as glance."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "lucenity0/claude-familiar",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "sezaakgun/cc-arcade",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"cc-arcade: games above the prompt...\", \"modules\": [\"./register.tsx\"]",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; issue #91870 comment 2026-09-14: 'Tetris, and seven other games, above the prompt' via ui.render AbovePrompt + Client; the 'Tetris-in-Claude mod' Boris Cherny tweeted on 2026-09-14. Doom port PR #1 by nateschickler0.",
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt (games). davila7/claude-code-templates repackages it.",
+   "sweep-6.json: cc#91870 comment 2026-09-14 @sezaakgun: Tetris + 7 games above the prompt via ui.render AbovePrompt + Client modules, turn.complete, $.store; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "jarrodwatts/claude-image-view",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; 241 stars; thumbnails of pasted images above prompt (kitty graphics).",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Thumbnails of pasted images above the prompt (kitty graphics). Featured by karanb192."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "hellosverre/mod-store",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; магазин модов внутри Claude Code (/mods), данные из mods.aidojo.si",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; in-client 'app store for Claude Code mods' (/mods), ~2,700 mods from mods.aidojo.si; install `claude plugin install mod-store --marketplace hellosverre/mod-store`.",
+   "sweep-5.json: karanb192 data lists mod-store as kind=mod. README: /mods pane to browse and install about 2,700 mods; catalogue from mods.aidojo.si."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "hellosverre/claude-skins",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"modules\": [\"./register.tsx\"]; ★172, скины строк инструментов, 15 тем",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; 172 stars; transcript skins, /skin.",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Theme and skin mod with 15 themes; /skin switches them live. 172 stars."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "halluton/Mindful-Claude",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"mindful-claude: guided breathing above the prompt...\", \"modules\": ...",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; breathing band above prompt + Spinner rewrite (issue comment 2026-09-14).",
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt and Spinner.",
+   "sweep-6.json: cc#91870 comment 2026-09-14 @halluton: breathing mod above the prompt (ui.render AbovePrompt + Spinner rewrite); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Charlie0113-T/claude-agent-flow",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json: \"The agent flow pane: /flow toggles a pane drawing the session's subagent tree...\""
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "HeyCubit/effortless",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./register.tsx\"] }; ★250",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. 2 marketplaces (root plus channels/dev).",
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-09 (score 264) + r/Anthropic 2026-10-10 (score 211): Haiku/Jev picks effort per prompt, bar above prompt; modules in hooks/hooks.json (+textless/plugin)"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "iamumeransari/claude-show-your-work",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: hooks/hooks.json = { \"modules\": [\"./bundle.tsx\"] }; ★246",
+   "sweep-5.json: hooks/hooks.json modules [./bundle.tsx]. Shows images and videos in the terminal (Ghostty and kitty). 246 stars."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "zenbu-labs/terminal-browser",
+  "conf": "confirmed-mod",
+  "paths": [
+   "(не в корне; hooks/hooks.json в корне 404)",
+   "claude-code-plugin/hooks/register.tsx",
+   "claude-code-plugin"
+  ],
+  "ev": [
+   "sweep-1.json: claude-mods.com: события engine.create, browser.open, ui.render...; установка claude plugin install terminal-browser@terminal-browser; ★4055",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; browser pane beside the conversation; 4055 stars; issue comment 2026-09-17; hero demo in karanb192/awesome-claude-code-mods.",
+   "sweep-5.json: claude-code-plugin/hooks/hooks.json modules [./register.tsx] and a root marketplace.json. karanb192 shows it in the README hero (a browser pane beside the conversation). About 4028 stars.",
+   "sweep-6.json: cc#91870 comment 2026-09-17 @RobPruzan: browser plugin on function hooks api, links hooks/register.tsx; modules in claude-code-plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "tomstagl/cctop",
+  "conf": "likely-mod",
+  "paths": [
+   "(не в корне)"
+  ],
+  "ev": [
+   "sweep-1.json: в claudemods.chat как type:mod, panes: 'btop-style live dashboard ... in a pane'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "oikon48/prompt-rail",
+  "conf": "confirmed-mod",
+  "paths": [
+   "(не в корне)",
+   "plugins/prompt-rail/hooks/index.tsx",
+   "plugins/prompt-rail"
+  ],
+  "ev": [
+   "sweep-1.json: claudemods.chat type:mod (display); Featured у karanb192",
+   "sweep-3.json: hooks.json modules=['./index.tsx']; strip of past prompts (featured).",
+   "sweep-5.json: plugins/prompt-rail/hooks/hooks.json modules [./index.tsx]. Featured by karanb192."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "karanb192/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/mod-builder и др.",
+   "plugins/{fable-pin,image-peek,mod-builder}",
+   "plugins/",
+   "plugins/cache-tax"
+  ],
+  "ev": [
+   "sweep-1.json: claudemods.chat: 'A mod-builder skill plus mods for pinning subagent models, keeping the prompt cache warm...'",
+   "sweep-3.json: hooks.json modules=['./register.ts']; marketplace 'claude-code-mods'; site claude-code-mods.karanbansal.in; install `claude plugin install image-peek@claude-code-mods`.",
+   "sweep-5.json: karanb192 data: 2 mods (fable-pin, image-peek), plus a mod-builder skill.",
+   "sweep-6.json: HN 2026-09-18 'Cache-Tax'; Reddit r/ClaudeCode 2026-09-17 cache-warm mod (1wj108u), needs CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1; modules in plugins/fable-pin, plugins/image-peek (+more)"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ray-amjad/awesome-claude-code-function-hooks",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-1.json: описание репо: 'Ray Amjad's Claude Code mods: panes, bands, prompt guards...'; в claudemods.chat (secret-redactor + vercel-deploy-status)",
+   "sweep-5.json: 10 mods, e.g. plugins/cache-clock/hooks/hooks.json modules [./register.js]. marketplace name claude-code-mods. README install: /plugin install <mod> --marketplace ray-amjad/claude-code-mods. karanb192 calls it the first list, from before the rename."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Arunjay4213/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/{budget-guard,context-lens,quota-meter,token-ledger}"
+  ],
+  "ev": [
+   "sweep-1.json: claudemods.chat type:mod packs: context window fill, quota burn, budget guard",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; issue comment 2026-09-14 describing context-lens/quota-meter/token-ledger.",
+   "sweep-6.json: cc#91870 comment 2026-09-14: context-lens, quota-meter, token-ledger built on function hooks (install: claude plugin marketplace add Arunjay4213/claude-mods); modules in plugins/budget-guard/hooks/hooks.json (+3)"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "yash-gadodia/claude-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat: 'Thirteen mods that guard scope, verify deploys, gate merges...'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "rudrasecure/claude-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat review-pane: diff pane with comments back to Claude"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "meganemura/buffer-pane",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat type:mod panes"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "meganemura/pull-request-pane",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin/hooks/mod.ts",
+   "plugin"
+  ],
+  "ev": [
+   "sweep-1.json: claudemods.chat type:mod panes",
+   "sweep-3.json: hooks.json modules=['./mod.ts']; GitHub PR/issue list pane with Client.",
+   "sweep-6.json: cc#91870 comment 2026-09-16: GitHub PR/issue list Pane with Client drag-select; modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "JayDoubleu/aside",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat: read-only side chat pane"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "nogu66/md-prompt",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/md-prompt"
+  ],
+  "ev": [
+   "sweep-1.json: claudemods.chat: renders Markdown in the prompt box",
+   "sweep-5.json: karanb192 data: modules [./register.tsx]; in Anthropic directory as md-prompt@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "lossless-claude/lcm",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat type:mod tools; karanbansal scoreboard (network)"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "galElmalah/claude-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat: claude-mermaid + claude-queue"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "smukh/roll-credits",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat: movie-style end credits",
+   "sweep-6.json: Reddit r/ClaudeAI 2026-09-16 'I made Claude Mod roll movie credits after a coding session' (1whyxsr); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "lperezmo/topic-filter-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-1.json: claudemods.chat guards",
+   "sweep-3.json: hooks.json modules=['./register.ts']; placeholder-swaps topics in what the model reads.",
+   "sweep-6.json: cc#91870 comment 2026-09-25: topic-filter swaps words/topics for placeholders in what the model reads; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ishuagrawal/clawdhouse",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat fun: pixel Clawd character"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "juulsverne/claude-code-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat cost-git band"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "udaaff/claude-code-session-monitor",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat: side panel with cards for every open session"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "aycandv/claude-usage-meter",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: claudemods.chat bands; findmods README 'Weekly Usage and Spend Board'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "sezaakgun/cc-pr-tracker",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: karanbansal.in scoreboard и ccmodshub"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "YeonwooSung/my-claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "agent-profiler, assumption-tracker, blast-radius, command-shelf, ..."
+  ],
+  "ev": [
+   "sweep-1.json: topic claude-code-mods/claude-code-mod, ★1096, описание 'Custom Claude Code Mods that I need'",
+   "sweep-3.json: hooks.json modules=['./register.tsx'/'./register.ts']; 1096 stars (highest-starred 'claude code mods' repo in gh search 2026-10-20).",
+   "sweep-5.json: 17 plugins, e.g. agent-profiler/hooks/hooks.json modules [./register.tsx]. marketplace my-claude-code-mods (17 entries), 63 test files. 1096 stars, the most-starred repo under topic:claude-code-mods."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Plagemes/claude-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-1.json: README: '219 mods' + in-terminal mod store + web store plagemes.github.io/claude-mods",
+   "sweep-5.json: karanb192 data: 219 mod records. marketplace claude-mods (219 entries) including an in-terminal mod-store mod."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "whyashthakker/awesome-claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/*",
+   "mods/* (70 mods)",
+   "mods/"
+  ],
+  "ev": [
+   "sweep-1.json: README: 70 original MIT mods, claude plugin install task-board@awesome-claude-code-mods, скриншоты из test kit",
+   "sweep-3.json: hooks.json modules=['./register.js']; 70 original mods + marketplace; screenshots are test-kit render trees painted in a browser preview.",
+   "sweep-5.json: 70 mods, each with a test, e.g. mods/agent-board/hooks/hooks.json modules [./register.js]. marketplace awesome-claude-code-mods."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "davila7/claude-code-templates",
+  "conf": "likely-mod",
+  "paths": [
+   "cli-tool/components/mods/{category}/{name}",
+   "cli-tool/components/mods/"
+  ],
+  "ev": [
+   "sweep-1.json: README модов: 'Each mod is a complete plugin directory, exactly Anthropic's mods/ layout'; 44 мода в dashboard/public/components/mods.json",
+   "sweep-3.json: aitmpl.com article (Sep 4, updated Sep 15) lists catalog function-hook entries (security/secret-redactor, ui/tool-timing-badge, ...); repo not inspected.",
+   "sweep-5.json: 44 hooks/hooks.json under cli-tool/components/mods/ (games/2048, cc-arcade, doom...), repackaged from other authors. Install: npx claude-code-templates@latest --mod games/2048, which writes to .claude/skills/2048/ and loads as 2048@skills-dir. karanb192 lists it in data/catalogs.txt as a repackaging catalogue."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "heyJordanParker/cmod",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: Claude Mod Manager; npm @cmodjs/cli и @cmodjs/core 3.1.0"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "lemomo-ai/lemo-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/lemo-*"
+  ],
+  "ev": [
+   "sweep-1.json: описание: 'Claude Code mods: 21 styles ... for the terminal and the desktop app'",
+   "sweep-3.json: hooks.json modules=['./register.tsx']; '21 styles ... terminal and the desktop app'.",
+   "sweep-5.json: karanb192 data: 16 mods (lemo-ask, lemo-core...). 21 styles for the terminal and Desktop."
+  ],
+  "srcs": [
+   "sweep-1.json",
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "mertkayacs/ultramod",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm ultramod 1.0.13 'all-in-one mod pack for Claude Code', keywords claude-code-mods"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "patrick-lai/claude-fish-stack-mod",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm claude-fish-stack-mod 0.8.3 и fishstack-mod ('npx -y fishstack-mod install')"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "alexei-led/claude-router",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm @alexeiled/claude-router 1.14.0 'Native Claude Code Mod: model and effort routing'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "jagreehal/autotel",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm autotel-claude-code 'OpenTelemetry for Claude Code plugins (a Claude Mod): $.autotel spans'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "hopp1395/cc-outline",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm cc-outline 0.18.0 'Terminal split pane for Claude Code'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "lukebward/speculate",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm speculate-mcp 'a mod that learns your MCP call patterns', keyword claude-code-mod"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "zgeoff/auto-mode",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm auto-mode 3.0.0 'A permission classifier library and Claude Code mod'"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "deepseek-ai/deepseek-harness",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-1.json: npm @deepseek-ai/dsh-experimental-claude-code-mods: 'load Claude Code mods (hooks modules) and run their hook chains on DeepSeek Harness' + client-ui пакет"
+  ],
+  "srcs": [
+   "sweep-1.json"
+  ]
+ },
+ {
+  "repo": "anthropics/claude-plugins-community",
+  "conf": "confirmed-mod",
+  "paths": [
+   "next-steps"
+  ],
+  "ev": [
+   "sweep-3.json: next-steps/hooks/hooks.json modules=['./register.tsx']; listed on claude.dev/mods/ 'From the community' as 'Next steps by Thariq Shihipar', install `claude plugin install next-steps@claude-community`. Community marketplace.json has 2283 plugins.",
+   "sweep-5.json: next-steps/hooks/hooks.json = {\"modules\":[\"./register.tsx\"]}. This is the only locally hosted hooks.json in the community marketplace repo (marketplace name claude-community, 2283 plugins, mostly external url/git-subdir sources that were not scanned)."
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ray-amjad/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/{cache-clock,decision-tree,diagram-pane,dream-pass,vercel-deploy-status,...}"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.js'] / ['./register.jsx']; created 2026-09-05 as 'awesome-claude-code-function-hooks' (karanb192 README: 'The first list, from before the rename'); 'One marketplace, each mod installs on its own'."
+  ],
+  "srcs": [
+   "sweep-3.json"
+  ]
+ },
+ {
+  "repo": "darrell-tw/darrelltw-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/tw-stock-mod"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; stock ticker band above prompt."
+  ],
+  "srcs": [
+   "sweep-3.json"
+  ]
+ },
+ {
+  "repo": "zycck/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/plan-progress"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; plan progress bars above prompt.",
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt, Pane and SessionMode."
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "maddiedreese/cc-storytime",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; 260K-param TinyStories transformer running inside the hooks module.",
+   "sweep-6.json: cc#91870 comment 2026-09-15: 260K-param TinyStories model inside the hooks module writing a story above the prompt; install /plugin marketplace add maddiedreese/cc-storytime; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "olliewagner/verbs",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; pixel-art loop per spinner verb (188 verbs); comment 2026-10-20.",
+   "sweep-6.json: cc#91870 comment 2026-10-20: pixel-art loop for each of 188 spinner verbs via ui.render Spinner/CommandOutput + $.ui.blit; install claude plugin marketplace add olliewagner/verbs; demo ollie.md/verbs; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "mpolatcan/flowpane",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; replaces Workflow progress list with live graph pane.",
+   "sweep-6.json: cc#91870 comment 2026-09-15: flowpane, live Workflow graph in a Pane; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "sureffi/drawer",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/render.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./render.tsx']; graphviz dot fences drawn in transcript.",
+   "sweep-6.json: cc#91870 comment 2026-09-15 @Sureffi: graphviz dot fences drawn in transcript (ui.render AssistantMessage); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "rjwittams/katzensteg",
+  "conf": "confirmed-mod",
+  "paths": [
+   "tools/claude-code-plugin"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; embeds SDL programs via kitty graphics.",
+   "sweep-6.json: cc#91870 comment 2026-09-15: mod embedding SDL programs via kitty graphics; modules in tools/claude-code-plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "faridmurzone/command-buttons-claude-code",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; Run/Copy buttons on commands.",
+   "sweep-6.json: cc#91870 comment 2026-09-17: [Run]/[Copy] buttons on commands, band hotkeys; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "AlmogBaku/ContextSaver",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; detects 'session creep' and steers.",
+   "sweep-6.json: cc#91870 comment 2026-09-17: 'Session Creep' meta-evaluator mod using $.model.fork; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "FazalAAli/pi-agent-for-claude",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; runs pi agent as native subagent via turn.step.",
+   "sweep-6.json: cc#91870 comment 2026-09-18: runs pi coding agent as a native subagent by replacing turn.step; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "tre-dev/claude-env",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; manage env vars inside CC.",
+   "sweep-6.json: cc#91870 comment 2026-09-24: mod to add/manage envs inside CC; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "rezzminator/sub-agent-compact",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/sub-agent-compact"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./sub-agent-compact.ts'].",
+   "sweep-6.json: cc#91870 comment 2026-09-26: per-subagent compaction policy mod; modules in plugins/sub-agent-compact/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "seosy218-ops/claude-quickbar",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin/hooks/register.tsx",
+   "plugin"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; quick-command row targeting Desktop Code tab.",
+   "sweep-6.json: cc#91870 comment 2026-09-28: quick-command buttons above prompt; desktop overlay fallback; modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "tzafrir/whats-agent-doing",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; Show HN 2026-10-02 'Claude Code UI mod that explains each step'.",
+   "sweep-5.json: karanb192 data: draws AbovePrompt and ToolProgress; in Anthropic directory as what-s-agent-doing@anthropic-plugin-directory.",
+   "sweep-6.json: Show HN 2026-10-02 (item 49934165): 'a plugin using Claude Code's new function hooks that draws one line above the prompt'; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "tzafrir/human-in-the-loop",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; tasks pane via registered tools.",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Listed in the Anthropic directory as human-in-the-loop@anthropic-plugin-directory, per karanb192 data.",
+   "sweep-6.json: cc#91870 comment 2026-10-05: Claude assigns the user tasks via registered tools, shown in a pane; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "xuanji86/claude-agentpane",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; docked subagent pane.",
+   "sweep-6.json: cc#91870 comment 2026-10-03: docked pane of subagents (2.1.288); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "xuanji86/claude-statuspane",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; status card in AbovePrompt with progress API.",
+   "sweep-6.json: cc#91870 comment 2026-10-03: status card in AbovePrompt band with progress API for other mods; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "3dnow/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "weektoken"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; rate-limit pace band + /weektoken pane (desktop + terminal).",
+   "sweep-5.json: karanb192 data: in Anthropic directory as weektoken@anthropic-plugin-directory.",
+   "sweep-6.json: cc#91870 comment 2026-10-05: WeekToken rate-limit pace band + /weektoken pane (desktop + terminal); modules in weektoken/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "PromptSign/promptsign-plugin",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; signature checks on skills/CLAUDE.md.",
+   "sweep-6.json: cc#91870 comment 2026-10-05: plugin 0.3.13 adds a mod on three events, links hooks/register.ts; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "rbartoli/agent-usage-guard",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; limits agents across sessions.",
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-09 + cc#91870 2026-10-09: limits agents across sessions ('in-process hooks added in 2.1.287'); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "paragpandyareal/lazy-panda-panel",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; Word/Excel/PDF review pane.",
+   "sweep-6.json: cc#91870 comment 2026-10-10: opens Word/Excel/PDF/Markdown/Confluence files in a pane for commenting; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "MohammedSaud404/rtl-terminal",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; RTL layout; install `/plugin install rtl-terminal --marketplace MohammedSaud404/rtl-terminal`.",
+   "sweep-6.json: cc#91870 comment 2026-10-10: RTL layout mod; install /plugin install rtl-terminal --marketplace MohammedSaud404/rtl-terminal; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Entwining/mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/preallow"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; tool.check permission mod.",
+   "sweep-6.json: cc#91870 comments 2026-10-15 @liby: preallow permission mod (tool.check); links hooks/register.ts; modules in plugins/preallow/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "svd/agent-skills",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/ctx-guard"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; context/usage guard; author reports taking it through the plugin directory.",
+   "sweep-6.json: cc#91870 comment 2026-10-15: ctx-guard band + triggers, taken through the plugin directory; modules in plugins/ctx-guard/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ExtReMLapin/tqdm-claude",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; progress bars for background tasks.",
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx].",
+   "sweep-6.json: cc#91870 comment 2026-10-18: live progress bars for background tasks; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "hashswingingslasher/model-hint",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; model suggestion band; works in VS Code chat panel from 2.1.301 per author.",
+   "sweep-6.json: cc#91870 comment 2026-10-18: band suggests opus/sonnet/haiku while typing; runs in terminal and VS Code chat panel from 2.1.301; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "delexw/miod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; HN 2026-10-07 'A Claude Code mod plays MIDI music when it works'.",
+   "sweep-6.json: HN 2026-10-07 'A Claude Code mod plays MIDI music when it works' (49999983); Reddit 1x0bc81; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "DrumAndCode/terminal-gym",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; Show HN 2026-10-03 pushups between prompts.",
+   "sweep-6.json: Show HN 2026-10-03 (49945600): pushups between prompts, toasts, prompt-blocking strict mode; install claude plugin marketplace add DrumAndCode/terminal-gym && claude plugin install terminal-gym@terminal-gym; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "reporails/arcade",
+  "conf": "confirmed-mod",
+  "paths": [
+   "brickfall, doom, minefield"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; Show HN 2026-10-03 'Claude Mods – Minesweeper'.",
+   "sweep-6.json: Show HN 2026-10-03 'Claude Mods – Minesweeper' (49946184); Reddit 2026-10-05 Doom, 2026-10-16 Arkanoid; modules in brickfall/, doom/ (+1)"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "utpalJayNadiger/terminal-steps",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; HN 2026-10-05 daily step goal from Apple Health.",
+   "sweep-6.json: HN 2026-10-05 'Terminal Steps: A Claude mod for a daily step goal, synced from Apple Health' (49971594); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "franciscocarloserra/claude-code-multiharness-delegation",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; HN 2026-10-02.",
+   "sweep-6.json: HN 2026-10-02 'Multi-harness delegation Mod for Claude Code' (item 49934033); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "drkokorev/context-diet",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/context-diet"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; Show HN 2026-10-09 trims tool output.",
+   "sweep-6.json: Show HN 2026-10-09 (50024608) 'a mod (Claude Code's new JS hook API) that rewrites tool results'; modules in plugins/context-diet/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "bn-l/claude-autoresearch-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin/hooks/register.tsx",
+   "plugin"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; HN 2026-10-01 'Pi-autoresearch ported ... using the new mods API'.",
+   "sweep-6.json: HN 2026-10-01 'Pi-autoresearch ported to Claude Code 1:1 using the new mods API' (item 49927599); modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Max-Levitskiy/skills",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/ml-voice (and ml-agent-config per HN)",
+   "plugins/ml-agent-config"
+  ],
+  "ev": [
+   "sweep-3.json: plugins/ml-voice/hooks/hooks.json modules=['./register.tsx']; HN 2026-10-09 'Agent-config&Claude Code mods' links plugins/ml-agent-config (not individually checked).",
+   "sweep-6.json: HN 2026-10-09 'Agent-config & Claude Code mods' (50024345); modules found in plugins/ml-voice/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "NMenzel/claude-devtools-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.tsx"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.tsx']; HN 2026-10-11.",
+   "sweep-6.json: HN 2026-10-11 'I just build Claude Dev Tools' (50043275); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "CharlesSS07/claude-model-spinners",
+  "conf": "confirmed-mod",
+  "paths": [
+   "hooks/register.ts"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['./register.ts']; Show HN 2026-10-08 spinner verbs per model.",
+   "sweep-6.json: Show HN 2026-10-08 (50008739) spinner verbs by model+effort; 'effort level ... not exposed by the mods api'; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "cvuijst/cc-function-hooks-poc",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin/hooks",
+   "plugin"
+  ],
+  "ev": [
+   "sweep-3.json: hooks.json modules=['../hooks-handlers/on-session-start.ts']; early-access PoC on v2.1.261 behind CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 (comment 2026-09-05).",
+   "sweep-6.json: cc#91870 comment 2026-09-05 @cvuijst: explored Function Hooks API in v2.1.261 behind CLAUDE_CODE_ENABLE_FUNCTION_HOOKS (inbox folder watcher); modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Monte9/claude-function-hooks",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-3.json: 'A reference implementation of the Function Hooks algebra proposed for Claude Code' (created 2026-09-03); standalone prototype, not a CC plugin."
+  ],
+  "srcs": [
+   "sweep-3.json"
+  ]
+ },
+ {
+  "repo": "opencues/opencues",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-3.json: Maintainer pitched it as a mod in issue #91870 (2026-09-14); no hooks/hooks.json found in default branch tree."
+  ],
+  "srcs": [
+   "sweep-3.json"
+  ]
+ },
+ {
+  "repo": "franciscocarloserra/claude-code-context-debloat-mod",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-3.json: HN 2026-10-07 'Claude Code Context Debloat Mod'; no hooks/hooks.json found in default branch tree.",
+   "sweep-6.json: HN 2026-10-07 'Claude Code Context Debloat Mod' (49990017); repo description 'Single-file Claude Code mod'; API check found no plugin.json/hooks.json"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "timoncool/givememod",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-3.json: gh search: 'a skill that reads your conversation and builds the mod... 11 tested templates... a map of 3,057 public mods'; not inspected."
+  ],
+  "srcs": [
+   "sweep-3.json"
+  ]
+ },
+ {
+  "repo": "KilimcininKorOglu/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/sidebar"
+  ],
+  "ev": [
+   "sweep-3.json: gh search description 'Claude Mods (function-hooks plugins) for Claude Code', site cc-mods.keremgok.tr; not inspected.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-09-20 'claude code sidebar mod' (1wlinbw), shared pane API $.sidebar.set; modules in plugins/action-pin etc. (6 plugins)"
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Tickloop/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-3.json: gh search 'A collection of claude code mods' (80 stars); not inspected.",
+   "sweep-5.json: glamour-dark/hooks/hooks.json modules [./register.ts] and tool-lines. Restyles AssistantMessage and tool rows."
+  ],
+  "srcs": [
+   "sweep-3.json",
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "anthropics/claude-plugins-official",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/code-modernization"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/code-modernization/hooks/hooks.json has both \"modules\":[\"./register.ts\"] and classic hooks (UserPromptSubmit, Stop, SessionStart...). It is the only mod among the repo's 7 hooks.json files. karanb192 data marks it code-modernization@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "alexgreensh/token-optimizer",
+  "conf": "confirmed-mod",
+  "paths": [
+   "desktop/token-optimizer-desktop"
+  ],
+  "ev": [
+   "sweep-5.json: desktop/token-optimizer-desktop/hooks/hooks.json modules [./register.tsx]. The repo has 5 hooks.json files, some classic. Has a marketplace. About 2603 stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "gwittebolle/claude-carbon",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json has modules [./mod/register.tsx] and classic Stop/SessionEnd hooks. Also listed in anthropics/claude-plugins-community as co2-tracker."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "midudev/after-for-claude-code",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/after/hooks/hooks.json modules [./register.tsx]. 7 mods, marketplace. 140 stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "kunchenguid/firstmate",
+  "conf": "confirmed-mod",
+  "paths": [
+   ".claude/mods/firstmate-calm"
+  ],
+  "ev": [
+   "sweep-5.json: .claude/mods/firstmate-calm/hooks/hooks.json modules [./register.ts]. About 8078 stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "pleaseai/shunt",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/shunt"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/shunt/hooks/hooks.json modules [./register.tsx]. Has a marketplace."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Paradigm-Study/claude-share",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-5.json: plugin/hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "JohnnyVizz/claude-kit",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/savvy-progress/hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "kunchenguid/compact-adviser",
+  "conf": "confirmed-mod",
+  "paths": [
+   "packages/claude-mod"
+  ],
+  "ev": [
+   "sweep-5.json: packages/claude-mod/hooks/hooks.json modules [./register.ts]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "centminmod/claude-plugins",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/desktop-statusline"
+  ],
+  "ev": [
+   "sweep-5.json: hooks.json modules [./register.tsx]. A Desktop Code-tab status band. In the Anthropic directory as desktop-statusline@anthropic-plugin-directory, per karanb192 data."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Revono/clawd-pet",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/clawd-pet"
+  ],
+  "ev": [
+   "sweep-5.json: hooks.json modules [./register.tsx]. In the Anthropic directory as clawd-pet@anthropic-plugin-directory, per karanb192 data."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "patheonsceo/claudinator",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.ts]. Restyles 10 render sites. In the Anthropic directory as claudinator@anthropic-plugin-directory, per karanb192 data."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "escapeboy/claude-code-kit",
+  "conf": "confirmed-mod",
+  "paths": [
+   "17-mods/marketplace/mods/"
+  ],
+  "ev": [
+   "sweep-5.json: 13 mods, e.g. 17-mods/marketplace/mods/aside/hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "dgokcin/claude-pokemon-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.js]. Pixel Pokemon above the prompt.",
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-04 Pokemon above the prompt; Reddit comment 2026-10-05; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "hex/claude-council",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [../mods/council-pane/hooks/pane.tsx] plus a classic Stop hook. About 894 stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Storybloq/storybloq",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/storybloq"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/storybloq/hooks/hooks.json modules [../hooks/mod.ts].",
+   "sweep-6.json: Reddit comment 2026-10-01 in 'Introducing Claude Mods' thread: 'I added a mod for storybloq!'; modules in plugins/storybloq/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ruvnet/ruflo",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/ruflo-adr/hooks/hooks.json modules [./register.ts]. karanb192 data lists 45 ruflo mods. About 77k stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "arturogarrido/claudinho",
+  "conf": "confirmed-mod",
+  "paths": [
+   "packages/plugin"
+  ],
+  "ev": [
+   "sweep-5.json: packages/plugin/hooks/hooks.json modules [./register.tsx]. Not in the karanb192 dataset."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "SavaSoftworks/BitFrost",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/bitfrost"
+  ],
+  "ev": [
+   "sweep-5.json: plugins/bitfrost/hooks/hooks.json modules [./register.js]. Not in the karanb192 dataset."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "bruw/workflow-conductor",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Not in the karanb192 dataset.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-14 'Building complex Claude Mod UIs - Workflow Conductor' (~11,000-line mod) (1x5zkmy); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "michalstrnadel/AgentBar",
+  "conf": "confirmed-mod",
+  "paths": [
+   "Scripts/mods/claude"
+  ],
+  "ev": [
+   "sweep-5.json: Scripts/mods/claude/hooks/hooks.json modules [./register.js]. A macOS menu-bar app paired with a mod."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "partalemre/MODZ",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: 20 hooks.json files, e.g. mods/blast-radius/hooks/hooks.json modules [./register.tsx]. Has a marketplace."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "oborchers/claude-gh-status",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Danovich/turntype",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx].",
+   "sweep-6.json: Reddit comment 2026-10-13 (thread 1x23tb2): typing test while Claude thinks; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "LudovicLaloux/agent-crew",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "modmyclaude/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: 27 hooks.json files, e.g. mods/ant-farm/hooks/hooks.json modules [./register.tsx]. marketplace modmyclaude. Site modmyclaude.com. Not in the karanb192 dataset."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "PeterTing/claude-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: mods/crew/hooks/hooks.json modules [./register.tsx]. marketplace claude-mod (14 entries)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "jheroorehj/prompt-polish",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "vulcanshen/ccdrawu",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. A sidebar plus status line."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Malkiz/claude-reply-comments",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "comertial/claude-pending-changes",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. No marketplace."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "CircularBlox/Clarity",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]. Restyles the transcript."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "yuntaengtaeng/snitch",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "jrlprost/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: 42 hooks.json files, e.g. plugins/jr-awake/hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "gfb-47/spotify-claude-code-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Krs7N/context-meter",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: hooks/hooks.json modules [./register.tsx]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ruvnet/RuView",
+  "conf": "likely-mod",
+  "paths": [
+   "harness/ruview/mod"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data/mods.json (2026-10-20, claude 2.1.304): modules [./register.mjs], validate=passed, draws Pane. About 98.8k stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "tamaratran/fast-jev-compaction",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./fast-jev.ts], validate=warnings, no UI. 7709 stars."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "caliber-ai-org/ai-setup",
+  "conf": "likely-mod",
+  "paths": [
+   "plugin/caliber-jev-compaction"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./compaction.ts], validate=warnings."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "aerovato/operator-memory",
+  "conf": "likely-mod",
+  "paths": [
+   "packages/claude-code"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.js], validate=failed."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "notque/vexjoy-agent",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/jev-auto-compact"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./jev-auto-compact.mjs], validate=passed."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "chipfighter/context-attachment-manager",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.js], draws Pane, validate=warnings."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "yonatangross/orchestkit",
+  "conf": "likely-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 5 mods (lesson-cards, memory-lens...), modules [./register.ts], draws AbovePrompt and ToolUse."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "sd0xdev/sd0x-harness",
+  "conf": "likely-mod",
+  "paths": [
+   "mods/agentctl"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.js], draws AbovePrompt."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "greenpolo/cc-multi-cli-plugin",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/multi-core"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.ts], validate=passed.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-09-16 'Use any subscription in Claude Code! (using the new Claude Mods feature)' (1whw82q); modules in plugins/multi-core/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "transkatgirl/vibeclaude",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws Pane and ToolProgress."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "vinta/hal-9000",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 2 mods (hal-grammar-check, hal-session-auto-rename), draws AbovePrompt."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Avinash-jetwani/jevmem",
+  "conf": "likely-mod",
+  "paths": [
+   "pane"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws Pane."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "VKirill/claude-lane-stack",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/lane-stack"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./lane-mods.ts]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "jarrodwatts/intermission",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.js], draws AbovePrompt, Pane and Spinner."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "GhalebDweikat/winnow",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./winnow.ts]."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "avelikiy/great_cto",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./gates-pane.tsx], draws Pane."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "alexknowshtml/claude-auto-handoff",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt and UserMessage."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "petekp/inbox",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt and Pane.",
+   "sweep-6.json: cc issue #100651 2026-10-09 Plugin Pane press bug; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "r3dbars/transcripted",
+  "conf": "likely-mod",
+  "paths": [
+   "Tools/TranscriptedLive/claude-mod"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt and Pane."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "SaM-runtime/claude-console",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/console-status"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt and Pane."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "mukiwu/muki-ai-plugins",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/hyday-pet"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 2 mods (hyday-pet, world-news)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "archcore-ai/archcore",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/archcore"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./next-step.tsx], draws AbovePrompt."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "rse/ase",
+  "conf": "likely-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [../mods/ase-mods.ts], draws AssistantMessage."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Junhan2/oh-my-fable",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./card/register.tsx], draws AssistantMessage."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Arjun0014/project-sentinel",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/project-sentinel"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], validate=passed.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-08 'Project Sentinel: a Control Room Mod for long Claude Code runs' (1x0yh6k); modules in plugins/project-sentinel (+1)"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "hex/claude-sessions",
+  "conf": "likely-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 3 mods (cs, cs-mermaid, cs-update)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ersinkoc/claude-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 49 mod records (almanac, aurora...). hashgraph-online list calls it 'KOZMOS - 48 live, visual function-hook mods'."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "baselane-sh/mods",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 199 mod records. These are the sources for the baselane-sh/mods-catalog marketplace (git-subdir pinned by sha)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "GarvitNangru/claude-code-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 3 mods (agent-monitor, readable-layout, firelight). Theme plus Windows Terminal look."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "artemnovichkov/xcode-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/xcode-mods"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./register.tsx], draws AbovePrompt and Pane.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 'Made Xcode work inside Claude Code' (bar above prompt) (1wvudwm); modules in mods/xcode-mods/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "MDmubarak786/claude-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 27 records (modhub). Listed in hashgraph-online/awesome-ai-plugins."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "bennewton999/claude-code-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 5 mods (context-gauge, session-fleet...)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ryx2/slopshopper",
+  "conf": "likely-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 6 mods (slop-detector, burn-rate, secret-shield, tripwire, receipts, test-pulse)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Hula-Hoop-AI/supermods",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 9 mods (ci, debugger, focus-timer, garden...)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "SeongGwangJu/k-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 8 own mods (blast-radius-ko, ctx-strip...) plus a 68-entry marketplace."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "neteye-platform/cc-split-diff-view",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 1 mod. Draws side-by-side Edit and Write diffs.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-19 side-by-side diffs mod (1x9svqw); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "KyongSik-Yoon/cc-desktop-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "desk-look"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: desk-look (terminal styled like the Desktop app).",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-14 mod making CLI look like Claude Desktop (1x5lsak); modules in desk-look/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "StanislavKozachenko/claude-mods",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: 6 mods (ci-budget, context-bar, guard, notify...)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Singh-AP/awesome-claude-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "mods/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 22 records (files-touched, git-pulse...). marketplace awesome-claude-mods (47 entries)."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "atomashevic/claude-latex-math",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws AssistantMessage; in Anthropic directory as latex-math@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "jonpojonpo/cc-crayon",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws AssistantMessage and CommandOutput; in Anthropic directory as crayon@anthropic-plugin-directory.",
+   "sweep-6.json: Reddit comment 2026-10-02 (thread 1wvc7vc): crayon 'a mod/ plugin that redraws every reply in color', /plugin install crayon@cc-crayon; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "superfly/sprites-claude-plugin",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/sprites"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws Pane; in Anthropic directory as sprites@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "oliverow/catch-me-up",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws Pane; in Anthropic directory as catch-me-up@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ruihe774/cc-micro-compaction",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as micro-compaction@anthropic-plugin-directory. The same author has cc-bash-guardrails and cc-delay-no-more, also in the directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "shimo4228/harness-scope",
+  "conf": "likely-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as harness-scope@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Agulhas-Labs/claude-plugins",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/cache-guard"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as cache-guard@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "augbastos/afkswitch",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: modules [./switch.tsx]; in Anthropic directory as afkswitch@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "karan-79/airquote",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws PromptHint; in Anthropic directory as airquote@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "WQGGSEY/cache-ttl-timer",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws SessionMode; in Anthropic directory as cache-ttl-timer@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ahl-gram/IssueDial",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as issue-dial@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "Akash001uts/claude-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/context-bar"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as context-bar-akash001uts@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "davidar/claude-idle-compact",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as idle-compact@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "eel-brah/burn-baby-burn",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as burn-baby-burn@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "nison/claude-invaders",
+  "conf": "likely-mod",
+  "paths": [
+   "invaders"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as invaders@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "pepperonas/usage-bars",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as usage-bars@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "achiurizo/dreeft",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as dreeft@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "AlexandreMartinezOlmos/claude-code-leakstop",
+  "conf": "likely-mod",
+  "paths": [
+   "leakstop"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as leakstop@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "barisdemirhan/claude-dino",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as dino@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "chrishan17/claude-mod-context-window",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/context-window"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as context-window@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "cyberinecore/cc-snippets",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as cyberine-snippets@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "DJPalefaceSD/rostech-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: 19 mods. At least 6 (bumper-sticker, gas-gauge, odometer, speedometer, sticky-note, tach) are in the Anthropic directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "gmorubio/claude-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "pet"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: pet and turn-usage, both in the Anthropic directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "ItsRohith-A/holdtime",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as holdtime@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "jh3ady/claude-time-check",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as time-check@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "kesavreddy-commits/repoviewer",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as repoviewer@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "lenadweb/claude-code-plugins",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: lenadweb-image-preview and lenadweb-usage-meter, both in the Anthropic directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "lperezmo/cache-caffeine",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/cache-caffeine"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as cache-caffeine@anthropic-plugin-directory. The same author's session-relaunch is also in it."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "manueldelgado/manueldelgado-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "exit-memory-update"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as exit-memory-update@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "mhgar/claude-simple-progress-bars",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/simple-progress-bars"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as simple-progress-bars@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "mrfoxes/rainbow-cat",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: draws Spinner and TurnDuration; in Anthropic directory as rainbow-cat@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "nvsravank/multirepo-diff-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as multi-repo-diff@anthropic-plugin-directory.",
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 multi-repo worktree-aware diff viewer (1wxyhx2); author says it is on the Anthropic marketplace; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-5.json",
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "RomanHotsiy/claude-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "loc-split"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as loc-split@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "shengyy/ccoverhead",
+  "conf": "likely-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as ccoverhead@anthropic-plugin-directory. The repo description says 'Available in Anthropic Direc...'."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "skysf/skylu-mods",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/context-bar"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as context-bar-skysf@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "tobinsouth/fortune-cookie-mod",
+  "conf": "likely-mod",
+  "paths": [],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as fortune-cookie@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "YuvalSarel1/claude-plugins",
+  "conf": "likely-mod",
+  "paths": [
+   "plugins/fleet"
+  ],
+  "ev": [
+   "sweep-5.json: karanb192 data: in Anthropic directory as fleet@anthropic-plugin-directory."
+  ],
+  "srcs": [
+   "sweep-5.json"
+  ]
+ },
+ {
+  "repo": "mohi-devhub/claude-games",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-09-14 'I made arcade games that play above your Claude Code prompt while it works' (reddit.com/r/ClaudeAI/comments/1wgera0); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "devohmycode/claude-usage-mod",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-09-20 'claude-usage-mod — quotas, context, cost...' (1wlft4y); repo 404 on 2026-10-20"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "wasd96040501/taskcut",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #96214 2026-09-23 '[FEATURE] Mods: prompt caching for $.model.complete'; modules in eval/judge/hooks/hooks.json (+2)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Anerco/effort-cycle-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-09-28 effort level with Alt+E, footer meter (1wsrvj8); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "henrik-thevibe/Claude-Fables",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-02 (score 229) animated cartoon of Claude's work above the prompt (1ww2cn3); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "blendbunjaku/optimaizr",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/optimaizr"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 'Claude Code mods dropped yesterday, so I made optimAIzr live inside Claude Code' (1ww7w0x); modules in mods/optimaizr/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "swicken/cat-spinner",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 'Cat-spinner, a mod that replaces your spinner with a kitty' (1wvyg8u); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "fixter-dev/session-pings",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/session-pings"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 'I rebuilt my Claude Code Mac notifications as a mod' (1wvv4p6); modules in plugins/session-pings/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "viik2k/clawdify",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 'Want the CLI to look how YOU want it?' (1wvsant); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "genail/genail-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "task-progress"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 mod displaying progress of long-running tasks (1wvpj0x); modules in task-progress/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "jamubc/toolbox",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/orbit"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 'mods are cool OK' (/orbit traces session connections) (1wvnnuo); modules in plugins/atlas, plugins/browse (+4)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "hedingerm/image-preview",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-02 image preview via kitty graphics; install /plugin marketplace add hedingerm/claude-plugins (1wvmswb); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "matthlh/claude-cat-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit comment 2026-10-02 (thread 1wvc7vc): themes + claude cat companion; modules in plugins/pixel-cat, plugins/token-tycoon"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "griches/claude-xcode-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-03 mod giving Claude xcodebuild errors instead of truncated log (1wwwkfs); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "trytofly94/handoff-compact",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-03 handoff + /clear on autocompact; install /plugin marketplace add trytofly94/handoff-compact (1wwk36q); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "xyc/plushie",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-03 'I made a fluffy Claude Code mod' (3D plush mascot) (1wwan22); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "agentic-workbench/agent-quick-menu",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-03 clickable /menu pane of plugin commands, 'mods API that arrived in 2.1.287' (1wwsryi); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "MithunWijayasiri/ctxline-claude",
+  "conf": "confirmed-mod",
+  "paths": [
+   "desktop"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-03 'status bar for the Claude desktop app' — desktop Code tab doesn't run statusLine scripts (1wwo3t3); modules in desktop/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "madisonrickert/jev-permission-gate",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-03 replaces auto-mode classifier with Jev (1wwabhk); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "szarkans/gamble-with-claude-code",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-03 'you can gamble your claude tokens now!' (1ww9f7o); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "NovusEdge/glowup",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-06 + r/claude (score 93) 'glowup: a mod that makes Claude Code look nicer' (restyles colors, messages, spinners, side pane); cc issue #99502; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "vicmpen/mokkan",
+  "conf": "confirmed-mod",
+  "paths": [
+   "claude-plugin"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-04 reminders pane across sessions (1wxsz2h); modules in claude-plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "revelationnow/claude-doc-review",
+  "conf": "confirmed-mod",
+  "paths": [
+   "doc-review"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-04 review md docs inside the TUI (1wxs08o); modules in doc-review/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "anantraghunath/claude-code-usage-quota-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-04 5h/weekly usage + context above prompt, desktop + terminal (1wxnm5i); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Troepster/overalls",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-04 'What I learned building a Claude Code mod: a status band above the prompt' (1wx9umm); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "IT-BAER/claude-forge",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/file-explorer"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-04 VS Code-style file explorer pane (1wxcnzs); 2026-10-10 cache-status fork; modules in mods/file-explorer, mods/session-band (+1)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "GruperTal/claude-pin-message",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-04 /pin a response to a side pane (1wxo51x); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Birium/gamemods",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-04 2048 and tic-tac-toe while waiting (1wxjq0i); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "potto007/ottomation",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-04 live-vibe full-duplex voice mod (1wx6mnj); modules in plugins/diagram-pane, plugins/live-vibe"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "xzwache/claude-time-machine",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 undo covering Bash (1wyidw8), needs 2.1.287+; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "repowise-dev/repowise",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/claude-code"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 Lens: /lens repo map lighting up edited files (1wy8h71); modules in plugins/claude-code/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "blackpaw-studio/claude-plugins",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/rich-statusline"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-05 rich-statusline mod drawn under the prompt (1wyjfm6); modules in plugins/rich-statusline, plugins/github-actions-pane"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Magazem/sticky-board",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-05 'Absolute VibeRot !!' sticky notes board plugin (1wy5fe1); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ofekbetzalel/claude-code-cli-rtl",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mod/rtl"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 'I Made an RTL Mod for Claude Code CLI' (1wygafu); modules in mod/rtl/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "20alexl/windvane",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 checkpoint/compact/resume plugin 'also a mod' with status segment + band (1wydteq); modules in hooks/hooks.json (+1)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "eighteyes/cactus",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/cactus-pane"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 non-blocking decision queue, 'mod available' (1wycq2q); modules in mods/cactus-pane/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ahmtsahin/bugdex",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 failing tests become monster battles (1wyb6eo); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ahmtsahin/deutsch-loop",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/nochmal"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 German flashcards during agent wait (1wy62zx); modules in mods/nochmal/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "zaahiral/claude-latex",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-05 LaTeX in Desktop Code tab; 'waiting for approval ... official Claude plugins marketplace' (1wy33wm); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "lucassimzq/claude-usage-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/claude 2026-10-05 tiny pet + usage above prompt, install via git clone + claude --plugin-dir (1wyakrn); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "effectustasi/kit",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #99691 2026-10-05 '[Desktop] Slash commands registered by mods via $.command.register show isn't a command here'; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ashishsk93/baton-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/baton"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit comment 2026-10-05 (thread 1wvivrx): baton /pass hands tasks between repo sessions, band tracks in-flight; modules in plugins/baton/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "uppinote20/claude-dashboard",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-06 'My Claude Code status line now runs as a mod, so I can finally see my limits in the desktop app' (1wzhpjb); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "416rehman/spinlings",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-06 creature game in mod band + pane, online duels (1wz7j1z); modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "mishgoldenberg/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI+r/ClaudeCode 2026-10-06 guardrails + 10 other mods built on 'Claude Code's new function hooks' (1wz2pwz); modules in plugins/activity etc. (6)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "plaxagoras/clawd-tales",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/claude 2026-10-06 + r/ClaudeCode 2026-10-08 pixel Clawd acting out tool calls in a band (1wz44bs); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "theonly1me/claude-code-mods",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-06 'Built 11 useful and fun Claude Code mods last weekend' (1wzd51u); modules in plugins/change-journal etc. (6)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "wag-me/vibeship",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-06 3D spaceship where sessions live (1wzg0zz); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "GeckoKing9/claude-code-copy-button",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-06 Ctrl+click to copy code blocks (1wzdwsu); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "fixter-dev/flappy-code",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-06 'Flappy Code: play Flappy Bird while Claude does your job' (1wz68xe); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "NovusEdge/glowup-oxide",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/claude 2026-10-06 glowup post links it (theme pack 'red oxide and ink on bone'); API check: no plugin.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Bobby-cell-commits/named-subagents-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI/r/ClaudeCode 2026-10-07 themed subagent names + pane (1wzr3se); modules in hooks/hooks.json (+3)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "MK27MK/loadout",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-07 loadout: toggle every harness element with profiles in a pane (1x06i7l); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ElirazKed/claude-code-pr-watch",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-07 PR tracking mod (1wzy44k); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Davron2004/slash-coverage",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-07 which files each agent has in context (1wzi6m4); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "chopsiiev-web/note-page",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #100202 2026-10-07 '[FEATURE] Let a plugin (mod) bring the desktop Browser pane on screen'; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "madjagstudios/grounded-engineering",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-08 'now a Claude Code mod' /grounded pane (1x16e2o); modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "floheissler/cc-file-explorer",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-08 /tree file tree mod 'the new plugin type that can draw inside Claude Code' (1x11bkn); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "T0mSIlver/starbridge",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mod"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-08 phone answers fed back via a Claude Code mod (1x0qxy2); modules in mod/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "st0nebridge/conPACT",
+  "conf": "confirmed-mod",
+  "paths": [
+   "src/mod"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-08 'In Claude Code 2.1.284+ it ships as a mod' (1x0omjh); modules in src/mod/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "zexion7873/usage-band",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-6.json: cc issues #100540/#100536/#101065 (2026-10-08..10) on Svg/band bugs; modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "plezuz/claude-plugins",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/desktop-statusline"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit comment 2026-10-08 (thread 1x04oq4): cache-left and limits mod for desktop; modules in plugins/desktop-statusline/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Pro-Sharp/ado-pr-claude-plugin",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/ado-pr"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-09 Azure DevOps PR bar above the prompt (1x1wg9o); modules in plugins/ado-pr/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "bekir1184/agent-crew",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-09 subagents as pixel critters above the prompt (1x1rci2); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "PopFlamingo/vibe-gambit",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-09 'I made a mod to play on Lichess' (1x182en); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "HMarzban/claude-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/nextcost"
+  ],
+  "ev": [
+   "sweep-6.json: cc issue #100756 2026-10-09 'Mods: let a Button show an icon (an Svg)'; modules in plugins/nextcost/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "tommy5dollar/effort-router",
+  "conf": "confirmed-mod",
+  "paths": [
+   "effort-router"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit comment 2026-10-09 (thread 1x04oq4): sets main/subagent effort levels; modules in effort-router/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "legostin/wirepane",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-10 /proxy local HTTPS proxy with requests in a pane (1x2kw69); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "yugal1107/ui-themes",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-10 'Make a plugin for better claude CLI UI' (themes) (1x2f4o1); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "AndreaChiacchia/claude-hopper",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-10 switch accounts mid-session (1x2asls); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "hari90/claude_orchestra",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-11 'I made Claude Code play sounds while it works' (1x3lcqd); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "A-rdit/session-guardian",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugin"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-11 warns before cache goes cold, desktop focus (1x3cn7j); modules in plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "NateCC0902/NeonCoat",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-11 reply-media/reply-markdown mods drawing mermaid, formulas, video inline (1x3bwmi); modules in mods/reply-markdown (+5)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ArgonQQ/sipp",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-11 water-tracking line above the prompt with buttons (1x31wfd); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "dot-agi/arrester",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issues #101377-#101386 2026-10-11 (Mods API feature requests) link it; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "dot-agi/downrange",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #101387 2026-10-11 links it; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "dot-agi/high-command",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #101387 2026-10-11 links it; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "dot-agi/sandbox-tuner",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #101383 2026-10-11 links it; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "dave-net-positive/Claude_Code_PII_Redactor",
+  "conf": "confirmed-mod",
+  "paths": [
+   "pii-guard"
+  ],
+  "ev": [
+   "sweep-6.json: cc issue #101258 2026-10-11: org plugin sync strips plugin.json types; mod at tree/v1.4.0; modules in pii-guard/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "DragosMocrii/proc-stats",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Show HN 2026-10-11 (50047385) task manager for Claude Code sessions, author 'wanted to experiment with Code Mods'; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "madjagstudios/podium",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI/r/ClaudeCode 2026-10-12 dispatches work to Codex/Gemini, tracks in a pane (1x46596); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "janzd/claude-translate-output",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-12 language-learning mod, translation in side panel (1x4aaiw); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "2Steaks/skills",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/learning-gate"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-12 learning-guardrails skill 'with an optional mod' (1x3zf84); modules in plugins/learning-gate/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "CosminBd/claude-git-file-tree",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-12 git + file view pane mod (1x3y7r3); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "whisperers26/ccstatusline-desktop",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mod"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-12 'ccstatusline desktop: your status line in the Claude Code Desktop...' (1x3rkj8); modules in mod/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "peeratop02/attention-sounds",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-13 sound when Claude needs you; install /plugin install attention-sounds --marketplace peeratop02/... (1x50xme); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "algonormative/subagents-plus",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-13 live subagent tree, timeline, band (1x50f3c); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "devdotfast/whiteboard",
+  "conf": "confirmed-mod",
+  "paths": [
+   "diffr"
+  ],
+  "ev": [
+   "sweep-6.json: HN comment 2026-10-13 (50076983): diffr 'available as a TUI, a client-side-only website, and as a Claude Code mod'; modules in diffr/packages/claude-code/plugin/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "pro-vi/cc-stretch",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-15 (score 1343) stretchtext mod cutting replies 83% (1x688sx); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ThomasAlbin/code-command-center",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mod/deck-bridge"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-14 Stream Deck plugin; quota keys need 'a tiny Claude Code mod' (1x5n1ur); modules in mod/deck-bridge/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "cga-management/claude-decisions",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-14 'Missed decisions mod' pane (1x5x798); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "candygoogy/notary",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-14 undo one file from an earlier turn (1x5hd9w); modules in plugins/changes (+1)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Monte9/claude-memory-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "view-memory"
+  ],
+  "ev": [
+   "sweep-6.json: cc issue #102219 2026-10-14 'Let mods add a row to the desktop Session Rail'; modules in view-memory/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ivanpajon/dotclaude",
+  "conf": "confirmed-mod",
+  "paths": [
+   "mods/workflow-monitor"
+  ],
+  "ev": [
+   "sweep-6.json: cc issues #102215/#102007 2026-10-14; modules in mods/workflow-monitor/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ioctlLR/composer-meter",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #101920 2026-10-14 Mods API timestamps request; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Ryan-LT/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeAI 2026-10-15 limits band above the prompt (1x6al0c); modules in idle-compact (+2)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "snoo88071/dev-deck-mod",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-15 stops Claude spawning duplicate processes (1x6luj8); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "pkkid/claude-aitools",
+  "conf": "confirmed-mod",
+  "paths": [
+   "plugins/aitools"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-15 author 'heavily leveraging' Claude Mods (1x686c0); modules in plugins/aitools/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "bassemustafa/watchducks",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode/r/ClaudeAI 2026-10-16 /flock sidebar for delegated agents 'using function hooks' (1x7a4pk); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "a-pavithraa/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-16 'My first Claude Code Mod' (1x7gmuy); modules in plugins/hindsight (+3)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "tozmoz/sparkmine",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-16 idle clicker game mod, desktop Code tab + terminal (1x7fuyp); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "oztrkemree/mochi",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-16 Mochi clay companion above the prompt (1x7esp2); modules in examples/mochi-deploy-cheer (+1)"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "victor-falcon/claude-autoresearch",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-16 autoresearch port as a plugin (1x7d1z4); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "diazgonza17/usage-pace",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issue #102846 2026-10-16 links it; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "razorback16/cc-intelligent-ui",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-17 (score 110) Typst-rendered answers, tables, LaTeX, diagrams (1x8iupr); HN comment 2026-10-18; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "mebessusn/reel-time-plugin",
+  "conf": "possible",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-17 fishing game; post says one hooks module hooks/register.tsx with prompt.submit/turn.complete (1x8hhyx); repo 404 on 2026-10-20"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "LippInc/catnap",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode + r/ClaudeAI 2026-10-18 compaction at clean breaks (1x95lff); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "aaraujo666/claude-mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "session-gauges"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-18 restores old desktop context/background-task display (1x9drtl); modules in session-gauges/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "edwin-sal/usage-ring",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-18 'A minimal Claude Mod to show your usage' (1x92f0i); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "ahmtsahin/claude-env-tabs",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-18 Projects pane pinning projects in desktop Code tab (1x910a1); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "seanjohnson-dev/review-layers",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-18 layered code review mod gating git push (1x8y6x0); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "michielwittkampf/decision-bar",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: cc issues #103281-#103429 2026-10-18/19; install /plugin install decision-bar --marketplace michielwittkampf/decision-bar; modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "karanb192/time-blame",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-19 time split under each answer, needs 2.1.302+ (1x9lbac); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "agryu-in/swarm-autopsy-claude-mod",
+  "conf": "confirmed-mod",
+  "paths": [
+   "swarm-autopsy"
+  ],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-20 'Made a Claude Code mod that shows what your subagents are actually doing' (1xaom11); modules in swarm-autopsy/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "Shakibuzzaman3104/claude-hydra",
+  "conf": "confirmed-mod",
+  "paths": [],
+  "ev": [
+   "sweep-6.json: Reddit r/ClaudeCode 2026-10-20 'I measured 87,000 of my Claude Code API calls...' (1xak96j); modules in hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ },
+ {
+  "repo": "davekiss/mods",
+  "conf": "confirmed-mod",
+  "paths": [
+   "leaks"
+  ],
+  "ev": [
+   "sweep-6.json: Linked in Reddit r/ClaudeCode 2026-10-20 (1xak96j); modules in leaks/hooks/hooks.json"
+  ],
+  "srcs": [
+   "sweep-6.json"
+  ]
+ }
+]

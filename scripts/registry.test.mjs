@@ -8,8 +8,8 @@ import { buildRegistry, withGeneratedAt, toJson } from './lib/registry.mjs'
 import { collect } from './build-registry.mjs'
 import { checkEntry } from './lib/entry.mjs'
 import { checkFiles } from './validate.mjs'
-import { cloneSpecFromMarketplaceSource } from './analyze.mjs'
-import { reposToEnrich, sortKeys } from './enrich.mjs'
+import { cloneSpecFromMarketplaceSource, cleanPin, safeLog } from './analyze.mjs'
+import { reposToEnrich, sortKeys, maintainerLogins, nextMaintainerIds } from './enrich.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -126,6 +126,31 @@ test('analyze maps marketplace entry sources to clone specs', () => {
   assert.deepEqual(cloneSpecFromMarketplaceSource({ source: 'git-subdir', url: 'a/b', path: 'm/x' }, 'o/m'), { url: 'https://github.com/a/b.git', ref: undefined, sha: undefined, path: 'm/x' })
   assert.equal(cloneSpecFromMarketplaceSource({ source: 'npm', package: 'x' }, 'o/m'), null)
   assert.throws(() => cloneSpecFromMarketplaceSource('./../../etc', 'o/m'), /unsafe path/)
+})
+
+test('analyze keeps git options out of argv and workflow commands out of the log', () => {
+  const sha = 'c'.repeat(40)
+  assert.deepEqual(cleanPin({ ref: 'v1.2', sha }), { ref: 'v1.2', sha })
+  assert.deepEqual(cleanPin({ ref: '--upload-pack=touch /tmp/x', sha: '--recurse-submodules' }), { ref: undefined, sha: undefined })
+  assert.equal(cloneSpecFromMarketplaceSource({ source: 'github', repo: 'a/b', ref: '--upload-pack=x' }, 'o/m'), null)
+  assert.equal(cloneSpecFromMarketplaceSource({ source: 'url', url: 'https://x/y.git', sha: 'HEAD' }, 'o/m'), null)
+  assert.deepEqual(cloneSpecFromMarketplaceSource({ source: 'url', url: 'https://x/y.git', ref: 'main' }, 'o/m'), { url: 'https://x/y.git', ref: 'main', sha: undefined, path: '' })
+  assert.equal(safeLog('ok\n::add-mask::secret\n  ::error file=x::boom'), 'ok\n: :add-mask::secret\n  : :error file=x::boom')
+})
+
+test('maintainer ids are recorded once per login and never overwritten', async () => {
+  assert.deepEqual(maintainerLogins([{ maintainers: ['KROU4', 'alice'] }, { maintainers: ['Alice', 'bad login', 7] }, {}]), ['alice', 'krou4'])
+  const looked = []
+  const lookup = async login => {
+    looked.push(login)
+    if (login === 'gone') return null
+    if (login === 'boom') throw new Error('GitHub 500')
+    return { login: login.toUpperCase(), id: login.length }
+  }
+  const { ids, failures } = await nextMaintainerIds({ KROU4: 99, stale: 5 }, ['alice', 'boom', 'gone', 'krou4'], lookup)
+  assert.deepEqual(ids, { alice: 5, krou4: 99, stale: 5 })
+  assert.equal(failures, 1)
+  assert.deepEqual(looked, ['alice', 'boom', 'gone'])
 })
 
 test('enrich looks up source repos, marketplaces and the catalog repo', () => {

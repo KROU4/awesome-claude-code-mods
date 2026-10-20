@@ -1,0 +1,122 @@
+{
+  "ok": true,
+  "hooks": [
+    "engine.create",
+    "session.start",
+    "turn.start",
+    "turn.step",
+    "tool.call",
+    "classic.PermissionRequest",
+    "agent.spawn",
+    "turn.complete",
+    "session.compact",
+    "session.measure",
+    "session.end",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=Pane, requestId=glowup}",
+    "ui.scroll{component=Pane, requestId=glowup}",
+    "ui.render{component=Pane, requestId=?}",
+    "ui.close",
+    "ui.render{component=Pane, requestId=glowup-config}",
+    "ui.focus",
+    "ui.render{component=Spinner}",
+    "ui.render{component=UserMessage}",
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=ToolUse}",
+    "ui.render{component=ToolResult}",
+    "ui.render{component=CommandOutput}",
+    "command.run{command=glowup}",
+    "ui.message",
+    "prompt.submit"
+  ],
+  "calls": [
+    "$.agent.list",
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.list",
+    "$.fs.read",
+    "$.fs.stat",
+    "$.fs.write",
+    "$.glowup.divider",
+    "$.glowup.field",
+    "$.glowup.meter",
+    "$.http.fetch",
+    "$.model.complete",
+    "$.process.run",
+    "$.process.spawn",
+    "$.session.id",
+    "$.session.model",
+    "$.session.root",
+    "$.session.surfaces",
+    "$.session.usage",
+    "$.settings.read",
+    "$.state.get",
+    "$.state.set",
+    "$.store.delete",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.ask",
+    "$.ui.close",
+    "$.ui.copy",
+    "$.ui.focus",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.open"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PermissionRequest",
+      "hasCatch": false
+    },
+    {
+      "hook": "agent.spawn",
+      "hasCatch": false
+    },
+    {
+      "hook": "session.compact",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.scroll{component=Pane, requestId=glowup}",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.close",
+      "hasCatch": false
+    },
+    {
+      "hook": "ui.focus",
+      "hasCatch": false
+    },
+    {
+      "hook": "command.run{command=glowup}",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "glowup.band",
+    "glowup.haiku",
+    "glowup.hello",
+    "glowup.pane",
+    "glowup.pet",
+    "glowup.spinner"
+  ],
+  "errors": [],
+  "warnings": [
+    "./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete"
+  ],
+  "validatedWith": "2.1.302",
+  "truncated": true
+}

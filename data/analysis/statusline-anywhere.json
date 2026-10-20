@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.env.get",
+    "$.process.run",
+    "$.session.cwd",
+    "$.session.id",
+    "$.session.model",
+    "$.session.root",
+    "$.session.surfaces",
+    "$.session.usage",
+    "$.session.version",
+    "$.settings.read",
+    "$.ui.invalidate",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

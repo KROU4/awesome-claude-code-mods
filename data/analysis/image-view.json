@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.list",
+    "$.fs.read",
+    "$.process.run",
+    "$.prompt.read",
+    "$.session.id",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [
+    "image-view.images"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

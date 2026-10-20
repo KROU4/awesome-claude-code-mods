@@ -54,6 +54,49 @@
       }
     },
     {
+      "name": "command-buttons",
+      "source": {
+        "source": "github",
+        "repo": "Faridmurzone/command-buttons-claude-code",
+        "sha": "55235447c457995873e7015c22d651b97c951673"
+      },
+      "description": "Run and Copy buttons for each shell command in a reply, plus a hotkey band above the prompt.",
+      "author": {
+        "name": "Farid Murzone",
+        "url": "https://github.com/Faridmurzone"
+      },
+      "homepage": "https://github.com/Faridmurzone/command-buttons-claude-code",
+      "repository": "https://github.com/Faridmurzone/command-buttons-claude-code",
+      "license": "MIT",
+      "keywords": [
+        "shell",
+        "run",
+        "clipboard",
+        "buttons",
+        "hotkeys",
+        "band"
+      ],
+      "category": "productivity",
+      "metadata": {
+        "showroom": {
+          "title": "Command Buttons",
+          "tagline": "Run and Copy buttons for each shell command in a reply, plus a hotkey band above the prompt.",
+          "tagline_ru": "Кнопки Run и Copy для каждой команды оболочки в ответе и полоса горячих клавиш над полем ввода.",
+          "slots": [
+            "message",
+            "above-prompt",
+            "toast"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.273",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/command-buttons"
+        }
+      }
+    },
+    {
       "name": "context-gauge",
       "source": "./mods/context-gauge/plugin",
       "description": "See how full the context window is, right in the hint line under the prompt.",
@@ -126,6 +169,92 @@
           ],
           "requires": ">=2.1.299",
           "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/done-ping"
+        }
+      }
+    },
+    {
+      "name": "drawer",
+      "source": {
+        "source": "github",
+        "repo": "Sureffi/drawer",
+        "sha": "c8a1c48b02874d75d4726f2375d0d39376c76341"
+      },
+      "description": "```dot (Graphviz) and ```svg fences in a reply become pictures in place while the reply streams.",
+      "author": {
+        "name": "Sureffi",
+        "url": "https://github.com/Sureffi"
+      },
+      "homepage": "https://github.com/Sureffi/drawer",
+      "repository": "https://github.com/Sureffi/drawer",
+      "license": "MIT",
+      "keywords": [
+        "graphviz",
+        "diagrams",
+        "svg",
+        "terminal-images",
+        "kitty",
+        "ghostty"
+      ],
+      "category": "interface",
+      "metadata": {
+        "showroom": {
+          "title": "Drawer",
+          "tagline": "```dot (Graphviz) and ```svg fences in a reply become pictures in place while the reply streams.",
+          "tagline_ru": "Блоки ```dot (Graphviz) и ```svg в ответе превращаются в картинки прямо на месте, пока ответ печатается.",
+          "slots": [
+            "message",
+            "background"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop",
+            "vscode"
+          ],
+          "requires": ">=2.1.287",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/drawer"
+        }
+      }
+    },
+    {
+      "name": "fables",
+      "source": {
+        "source": "github",
+        "repo": "henrik-thevibe/Claude-Fables",
+        "sha": "6d0ce80575a92f8f6c8c2493c2bf20413e255622"
+      },
+      "description": "A live cartoon above the prompt: Sonnet or Haiku retells tool calls and replies as captioned scenes.",
+      "author": {
+        "name": "henrik the vibe",
+        "url": "https://github.com/henrik-thevibe"
+      },
+      "homepage": "https://github.com/henrik-thevibe/Claude-Fables",
+      "repository": "https://github.com/henrik-thevibe/Claude-Fables",
+      "license": "MIT",
+      "keywords": [
+        "cartoon",
+        "animation",
+        "pixel-art",
+        "band",
+        "styles",
+        "command"
+      ],
+      "category": "fun",
+      "metadata": {
+        "showroom": {
+          "title": "Fables",
+          "tagline": "A live cartoon above the prompt: Sonnet or Haiku retells tool calls and replies as captioned scenes.",
+          "tagline_ru": "Мультфильм над полем ввода: Sonnet или Haiku пересказывает вызовы инструментов и реплики сценами с подписями.",
+          "slots": [
+            "above-prompt",
+            "background",
+            "command"
+          ],
+          "surfaces": [
+            "terminal",
+            "desktop"
+          ],
+          "requires": ">=2.1.287",
+          "site": "https://krou4.github.io/claude-code-mod-showroom/#/mod/fables"
         }
       }
     },
@@ -437,7 +566,7 @@
         "showroom": {
           "title": "Token Weather",
           "tagline": "Context fill as weather above the prompt: icon, percent, tokens and a chart of the last 12 turns.",
-          "tagline_ru": "Заполненность контекста в виде прогноза погоды над полем ввода: значок, процент, токены и график 12 ходов.",
+          "tagline_ru": "Заполненность контекста как погода над полем ввода: значок, процент, токены и график последних 12 ходов.",
           "slots": [
             "above-prompt"
           ],

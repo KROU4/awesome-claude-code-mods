@@ -1,0 +1,68 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start{isInteractive=true|false}",
+    "session.end{reason=clear}",
+    "command.run{command=subagents}",
+    "tool.call{tool=mcp__subagents-plus__status}",
+    "ui.close{id=subagents}",
+    "agent.spawn",
+    "tool.call",
+    "session.append",
+    "turn.start",
+    "turn.complete",
+    "turn.step",
+    "ui.render{component=Pane, requestId=subagents}",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=ToolUse, props has {tool=Workflow}}",
+    "ui.render{component=ToolUse, props has {tool=Agent}}"
+  ],
+  "calls": [
+    "$.agent.list",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.fs.read",
+    "$.session.messages",
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.tool.register",
+    "$.ui.close",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.scroll"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call{tool=mcp__subagents-plus__status}",
+      "hasCatch": true
+    },
+    {
+      "hook": "ui.close{id=subagents}",
+      "hasCatch": true
+    },
+    {
+      "hook": "agent.spawn",
+      "hasCatch": true
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": true
+    },
+    {
+      "hook": "session.append",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "subagents-plus.byToolUse",
+    "subagents-plus.lanes",
+    "subagents-plus.session",
+    "subagents-plus.tick",
+    "subagents-plus.ui"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

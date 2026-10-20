@@ -1,0 +1,98 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "session.end",
+    "ui.copy",
+    "prompt.autocomplete",
+    "command.run{command=iui}",
+    "config.set{key=theme}",
+    "prompt.compose",
+    "turn.step",
+    "turn.abort",
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=ToolResult}",
+    "ui.render{component=Pane, requestId=iui-page}",
+    "ui.render{component=UserMessage}",
+    "turn.start",
+    "ui.render{component=ToolUse, props has {tool=ExitPlanMode}}",
+    "ui.render{component=ToolResult, props has {tool=ExitPlanMode}}",
+    "ui.render{component=AskUserQuestion}",
+    "tool.call{tool=Write|Edit}",
+    "tool.call{tool=ExitPlanMode}",
+    "classic.PermissionRequest"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.command.run",
+    "$.config.list",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.list",
+    "$.fs.read",
+    "$.fs.stat",
+    "$.fs.write",
+    "$.http.fetch",
+    "$.process.run",
+    "$.process.spawn",
+    "$.prompt.submit",
+    "$.session.cwd",
+    "$.session.id",
+    "$.session.root",
+    "$.session.surfaces",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.turn.abort",
+    "$.ui.ask",
+    "$.ui.close",
+    "$.ui.copy",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.selection",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "ui.copy",
+      "hasCatch": true
+    },
+    {
+      "hook": "command.run{command=iui}",
+      "hasCatch": false
+    },
+    {
+      "hook": "config.set{key=theme}",
+      "hasCatch": true
+    },
+    {
+      "hook": "turn.abort",
+      "hasCatch": true
+    },
+    {
+      "hook": "tool.call{tool=Write|Edit}",
+      "hasCatch": true
+    },
+    {
+      "hook": "tool.call{tool=ExitPlanMode}",
+      "hasCatch": true
+    },
+    {
+      "hook": "classic.PermissionRequest",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "cc-intelligent-ui.done",
+    "cc-intelligent-ui.isOn"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

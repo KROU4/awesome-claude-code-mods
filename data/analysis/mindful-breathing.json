@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=breathe}",
+    "turn.start",
+    "turn.complete",
+    "ui.message",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=Spinner}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.now",
+    "$.command.register",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [
+    "plugins[0].name: Plugin name \"mindful-claude\" reads as one of Anthropic's own. Name it for what it does.",
+    "name: Plugin name \"mindful-claude\" reads as one of Anthropic's own. Name it for what it does. If this is one of Anthropic's own plugins, validate the marketplace that lists it."
+  ],
+  "validatedWith": "2.1.302"
+}

@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=calm}",
+    "config.set{key=theme}",
+    "turn.step",
+    "ui.render{component=Spinner}",
+    "ui.render{component=ToolUse}",
+    "ui.render{component=ToolResult}",
+    "ui.render{component=ToolGroup}",
+    "ui.render{component=UserMessage}",
+    "ui.render{component=AssistantMessage}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.config.list",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.fs.stat",
+    "$.fs.write",
+    "$.session.id",
+    "$.session.messages",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.blit",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "command.run{command=calm}",
+      "hasCatch": false
+    },
+    {
+      "hook": "config.set{key=theme}",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

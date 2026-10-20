@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=clawd}",
+    "prompt.submit",
+    "classic.PermissionRequest",
+    "tool.call",
+    "session.compact",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PermissionRequest",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "session.compact",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "clawd-pet.base",
+    "clawd-pet.demoStart",
+    "clawd-pet.reaction",
+    "clawd-pet.settings",
+    "clawd-pet.tick",
+    "clawd-pet.toolsToday"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

@@ -4,6 +4,11 @@
 // marketplace.json, so install ids read `<plugin>@<their marketplace>`) and the catalog repo itself
 // (stars only: its pushedAt moves with every sync and would loop the sync job).
 // Uses GITHUB_TOKEN when set. Failures keep the previous values.
+//
+// Also data/maintainers.json: { "<login lower case>": <numeric GitHub user id> } for every login in
+// any entry's `maintainers`, looked up the first time the catalog sees the login and never
+// overwritten afterwards. The automerge policy compares the PR author's id with it, so a login that
+// was renamed away and registered again by someone else does not inherit the entries.
 import { writeFileSync, existsSync, readFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -28,6 +33,50 @@ export function reposToEnrich(entries) {
 
 /** Sorted-keys object so the file diff stays small. */
 export const sortKeys = obj => Object.fromEntries(Object.keys(obj).sort().map(k => [k, obj[k]]))
+
+const LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/
+
+/** Every maintainer login of the catalog, lower case, sorted, valid GitHub logins only. */
+export function maintainerLogins(entries) {
+  const logins = new Set()
+  for (const entry of entries) {
+    for (const m of Array.isArray(entry?.maintainers) ? entry.maintainers : []) {
+      if (typeof m === 'string' && LOGIN.test(m)) logins.add(m.toLowerCase())
+    }
+  }
+  return [...logins].sort()
+}
+
+/**
+ * The next data/maintainers.json: `previous` plus ids for logins it lacks. `lookup(login)` resolves
+ * a login to { login, id } or null. Existing ids are never replaced or dropped.
+ */
+export async function nextMaintainerIds(previous, logins, lookup) {
+  const next = {}
+  for (const [login, id] of Object.entries(previous || {})) if (Number.isInteger(id)) next[login.toLowerCase()] = id
+  let failures = 0
+  for (const login of logins) {
+    if (login in next) continue
+    try {
+      const user = await lookup(login)
+      if (user && Number.isInteger(user.id) && String(user.login).toLowerCase() === login) next[login] = user.id
+    } catch (err) {
+      failures++
+      console.log(`! user ${login}: ${err.message}`)
+    }
+  }
+  return { ids: sortKeys(next), failures }
+}
+
+async function enrichMaintainers(entries) {
+  const file = join(root, 'data', 'maintainers.json')
+  const previous = readJsonIfExists(file, {})
+  const { ids, failures } = await nextMaintainerIds(previous, maintainerLogins(entries), login => gh(`/users/${login}`, { allow404: true }))
+  const text = toJson(ids)
+  const before = existsSync(file) ? readFileSync(file, 'utf8') : null
+  if (before !== text) writeFileSync(file, text)
+  console.log(`${Object.keys(ids).length} maintainer ids${failures ? `, ${failures} lookups failed` : ''}${before === text ? ', nothing changed' : ', data/maintainers.json updated'}`)
+}
 
 async function main() {
   const file = join(root, 'data', 'github.json')
@@ -65,6 +114,7 @@ async function main() {
     writeFileSync(file, text)
   }
   console.log(`${Object.keys(next).length} repos${failures ? `, ${failures} lookups failed` : ''}${before === text ? ', nothing changed' : ', data/github.json updated'}`)
+  await enrichMaintainers(entries)
 }
 
 if (isMain(import.meta.url)) await main()

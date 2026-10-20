@@ -42,8 +42,7 @@
     "$.session.model",
     "$.session.root",
     "$.session.usage",
-    "$.state.get",
-    "$.state… [+133 chars]"
+    "$.state.get"
   ],
   "gating": [
     {
@@ -119,16 +118,16 @@
     "effortless.swampHiddenAt",
     "effortless.swamped",
     "effortless.switched",
-    "effortless.switch… [+49 chars]",
-    "effortless.updateCard",
-    "effortle… [+38 chars]",
-    "… [+23 chars]"
+    "effortless.updateCard"
   ],
   "errors": [
     "modules../register.tsx: effortless.updateCheck is not declared: the manifest's types contract must name it in interface PluginState { effortless: { updateCheck: ... } }"
   ],
   "warnings": [
-    "author: No author information provided. Consider adding author details for plugin attribution"
+    "author: No author information provided. Consider adding author details for plugin attribution",
+    "./types/index.d.ts: notes truncated by claude plugin validate; calls/hooks may be incomplete",
+    "./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete"
   ],
-  "validatedWith": "2.1.302"
+  "validatedWith": "2.1.302",
+  "truncated": true
 }

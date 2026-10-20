@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.start",
+    "command.run{command=verb}",
+    "command.run{command=verbs}",
+    "ui.render{component=CommandOutput, props has {command=verb}}",
+    "ui.render{component=CommandOutput, props has {command=verbs}}",
+    "ui.render{component=Spinner}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.env.get",
+    "$.fs.exists",
+    "$.fs.read",
+    "$.http.fetch",
+    "$.process.run",
+    "$.settings.read",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.blit",
+    "$.ui.invalidate",
+    "$.ui.log",
+    "$.ui.resolve",
+    "$.ui.toast"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

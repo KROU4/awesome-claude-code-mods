@@ -8,6 +8,9 @@ import { MAX_FILE_BYTES } from './constants.mjs'
 
 const compiled = new Map()
 
+/** A git branch or tag name that cannot be read as a command-line option. */
+export const SAFE_REF = /^(?!-)[A-Za-z0-9._/-]{1,200}$/
+
 /** The compiled schema/mod.schema.json validator of a checkout (cached per root). */
 export function schemaValidator(root) {
   if (!compiled.has(root)) {
@@ -127,6 +130,16 @@ export function checkEntry(root, name, entry) {
   // In our marketplace a warning would fail `claude plugin validate --strict`, so it is an error.
   if (inOurMarketplace(entry)) errors.push(...names.warnings)
   else warnings.push(...names.warnings)
+
+  const s = entry.source || {}
+  // `ref` reaches git's argv when CI clones the source: a branch or tag name, never an option.
+  if ((s.type === 'github' || s.type === 'git') && s.ref !== undefined && !SAFE_REF.test(String(s.ref))) {
+    errors.push('/source/ref must be a branch or tag name: letters, digits, ".", "_", "/" and "-", not starting with "-"')
+  }
+  if (entry.verified === true) {
+    if ((s.type === 'github' || s.type === 'git') && !s.sha) errors.push('verified: true needs source.sha (the commit that was read)')
+    if (s.type === 'marketplace') warnings.push('verified: true on a marketplace source cannot be pinned to a commit')
+  }
 
   const modDir = join(root, 'mods', name)
   const pluginDir = join(modDir, 'plugin')

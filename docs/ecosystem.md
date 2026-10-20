@@ -1,0 +1,350 @@
+# Mod ecosystem: raw index
+
+> **Кратко по-русски.** Это сырой список репозиториев с модами, собранный скриптом из данных исследования 2026-10-20. Он не проверен и не входит в каталог. Описания взяты из заметок исследования и могут быть неточными. Как правильно добавить мод в каталог, написано ниже и в [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+This is a **raw index from the research of 2026-10-20**. A script generated it from the research file `candidates.json` (338 repositories); nobody typed it by hand. It is **not verified** and it is **not the catalog**: a line here says nothing about whether a mod works, is safe or is still maintained.
+
+- **Confirmed mods** (239): during the research, a GitHub API check of the repository tree found at least one `hooks/hooks.json` with a `"modules"` key, which is what makes a plugin a mod. It was a one-time check; the code may have changed since.
+- **Likely mods** (84): named as mods by another catalog (mostly the karanb192 scan data) or by a post, and not re-checked by us.
+- 15 entries marked "possible" are left out: repositories that returned 404, had no plugin layout, or turned out to be prototypes, npm packages or theme packs.
+- A description is a short paraphrase of the research notes and can be wrong. Many repositories hold several mods; the line describes the repository.
+
+The full report is in [research.md](research.md) (Russian) and [research.en.md](research.en.md) (English).
+
+## How to add a mod to the catalog properly
+
+Do not copy a line from this page into the catalog. A catalog entry is one file, `mods/<name>/mod.json`, sent as a pull request (see [CONTRIBUTING.en.md](../CONTRIBUTING.en.md)):
+
+1. Check that the repository really holds a mod: a `hooks/hooks.json` with a `modules` key, a license, and a README that says what it does.
+2. Run `claude plugin validate <path>` and read its `hooks:` and `calls:` lines; state them honestly in `capabilities`.
+3. Point `source` at the author's marketplace or repository (pin a commit when you can) and describe in `preview` only what the code really draws.
+4. Run `npm ci && npm run check`, then open the pull request. The author is the best maintainer of an entry: if you are not the author, say so in the pull request.
+
+## Confirmed mods
+
+- [20alexl/windvane](https://github.com/20alexl/windvane) — Checkpoint/compact/resume plugin 'also a mod' with status segment + band
+- [2Steaks/skills](https://github.com/2Steaks/skills) — Learning-guardrails skill 'with an optional mod'
+- [3dnow/claude-mods](https://github.com/3dnow/claude-mods) — Rate-limit pace band + /weektoken pane (desktop + terminal) (in Anthropic's directory as `weektoken`)
+- [416rehman/spinlings](https://github.com/416rehman/spinlings) — Creature game in mod band + pane, online duels
+- [a-pavithraa/claude-mods](https://github.com/a-pavithraa/claude-mods) — My first Claude Code Mod
+- [A-rdit/session-guardian](https://github.com/A-rdit/session-guardian) — Warns before cache goes cold, desktop focus
+- [aaraujo666/claude-mods](https://github.com/aaraujo666/claude-mods) — Restores old desktop context/background-task display
+- [agentic-workbench/agent-quick-menu](https://github.com/agentic-workbench/agent-quick-menu) — Clickable /menu pane of plugin commands, 'mods API that arrived in 2.1.287'
+- [agryu-in/swarm-autopsy-claude-mod](https://github.com/agryu-in/swarm-autopsy-claude-mod) — Made a Claude Code mod that shows what your subagents are actually doing
+- [ahmtsahin/bugdex](https://github.com/ahmtsahin/bugdex) — Failing tests become monster battles
+- [ahmtsahin/claude-env-tabs](https://github.com/ahmtsahin/claude-env-tabs) — Projects pane pinning projects in desktop Code tab
+- [ahmtsahin/deutsch-loop](https://github.com/ahmtsahin/deutsch-loop) — German flashcards during agent wait
+- [alexgreensh/token-optimizer](https://github.com/alexgreensh/token-optimizer) — Collection with 5 hooks.json files, some classic (mod in `desktop/token-optimizer-desktop`)
+- [algonormative/subagents-plus](https://github.com/algonormative/subagents-plus) — Live subagent tree, timeline, band
+- [AlmogBaku/ContextSaver](https://github.com/AlmogBaku/ContextSaver) — Detects 'session creep' and steers
+- [anantraghunath/claude-code-usage-quota-mod](https://github.com/anantraghunath/claude-code-usage-quota-mod) — 5h/weekly usage + context above prompt, desktop + terminal
+- [AndreaChiacchia/claude-hopper](https://github.com/AndreaChiacchia/claude-hopper) — Switch accounts mid-session
+- [Anerco/effort-cycle-mod](https://github.com/Anerco/effort-cycle-mod) — Effort level with Alt+E, footer meter
+- [anthropics/claude-code](https://github.com/anthropics/claude-code) — Official built-in mod sources; 4 built-in mods: agents-md, diff, sec-default, telemetry
+- [anthropics/claude-code-playground](https://github.com/anthropics/claude-code-playground) — Official sample mods linked from docs overview and claude.dev blog
+- [anthropics/claude-plugins-community](https://github.com/anthropics/claude-plugins-community) — Listed on claude.dev/mods/ 'From the community' as 'Next steps by Thariq Shihipar'
+- [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) — The only mod among the repo's 7 hooks.json files (mod in `plugins/code-modernization`)
+- [ArgonQQ/sipp](https://github.com/ArgonQQ/sipp) — Water-tracking line above the prompt with buttons
+- [Arjun0014/project-sentinel](https://github.com/Arjun0014/project-sentinel) — Project Sentinel: a Control Room Mod for long Claude Code runs
+- [artemnovichkov/xcode-mods](https://github.com/artemnovichkov/xcode-mods) — Made Xcode work inside Claude Code
+- [arturogarrido/claudinho](https://github.com/arturogarrido/claudinho) — No description in the research notes; hooks module in `packages/plugin/hooks/hooks.json`
+- [Arunjay4213/claude-mods](https://github.com/Arunjay4213/claude-mods) — Context-lens, quota-meter, token-ledger built on function hooks
+- [ashishsk93/baton-mods](https://github.com/ashishsk93/baton-mods) — Baton /pass hands tasks between repo sessions, band tracks in-flight
+- [augiefra/claude-mods](https://github.com/augiefra/claude-mods) — Token-weather-usage band (in Anthropic's directory as `token-weather-usage`)
+- [bassemustafa/watchducks](https://github.com/bassemustafa/watchducks) — /flock sidebar for delegated agents 'using function hooks'
+- [BayramAnnakov/claude-reflect](https://github.com/BayramAnnakov/claude-reflect) — No description in the research notes; hooks module in `mod/hooks/hooks.json`
+- [bekir1184/agent-crew](https://github.com/bekir1184/agent-crew) — Subagents as pixel critters above the prompt
+- [Birium/gamemods](https://github.com/Birium/gamemods) — 2048 and tic-tac-toe while waiting
+- [blackpaw-studio/claude-plugins](https://github.com/blackpaw-studio/claude-plugins) — Rich-statusline mod drawn under the prompt
+- [blendbunjaku/optimaizr](https://github.com/blendbunjaku/optimaizr) — Claude Code mods dropped yesterday, so I made optimAIzr live inside Claude Code
+- [bn-l/claude-autoresearch-mod](https://github.com/bn-l/claude-autoresearch-mod) — Pi-autoresearch ported … using the new mods API
+- [Bobby-cell-commits/named-subagents-mod](https://github.com/Bobby-cell-commits/named-subagents-mod) — Themed subagent names + pane
+- [bruw/workflow-conductor](https://github.com/bruw/workflow-conductor) — Building complex Claude Mod UIs - Workflow Conductor
+- [cablate/ctx-handoff-mod](https://github.com/cablate/ctx-handoff-mod) — Draws AbovePrompt
+- [candygoogy/notary](https://github.com/candygoogy/notary) — Undo one file from an earlier turn
+- [centminmod/claude-plugins](https://github.com/centminmod/claude-plugins) — A Desktop Code-tab status band (in Anthropic's directory as `desktop-statusline`)
+- [cga-management/claude-decisions](https://github.com/cga-management/claude-decisions) — Missed decisions mod
+- [CharlesSS07/claude-model-spinners](https://github.com/CharlesSS07/claude-model-spinners) — Spinner verbs per model; effort level … not exposed by the mods api
+- [Charlie0113-T/claude-agent-flow](https://github.com/Charlie0113-T/claude-agent-flow) — The agent flow pane: /flow toggles a pane drawing the session's subagent tree…
+- [chopsiiev-web/note-page](https://github.com/chopsiiev-web/note-page) — Linked from anthropics/claude-code issue #100202
+- [CircularBlox/Clarity](https://github.com/CircularBlox/Clarity) — Restyles the transcript
+- [comertial/claude-pending-changes](https://github.com/comertial/claude-pending-changes) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [CosminBd/claude-git-file-tree](https://github.com/CosminBd/claude-git-file-tree) — Git + file view pane mod
+- [cvuijst/cc-function-hooks-poc](https://github.com/cvuijst/cc-function-hooks-poc) — Early-access PoC on v2.1.261 behind CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1
+- [Danovich/turntype](https://github.com/Danovich/turntype) — Typing test while Claude thinks
+- [darrell-tw/darrelltw-mods](https://github.com/darrell-tw/darrelltw-mods) — Stock ticker band above prompt
+- [data-goblin/claude-code-filetree](https://github.com/data-goblin/claude-code-filetree) — File tree with git status
+- [dave-net-positive/Claude_Code_PII_Redactor](https://github.com/dave-net-positive/Claude_Code_PII_Redactor) — Linked from anthropics/claude-code issue #101258 (mod in `pii-guard`)
+- [davekiss/mods](https://github.com/davekiss/mods) — No description in the research notes; hooks module in `leaks/hooks/hooks.json`
+- [Davron2004/slash-coverage](https://github.com/Davron2004/slash-coverage) — Which files each agent has in context
+- [delexw/miod](https://github.com/delexw/miod) — A Claude Code mod plays MIDI music when it works
+- [devdotfast/whiteboard](https://github.com/devdotfast/whiteboard) — Diffr 'available as a TUI, a client-side-only website, and as a Claude Code mod'
+- [dgokcin/claude-pokemon-mod](https://github.com/dgokcin/claude-pokemon-mod) — Pixel Pokemon above the prompt
+- [diazgonza17/usage-pace](https://github.com/diazgonza17/usage-pace) — Linked from anthropics/claude-code issue #102846
+- [dominikmartn/leitstand](https://github.com/dominikmartn/leitstand) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [dot-agi/arrester](https://github.com/dot-agi/arrester) — Linked from anthropics/claude-code issue #101377
+- [dot-agi/downrange](https://github.com/dot-agi/downrange) — Linked from anthropics/claude-code issue #101387
+- [dot-agi/high-command](https://github.com/dot-agi/high-command) — Linked from anthropics/claude-code issue #101387
+- [dot-agi/sandbox-tuner](https://github.com/dot-agi/sandbox-tuner) — Linked from anthropics/claude-code issue #101383
+- [DragosMocrii/proc-stats](https://github.com/DragosMocrii/proc-stats) — Task manager for Claude Code sessions, author 'wanted to experiment with Code Mods'
+- [drkokorev/context-diet](https://github.com/drkokorev/context-diet) — Trims tool output; a mod (Claude Code's new JS hook API) that rewrites tool results
+- [DrumAndCode/terminal-gym](https://github.com/DrumAndCode/terminal-gym) — Pushups between prompts, toasts, prompt-blocking strict mode
+- [edwin-sal/usage-ring](https://github.com/edwin-sal/usage-ring) — A minimal Claude Mod to show your usage
+- [effectustasi/kit](https://github.com/effectustasi/kit) — Linked from anthropics/claude-code issue #99691
+- [eighteyes/cactus](https://github.com/eighteyes/cactus) — Non-blocking decision queue, 'mod available'
+- [ElirazKed/claude-code-pr-watch](https://github.com/ElirazKed/claude-code-pr-watch) — PR tracking mod
+- [Entwining/mods](https://github.com/Entwining/mods) — tool.check permission mod
+- [escapeboy/claude-code-kit](https://github.com/escapeboy/claude-code-kit) — 13 mods
+- [ExtReMLapin/tqdm-claude](https://github.com/ExtReMLapin/tqdm-claude) — Progress bars for background tasks
+- [faridmurzone/command-buttons-claude-code](https://github.com/faridmurzone/command-buttons-claude-code) — Run/Copy buttons on commands
+- [FazalAAli/pi-agent-for-claude](https://github.com/FazalAAli/pi-agent-for-claude) — Runs pi agent as native subagent via turn.step
+- [fixter-dev/flappy-code](https://github.com/fixter-dev/flappy-code) — Flappy Code: play Flappy Bird while Claude does your job
+- [fixter-dev/session-pings](https://github.com/fixter-dev/session-pings) — I rebuilt my Claude Code Mac notifications as a mod
+- [floheissler/cc-file-explorer](https://github.com/floheissler/cc-file-explorer) — /tree file tree mod 'the new plugin type that can draw inside Claude Code'
+- [franciscocarloserra/claude-code-multiharness-delegation](https://github.com/franciscocarloserra/claude-code-multiharness-delegation) — Multi-harness delegation Mod for Claude Code
+- [furqan-khan07/pixelband](https://github.com/furqan-khan07/pixelband) — Animated pixel-art band above prompt
+- [GeckoKing9/claude-code-copy-button](https://github.com/GeckoKing9/claude-code-copy-button) — Ctrl+click to copy code blocks
+- [genail/genail-mods](https://github.com/genail/genail-mods) — Mod displaying progress of long-running tasks
+- [gfb-47/spotify-claude-code-mod](https://github.com/gfb-47/spotify-claude-code-mod) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [greenpolo/cc-multi-cli-plugin](https://github.com/greenpolo/cc-multi-cli-plugin) — Use any subscription in Claude Code! (using the new Claude Mods feature)
+- [griches/claude-xcode-mod](https://github.com/griches/claude-xcode-mod) — Mod giving Claude xcodebuild errors instead of truncated log
+- [GruperTal/claude-pin-message](https://github.com/GruperTal/claude-pin-message) — /pin a response to a side pane
+- [gwittebolle/claude-carbon](https://github.com/gwittebolle/claude-carbon) — Listed in anthropics/claude-plugins-community as co2-tracker
+- [halluton/Mindful-Claude](https://github.com/halluton/Mindful-Claude) — Breathing band above prompt + Spinner rewrite
+- [hamzafer/claude-code-mods](https://github.com/hamzafer/claude-code-mods) — 25 mods; own marketplace plus the npm installer claude-code-mods
+- [hari90/claude_orchestra](https://github.com/hari90/claude_orchestra) — I made Claude Code play sounds while it works
+- [hashswingingslasher/model-hint](https://github.com/hashswingingslasher/model-hint) — Model suggestion band; works in VS Code chat panel from 2.1.301 per author
+- [hedingerm/image-preview](https://github.com/hedingerm/image-preview) — Image preview via kitty graphics
+- [hellosverre/claude-skins](https://github.com/hellosverre/claude-skins) — Transcript skins, /skin; theme and skin mod with 15 themes
+- [hellosverre/mod-store](https://github.com/hellosverre/mod-store) — In-client 'app store for Claude Code mods' (/mods), ~2,700 mods from mods.aidojo.si
+- [henrik-thevibe/Claude-Fables](https://github.com/henrik-thevibe/Claude-Fables) — Animated cartoon of Claude's work above the prompt
+- [hex/claude-council](https://github.com/hex/claude-council) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [HeyCubit/effortless](https://github.com/HeyCubit/effortless) — Haiku/Jev picks effort per prompt, bar above prompt
+- [HMarzban/claude-mod](https://github.com/HMarzban/claude-mod) — Linked from anthropics/claude-code issue #100756 (mod in `plugins/nextcost`)
+- [iamumeransari/claude-show-your-work](https://github.com/iamumeransari/claude-show-your-work) — Shows images and videos in the terminal (Ghostty and kitty)
+- [ioctlLR/composer-meter](https://github.com/ioctlLR/composer-meter) — Linked from anthropics/claude-code issue #101920
+- [IT-BAER/claude-forge](https://github.com/IT-BAER/claude-forge) — VS Code-style file explorer pane
+- [ivanpajon/dotclaude](https://github.com/ivanpajon/dotclaude) — Linked from anthropics/claude-code issue #102215 (mod in `mods/workflow-monitor`)
+- [jamubc/toolbox](https://github.com/jamubc/toolbox) — /orbit traces session connections
+- [janzd/claude-translate-output](https://github.com/janzd/claude-translate-output) — Language-learning mod, translation in side panel
+- [jarrodwatts/claude-image-view](https://github.com/jarrodwatts/claude-image-view) — Thumbnails of pasted images above prompt (kitty graphics)
+- [jheroorehj/prompt-polish](https://github.com/jheroorehj/prompt-polish) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [JohnnyVizz/claude-kit](https://github.com/JohnnyVizz/claude-kit) — No description in the research notes; hooks module in `plugins/savvy-progress/hooks/hooks.json`
+- [jonpojonpo/cc-crayon](https://github.com/jonpojonpo/cc-crayon) — Crayon 'a mod/ plugin that redraws every reply in color' (in Anthropic's directory as `crayon`)
+- [jrlprost/claude-code-mods](https://github.com/jrlprost/claude-code-mods) — Collection with 42 hooks.json files (mod in `plugins/jr-awake`)
+- [karanb192/cache-tax](https://github.com/karanb192/cache-tax) — Keeps prompt cache warm, /keepwarm
+- [karanb192/claude-code-mods](https://github.com/karanb192/claude-code-mods) — 2 mods (fable-pin, image-peek), plus a mod-builder skill
+- [karanb192/time-blame](https://github.com/karanb192/time-blame) — Time split under each answer, needs 2.1.302
+- [KilimcininKorOglu/claude-code-mods](https://github.com/KilimcininKorOglu/claude-code-mods) — Shared pane API $.sidebar.set
+- [Krs7N/context-meter](https://github.com/Krs7N/context-meter) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [kunchenguid/compact-adviser](https://github.com/kunchenguid/compact-adviser) — No description in the research notes; hooks module in `packages/claude-mod/hooks/hooks.json`
+- [kunchenguid/firstmate](https://github.com/kunchenguid/firstmate) — No description in the research notes; hooks module in `.claude/mods/firstmate-calm/hooks/hooks.json`
+- [KyongSik-Yoon/cc-desktop-mod](https://github.com/KyongSik-Yoon/cc-desktop-mod) — Desk-look (terminal styled like the Desktop app)
+- [legostin/wirepane](https://github.com/legostin/wirepane) — /proxy local HTTPS proxy with requests in a pane
+- [lemomo-ai/lemo-mod](https://github.com/lemomo-ai/lemo-mod) — 21 styles … terminal and the desktop app
+- [LippInc/catnap](https://github.com/LippInc/catnap) — Compaction at clean breaks
+- [lperezmo/topic-filter-mod](https://github.com/lperezmo/topic-filter-mod) — Placeholder-swaps topics in what the model reads
+- [lucassimzq/claude-usage-mod](https://github.com/lucassimzq/claude-usage-mod) — Tiny pet + usage above prompt
+- [lucenity0/claude-familiar](https://github.com/lucenity0/claude-familiar) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [LudovicLaloux/agent-crew](https://github.com/LudovicLaloux/agent-crew) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [maddiedreese/cc-storytime](https://github.com/maddiedreese/cc-storytime) — 260K-param TinyStories transformer running inside the hooks module
+- [madisonrickert/jev-permission-gate](https://github.com/madisonrickert/jev-permission-gate) — Replaces auto-mode classifier with Jev
+- [madjagstudios/grounded-engineering](https://github.com/madjagstudios/grounded-engineering) — /grounded pane
+- [madjagstudios/podium](https://github.com/madjagstudios/podium) — Dispatches work to Codex/Gemini, tracks in a pane
+- [Magazem/sticky-board](https://github.com/Magazem/sticky-board) — Sticky notes board plugin
+- [Malkiz/claude-reply-comments](https://github.com/Malkiz/claude-reply-comments) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [matthlh/claude-cat-mod](https://github.com/matthlh/claude-cat-mod) — Themes + claude cat companion
+- [matthlh/claude-mods](https://github.com/matthlh/claude-mods) — No description in the research notes; hooks module in `plugins/pixel-cat/hooks/hooks.json`
+- [Max-Levitskiy/skills](https://github.com/Max-Levitskiy/skills) — Agent-config&Claude Code mods
+- [meganemura/pull-request-pane](https://github.com/meganemura/pull-request-pane) — GitHub PR/issue list pane with Client
+- [michalstrnadel/AgentBar](https://github.com/michalstrnadel/AgentBar) — A macOS menu-bar app paired with a mod
+- [michielwittkampf/decision-bar](https://github.com/michielwittkampf/decision-bar) — Linked from anthropics/claude-code issue #103281
+- [midudev/after-for-claude-code](https://github.com/midudev/after-for-claude-code) — 7 mods
+- [midudev/better-claude](https://github.com/midudev/better-claude) — Collection with 7 hooks.json files (mod in `plugins/after`)
+- [mishgoldenberg/claude-mods](https://github.com/mishgoldenberg/claude-mods) — Guardrails + 10 other mods built on 'Claude Code's new function hooks'
+- [MithunWijayasiri/ctxline-claude](https://github.com/MithunWijayasiri/ctxline-claude) — Status bar for the Claude desktop app
+- [MK27MK/loadout](https://github.com/MK27MK/loadout) — Loadout: toggle every harness element with profiles in a pane
+- [modmyclaude/claude-code-mods](https://github.com/modmyclaude/claude-code-mods) — Collection with 27 hooks.json files (mod in `mods/ant-farm`)
+- [MohammedSaud404/rtl-terminal](https://github.com/MohammedSaud404/rtl-terminal) — RTL layout
+- [mohi-devhub/claude-games](https://github.com/mohi-devhub/claude-games) — I made arcade games that play above your Claude Code prompt while it works
+- [Monte9/claude-memory-mods](https://github.com/Monte9/claude-memory-mods) — Linked from anthropics/claude-code issue #102219 (mod in `view-memory`)
+- [mpolatcan/flowpane](https://github.com/mpolatcan/flowpane) — Replaces Workflow progress list with live graph pane
+- [NahumLitvin/prismantis](https://github.com/NahumLitvin/prismantis) — Themeable replies (tables, Mermaid, charts)
+- [NateCC0902/NeonCoat](https://github.com/NateCC0902/NeonCoat) — Reply-media/reply-markdown mods drawing mermaid, formulas, video inline
+- [nateherkai/claude-code-mods](https://github.com/nateherkai/claude-code-mods) — 4 mods (cache-keeper, collision-guard, goal-meter, recording-mode)
+- [NathanAB/statusline-anywhere](https://github.com/NathanAB/statusline-anywhere) — Listed on statuslin.es as a mod that draws only in the desktop app
+- [neteye-platform/cc-split-diff-view](https://github.com/neteye-platform/cc-split-diff-view) — Draws side-by-side Edit and Write diffs
+- [NMenzel/claude-devtools-mod](https://github.com/NMenzel/claude-devtools-mod) — I just build Claude Dev Tools
+- [NovusEdge/glowup](https://github.com/NovusEdge/glowup) — Glowup: a mod that makes Claude Code look nicer
+- [nvr0x5/claude-deck](https://github.com/nvr0x5/claude-deck) — Deck: a cockpit view of the session
+- [nvsravank/multirepo-diff-mod](https://github.com/nvsravank/multirepo-diff-mod) — Multi-repo worktree-aware diff viewer (in Anthropic's directory as `multi-repo-diff`)
+- [oborchers/claude-gh-status](https://github.com/oborchers/claude-gh-status) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [ofekbetzalel/claude-code-cli-rtl](https://github.com/ofekbetzalel/claude-code-cli-rtl) — I Made an RTL Mod for Claude Code CLI
+- [oikon48/prompt-rail](https://github.com/oikon48/prompt-rail) — Strip of past prompts
+- [olliewagner/verbs](https://github.com/olliewagner/verbs) — Pixel-art loop per spinner verb (188 verbs)
+- [OneWave-AI/claude-code-mods](https://github.com/OneWave-AI/claude-code-mods) — Ten open-source mods
+- [oztrkemree/mochi](https://github.com/oztrkemree/mochi) — Mochi clay companion above the prompt
+- [Paradigm-Study/claude-share](https://github.com/Paradigm-Study/claude-share) — No description in the research notes; hooks module in `plugin/hooks/hooks.json`
+- [paragpandyareal/lazy-panda-panel](https://github.com/paragpandyareal/lazy-panda-panel) — Word/Excel/PDF review pane
+- [partalemre/MODZ](https://github.com/partalemre/MODZ) — Collection with 20 hooks.json files (mod in `mods/blast-radius`)
+- [patheonsceo/claudinator](https://github.com/patheonsceo/claudinator) — Restyles 10 render sites (in Anthropic's directory as `claudinator`)
+- [peeratop02/attention-sounds](https://github.com/peeratop02/attention-sounds) — Sound when Claude needs you
+- [petekp/inbox](https://github.com/petekp/inbox) — Draws AbovePrompt and Pane
+- [PeterTing/claude-mod](https://github.com/PeterTing/claude-mod) — No description in the research notes; hooks module in `mods/crew/hooks/hooks.json`
+- [pkkid/claude-aitools](https://github.com/pkkid/claude-aitools) — Author 'heavily leveraging' Claude Mods
+- [plaxagoras/clawd-tales](https://github.com/plaxagoras/clawd-tales) — Pixel Clawd acting out tool calls in a band
+- [pleaseai/shunt](https://github.com/pleaseai/shunt) — No description in the research notes; hooks module in `plugins/shunt/hooks/hooks.json`
+- [plezuz/claude-plugins](https://github.com/plezuz/claude-plugins) — Cache-left and limits mod for desktop
+- [PopFlamingo/vibe-gambit](https://github.com/PopFlamingo/vibe-gambit) — I made a mod to play on Lichess
+- [potto007/ottomation](https://github.com/potto007/ottomation) — Live-vibe full-duplex voice mod
+- [Pro-Sharp/ado-pr-claude-plugin](https://github.com/Pro-Sharp/ado-pr-claude-plugin) — Azure DevOps PR bar above the prompt
+- [pro-vi/cc-stretch](https://github.com/pro-vi/cc-stretch) — Stretchtext mod cutting replies 83%
+- [PromptSign/promptsign-plugin](https://github.com/PromptSign/promptsign-plugin) — Signature checks on skills/CLAUDE.md
+- [ray-amjad/awesome-claude-code-function-hooks](https://github.com/ray-amjad/awesome-claude-code-function-hooks) — 10 mods; Ray Amjad's Claude Code mods: panes, bands, prompt guards…
+- [ray-amjad/claude-code-mods](https://github.com/ray-amjad/claude-code-mods) — Created 2026-09-05 as 'awesome-claude-code-function-hooks' (karanb192 README: 'The first list, from before the rename')
+- [razorback16/cc-intelligent-ui](https://github.com/razorback16/cc-intelligent-ui) — Typst-rendered answers, tables, LaTeX, diagrams
+- [rbartoli/agent-usage-guard](https://github.com/rbartoli/agent-usage-guard) — Limits agents across sessions
+- [reporails/arcade](https://github.com/reporails/arcade) — Claude Mods – Minesweeper
+- [repowise-dev/repowise](https://github.com/repowise-dev/repowise) — Lens: /lens repo map lighting up edited files
+- [revelationnow/claude-doc-review](https://github.com/revelationnow/claude-doc-review) — Review md docs inside the TUI
+- [Revono/clawd-pet](https://github.com/Revono/clawd-pet) — No description in the research notes; hooks module in `plugins/clawd-pet/hooks/hooks.json` (in Anthropic's directory as `clawd-pet`)
+- [rezzminator/sub-agent-compact](https://github.com/rezzminator/sub-agent-compact) — Per-subagent compaction policy mod
+- [rjwittams/katzensteg](https://github.com/rjwittams/katzensteg) — Embeds SDL programs via kitty graphics
+- [robdmac/flow](https://github.com/robdmac/flow) — Flow-scenes plugin
+- [ruvnet/ruflo](https://github.com/ruvnet/ruflo) — karanb192 data lists 45 ruflo mods
+- [Ryan-LT/claude-mods](https://github.com/Ryan-LT/claude-mods) — Limits band above the prompt
+- [SavaSoftworks/BitFrost](https://github.com/SavaSoftworks/BitFrost) — No description in the research notes; hooks module in `plugins/bitfrost/hooks/hooks.json`
+- [scasella/claude-flightdeck](https://github.com/scasella/claude-flightdeck) — Live agent dashboard pane
+- [seanjohnson-dev/review-layers](https://github.com/seanjohnson-dev/review-layers) — Layered code review mod gating git push
+- [seosy218-ops/claude-quickbar](https://github.com/seosy218-ops/claude-quickbar) — Quick-command row targeting Desktop Code tab
+- [sezaakgun/cc-arcade](https://github.com/sezaakgun/cc-arcade) — Tetris, and seven other games, above the prompt
+- [Shakibuzzaman3104/claude-hydra](https://github.com/Shakibuzzaman3104/claude-hydra) — I measured 87,000 of my Claude Code API calls…
+- [smukh/roll-credits](https://github.com/smukh/roll-credits) — I made Claude Mod roll movie credits after a coding session
+- [snoo88071/dev-deck-mod](https://github.com/snoo88071/dev-deck-mod) — Stops Claude spawning duplicate processes
+- [st0nebridge/conPACT](https://github.com/st0nebridge/conPACT) — In Claude Code 2.1.284+ it ships as a mod
+- [Storybloq/storybloq](https://github.com/Storybloq/storybloq) — In 'Introducing Claude Mods' thread: 'I added a mod for storybloq!'
+- [sureffi/drawer](https://github.com/sureffi/drawer) — Graphviz dot fences drawn in transcript
+- [svd/agent-skills](https://github.com/svd/agent-skills) — Context/usage guard; author reports taking it through the plugin directory
+- [swicken/cat-spinner](https://github.com/swicken/cat-spinner) — Cat-spinner, a mod that replaces your spinner with a kitty
+- [szarkans/gamble-with-claude-code](https://github.com/szarkans/gamble-with-claude-code) — You can gamble your claude tokens now!
+- [T0mSIlver/starbridge](https://github.com/T0mSIlver/starbridge) — Phone answers fed back via a Claude Code mod
+- [theonly1me/claude-code-mods](https://github.com/theonly1me/claude-code-mods) — Built 11 useful and fun Claude Code mods last weekend
+- [ThomasAlbin/code-command-center](https://github.com/ThomasAlbin/code-command-center) — Stream Deck plugin; quota keys need 'a tiny Claude Code mod'
+- [Tickloop/claude-mods](https://github.com/Tickloop/claude-mods) — Restyles AssistantMessage and tool rows
+- [tommy5dollar/effort-router](https://github.com/tommy5dollar/effort-router) — Sets main/subagent effort levels
+- [tozmoz/sparkmine](https://github.com/tozmoz/sparkmine) — Idle clicker game mod, desktop Code tab + terminal
+- [tre-dev/claude-env](https://github.com/tre-dev/claude-env) — Manage env vars inside CC
+- [Troepster/overalls](https://github.com/Troepster/overalls) — What I learned building a Claude Code mod: a status band above the prompt
+- [trytofly94/handoff-compact](https://github.com/trytofly94/handoff-compact) — Handoff + /clear on autocompact
+- [tzafrir/human-in-the-loop](https://github.com/tzafrir/human-in-the-loop) — Tasks pane via registered tools (in Anthropic's directory as `human-in-the-loop`)
+- [tzafrir/whats-agent-doing](https://github.com/tzafrir/whats-agent-doing) — Claude Code UI mod that explains each step (in Anthropic's directory as `what-s-agent-doing`)
+- [uppinote20/claude-dashboard](https://github.com/uppinote20/claude-dashboard) — My Claude Code status line now runs as a mod, so I can finally see my limits in the desktop app
+- [uppinote20/claude-pets](https://github.com/uppinote20/claude-pets) — Pixel pet in a pane
+- [utpalJayNadiger/terminal-steps](https://github.com/utpalJayNadiger/terminal-steps) — Daily step goal from Apple Health
+- [VibeMage/claude-mod-pet](https://github.com/VibeMage/claude-mod-pet) — Pixipet (in Anthropic's directory as `pixipet`)
+- [vicmpen/mokkan](https://github.com/vicmpen/mokkan) — Reminders pane across sessions
+- [victor-falcon/claude-autoresearch](https://github.com/victor-falcon/claude-autoresearch) — Autoresearch port as a plugin
+- [viik2k/clawdify](https://github.com/viik2k/clawdify) — Want the CLI to look how YOU want it?
+- [vulcanshen/ccdrawu](https://github.com/vulcanshen/ccdrawu) — A sidebar plus status line
+- [wag-me/vibeship](https://github.com/wag-me/vibeship) — 3D spaceship where sessions live
+- [wasd96040501/taskcut](https://github.com/wasd96040501/taskcut) — Linked from anthropics/claude-code issue #96214 (mod in `eval/judge`)
+- [whisperers26/ccstatusline-desktop](https://github.com/whisperers26/ccstatusline-desktop) — Ccstatusline desktop: your status line in the Claude Code Desktop…
+- [whyashthakker/awesome-claude-code-mods](https://github.com/whyashthakker/awesome-claude-code-mods) — 70 original mods + marketplace; screenshots are test-kit render trees painted in a browser preview
+- [xuanji86/claude-agentpane](https://github.com/xuanji86/claude-agentpane) — Docked subagent pane
+- [xuanji86/claude-statuspane](https://github.com/xuanji86/claude-statuspane) — Status card in AbovePrompt with progress API
+- [xyc/plushie](https://github.com/xyc/plushie) — I made a fluffy Claude Code mod
+- [xzwache/claude-time-machine](https://github.com/xzwache/claude-time-machine) — Undo covering Bash, needs 2.1.287
+- [YeonwooSung/my-claude-code-mods](https://github.com/YeonwooSung/my-claude-code-mods) — 17 plugins; marketplace my-claude-code-mods (17 entries), 63 test files
+- [yugal1107/ui-themes](https://github.com/yugal1107/ui-themes) — Make a plugin for better claude CLI UI
+- [yuntaengtaeng/snitch](https://github.com/yuntaengtaeng/snitch) — No description in the research notes; hooks module in `hooks/hooks.json`
+- [zaahiral/claude-latex](https://github.com/zaahiral/claude-latex) — LaTeX in Desktop Code tab; waiting for approval … official Claude plugins marketplace
+- [zenbu-labs/terminal-browser](https://github.com/zenbu-labs/terminal-browser) — Browser pane beside the conversation
+- [zexion7873/usage-band](https://github.com/zexion7873/usage-band) — Linked from anthropics/claude-code issue #100540
+- [zycck/claude-mods](https://github.com/zycck/claude-mods) — Plan progress bars above prompt
+
+## Likely mods (unconfirmed)
+
+- [achiurizo/dreeft](https://github.com/achiurizo/dreeft) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `dreeft`)
+- [aerovato/operator-memory](https://github.com/aerovato/operator-memory) — Listed as a mod in the karanb192 scan data
+- [Agulhas-Labs/claude-plugins](https://github.com/Agulhas-Labs/claude-plugins) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `cache-guard`)
+- [ahl-gram/IssueDial](https://github.com/ahl-gram/IssueDial) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `issue-dial`)
+- [Akash001uts/claude-mods](https://github.com/Akash001uts/claude-mods) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `context-bar-akash001uts`)
+- [AlexandreMartinezOlmos/claude-code-leakstop](https://github.com/AlexandreMartinezOlmos/claude-code-leakstop) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `leakstop`)
+- [alexknowshtml/claude-auto-handoff](https://github.com/alexknowshtml/claude-auto-handoff) — Draws AbovePrompt and UserMessage
+- [archcore-ai/archcore](https://github.com/archcore-ai/archcore) — Draws AbovePrompt
+- [atomashevic/claude-latex-math](https://github.com/atomashevic/claude-latex-math) — Draws AssistantMessage (in Anthropic's directory as `latex-math`)
+- [augbastos/afkswitch](https://github.com/augbastos/afkswitch) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `afkswitch`)
+- [avelikiy/great_cto](https://github.com/avelikiy/great_cto) — Draws Pane
+- [Avinash-jetwani/jevmem](https://github.com/Avinash-jetwani/jevmem) — Draws Pane
+- [aycandv/claude-usage-meter](https://github.com/aycandv/claude-usage-meter) — Findmods README 'Weekly Usage and Spend Board'
+- [barisdemirhan/claude-dino](https://github.com/barisdemirhan/claude-dino) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `dino`)
+- [baselane-sh/mods](https://github.com/baselane-sh/mods) — 199 mod records; these are the sources for the baselane-sh/mods-catalog marketplace (git-subdir pinned by sha)
+- [bennewton999/claude-code-mods](https://github.com/bennewton999/claude-code-mods) — 5 mods (context-gauge, session-fleet…)
+- [caliber-ai-org/ai-setup](https://github.com/caliber-ai-org/ai-setup) — Listed as a mod in the karanb192 scan data
+- [chipfighter/context-attachment-manager](https://github.com/chipfighter/context-attachment-manager) — Draws Pane
+- [chrishan17/claude-mod-context-window](https://github.com/chrishan17/claude-mod-context-window) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `context-window`)
+- [cyberinecore/cc-snippets](https://github.com/cyberinecore/cc-snippets) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `cyberine-snippets`)
+- [davidar/claude-idle-compact](https://github.com/davidar/claude-idle-compact) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `idle-compact`)
+- [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) — aitmpl.com article (Sep 4, updated Sep 15) lists catalog function-hook entries (security/secret-redactor, ui/tool-timing-badge, …)
+- [DJPalefaceSD/rostech-mods](https://github.com/DJPalefaceSD/rostech-mods) — 19 mods; at least 6 (bumper-sticker, gas-gauge, odometer, speedometer, sticky-note, tach) are in the Anthropic directory
+- [eel-brah/burn-baby-burn](https://github.com/eel-brah/burn-baby-burn) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `burn-baby-burn`)
+- [ersinkoc/claude-mods](https://github.com/ersinkoc/claude-mods) — 49 mod records (almanac, aurora…); hashgraph-online list calls it 'KOZMOS - 48 live, visual function-hook mods'
+- [galElmalah/claude-mods](https://github.com/galElmalah/claude-mods) — Claude-mermaid + claude-queue
+- [GarvitNangru/claude-code-mods](https://github.com/GarvitNangru/claude-code-mods) — 3 mods (agent-monitor, readable-layout, firelight); theme plus Windows Terminal look
+- [GhalebDweikat/winnow](https://github.com/GhalebDweikat/winnow) — Listed as a mod in the karanb192 scan data
+- [gmorubio/claude-mods](https://github.com/gmorubio/claude-mods) — Pet and turn-usage, both in the Anthropic directory
+- [hex/claude-sessions](https://github.com/hex/claude-sessions) — 3 mods (cs, cs-mermaid, cs-update)
+- [heyJordanParker/cmod](https://github.com/heyJordanParker/cmod) — Claude Mod Manager; npm @cmodjs/cli and @cmodjs/core 3.1.0
+- [Hula-Hoop-AI/supermods](https://github.com/Hula-Hoop-AI/supermods) — 9 mods (ci, debugger, focus-timer, garden…)
+- [ishuagrawal/clawdhouse](https://github.com/ishuagrawal/clawdhouse) — Pixel Clawd character
+- [ItsRohith-A/holdtime](https://github.com/ItsRohith-A/holdtime) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `holdtime`)
+- [jarrodwatts/intermission](https://github.com/jarrodwatts/intermission) — Draws AbovePrompt, Pane and Spinner
+- [JayDoubleu/aside](https://github.com/JayDoubleu/aside) — Read-only side chat pane
+- [jh3ady/claude-time-check](https://github.com/jh3ady/claude-time-check) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `time-check`)
+- [Junhan2/oh-my-fable](https://github.com/Junhan2/oh-my-fable) — Draws AssistantMessage
+- [juulsverne/claude-code-mods](https://github.com/juulsverne/claude-code-mods) — Listed on claudemods.chat (cost-git band)
+- [karan-79/airquote](https://github.com/karan-79/airquote) — Draws PromptHint (in Anthropic's directory as `airquote`)
+- [kesavreddy-commits/repoviewer](https://github.com/kesavreddy-commits/repoviewer) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `repoviewer`)
+- [lenadweb/claude-code-plugins](https://github.com/lenadweb/claude-code-plugins) — Lenadweb-image-preview and lenadweb-usage-meter, both in the Anthropic directory
+- [lossless-claude/lcm](https://github.com/lossless-claude/lcm) — Listed on claudemods.chat (tools)
+- [lperezmo/cache-caffeine](https://github.com/lperezmo/cache-caffeine) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `cache-caffeine`)
+- [manueldelgado/manueldelgado-mods](https://github.com/manueldelgado/manueldelgado-mods) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `exit-memory-update`)
+- [MDmubarak786/claude-mods](https://github.com/MDmubarak786/claude-mods) — 27 records (modhub)
+- [meganemura/buffer-pane](https://github.com/meganemura/buffer-pane) — Listed on claudemods.chat (panes)
+- [mhgar/claude-simple-progress-bars](https://github.com/mhgar/claude-simple-progress-bars) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `simple-progress-bars`)
+- [mrfoxes/rainbow-cat](https://github.com/mrfoxes/rainbow-cat) — Draws Spinner and TurnDuration (in Anthropic's directory as `rainbow-cat`)
+- [mukiwu/muki-ai-plugins](https://github.com/mukiwu/muki-ai-plugins) — 2 mods (hyday-pet, world-news)
+- [nison/claude-invaders](https://github.com/nison/claude-invaders) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `invaders`)
+- [nogu66/md-prompt](https://github.com/nogu66/md-prompt) — Renders Markdown in the prompt box (in Anthropic's directory as `md-prompt`)
+- [notque/vexjoy-agent](https://github.com/notque/vexjoy-agent) — Listed as a mod in the karanb192 scan data
+- [oliverow/catch-me-up](https://github.com/oliverow/catch-me-up) — Draws Pane (in Anthropic's directory as `catch-me-up`)
+- [pepperonas/usage-bars](https://github.com/pepperonas/usage-bars) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `usage-bars`)
+- [Plagemes/claude-mods](https://github.com/Plagemes/claude-mods) — 219 mod records; marketplace claude-mods (219 entries) including an in-terminal mod-store mod
+- [r3dbars/transcripted](https://github.com/r3dbars/transcripted) — Draws AbovePrompt and Pane
+- [RomanHotsiy/claude-mods](https://github.com/RomanHotsiy/claude-mods) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `loc-split`)
+- [rse/ase](https://github.com/rse/ase) — Draws AssistantMessage
+- [rudrasecure/claude-mods](https://github.com/rudrasecure/claude-mods) — Diff pane with comments back to Claude
+- [ruihe774/cc-micro-compaction](https://github.com/ruihe774/cc-micro-compaction) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `micro-compaction`)
+- [ruvnet/RuView](https://github.com/ruvnet/RuView) — Draws Pane
+- [ryx2/slopshopper](https://github.com/ryx2/slopshopper) — 6 mods (slop-detector, burn-rate, secret-shield, tripwire, receipts, test-pulse)
+- [SaM-runtime/claude-console](https://github.com/SaM-runtime/claude-console) — Draws AbovePrompt and Pane
+- [sd0xdev/sd0x-harness](https://github.com/sd0xdev/sd0x-harness) — Draws AbovePrompt
+- [SeongGwangJu/k-mods](https://github.com/SeongGwangJu/k-mods) — 8 own mods (blast-radius-ko, ctx-strip…) plus a 68-entry marketplace
+- [sezaakgun/cc-pr-tracker](https://github.com/sezaakgun/cc-pr-tracker) — Listed on the karanbansal.in scoreboard and ccmodshub
+- [shengyy/ccoverhead](https://github.com/shengyy/ccoverhead) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `ccoverhead`)
+- [shimo4228/harness-scope](https://github.com/shimo4228/harness-scope) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `harness-scope`)
+- [Singh-AP/awesome-claude-mods](https://github.com/Singh-AP/awesome-claude-mods) — 22 records (files-touched, git-pulse…)
+- [skysf/skylu-mods](https://github.com/skysf/skylu-mods) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `context-bar-skysf`)
+- [StanislavKozachenko/claude-mods](https://github.com/StanislavKozachenko/claude-mods) — 6 mods (ci-budget, context-bar, guard, notify…)
+- [superfly/sprites-claude-plugin](https://github.com/superfly/sprites-claude-plugin) — Draws Pane (in Anthropic's directory as `sprites`)
+- [tamaratran/fast-jev-compaction](https://github.com/tamaratran/fast-jev-compaction) — Listed as a mod in the karanb192 scan data
+- [tobinsouth/fortune-cookie-mod](https://github.com/tobinsouth/fortune-cookie-mod) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `fortune-cookie`)
+- [tomstagl/cctop](https://github.com/tomstagl/cctop) — Btop-style live dashboard … in a pane
+- [transkatgirl/vibeclaude](https://github.com/transkatgirl/vibeclaude) — Draws Pane and ToolProgress
+- [udaaff/claude-code-session-monitor](https://github.com/udaaff/claude-code-session-monitor) — Side panel with cards for every open session
+- [vinta/hal-9000](https://github.com/vinta/hal-9000) — 2 mods (hal-grammar-check, hal-session-auto-rename), draws AbovePrompt
+- [VKirill/claude-lane-stack](https://github.com/VKirill/claude-lane-stack) — Listed as a mod in the karanb192 scan data
+- [WQGGSEY/cache-ttl-timer](https://github.com/WQGGSEY/cache-ttl-timer) — Draws SessionMode (in Anthropic's directory as `cache-ttl-timer`)
+- [yash-gadodia/claude-mods](https://github.com/yash-gadodia/claude-mods) — Thirteen mods that guard scope, verify deploys, gate merges…
+- [yonatangross/orchestkit](https://github.com/yonatangross/orchestkit) — 5 mods (lesson-cards, memory-lens…), draws AbovePrompt and ToolUse
+- [YuvalSarel1/claude-plugins](https://github.com/YuvalSarel1/claude-plugins) — Listed as a mod in the karanb192 scan data (in Anthropic's directory as `fleet`)

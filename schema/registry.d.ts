@@ -143,6 +143,12 @@ export type Analysis = {
   warnings: string[]
   /** Claude Code version that produced the report. */
   validatedWith: string
+  /**
+   * Present (true) when `claude plugin validate` cut a long note (about 1000 characters, ending in
+   * "… [+N chars]"): the incomplete item is dropped, so `hooks`, `calls` and `stateKeys` may miss
+   * entries, and the analysis only raises declared capabilities.
+   */
+  truncated?: true
 }
 
 /** Minimum Claude Code versions behind each install path (official CHANGELOG). */
@@ -238,12 +244,20 @@ export type RegistryMod = ModEntry & {
   editUrl: string
   /** media `src` resolved to absolute URLs */
   media?: { type: 'image' | 'video'; src: string; alt: string; surface?: Surface }[]
-  /** Capabilities: declared ones, overridden by what the analysis proves. */
+  /**
+   * Capabilities: declared ones, overridden field by field by what the analysis shows the code is
+   * in a position to do, not what it intends: $.http.* → network, $.process.* → processes,
+   * $.fs.write* → filesystem "write", other $.fs.* → "read", $.model.* → model; a prompt.submit,
+   * prompt.compose or session.append hook → promptRewrite ("sees prompts and can change them"); a
+   * gating tool.call, tool.check or classic.PreToolUse hook, except one that only matches the mod's
+   * own model tools (`mcp__<name>__…`) → blocksTools ("sees tool calls and can refuse them").
+   * When `analysis.truncated`, the analysis can only raise a declared flag, never lower it.
+   */
   capabilities: Capabilities
   analysis?: Analysis
   /** Present with `analysis`. */
   risk?: Risk
-  /** ISO dates from git history of the entry. */
+  /** ISO dates in UTC ("2026-10-20T15:03:58Z") from the git history of the entry. */
   addedAt?: string
   updatedAt?: string
   /** GitHub enrichment: stars of the source repo (the catalog repo for hosted ones); pushedAt for external repos only. */

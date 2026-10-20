@@ -9,7 +9,9 @@
 import { readdirSync, statSync, existsSync, appendFileSync } from 'node:fs'
 import { join, dirname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadEntries, listModNames, githubRepoOfUrl } from './lib/catalog.mjs'
+import {
+  loadEntries, listModNames, githubRepoOfUrl, readJsonIfExists, marketplaceNameClashes, marketplaceNamesFrom,
+} from './lib/catalog.mjs'
 import { checkEntry } from './lib/entry.mjs'
 import { findClaude, validatePlugin, testPlugin, changedFiles, isMain } from './lib/cli.mjs'
 import { gh, fileAt, rawFile, githubToken } from './lib/github.mjs'
@@ -77,11 +79,14 @@ async function sourceChecks(entry) {
   const errors = []
   const notes = []
   const s = entry.source || {}
-  const checkRepo = async (repo, ref, path) => {
+  // Our marketplace serves github/git sources as `<entry.name>@mod-showroom`, so the plugin's own
+  // name must be the entry's name (checkEntry checks the same for hosted mods).
+  const checkRepo = async (repo, ref, path, name) => {
     const info = await gh(`/repos/${repo}`, { allow404: true })
     if (!info) return errors.push(`GitHub repository ${repo} does not exist or is private`)
     const at = ref || info.default_branch
-    const hooksPath = `${path ? `${path.replace(/\/$/, '')}/` : ''}hooks/hooks.json`
+    const prefix = path ? `${path.replace(/\/$/, '')}/` : ''
+    const hooksPath = `${prefix}hooks/hooks.json`
     const text = await fileAt(repo, hooksPath, at)
     if (text === null) return errors.push(`${repo}@${at} has no ${hooksPath}`)
     try {
@@ -91,11 +96,21 @@ async function sourceChecks(entry) {
     } catch {
       errors.push(`${repo}/${hooksPath} is not valid JSON`)
     }
+    const manifestPath = `${prefix}.claude-plugin/plugin.json`
+    const pj = await fileAt(repo, manifestPath, at)
+    if (pj === null) return errors.push(`${repo}@${at} has no ${manifestPath}`)
+    let manifest
+    try {
+      manifest = JSON.parse(pj)
+    } catch {
+      return errors.push(`${repo}/${manifestPath} is not valid JSON`)
+    }
+    if (manifest?.name !== name) errors.push(`plugin.json name ${JSON.stringify(manifest?.name)} must equal "${name}" (${repo}/${manifestPath})`)
   }
-  if (s.type === 'github') await checkRepo(s.repo, s.sha || s.ref, s.path)
+  if (s.type === 'github') await checkRepo(s.repo, s.sha || s.ref, s.path, entry.name)
   else if (s.type === 'git') {
     const repo = githubRepoOfUrl(s.url)
-    if (repo) await checkRepo(repo, s.sha || s.ref, s.path)
+    if (repo) await checkRepo(repo, s.sha || s.ref, s.path, entry.name)
     else notes.push('not a GitHub URL: the source is checked when the sync job clones it')
   } else if (s.type === 'marketplace') {
     const text = await rawFile(s.marketplace, 'HEAD', '.claude-plugin/marketplace.json')
@@ -112,6 +127,16 @@ async function sourceChecks(entry) {
     }
   }
   return { errors, notes }
+}
+
+/**
+ * Warnings for `marketplace` sources from different repositories that share a marketplace name
+ * (from data/github.json): Claude Code keys added marketplaces by name, so they may clash.
+ */
+export function marketplaceClashWarnings(rootDir, entries) {
+  const names = marketplaceNamesFrom(readJsonIfExists(join(rootDir, 'data', 'github.json'), {}))
+  return marketplaceNameClashes(entries, names).map(c =>
+    `the marketplaces ${c.repos.join(' and ')} are both named "${c.name}" (${c.mods.join(', ')}): Claude Code keys an added marketplace by its name, so someone who added one may have to remove it before adding the other`)
 }
 
 /** Runs every check. Returns { results: [{ name, errors, warnings, notes }], global }. */
@@ -167,6 +192,8 @@ export async function validateCatalog({ rootDir = root, changed = null, cli = tr
       }
     }
   }
+
+  global.warnings.push(...marketplaceClashWarnings(rootDir, loaded.filter(l => l.entry).map(l => l.entry)))
 
   const marketplaceFile = join(rootDir, '.claude-plugin', 'marketplace.json')
   if (claude && !changed && existsSync(marketplaceFile)) {

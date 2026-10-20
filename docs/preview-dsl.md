@@ -1,8 +1,8 @@
 # Preview DSL
 
-> **Кратко по-русски.** `preview` в `mod.json` описывает, что мод рисует, а сайт по этому описанию рисует мод внутри макета Claude Code: в терминале, в десктопном приложении и в панели VS Code. В `elements` от 1 до 10 элементов. У каждого есть `slot` (место в клиенте) и поля этого места. Строки собираются из сегментов: текст, кнопка, полоса прогресса, спарклайн, ссылка, клавиша. Цвета задаются токенами темы Claude Code или `#rrggbb`. Ниже для каждого слота есть пример JSON и описание того, что нарисует сайт. Если поверхность слот не рисует (например, полосу над промптом в VS Code), сайт так и пишет и ничего не подделывает. Схема лежит в [schema/mod.schema.json](../schema/mod.schema.json), правила добавления — в [CONTRIBUTING.md](../CONTRIBUTING.md).
+> **Кратко по-русски.** `preview` в `mod.json` описывает, что мод рисует, а сайт по этому описанию рисует мод внутри макета Claude Code: в терминале, в десктопном приложении и в панели VS Code. В `elements` от 1 до 10 элементов. У каждого есть `slot` (место в клиенте) и поля этого места. Строки собираются из сегментов: текст, кнопка, полоса прогресса, спарклайн, ссылка, клавиша. Цвета задаются токенами темы Claude Code или `#rrggbb`. Ниже для каждого слота есть пример JSON и описание того, что нарисует сайт. Если поверхность не рисует этот слот (например, полосу над полем ввода в VS Code), сайт так и пишет и ничего не подделывает. Схема лежит в [schema/mod.schema.json](../schema/mod.schema.json), правила добавления — в [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-The `preview` object in `mod.json` is a declarative mock of what the mod draws. The site renders it inside a faithful mock of the client on three surfaces (terminal, desktop app, VS Code). It is not executed and it is not a screenshot, so keep it honest: show what the code really draws. For hosted mods the site also lists the hooks and calls that `claude plugin validate` found in the code.
+The `preview` object in `mod.json` is a declarative mock of what the mod draws. The site renders it inside a faithful mock of the client on three surfaces (terminal, desktop app, VS Code). It is not executed and it is not a screenshot, so keep it honest: show what the code really draws. For every mod whose code CI can read (hosted, and external sources it can clone), the site also lists the hooks and calls that `claude plugin validate` found in the code.
 
 - [The preview object](#the-preview-object)
 - [Rows and segments](#rows-and-segments)
@@ -91,7 +91,7 @@ One entry the mod sets with `$.ui.status`, drawn in the status row under the pro
 
 ### `toast` — toast
 
-A short message from `$.ui.toast`. The terminal mock raises it at the bottom right above the prompt (top right of the transcript in the fullscreen layout); the desktop mock shows it at the top right of the window.
+A short message from `$.ui.toast`. The terminal mock shows it at the right end of the status row under the prompt (top right of the transcript in the fullscreen layout); the desktop mock shows it at the top right of the window.
 
 ```json
 { "slot": "toast", "text": "Slow turn: 3m 5s · 31 tools (over 2m)" }

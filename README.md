@@ -6,7 +6,7 @@
 
 [![Validate](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml/badge.svg)](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml)
 
-Сейчас в каталоге <!-- count:start -->32 мода<!-- count:end -->. Репозиторий одновременно служит маркетплейсом Claude Code `mod-showroom`.
+Сейчас в каталоге <!-- count:start -->56 модов<!-- count:end -->. Репозиторий одновременно служит маркетплейсом Claude Code `mod-showroom`.
 
 ## Содержание
 
@@ -68,11 +68,35 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 Для каждого мода указано, что он рисует, кто автор и где лежит код: «в этом репозитории» — код в `mods/<имя>/plugin/` и проверен CI, «внешний» — код в репозитории автора. Под спойлером команда установки.
 
 <!-- mods:start -->
-Категории: [Интерфейс](#интерфейс) · [Аналитика](#аналитика) · [Безопасность](#безопасность) · [Продуктивность](#продуктивность) · [Git](#git) · [Развлечения](#развлечения)
+Категории: [Интерфейс](#интерфейс) · [Аналитика](#аналитика) · [Безопасность](#безопасность) · [Продуктивность](#продуктивность) · [Git](#git) · [Развлечения](#развлечения) · [Доступность](#доступность)
 
 ### Интерфейс
 
-- **[Firstmate Calm](https://krou4.github.io/claude-code-mod-showroom/#/mod/fm)** — Скрывает строки инструментов и превращает индикатор работы в плывущий парусник; включается командой /calm. <sub>рисует: слеш-команда, всплывающее сообщение, полоса над промптом, сообщения в переписке · автор @kunchenguid · внешний</sub>
+- **[Claudinator](https://krou4.github.io/claude-code-mod-showroom/#/mod/claudinator)** — Шесть сменных стилей для строк инструментов, индикатора работы и итога хода плюс девять ингредиентов. <sub>рисует: строки инструментов, строка длительности хода, слеш-команда, панель, всплывающее уведомление · автор @patheonsceo · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install claudinator --marketplace patheonsceo/claudinator
+  ```
+
+  </details>
+- **[Drawer](https://krou4.github.io/claude-code-mod-showroom/#/mod/drawer)** — Блоки \`\`\`dot (Graphviz) и \`\`\`svg в ответе превращаются в картинки прямо на месте, пока ответ печатается. <sub>рисует: сообщения в переписке · автор @Sureffi · внешний</sub>
+  <details><summary>Установка</summary>
+
+  ```text
+  /plugin install drawer --marketplace KROU4/claude-code-mod-showroom
+  ```
+
+  </details>
+- **[Filetree](https://krou4.github.io/claude-code-mod-showroom/#/mod/filetree)** — Дерево файлов сбоку: статус git, число изменённых строк, а файлы, которые Claude читает и пишет, переливаются. <sub>рисует: панель, всплывающее уведомление, слеш-команда · автор @data-goblin · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install filetree --marketplace data-goblin/claude-code-filetree
+  ```
+
+  </details>
+- **[Firstmate Calm](https://krou4.github.io/claude-code-mod-showroom/#/mod/fm)** — Скрывает строки инструментов и превращает индикатор работы в плывущий парусник; включается командой /calm. <sub>рисует: слеш-команда, всплывающее уведомление, полоса над полем ввода, сообщения в переписке · автор @kunchenguid · внешний</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -80,7 +104,23 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Intelligent UI](https://krou4.github.io/claude-code-mod-showroom/#/mod/intelligent-ui)** — Ответы Claude в виде свёрстанных картинок: таблицы, формулы LaTeX, графики и диаграммы через Typst. <sub>рисует: слеш-команда, сообщения в переписке, всплывающее сообщение · автор @razorback16 · внешний</sub>
+- **[glowup](https://krou4.github.io/claude-code-mod-showroom/#/mod/glowup)** — Панель-кокпит, паки, меняющие цвета, строки инструментов и спиннер, и пиксельный питомец, который реагирует. <sub>рисует: слеш-команда, сообщения в переписке, строки инструментов, спиннер, панель, строка статуса · автор @NovusEdge · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install glowup --marketplace NovusEdge/glowup
+  ```
+
+  </details>
+- **[Image View](https://krou4.github.io/claude-code-mod-showroom/#/mod/image-view)** — Показывает миниатюры вставленных картинок над полем ввода, а не одни теги \[Image \#1\]. <sub>рисует: полоса над полем ввода · автор @jarrodwatts · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install image-view --marketplace jarrodwatts/claude-image-view
+  ```
+
+  </details>
+- **[Intelligent UI](https://krou4.github.io/claude-code-mod-showroom/#/mod/intelligent-ui)** — Ответы Claude в виде свёрстанных картинок: таблицы, формулы LaTeX, графики и диаграммы через Typst. <sub>рисует: слеш-команда, сообщения в переписке, всплывающее уведомление, панель · автор @razorback16 · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -88,7 +128,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Model Effort Band](https://krou4.github.io/claude-code-mod-showroom/#/mod/model-effort-band)** — Цветная полоса над полем ввода: выбранная модель и усилие, с которым прошёл её последний запрос. <sub>рисует: полоса над промптом · автор @YeonwooSung · внешний</sub>
+- **[Model Effort Band](https://krou4.github.io/claude-code-mod-showroom/#/mod/model-effort-band)** — Цветная полоса над полем ввода: выбранная модель и усилие, с которым прошёл её последний запрос. <sub>рисует: полоса над полем ввода · автор @YeonwooSung · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -96,7 +136,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Show Your Work](https://krou4.github.io/claude-code-mod-showroom/#/mod/show-your-work)** — Claude показывает скриншоты и записи Playwright прямо в чате: до и после, с проверками QA. <sub>рисует: строки инструментов, инструмент для Claude, слеш-команда, панель, строка статуса, всплывающее сообщение · автор @iamumeransari · внешний</sub>
+- **[Show Your Work](https://krou4.github.io/claude-code-mod-showroom/#/mod/show-your-work)** — Claude показывает скриншоты и записи Playwright прямо в чате: до и после, с проверками QA. <sub>рисует: строки инструментов, инструмент для Claude, слеш-команда, панель, строка статуса, всплывающее уведомление · автор @iamumeransari · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -104,7 +144,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Skins](https://krou4.github.io/claude-code-mod-showroom/#/mod/skins)** — Строки инструментов со статусом, временем и счётом правок, карточки вывода и таблиц, полоса лимитов и 15 тем. <sub>рисует: слеш-команда, всплывающее сообщение, строки инструментов, спиннер, строка длительности хода, полоса над промптом, инструмент для Claude, панель · автор @hellosverre · внешний</sub>
+- **[Skins](https://krou4.github.io/claude-code-mod-showroom/#/mod/skins)** — Строки инструментов со статусом, временем и числом правок, карточки вывода и таблиц, полоса лимитов и 15 тем. <sub>рисует: слеш-команда, всплывающее уведомление, строки инструментов, спиннер, строка длительности хода, полоса над полем ввода, инструмент для Claude, панель · автор @hellosverre · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -112,10 +152,26 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
+- **[Status Line Anywhere](https://krou4.github.io/claude-code-mod-showroom/#/mod/statusline-anywhere)** — Запускает вашу команду statusLine и рисует её вывод в цвете над полем ввода в десктопном приложении. <sub>рисует: полоса над полем ввода · автор @NathanAB · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install statusline-anywhere --marketplace NathanAB/statusline-anywhere
+  ```
+
+  </details>
+- **[Stretchtext Replies](https://krou4.github.io/claude-code-mod-showroom/#/mod/cc-stretch)** — Ответы приходят короткими: нажмите на подчёркнутую фразу, и она развернётся на месте в подробный текст. <sub>рисует: сообщения в переписке, слеш-команда, полоса над полем ввода, всплывающее уведомление · автор @pro-vi · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install cc-stretch --marketplace pro-vi/cc-stretch
+  ```
+
+  </details>
 
 ### Аналитика
 
-- **[Agent Radar](https://krou4.github.io/claude-code-mod-showroom/#/mod/agent-radar)** — Над полем ввода по строке на каждый работающий субагент и фоновую команду: время, инструменты, текущий шаг. <sub>рисует: полоса над промптом, всплывающее сообщение, слеш-команда, панель · автор @hamzafer · внешний</sub>
+- **[Agent Radar](https://krou4.github.io/claude-code-mod-showroom/#/mod/agent-radar)** — Живая строка над полем ввода на каждый работающий субагент и фоновую команду: время, инструменты, текущий шаг. <sub>рисует: полоса над полем ввода, всплывающее уведомление, слеш-команда, панель · автор @hamzafer · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -123,7 +179,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Burn Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/burn-meter)** — Стоимость сессии над полем ввода: огненная полоса, лимиты тарифа и цена в буррито. <sub>рисует: полоса над промптом, всплывающее сообщение, слеш-команда, панель · автор @OneWave-AI · внешний</sub>
+- **[Burn Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/burn-meter)** — Стоимость сессии над полем ввода: огненная полоса, лимиты тарифа и цена в буррито. <sub>рисует: полоса над полем ввода, всплывающее уведомление, слеш-команда, панель · автор @OneWave-AI · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -131,7 +187,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Cache Clock](https://krou4.github.io/claude-code-mod-showroom/#/mod/cache-clock)** — Строка кэша промпта под строкой статуса: сколько осталось, доля попаданий, промахи и цена перекэширования. <sub>рисует: слеш-команда, строка статуса · автор @hamzafer · внешний</sub>
+- **[Cache Clock](https://krou4.github.io/claude-code-mod-showroom/#/mod/cache-clock)** — Строка кэша промпта под строкой статуса: сколько кэш ещё тёплый, доля попаданий, промахи, токены на перекэш. <sub>рисует: слеш-команда, строка статуса · автор @hamzafer · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -139,7 +195,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Context Bar](https://krou4.github.io/claude-code-mod-showroom/#/mod/context-bar)** — Составная полоса над полем ввода: чем занято окно контекста и когда начнётся автосжатие. <sub>рисует: полоса над промптом, слеш-команда · автор @hamzafer · внешний</sub>
+- **[Context Bar](https://krou4.github.io/claude-code-mod-showroom/#/mod/context-bar)** — Составная полоса над полем ввода: чем занято окно контекста и когда начнётся автосжатие. <sub>рисует: полоса над полем ввода, слеш-команда · автор @hamzafer · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -163,7 +219,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Sub Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/sub-meter)** — Расход подписки за 5 часов и за неделю полосой со временем до сброса, в правом нижнем углу. <sub>рисует: метка режима · автор @midudev · внешний</sub>
+- **[Sub Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/sub-meter)** — Расход подписки за 5 часов и за неделю полосой со временем до сброса, в правом нижнем углу. <sub>рисует: строка подсказки, метка режима · автор @midudev · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -171,7 +227,23 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Token Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/token-meter)** — Токены каждого хода (вход, вывод, кэш) и итог за сессию, в цвете в строке под полем ввода. <sub>рисует: строка подсказки · автор @midudev · внешний</sub>
+- **[Subagents Plus](https://krou4.github.io/claude-code-mod-showroom/#/mod/subagents-plus)** — Живое дерево и шкала времени всех субагентов в панели /subagents, плюс полоса над полем ввода. <sub>рисует: полоса над полем ввода, слеш-команда, панель, инструмент для Claude · автор @algonormative · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install subagents-plus --marketplace algonormative/subagents-plus
+  ```
+
+  </details>
+- **[Time Blame](https://krou4.github.io/claude-code-mod-showroom/#/mod/time-blame)** — Под каждым ответом время хода по частям: Claude, инструменты, вы и прочее; /blame подводит итог сессии. <sub>рисует: строка длительности хода, слеш-команда, панель · автор @karanb192 · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install time-blame --marketplace karanb192/time-blame
+  ```
+
+  </details>
+- **[Token Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/token-meter)** — Токены каждого хода (вход, вывод, кэш) и итог сессии — цветом в строке под полем ввода. <sub>рисует: строка подсказки · автор @midudev · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -179,7 +251,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Token Weather](https://krou4.github.io/claude-code-mod-showroom/#/mod/token-weather)** — Заполненность контекста в виде прогноза погоды над полем ввода: значок, процент, токены и график 12 ходов. <sub>рисует: полоса над промптом · автор @anthropics · внешний</sub>
+- **[Token Weather](https://krou4.github.io/claude-code-mod-showroom/#/mod/token-weather)** — Заполненность контекста как погода над полем ввода: значок, процент, токены и график последних 12 ходов. <sub>рисует: полоса над полем ввода · автор @anthropics · внешний</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -195,7 +267,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Turn Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/turn-meter)** — Время, вызовы инструментов и токены каждого хода над полем ввода, с мини-графиком последних 12 ходов. <sub>рисует: полоса над промптом, всплывающее сообщение, слеш-команда · автор @KROU4 · в этом репозитории</sub>
+- **[Turn Meter](https://krou4.github.io/claude-code-mod-showroom/#/mod/turn-meter)** — Время, вызовы инструментов и токены каждого хода над полем ввода, с мини-графиком последних 12 ходов. <sub>рисует: полоса над полем ввода, всплывающее уведомление, слеш-команда · автор @KROU4 · в этом репозитории</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -203,10 +275,26 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
+- **[WeekToken](https://krou4.github.io/claude-code-mod-showroom/#/mod/weektoken)** — Темп расхода лимитов: сколько потрачено за 5 часов и за неделю против прошедшего времени, прогноз и история. <sub>рисует: полоса над полем ввода, панель, слеш-команда, всплывающее уведомление · автор @3dnow · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install weektoken --marketplace 3dnow/claude-mods
+  ```
+
+  </details>
+- **[What's Agent Doing](https://krou4.github.io/claude-code-mod-showroom/#/mod/whats-agent-doing)** — Рамка над полем ввода: что агент делает прямо сейчас и как долго, а по нажатию ▸ — пройденные шаги. <sub>рисует: полоса над полем ввода · автор @tzafrir · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install whats-agent-doing --marketplace tzafrir/whats-agent-doing
+  ```
+
+  </details>
 
 ### Безопасность
 
-- **[Blast Radius](https://krou4.github.io/claude-code-mod-showroom/#/mod/blast-radius)** — Задерживает опасную команду и показывает, какие файлы, коммиты или миграции она затронет: Proceed или Cancel. <sub>рисует: панель, блокировка инструментов, всплывающее сообщение · автор @anthropics · внешний</sub>
+- **[Blast Radius](https://krou4.github.io/claude-code-mod-showroom/#/mod/blast-radius)** — Задерживает опасную команду и показывает, какие файлы, коммиты или миграции она затронет: Proceed или Cancel. <sub>рисует: панель, блокировка инструментов, всплывающее уведомление · автор @anthropics · внешний</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -214,7 +302,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Secret Guard](https://krou4.github.io/claude-code-mod-showroom/#/mod/secret-guard)** — Не даёт Claude читать .env, приватные ключи и файлы с учётными данными. <sub>рисует: блокировка инструментов, всплывающее сообщение, строка статуса · автор @KROU4 · в этом репозитории</sub>
+- **[Secret Guard](https://krou4.github.io/claude-code-mod-showroom/#/mod/secret-guard)** — Не даёт Claude читать .env, приватные ключи и файлы с учётными данными. <sub>рисует: блокировка инструментов, всплывающее уведомление, строка статуса · автор @KROU4 · в этом репозитории</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -225,7 +313,15 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 
 ### Продуктивность
 
-- **[ctx-handoff](https://krou4.github.io/claude-code-mod-showroom/#/mod/ctx-handoff)** — Передаёт длинную сессию в новый чат, держит кэш тёплым, пока вас нет, и ведёт заметки проекта. <sub>рисует: полоса над промптом, строка статуса, слеш-команда, блокировка инструментов, всплывающее сообщение · автор @cablate · внешний</sub>
+- **[Command Buttons](https://krou4.github.io/claude-code-mod-showroom/#/mod/command-buttons)** — Кнопки Run и Copy для каждой команды оболочки в ответе и полоса горячих клавиш над полем ввода. <sub>рисует: сообщения в переписке, полоса над полем ввода, всплывающее уведомление · автор @Faridmurzone · внешний</sub>
+  <details><summary>Установка</summary>
+
+  ```text
+  /plugin install command-buttons --marketplace KROU4/claude-code-mod-showroom
+  ```
+
+  </details>
+- **[ctx-handoff](https://krou4.github.io/claude-code-mod-showroom/#/mod/ctx-handoff)** — Передаёт длинную сессию в новый чат, держит кэш тёплым, пока вас нет, и ведёт заметки проекта. <sub>рисует: полоса над полем ввода, строка статуса, слеш-команда, блокировка инструментов, всплывающее уведомление · автор @cablate · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -233,7 +329,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Done Ping](https://krou4.github.io/claude-code-mod-showroom/#/mod/done-ping)** — Системное уведомление, когда долгий ход закончился: можно не следить за экраном. <sub>рисует: системное уведомление, слеш-команда, всплывающее сообщение · автор @KROU4 · в этом репозитории</sub>
+- **[Done Ping](https://krou4.github.io/claude-code-mod-showroom/#/mod/done-ping)** — Системное уведомление, когда долгий ход закончился: можно не следить за экраном. <sub>рисует: системное уведомление, слеш-команда, всплывающее уведомление · автор @KROU4 · в этом репозитории</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -241,7 +337,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[effortless](https://krou4.github.io/claude-code-mod-showroom/#/mod/effortless)** — Сам выбирает уровень рассуждений для каждого запроса и показывает над полем ввода, сколько ещё живёт кэш. <sub>рисует: полоса над промптом, строка длительности хода, слеш-команда · автор @HeyCubit · внешний</sub>
+- **[effortless](https://krou4.github.io/claude-code-mod-showroom/#/mod/effortless)** — Сам выбирает уровень рассуждений для каждого запроса и показывает над полем ввода, сколько ещё живёт кэш. <sub>рисует: полоса над полем ввода, строка длительности хода, слеш-команда · автор @HeyCubit · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -249,7 +345,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Focus Timer](https://krou4.github.io/claude-code-mod-showroom/#/mod/focus-timer)** — Помодоро-таймер над полем ввода: пауза, стоп и уведомление в конце сессии. <sub>рисует: слеш-команда, полоса над промптом, всплывающее сообщение, системное уведомление · автор @KROU4 · в этом репозитории</sub>
+- **[Focus Timer](https://krou4.github.io/claude-code-mod-showroom/#/mod/focus-timer)** — Помодоро-таймер над полем ввода: пауза, стоп и уведомление в конце сессии. <sub>рисует: слеш-команда, полоса над полем ввода, всплывающее уведомление, системное уведомление · автор @KROU4 · в этом репозитории</sub>
   <details><summary>Установка</summary>
 
   ```text
@@ -257,7 +353,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Mod Store](https://krou4.github.io/claude-code-mod-showroom/#/mod/mod-store)** — Панель /mods: ищите моды сообщества, смотрите, к чему они получают доступ, и ставьте после подтверждения. <sub>рисует: слеш-команда, панель, инструмент для Claude, всплывающее сообщение · автор @hellosverre · внешний</sub>
+- **[Mod Store](https://krou4.github.io/claude-code-mod-showroom/#/mod/mod-store)** — Панель /mods: ищите моды сообщества, смотрите, к чему они получают доступ, и ставьте после подтверждения. <sub>рисует: слеш-команда, панель, инструмент для Claude, всплывающее уведомление · автор @hellosverre · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -265,7 +361,15 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Next Steps](https://krou4.github.io/claude-code-mod-showroom/#/mod/next-steps)** — После каждого ответа над полем ввода до трёх следующих запросов: нажмите 1–3, чтобы вставить черновик. <sub>рисует: полоса над промптом, всплывающее сообщение · автор @anthropics · внешний</sub>
+- **[Model Hint](https://krou4.github.io/claude-code-mod-showroom/#/mod/model-hint)** — Подсказывает haiku, sonnet или opus для запроса, который вы печатаете, с причиной и кнопкой Switch. <sub>рисует: полоса над полем ввода, слеш-команда, строка статуса, всплывающее уведомление · автор @hashswingingslasher · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install model-hint --marketplace hashswingingslasher/model-hint
+  ```
+
+  </details>
+- **[Next Steps](https://krou4.github.io/claude-code-mod-showroom/#/mod/next-steps)** — После каждого ответа над полем ввода появляются до трёх следующих запросов; 1–3 вставляет один черновиком. <sub>рисует: полоса над полем ввода, всплывающее уведомление · автор @anthropics · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -273,7 +377,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Pin Memo](https://krou4.github.io/claude-code-mod-showroom/#/mod/pin-memo)** — Закреплённые заметки и задачи с флажками над полем ввода, отдельно для каждой папки и сессии. <sub>рисует: слеш-команда, полоса над промптом, всплывающее сообщение · автор @YeonwooSung · внешний</sub>
+- **[Pin Memo](https://krou4.github.io/claude-code-mod-showroom/#/mod/pin-memo)** — Закреплённые заметки и задачи с флажками над полем ввода, отдельно для каждой папки и сессии. <sub>рисует: слеш-команда, полоса над полем ввода, всплывающее уведомление · автор @YeonwooSung · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -311,7 +415,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 
 ### Развлечения
 
-- **[Boss Fight](https://krou4.github.io/claude-code-mod-showroom/#/mod/boss-fight)** — Упавшие тесты вызывают пиксельного босса с 1 HP за каждый провал; каждый прогон с исправлениями бьёт его. <sub>рисует: панель, всплывающее сообщение, строка статуса · автор @OneWave-AI · внешний</sub>
+- **[Boss Fight](https://krou4.github.io/claude-code-mod-showroom/#/mod/boss-fight)** — Упавшие тесты вызывают пиксельного босса с 1 HP за каждый провал; каждый прогон с исправлениями бьёт его. <sub>рисует: панель, всплывающее уведомление, строка статуса, слеш-команда · автор @OneWave-AI · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
@@ -319,11 +423,67 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
-- **[Code Pet](https://krou4.github.io/claude-code-mod-showroom/#/mod/code-pet)** — Пиксельный питомец на панели: ест при вызовах инструментов, болеет от ошибок и паникует от rm -rf. <sub>рисует: слеш-команда, панель, строка статуса · автор @OneWave-AI · внешний</sub>
+- **[Brickfall](https://krou4.github.io/claude-code-mod-showroom/#/mod/brickfall)** — Яркий арканоид в панели: ракетка за мышью, капсулы с бонусами и цепные взрывы вольт-кирпичей. <sub>рисует: панель, слеш-команда · автор @reporails · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install brickfall --marketplace reporails/arcade
+  ```
+
+  </details>
+- **[Cat Spinner](https://krou4.github.io/claude-code-mod-showroom/#/mod/cat-spinner)** — Пиксельный кот гуляет над спиннером, садится подумать и реагирует на инструменты Claude. <sub>рисует: слеш-команда, панель, спиннер · автор @swicken · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install cat-spinner --marketplace swicken/cat-spinner
+  ```
+
+  </details>
+- **[Clawd Pet](https://krou4.github.io/claude-code-mod-showroom/#/mod/clawd-pet)** — Пиксельный Clawd над полем ввода: показывает текущий инструмент, радуется пройденным тестам и спит в простое. <sub>рисует: полоса над полем ввода, слеш-команда · автор @Revono · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install clawd-pet --marketplace Revono/clawd-pet
+  ```
+
+  </details>
+- **[Code Pet](https://krou4.github.io/claude-code-mod-showroom/#/mod/code-pet)** — Пиксельный питомец на панели: ест при вызовах инструментов, болеет от ошибок и паникует от rm -rf. <sub>рисует: слеш-команда, панель, строка статуса, всплывающее уведомление · автор @OneWave-AI · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
   /plugin install code-pet --marketplace OneWave-AI/claude-code-mods
+  ```
+
+  </details>
+- **[Fables](https://krou4.github.io/claude-code-mod-showroom/#/mod/fables)** — Мультфильм над полем ввода: Sonnet или Haiku пересказывает вызовы инструментов и реплики сценами с подписями. <sub>рисует: полоса над полем ввода, слеш-команда · автор @henrik-thevibe · внешний</sub>
+  <details><summary>Установка</summary>
+
+  ```text
+  /plugin install fables --marketplace KROU4/claude-code-mod-showroom
+  ```
+
+  </details>
+- **[Mindful Breathing](https://krou4.github.io/claude-code-mod-showroom/#/mod/mindful-breathing)** — Пока Claude работает, над полем ввода идёт дыхательное упражнение, а спиннер отсчитывает фазы дыхания. <sub>рисует: полоса над полем ввода, спиннер, слеш-команда · автор @halluton · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install mindful-claude --marketplace halluton/Mindful-Claude
+  ```
+
+  </details>
+- **[Minefield](https://krou4.github.io/claude-code-mod-showroom/#/mod/minefield)** — Сапёр в панели: разминируйте поле 9×9 мышью или клавишами, пока Claude работает. <sub>рисует: панель, слеш-команда · автор @reporails · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install minefield --marketplace reporails/arcade
+  ```
+
+  </details>
+- **[miod](https://krou4.github.io/claude-code-mod-showroom/#/mod/miod)** — Своя мелодия для каждой задачи, сочинённая на лету; настроение задают действия агента и темп расхода токенов. <sub>рисует: полоса над полем ввода, слеш-команда, всплывающее уведомление · автор @delexw · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install miod --marketplace delexw/miod
   ```
 
   </details>
@@ -335,11 +495,46 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
   ```
 
   </details>
+- **[Storytime](https://krou4.github.io/claude-code-mod-showroom/#/mod/storytime)** — Крошечный локальный трансформер печатает над полем ввода сказку о том, чем сейчас занят Claude. <sub>рисует: полоса над полем ввода, слеш-команда · автор @maddiedreese · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install storytime --marketplace maddiedreese/cc-storytime
+  ```
+
+  </details>
+- **[Terminal Gym](https://krou4.github.io/claude-code-mod-showroom/#/mod/terminal-gym)** — Дневная норма повторений над полем ввода: отмечайте подходы кнопками +5/+10/+25 и держите серию дней. <sub>рисует: полоса над полем ввода, спиннер, всплывающее уведомление, слеш-команда, панель · автор @DrumAndCode · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install terminal-gym --marketplace DrumAndCode/terminal-gym
+  ```
+
+  </details>
 - **[textless](https://krou4.github.io/claude-code-mod-showroom/#/mod/textless)** — Пока Claude работает, вместо ленты шагов в чате стоит одна карточка с пиксельной картинкой. <sub>рисует: строки инструментов, слеш-команда · автор @HeyCubit · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
 
   ```text
   /plugin install textless --marketplace HeyCubit/effortless
+  ```
+
+  </details>
+- **[Verbs](https://krou4.github.io/claude-code-mod-showroom/#/mod/verbs)** — Пока Claude работает, над спиннером крутится пиксельная картинка его глагола, своя для каждого из 188. <sub>рисует: слеш-команда, спиннер, всплывающее уведомление · автор @olliewagner · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install verbs --marketplace olliewagner/verbs
+  ```
+
+  </details>
+
+### Доступность
+
+- **[RTL Terminal](https://krou4.github.io/claude-code-mod-showroom/#/mod/rtl-terminal)** — Ответы на арабском, иврите, фарси и урду выводятся справа налево, маркеры списков — справа. <sub>рисует: сообщения в переписке, полоса над полем ввода, слеш-команда · автор @MohammedSaud404 · внешний</sub>
+  <details><summary>Установка (из маркетплейса автора)</summary>
+
+  ```text
+  /plugin install rtl-terminal --marketplace MohammedSaud404/rtl-terminal
   ```
 
   </details>
@@ -383,7 +578,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 - [Claude Mods](https://claudemods.ai/) — ручная модерация, голосование за мод дня, JSON-фид.
 - [CCMods Hub](https://ccmodshub.com/) — галерея модов по разделам.
 - [slopshopper](https://github.com/ryx2/slopshopper) — ежедневный скан GitHub и превью из прогона мода на имитации API.
-- [awesome-claude-mods](https://github.com/wh000wh000/awesome-claude-mods) — индекс с оценкой подтверждений, обновляется каждые два часа.
+- [awesome-claude-mods](https://github.com/wh000wh000/awesome-claude-mods) — индекс, где у каждого мода указано, чем подтверждены данные; обновляется каждые два часа.
 
 **Маркетплейсы и коллекции**
 

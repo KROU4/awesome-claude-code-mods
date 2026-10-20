@@ -3,8 +3,10 @@
 #
 # Security: this workflow has a write token, so it never checks out or runs code from the pull
 # request. It checks out the default branch (trusted scripts), reads the PR through the GitHub API
-# as data, takes the PR number from the untrusted `pr-meta` artifact only as a positive integer,
-# and acts only when the PR's head commit equals the commit Validate checked.
+# as data, at immutable commits (compare main...<head sha>, the tree and mod.json of <head sha>),
+# takes the PR number from the untrusted `pr-meta` artifact only as a positive integer, acts only
+# when the PR's head commit, repository and branch equal those of the Validate run, and merges
+# exactly that commit (--match-head-commit). Actions are pinned to commit SHAs.
 name: Automerge
 
 on:
@@ -21,7 +23,12 @@ concurrency:
 jobs:
   automerge:
     name: Merge or ask for a maintainer
-    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion != 'cancelled'
+    # Only runs of the real Validate workflow file (a PR can add another workflow named
+    # "Validate"), and only conclusions that carry a decision.
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.path == '.github/workflows/validate.yml' &&
+      contains(fromJSON('["success","failure","timed_out"]'), github.event.workflow_run.conclusion)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -31,34 +38,39 @@ jobs:
       actions: write
     steps:
       - name: Check out the default branch (trusted code only)
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
 
       - name: Download the pull request metadata
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: pr-meta
           path: ${{ runner.temp }}/pr-meta
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
+      # head_branch is chosen by the PR author: it reaches the script through env only.
       - name: Decide
         id: decide
         env:
           GITHUB_TOKEN: ${{ github.token }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_REPO: ${{ github.event.workflow_run.head_repository.full_name }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
           CONCLUSION: ${{ github.event.workflow_run.conclusion }}
         run: >-
           node scripts/policy.mjs
           --pr-meta "$RUNNER_TEMP/pr-meta/pr.json"
           --head-sha "$HEAD_SHA"
+          --head-repo "$HEAD_REPO"
+          --head-branch "$HEAD_BRANCH"
           --validate-conclusion "$CONCLUSION"
           --out "$RUNNER_TEMP/decision.json"
 

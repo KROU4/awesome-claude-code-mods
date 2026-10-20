@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=mines}",
+    "ui.render{component=Pane}",
+    "ui.message"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.now",
+    "$.command.register",
+    "$.session.surfaces",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.panes",
+    "$.ui.resolve"
+  ],
+  "gating": [],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

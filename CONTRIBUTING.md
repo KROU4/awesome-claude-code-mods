@@ -26,7 +26,7 @@
   "name": "neon-band",
   "title": "Neon Band",
   "tagline": "A neon band above the prompt with the session's cost.",
-  "tagline_ru": "Неоновая полоса над промптом со стоимостью сессии.",
+  "tagline_ru": "Неоновая полоса над полем ввода со стоимостью сессии.",
   "description": "Draws a one-line band above the prompt with the session's cost and model.",
   "author": { "name": "Alice", "github": "alice" },
   "maintainers": ["alice"],
@@ -49,7 +49,7 @@
 
 | Поле | Обязательное | Что писать |
 | --- | --- | --- |
-| `name` | да | Имя плагина: то же, что в `.claude-plugin/plugin.json` мода и в имени папки. Строчные латинские буквы, цифры и дефис, до 50 символов. Не может начинаться с `claude-`, `anthropic-`, `cc-plugin-` и не должно содержать слово `claude` отдельно: так требует `claude plugin validate`. |
+| `name` | да | Имя плагина: то же, что в `.claude-plugin/plugin.json` мода и в имени папки. Строчные латинские буквы, цифры и дефис, до 50 символов. Не может начинаться с `claude-`, `anthropic-`, `anthropics-`, `cc-plugin-`, не может быть `claude`, `anthropic`, `anthropics`, `claude-code`, `claude-mods` и не должно содержать отдельным словом `claude` или `anthropic`: так требует `claude plugin validate`. |
 | `title` | да | Название на сайте, 2–40 символов. |
 | `tagline` | да | Одна строка по-английски о том, что мод даёт человеку, 8–100 символов. |
 | `tagline_ru` | нет | То же по-русски, до 110 символов. |
@@ -68,15 +68,15 @@
 | `capabilities` | нет | Что мод делает помимо рисования: `network`, `processes`, `filesystem` (`none`, `read`, `write`), `model`, `promptRewrite`, `blocksTools`. CI вычисляет их сам из `claude plugin validate`, если может прочитать код; укажите их для кода, который CI прочитать не может. |
 | `preview` | да | Что мод рисует, для макета клиента на сайте, см. [превью](#превью). |
 | `media` | нет | До 6 картинок или видео: `{ "type": "image" \| "video", "src", "alt", "surface"? }`. `src` — https-ссылка или путь относительно mod.json (`media/band.png`), файл до 2 МБ. |
-| `verified` | — | Ставят только мейнтейнеры каталога: код на закреплённой версии прочитан человеком. Бот не сольёт запрос, который меняет это поле. |
+| `verified` | — | Ставят только мейнтейнеры каталога: код на закреплённой версии прочитан человеком (у внешнего мода из `github`/`git` нужен `sha`). Бот не сольёт запрос, который меняет это поле или запись с `verified: true`. |
 
 ## Откуда ставить: source
 
 | `type` | Поля | Когда |
 | --- | --- | --- |
 | `hosted` | — | Код лежит здесь, в `mods/<имя>/plugin/`. Проверяется CI при каждом изменении. |
-| `github` | `repo` (`owner/repo`), `path`?, `ref`?, `sha`? | Плагин в корне репозитория GitHub или в папке `path`. `sha` (40 символов) закрепляет коммит, и тогда ставится ровно он. |
-| `git` | `url` (https, оканчивается на `.git`), `path`?, `ref`?, `sha`? | Любой git-хостинг. |
+| `github` | `repo` (`owner/repo`), `path`?, `ref`?, `sha`? | Плагин в корне репозитория GitHub или в папке `path`. `sha` (40 символов) закрепляет коммит, и тогда ставится ровно он. `ref` — имя ветки или тега: латинские буквы, цифры, `.`, `_`, `/`, `-`, не начинается с `-`. Имя в `.claude-plugin/plugin.json` плагина должно совпадать с `name`. |
+| `git` | `url` (https, оканчивается на `.git`), `path`?, `ref`?, `sha`? | Любой git-хостинг. `ref` и `sha` — как у `github`. |
 | `marketplace` | `marketplace` (`owner/repo` с `.claude-plugin/marketplace.json`), `plugin`?, `repo`?, `path`? | Мод уже есть в вашем маркетплейсе. Каталог только показывает его, а команды установки ведут в ваш маркетплейс. |
 
 Моды с источниками `hosted`, `github` и `git` попадают в маркетплейс `mod-showroom` этого репозитория. Мод ставится командой `/plugin install <имя> --marketplace KROU4/claude-code-mod-showroom`.
@@ -105,17 +105,17 @@
 | `model-tool` | `{ "slot": "model-tool", "name": "search_docs", "input": "hooks", "result": [["3 hits"]] }` | Везде |
 | `background` | `{ "slot": "background", "text": "Saves each prompt to a journal" }` | Ничего не рисует |
 
-Что рисует каждый слот и все его поля — в [docs/preview-dsl.md](docs/preview-dsl.md). Показывайте то, что мод действительно рисует: превью сверяют с кодом, а у мода из этого репозитория бот берёт список хуков и вызовов из `claude plugin validate`.
+Что рисует каждый слот и все его поля — в [docs/preview-dsl.md](docs/preview-dsl.md). Показывайте то, что мод действительно рисует: превью сверяют с кодом, а у каждого мода, код которого CI может прочитать (из этого репозитория и внешнего, который CI может склонировать), бот берёт список хуков и вызовов из `claude plugin validate`.
 
 ## Когда бот сливает сам
 
 Бот сливает pull request без человека, только если выполнено всё сразу:
 
 1. Проверка Validate прошла для последнего коммита запроса.
-2. Все изменённые файлы лежат внутри `mods/<имя>/` (записей может быть несколько). Файлов не больше 60, каждый до 2 МБ. Разрешены типы: json, md, ts, tsx, js, mjs, cjs, mts, cts, jsx, png, jpg, jpeg, gif, webp, svg, mp4, webm, txt, wav, mp3, ogg и файл `LICENSE`. Символические ссылки не принимаются.
-3. Для записи, которая уже есть в каталоге, вы есть в её `maintainers` (регистр не важен). Для новой записи вы указаны в `maintainers` новой записи.
+2. Все изменённые файлы лежат внутри `mods/<имя>/` (записей может быть несколько). Файлов не больше 60, каждый до 2 МБ. Разрешены типы: json, md, ts, tsx, js, mjs, cjs, mts, cts, jsx, png, jpg, jpeg, gif, webp, svg, mp4, webm, txt, wav, mp3, ogg и файл `LICENSE`. Символические ссылки и подмодули не принимаются, как и файлы, размер или тип которых бот не смог определить.
+3. Для записи, которая уже есть в каталоге, вы указаны в её `maintainers` (регистр не важен). Для новой записи вы указаны в `maintainers` новой записи. Бот сверяет и логин, и числовой id аккаунта GitHub.
 4. Удалить запись может только её мейнтейнер.
-5. Поле `verified` не изменилось (новая запись его не задаёт).
+5. Поле `verified` не изменилось (новая запись его не задаёт). Запись с `verified: true` бот не меняет сам: такие запросы смотрит мейнтейнер каталога.
 6. Запрос не черновик, на нём нет метки `hold`, он направлен в `main`.
 
 Если что-то не так, бот ставит метку `needs-maintainer` и пишет один комментарий с причинами по-английски и по-русски. Тогда запрос посмотрит мейнтейнер каталога. Если не прошла сама проверка Validate, бот даёт ссылку на её журнал: исправьте ошибку и отправьте новый коммит. Подробности и как обжаловать решение — в [docs/governance.md](docs/governance.md).
@@ -157,7 +157,7 @@ mods/<имя>/
 | `npm test` | Тесты скриптов каталога. |
 | `npm run analyze` | Сводка `claude plugin validate --json` по каждому моду в `data/analysis/`. |
 | `npm run build:registry` | Собирает `registry.json`, `.claude-plugin/marketplace.json` и блоки README. Обычно это делает бот. |
-| `npm run enrich` | Звёзды и даты с GitHub в `data/github.json` (с `GITHUB_TOKEN`, если он есть). |
+| `npm run enrich` | Звёзды, даты и имена маркетплейсов с GitHub в `data/github.json`, id мейнтейнеров в `data/maintainers.json` (с `GITHUB_TOKEN`, если он есть). |
 | `npm run discover` | Ищет на GitHub моды, которых нет в каталоге (топики `claude-code-mod`, `claude-code-mods`, `claude-mod`). |
 
 Поведение в сообществе — по [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). О вредном моде сообщайте по [SECURITY.md](SECURITY.md).

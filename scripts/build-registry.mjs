@@ -4,7 +4,9 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadEntries, readPluginManifest, readJsonIfExists, toRegistryMod } from './lib/catalog.mjs'
+import {
+  loadEntries, readPluginManifest, readJsonIfExists, toRegistryMod, marketplaceNamesFrom, marketplaceNameClashes,
+} from './lib/catalog.mjs'
 import { checkEntry } from './lib/entry.mjs'
 import { buildMarketplace } from './lib/marketplace.mjs'
 import { buildRegistry, withGeneratedAt, toJson } from './lib/registry.mjs'
@@ -17,9 +19,7 @@ const checkOnly = process.argv.includes('--check')
 /** Loads everything the outputs need. Entries with errors are skipped with a notice. */
 export function collect(rootDir) {
   const github = readJsonIfExists(join(rootDir, 'data', 'github.json'), {})
-  const marketplaceNames = Object.fromEntries(
-    Object.entries(github).filter(([, v]) => v && typeof v.marketplaceName === 'string').map(([k, v]) => [k, v.marketplaceName]),
-  )
+  const marketplaceNames = marketplaceNamesFrom(github)
   const items = []
   const skipped = []
   for (const { name, entry, error } of loadEntries(rootDir)) {
@@ -38,7 +38,8 @@ export function collect(rootDir) {
     const mod = toRegistryMod(entry, { analysis, manifest, dates, github, marketplaceNames })
     items.push({ entry, mod, manifest })
   }
-  return { items, skipped }
+  const clashes = marketplaceNameClashes(items.map(i => i.entry), marketplaceNames)
+  return { items, skipped, clashes }
 }
 
 function writeIfChanged(file, text, changed) {
@@ -51,8 +52,9 @@ function writeIfChanged(file, text, changed) {
 }
 
 function main() {
-  const { items, skipped } = collect(root)
+  const { items, skipped, clashes } = collect(root)
   for (const s of skipped) console.warn(`! skipped ${s}`)
+  for (const c of clashes) console.warn(`! marketplaces ${c.repos.join(' and ')} share the name "${c.name}" (${c.mods.join(', ')})`)
 
   const changed = []
   const registryFile = join(root, 'registry.json')

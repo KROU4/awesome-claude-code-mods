@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=model-hint}",
+    "session.attach",
+    "session.detach",
+    "prompt.edit",
+    "prompt.fill",
+    "prompt.submit",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.clock.after",
+    "$.clock.every",
+    "$.command.register",
+    "$.config.list",
+    "$.config.set",
+    "$.model.complete",
+    "$.prompt.read",
+    "$.session.model",
+    "$.session.surfaces",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.log",
+    "$.ui.resolve",
+    "$.ui.status",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "command.run{command=model-hint}",
+      "hasCatch": true
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [
+    "model-hint.isDismissed",
+    "model-hint.isEnabled",
+    "model-hint.judgeNote",
+    "model-hint.suggestion"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

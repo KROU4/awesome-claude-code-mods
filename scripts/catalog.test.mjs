@@ -4,11 +4,13 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   splitTopLevel, parseValidateReport, slotsFromCalls, slotsFromRenderHooks, capabilitiesFromAnalysis, riskOf, hookBase,
+  noteItems, isOwnToolHook,
 } from './lib/analysis.mjs'
 import {
   installFor, installTarget, sourceUrlFor, entryUrlFor, editUrlFor, resolveMedia, deriveSlots, deriveCapabilities,
-  toRegistryMod, sortMods, checkPluginName, githubRepoOfUrl, loadEntries,
+  toRegistryMod, sortMods, checkPluginName, githubRepoOfUrl, loadEntries, marketplaceNameClashes, marketplaceNamesFrom,
 } from './lib/catalog.mjs'
+import { toUtc } from './lib/cli.mjs'
 import { drawsOn, SURFACES_BY_SLOT, SLOTS } from './lib/surfaces.mjs'
 import { checkEntry, formatSchemaErrors, schemaValidator } from './lib/entry.mjs'
 
@@ -95,6 +97,58 @@ test('capabilities from the analysis', () => {
   }), { network: true, processes: false, filesystem: 'read', model: true, promptRewrite: true, blocksTools: false })
   assert.equal(capabilitiesFromAnalysis({ calls: ['$.fs.list', '$.fs.write'], hooks: [], gating: [] }).filesystem, 'write')
   assert.equal(capabilitiesFromAnalysis({ calls: [], hooks: ['tool.check'], gating: [{ hook: 'tool.check', hasCatch: false }] }).blocksTools, true)
+})
+
+test('notes cut by claude plugin validate drop the incomplete item and mark the analysis', () => {
+  const pad = Array.from({ length: 60 }, (_, i) => `$.clock.n${i}`).join(', ')
+  const a = parseValidateReport({
+    success: true,
+    contents: [{
+      notes: [
+        `./register.tsx calls: $.ui.toast, ${pad}, $.ui.status, $.state… [+133 chars]`,
+        './register.tsx hooks: session.start, ui.render{component=Pa… [+40 chars]',
+        './register.tsx state writes: x.a, x.b, x.swi… [+12 chars]',
+        './other.ts calls: $.ui.open, $.store.get (via afterLoad… [+333 chars]',
+      ],
+    }],
+  }, '2.1.302')
+  assert.equal(a.truncated, true)
+  assert.ok(a.calls.includes('$.ui.toast') && a.calls.includes('$.ui.status') && a.calls.includes('$.ui.open'))
+  assert.ok(a.calls.includes('$.store.get'), 'a complete name before a cut "(via …" tail is kept')
+  assert.ok(!a.calls.some(c => /…|\[\+/.test(c)), a.calls.join(', '))
+  assert.deepEqual(a.hooks, ['session.start'])
+  assert.deepEqual(a.stateKeys, ['x.a', 'x.b'])
+  assert.deepEqual(slotsFromCalls(a), ['pane', 'status', 'toast'])
+  assert.ok(a.warnings.includes('./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete'))
+  assert.ok(a.warnings.includes('./other.ts: notes truncated by claude plugin validate; calls/hooks may be incomplete'))
+  assert.equal(parseValidateReport(REPORT, 'x').truncated, undefined)
+  assert.deepEqual(noteItems('a, b{c, d… [+3 chars]'), { items: ['a'], truncated: true })
+})
+
+test('a truncated analysis only raises declared capabilities', () => {
+  const entry = { name: 'x', source: { type: 'hosted' }, capabilities: { network: true, filesystem: 'write', model: false, processes: false } }
+  const analysis = { truncated: true, calls: ['$.process.run', '$.fs.read'], hooks: [], gating: [] }
+  assert.deepEqual(deriveCapabilities(entry, analysis), {
+    network: true, processes: true, filesystem: 'write', model: false, promptRewrite: false, blocksTools: false,
+  })
+  assert.deepEqual(deriveCapabilities(entry, { ...analysis, truncated: undefined }), {
+    network: false, processes: true, filesystem: 'read', model: false, promptRewrite: false, blocksTools: false,
+  })
+})
+
+test('a gating hook on the mod’s own model tools does not count as refusing tool calls', () => {
+  assert.equal(isOwnToolHook('tool.call{tool=mcp__mod-store__search_mods}', ['mod-store']), true)
+  assert.equal(isOwnToolHook('tool.call{tool=/"^mcp__show-your-work__show_(image|video)$"/}', ['show-your-work']), true)
+  assert.equal(isOwnToolHook('tool.call{tool=mcp__github__create_issue}', ['mod-store']), false)
+  assert.equal(isOwnToolHook('tool.call{tool=/"^(mcp__x__a|Bash)$"/}', ['x']), false)
+  assert.equal(isOwnToolHook('tool.call', ['x']), false)
+  const own = { calls: [], hooks: [], gating: [{ hook: 'tool.call{tool=mcp__mod-store__show_mod}', hasCatch: false }] }
+  assert.equal(capabilitiesFromAnalysis(own, { ownNames: ['mod-store'] }).blocksTools, false)
+  assert.equal(capabilitiesFromAnalysis(own).blocksTools, true)
+  const store = { name: 'mod-store', source: { type: 'marketplace', marketplace: 'o/m', plugin: 'mod-store' }, capabilities: { blocksTools: false } }
+  assert.equal(deriveCapabilities(store, own).blocksTools, false)
+  const mixed = { ...own, gating: [...own.gating, { hook: 'tool.call', hasCatch: true }] }
+  assert.equal(deriveCapabilities(store, mixed).blocksTools, true)
 })
 
 test('risk flags follow the admin guide lists', () => {
@@ -216,6 +270,52 @@ test('sortMods: verified first, then newest, then name', () => {
     { name: 'd' },
   ]
   assert.deepEqual(sortMods(mods).map(m => m.name), ['z', 'c', 'a', 'b', 'd'])
+  // 18:03 at +03:00 is 15:03Z, older than 16:00Z, though it sorts later as a string.
+  const offsets = [{ name: 'local', addedAt: '2026-10-20T18:03:58+03:00' }, { name: 'utc', addedAt: '2026-10-20T16:00:00+00:00' }]
+  assert.deepEqual(sortMods(offsets).map(m => m.name), ['utc', 'local'])
+})
+
+test('git dates are stored in UTC', () => {
+  assert.equal(toUtc('2026-10-20T18:03:58+03:00'), '2026-10-20T15:03:58Z')
+  assert.equal(toUtc('2026-10-20T16:00:00+00:00'), '2026-10-20T16:00:00Z')
+  assert.equal(toUtc('not a date'), undefined)
+})
+
+test('two external marketplaces with one name are reported', () => {
+  const entries = [
+    { name: 'agent-radar', source: { type: 'marketplace', marketplace: 'hamzafer/claude-code-mods' } },
+    { name: 'boss-fight', source: { type: 'marketplace', marketplace: 'OneWave-AI/claude-code-mods' } },
+    { name: 'code-pet', source: { type: 'marketplace', marketplace: 'OneWave-AI/claude-code-mods' } },
+    { name: 'skins', source: { type: 'marketplace', marketplace: 'hellosverre/claude-skins' } },
+    { name: 'turn-meter', source: { type: 'hosted' } },
+  ]
+  const names = marketplaceNamesFrom({
+    'hamzafer/claude-code-mods': { marketplaceName: 'claude-code-mods', stars: 1 },
+    'OneWave-AI/claude-code-mods': { marketplaceName: 'claude-code-mods' },
+    'hellosverre/claude-skins': { marketplaceName: 'hellosverre-mods' },
+    'KROU4/claude-code-mod-showroom': { stars: 0 },
+  })
+  assert.deepEqual(marketplaceNameClashes(entries, names), [
+    { name: 'claude-code-mods', repos: ['OneWave-AI/claude-code-mods', 'hamzafer/claude-code-mods'], mods: ['agent-radar', 'boss-fight', 'code-pet'] },
+  ])
+  assert.deepEqual(marketplaceNameClashes(entries.slice(1), names), [])
+})
+
+test('checkEntry: verified needs a pinned commit, and ref cannot be a git option', () => {
+  const validate = schemaValidator(root)
+  const github = { ...HOSTED, name: 'x', source: { type: 'github', repo: 'a/b', ref: 'v1' }, verified: true }
+  assert.ok(validate(github), JSON.stringify(validate.errors))
+  assert.ok(checkEntry(root, 'x', github).errors.includes('verified: true needs source.sha (the commit that was read)'))
+  const pinned = { ...github, source: { ...github.source, sha: 'a'.repeat(40) } }
+  assert.ok(!checkEntry(root, 'x', pinned).errors.some(e => e.startsWith('verified')))
+  const market = { ...HOSTED, name: 'x', source: { type: 'marketplace', marketplace: 'o/m' }, verified: true }
+  assert.ok(checkEntry(root, 'x', market).warnings.includes('verified: true on a marketplace source cannot be pinned to a commit'))
+  for (const ref of ['--upload-pack=touch /tmp/x', '-b', 'a b', 'main;x']) {
+    const bad = { ...HOSTED, name: 'x', source: { type: 'github', repo: 'a/b', ref } }
+    assert.ok(checkEntry(root, 'x', bad).errors.some(e => e.startsWith('/source/ref must be a branch or tag name')), ref)
+  }
+  const good = { ...HOSTED, name: 'x', source: { type: 'git', url: 'https://example.com/a.git', ref: 'release/v1.2-rc_1' } }
+  assert.ok(!checkEntry(root, 'x', good).errors.some(e => e.startsWith('/source/ref')))
 })
 
 test('plugin name rules match claude plugin validate', () => {

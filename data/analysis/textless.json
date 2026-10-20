@@ -34,7 +34,7 @@
     "$.prompt.read",
     "$.prompt.submit",
     "$.session.id",
-    "$.store.get (via afterLoad… [+333 chars]"
+    "$.store.get"
   ],
   "gating": [
     {
@@ -61,7 +61,9 @@
   "stateKeys": [],
   "errors": [],
   "warnings": [
-    "author: No author information provided. Consider adding author details for plugin attribution"
+    "author: No author information provided. Consider adding author details for plugin attribution",
+    "./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete"
   ],
-  "validatedWith": "2.1.302"
+  "validatedWith": "2.1.302",
+  "truncated": true
 }

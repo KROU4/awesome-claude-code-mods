@@ -13,8 +13,23 @@ import { parseValidateReport } from './lib/analysis.mjs'
 import { findClaude, validatePlugin, isMain } from './lib/cli.mjs'
 import { rawFile } from './lib/github.mjs'
 import { toJson } from './lib/registry.mjs'
+import { SAFE_REF } from './lib/entry.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
+
+/**
+ * Untrusted text (validate output on other people's code, git's stderr from a remote) made safe for
+ * a GitHub Actions log: a line starting with "::" would run as a workflow command.
+ */
+export const safeLog = text => String(text).replace(/^(\s*)::/gm, '$1: :')
+
+/** `sha`/`ref` from a third-party marketplace.json, kept only when git cannot read them as options. */
+export function cleanPin({ ref, sha } = {}) {
+  return {
+    ref: typeof ref === 'string' && SAFE_REF.test(ref) ? ref : undefined,
+    sha: typeof sha === 'string' && /^[0-9a-f]{40}$/.test(sha) ? sha : undefined,
+  }
+}
 
 const safePath = p => {
   if (!p) return ''
@@ -51,9 +66,12 @@ export function cloneSpecFromMarketplaceSource(src, marketplaceRepo, pluginRoot)
     return { url: ghUrl(marketplaceRepo), path: safePath(rel) }
   }
   if (!src || typeof src !== 'object') return null
-  if (src.source === 'github' && src.repo) return { url: ghUrl(src.repo), ref: src.ref, sha: src.sha, path: '' }
-  if (src.source === 'url' && src.url) return { url: src.url, ref: src.ref, sha: src.sha, path: '' }
-  if (src.source === 'git-subdir' && src.url) return { url: ghUrl(src.url), ref: src.ref, sha: src.sha, path: safePath(src.path) }
+  const { ref, sha } = cleanPin(src)
+  // A pin git could read as an option is not cloned at all (rather than cloned unpinned).
+  if ((src.ref !== undefined && !ref) || (src.sha !== undefined && !sha)) return null
+  if (src.source === 'github' && typeof src.repo === 'string' && src.repo) return { url: ghUrl(src.repo), ref, sha, path: '' }
+  if (src.source === 'url' && typeof src.url === 'string' && src.url) return { url: src.url, ref, sha, path: '' }
+  if (src.source === 'git-subdir' && typeof src.url === 'string' && src.url) return { url: ghUrl(src.url), ref, sha, path: safePath(src.path) }
   return null
 }
 
@@ -69,17 +87,20 @@ function runGit(args, cwd) {
 
 /** Shallow checkout of a spec into a temp dir: { dir, cleanup }. */
 function checkout(spec) {
-  if (!/^https:\/\//.test(spec.url)) throw new Error(`only https git URLs are cloned (${spec.url})`)
+  if (!/^https:\/\/[^\s]+$/.test(spec.url)) throw new Error(`only https git URLs are cloned (${spec.url})`)
+  // Entries are schema-checked, marketplace sources pass cleanPin; check again where git reads them.
+  const { ref, sha } = cleanPin(spec)
+  if ((spec.ref && !ref) || (spec.sha && !sha)) throw new Error('the source ref or sha is not a plain branch, tag or commit')
   const tmp = mkdtempSync(join(tmpdir(), 'mod-'))
   const cleanup = () => rmSync(tmp, { recursive: true, force: true })
   try {
-    if (spec.sha) {
+    if (sha) {
       runGit(['init', '--quiet'], tmp)
       runGit(['remote', 'add', 'origin', spec.url], tmp)
-      runGit(['fetch', '--depth', '1', '--no-tags', 'origin', spec.sha], tmp)
+      runGit(['fetch', '--depth', '1', '--no-tags', '--end-of-options', 'origin', sha], tmp)
       runGit(['checkout', '--quiet', '--detach', 'FETCH_HEAD'], tmp)
     } else {
-      runGit(['clone', '--quiet', '--depth', '1', '--no-tags', ...(spec.ref ? ['--branch', spec.ref] : []), spec.url, tmp], undefined)
+      runGit(['clone', '--quiet', '--depth', '1', '--no-tags', ...(ref ? ['--branch', ref] : []), '--end-of-options', spec.url, tmp], undefined)
     }
   } catch (err) {
     cleanup()
@@ -111,7 +132,7 @@ async function main() {
         if (spec) target = checkout(spec)
       }
     } catch (err) {
-      console.log(`! ${name}: ${err.message}; keeping the cached analysis`)
+      console.log(`! ${name}: ${safeLog(err.message)}; keeping the cached analysis`)
       continue
     }
     if (!target) {
@@ -120,12 +141,12 @@ async function main() {
     }
     try {
       if (!existsSync(target.dir)) {
-        console.log(`! ${name}: ${target.dir} does not exist; keeping the cached analysis`)
+        console.log(`! ${name}: ${safeLog(target.dir)} does not exist; keeping the cached analysis`)
         continue
       }
       const { report, raw } = validatePlugin(target.dir)
       if (!report) {
-        console.log(`! ${name}: validate gave no JSON report; keeping the cached analysis\n${raw.trim().slice(0, 400)}`)
+        console.log(`! ${name}: validate gave no JSON report; keeping the cached analysis\n${safeLog(raw.trim().slice(0, 400))}`)
         continue
       }
       const analysis = parseValidateReport(report, claude.version)

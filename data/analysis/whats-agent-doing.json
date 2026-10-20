@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "turn.start",
+    "turn.step",
+    "tool.call",
+    "classic.PermissionRequest",
+    "ui.render{component=ToolProgress}",
+    "agent.spawn",
+    "classic.SubagentStop",
+    "classic.PreCompact",
+    "classic.PostCompact",
+    "turn.complete",
+    "ui.render{component=AbovePrompt}"
+  ],
+  "calls": [
+    "$.agent.list",
+    "$.clock.after",
+    "$.clock.every",
+    "$.clock.now",
+    "$.state.get",
+    "$.state.set",
+    "$.ui.invalidate",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PermissionRequest",
+      "hasCatch": false
+    },
+    {
+      "hook": "agent.spawn",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.SubagentStop",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PreCompact",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PostCompact",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "whats-agent-doing.agents",
+    "whats-agent-doing.history",
+    "whats-agent-doing.isExpanded",
+    "whats-agent-doing.now"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

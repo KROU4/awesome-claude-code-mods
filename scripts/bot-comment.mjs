@@ -30,6 +30,9 @@ export function plan(decision, { merged = false, runUrl = '' } = {}) {
     }
   }
   if (codes.includes('stale-head') || codes.includes('not-open')) return { label: false, comment: null }
+  // An error before the bot confirmed that the PR's head is the checked commit: the number may
+  // come from a forged artifact (an issue, someone else's PR), so say nothing there.
+  if (codes.includes('bot-error') && !decision.confirmed) return { label: false, comment: null }
   if (codes.includes('validate-failed')) {
     const link = runUrl ? `[the Validate run](${runUrl})` : 'the Validate run'
     const linkRu = runUrl ? `[журнал Validate](${runUrl})` : 'журнал Validate'
@@ -44,17 +47,22 @@ export function plan(decision, { merged = false, runUrl = '' } = {}) {
     }
   }
   const reasons = decision.reasons || []
+  const label = !reasons.every(r => TRANSIENT.includes(r.code))
   return {
-    label: !reasons.every(r => TRANSIENT.includes(r.code)),
+    label,
     comment: [
       BOT_COMMENT_MARKER,
-      `**Not merged automatically.** A maintainer will look at this pull request (label \`${NEEDS_MAINTAINER_LABEL}\`).`,
+      label
+        ? `**Not merged automatically.** A maintainer will look at this pull request (label \`${NEEDS_MAINTAINER_LABEL}\`).`
+        : '**Not merged this time.** The bot could not finish the check; it runs again on the next push.',
       '',
       ...reasons.map(r => `- ${r.en}`),
       '',
       '<details><summary>По-русски</summary>',
       '',
-      'Бот не слил запрос автоматически; его посмотрит мейнтейнер.',
+      label
+        ? 'Бот не слил запрос автоматически; его посмотрит мейнтейнер.'
+        : 'Бот не смог завершить проверку; она повторится при следующем коммите.',
       '',
       ...reasons.map(r => `- ${r.ru}`),
       '',
@@ -90,6 +98,10 @@ async function main() {
   const args = parseArgs(process.argv.slice(2))
   const repo = args.repo || process.env.GITHUB_REPOSITORY || REPO_SLUG
   const decision = JSON.parse(readFileSync(args.decision, 'utf8'))
+  if (!decision.confirmed && args.merged !== 'true') {
+    console.log('unconfirmed PR/head pair: nothing to do')
+    return
+  }
   const number = parsePrNumber(decision.pr)
   if (!number) throw new Error('decision has no valid PR number')
   const runUrl = /^https:\/\/github\.com\//.test(args['run-url'] || '') ? args['run-url'] : ''

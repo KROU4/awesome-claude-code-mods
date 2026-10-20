@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "command.run{command=rtl}",
+    "prompt.edit",
+    "prompt.submit",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=UserMessage}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.command.register",
+    "$.env.get",
+    "$.prompt.read",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.invalidate",
+    "$.ui.resolve"
+  ],
+  "gating": [
+    {
+      "hook": "prompt.submit",
+      "hasCatch": true
+    }
+  ],
+  "stateKeys": [],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}

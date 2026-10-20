@@ -1,0 +1,82 @@
+{
+  "ok": true,
+  "hooks": [
+    "session.start",
+    "classic.SessionStart{source=clear|resume|fork}",
+    "prompt.submit",
+    "turn.start",
+    "turn.complete",
+    "classic.PostToolUse",
+    "classic.PostToolUseFailure",
+    "classic.PermissionRequest",
+    "tool.call",
+    "command.run{command=claudinator}",
+    "command.run{command=look}",
+    "command.run{command=chapters}",
+    "command.run{command=ledger}",
+    "command.run{command=pins}",
+    "command.run{command=pin}",
+    "ui.render{component=PromptHint}",
+    "ui.render{component=Pane, requestId=claudinator}",
+    "ui.render{component=Pane, requestId=claudinator-navigator}",
+    "ui.render{component=AbovePrompt}",
+    "ui.render{component=AssistantMessage}",
+    "ui.render{component=ToolUse}",
+    "ui.render{component=ToolGroup}",
+    "ui.render{component=ToolResult}",
+    "ui.render{component=UserMessage}",
+    "ui.render{component=TurnDuration}",
+    "ui.render{component=Spinner}"
+  ],
+  "calls": [
+    "$.clock.every",
+    "$.clock.now",
+    "$.command.register",
+    "$.config.list",
+    "$.fs.read",
+    "$.process.run",
+    "$.session.usage",
+    "$.state.get",
+    "$.state.set",
+    "$.store.get",
+    "$.store.set",
+    "$.ui.blit",
+    "$.ui.invalidate",
+    "$.ui.open",
+    "$.ui.resolve",
+    "$.ui.scroll",
+    "$.ui.toast"
+  ],
+  "gating": [
+    {
+      "hook": "classic.SessionStart{source=clear|resume|fork}",
+      "hasCatch": false
+    },
+    {
+      "hook": "prompt.submit",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PostToolUse",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PostToolUseFailure",
+      "hasCatch": false
+    },
+    {
+      "hook": "classic.PermissionRequest",
+      "hasCatch": false
+    },
+    {
+      "hook": "tool.call",
+      "hasCatch": false
+    }
+  ],
+  "stateKeys": [
+    "claudinator.settings"
+  ],
+  "errors": [],
+  "warnings": [],
+  "validatedWith": "2.1.302"
+}
