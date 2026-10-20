@@ -9,3 +9,4 @@ It applies in issues, pull requests, discussions and comments in this repository
 Проект принимает [Contributor Covenant версии 2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) как свои правила поведения. Коротко: будьте доброжелательны и конструктивны, исходите из добрых намерений, никаких оскорблений, травли и публикации чужих личных данных.
 
 Правила действуют в issues, pull request, обсуждениях и комментариях этого репозитория. Чтобы сообщить о нарушении, напишите мейнтейнеру [@KROU4](https://github.com/KROU4) через [приватный security advisory](https://github.com/KROU4/claude-code-mod-showroom/security/advisories/new) или откройте issue. Сообщения рассматриваются конфиденциально.
+
