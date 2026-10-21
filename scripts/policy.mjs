@@ -40,16 +40,41 @@ export function modNameOf(path) {
 
 const PORTABLE_SEGMENT = /^[A-Za-z0-9._-]+$/
 const WINDOWS_RESERVED = /^(?:con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\..*)?$/i
+/** Windows MAX_PATH (260) minus the marketplace clone folder and the plugin cache, with a margin. */
+export const MAX_PATH_CHARS = 150
+const MAX_SEGMENT_CHARS = 100
 
 /**
  * True when every folder and file name in the path can be checked out on Linux, macOS and
  * Windows alike: ASCII letters, digits, dot, dash and underscore, no trailing dot, no name that
- * Windows reserves (CON, NUL, COM1, …). A path that breaks a checkout breaks the marketplace.
+ * Windows reserves (CON, NUL, COM1, …), and short enough for Windows without long paths.
+ * A path that breaks a checkout breaks the whole marketplace.
  */
 export function portablePath(path) {
-  return String(path)
+  const p = String(path)
+  if (p.length > MAX_PATH_CHARS) return false
+  return p
     .split('/')
-    .every(seg => PORTABLE_SEGMENT.test(seg) && !seg.endsWith('.') && !WINDOWS_RESERVED.test(seg))
+    .every(seg => seg.length <= MAX_SEGMENT_CHARS && PORTABLE_SEGMENT.test(seg) && !seg.endsWith('.') && !WINDOWS_RESERVED.test(seg))
+}
+
+/**
+ * The PR's spellings that collide once case is folded (as macOS and Windows checkouts do):
+ * whole paths and folder prefixes alike, so `plugin/a.ts` beside `Plugin/b.ts` and `a.md`
+ * beside `A.md/b.png` are both caught.
+ */
+export function caseClashes(paths) {
+  const spellings = new Map()
+  for (const p of paths) {
+    const segs = String(p).split('/')
+    for (let i = 1; i <= segs.length; i++) {
+      const prefix = segs.slice(0, i).join('/')
+      const shown = i < segs.length ? `${prefix}/` : prefix
+      const key = prefix.toLowerCase()
+      spellings.set(key, new Set([...(spellings.get(key) ?? []), shown.replace(/\/$/, '')]))
+    }
+  }
+  return [...spellings.values()].filter(s => s.size > 1).flatMap(s => [...s])
 }
 
 /** Allowed file types under mods/<name>/: the listed extensions and a bare LICENSE. */
@@ -232,7 +257,7 @@ export function decide({
   const links = []
   const unknown = []
   const unportable = []
-  const byLowerCase = new Map()
+  const kept = []
   const names = new Set()
   for (const f of prFiles) {
     const paths = [f.filename, ...(f.status === 'renamed' && f.previous_filename ? [f.previous_filename] : [])]
@@ -244,8 +269,7 @@ export function decide({
     if (!ALLOWED_STATUSES.includes(f.status)) badStatus.push(`${f.filename} (${f.status})`)
     if (f.status === 'removed') continue
     if (!portablePath(f.filename)) unportable.push(f.filename)
-    const lower = String(f.filename).toLowerCase()
-    byLowerCase.set(lower, [...(byLowerCase.get(lower) ?? []), f.filename])
+    kept.push(f.filename)
     if (!extensionAllowed(f.filename)) badType.push(f.filename)
     // Fail closed: a file whose size or type the bot does not know is not merged.
     if (f.mode === '120000' || f.mode === '160000') links.push(f.filename)
@@ -282,12 +306,12 @@ export function decide({
       `Symbolic links and submodules are not merged automatically: ${list(links)}.`,
       `Символические ссылки и подмодули автоматически не сливаются: ${listRu(links)}.`))
   }
-  const clashes = [...byLowerCase.values()].filter(group => new Set(group).size > 1).flat()
+  const clashes = caseClashes(kept)
   if (unportable.length || clashes.length) {
     const bad = [...new Set([...unportable, ...clashes])]
     reasons.push(reason('unportable-path',
-      `File names that do not check out the same on Linux, macOS and Windows: ${list(bad)}. Use ASCII letters, digits, \`.\`, \`-\` and \`_\`, no name Windows reserves (CON, NUL, …) and no two names that differ only in case.`,
-      `Имена файлов, которые по-разному извлекаются в Linux, macOS и Windows: ${listRu(bad)}. Используйте латинские буквы, цифры, \`.\`, \`-\` и \`_\`, без имён, зарезервированных в Windows (CON, NUL, …), и без двух имён, отличающихся только регистром.`))
+      `File names that do not check out the same on Linux, macOS and Windows: ${list(bad)}. Use ASCII letters, digits, \`.\`, \`-\` and \`_\`, paths up to ${MAX_PATH_CHARS} characters, no name Windows reserves (CON, NUL, …) and no two names that differ only in case.`,
+      `Имена файлов, которые по-разному извлекаются в Linux, macOS и Windows: ${listRu(bad)}. Используйте латинские буквы, цифры, \`.\`, \`-\` и \`_\`, пути не длиннее ${MAX_PATH_CHARS} символов, без имён, зарезервированных в Windows (CON, NUL, …), и без двух имён, отличающихся только регистром.`))
   }
   if (unknown.length) {
     reasons.push(reason('unknown-blob',

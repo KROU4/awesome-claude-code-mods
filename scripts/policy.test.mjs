@@ -105,6 +105,12 @@ test('file names that break a checkout on some systems need a catalog maintainer
     assert.ok(codes(run([bad])).includes('unportable-path'), bad)
   }
   assert.ok(codes(run(['mods/x/media/Shot.png', 'mods/x/media/shot.png'])).includes('unportable-path'))
+  // Folder spellings clash too: plugin/ and Plugin/ end up in one folder on macOS and Windows.
+  assert.ok(codes(run(['mods/x/plugin/hooks/register.tsx', 'mods/x/Plugin/hooks/hidden.ts'])).includes('unportable-path'))
+  assert.ok(codes(run(['mods/x/a.md', 'mods/x/A.md/b.png'])).includes('unportable-path'))
+  // Long paths break checkouts on Windows without core.longpaths.
+  assert.ok(codes(run([`mods/x/media/${'d'.repeat(100)}/${'f'.repeat(100)}.png`])).includes('unportable-path'))
+  assert.ok(codes(run([`mods/x/media/${'s'.repeat(101)}.png`])).includes('unportable-path'))
   assert.equal(run(['mods/x/media/shot-1.png', 'mods/x/media/Band_dark.webp']).allowed, true)
 })
 
