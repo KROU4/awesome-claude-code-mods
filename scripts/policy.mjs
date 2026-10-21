@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, appendFileSync } from 'node:fs'
 import { join, dirname, posix } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
-  ALLOWED_EXTENSIONS, MAX_FILE_BYTES, MAX_PR_FILES, HOLD_LABEL, BOT_LOGINS, BRANCH, REPO_SLUG,
+  ALLOWED_EXTENSIONS, MAX_FILE_BYTES, MAX_PR_FILES, MAX_ENTRY_BYTES, MAX_NEW_ENTRIES, HOLD_LABEL, BOT_LOGINS, BRANCH, REPO_SLUG,
 } from './lib/constants.mjs'
 import { gh, fileAt } from './lib/github.mjs'
 import { isMain } from './lib/cli.mjs'
@@ -23,6 +23,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 const NAME = '[a-z0-9](?:[a-z0-9-]{0,48}[a-z0-9])?'
 const MOD_FILE = new RegExp(`^mods/(${NAME})/(.+)$`)
+const ENTRY_FILE = new RegExp(`^mods/${NAME}/mod\\.json$`)
 const ALLOWED_STATUSES = ['added', 'modified', 'renamed', 'removed']
 /** Git modes of a regular file (100644) and an executable one (100755). */
 const REGULAR_MODES = ['100644', '100755']
@@ -37,6 +38,20 @@ export function modNameOf(path) {
   return m[1]
 }
 
+const PORTABLE_SEGMENT = /^[A-Za-z0-9._-]+$/
+const WINDOWS_RESERVED = /^(?:con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\..*)?$/i
+
+/**
+ * True when every folder and file name in the path can be checked out on Linux, macOS and
+ * Windows alike: ASCII letters, digits, dot, dash and underscore, no trailing dot, no name that
+ * Windows reserves (CON, NUL, COM1, …). A path that breaks a checkout breaks the marketplace.
+ */
+export function portablePath(path) {
+  return String(path)
+    .split('/')
+    .every(seg => PORTABLE_SEGMENT.test(seg) && !seg.endsWith('.') && !WINDOWS_RESERVED.test(seg))
+}
+
 /** Allowed file types under mods/<name>/: the listed extensions and a bare LICENSE. */
 export function extensionAllowed(path) {
   const base = posix.basename(path)
@@ -48,6 +63,57 @@ export function extensionAllowed(path) {
 
 const isMaintainer = (entry, login) =>
   Array.isArray(entry?.maintainers) && entry.maintainers.some(m => String(m).toLowerCase() === String(login).toLowerCase())
+
+const sameLogin = (a, b) => String(a).toLowerCase() === String(b).toLowerCase()
+
+/** The `source` fields that decide which code people install, as one comparable string. */
+const SOURCE_FIELDS = ['type', 'repo', 'url', 'path', 'ref', 'sha', 'plugin', 'marketplace']
+export const sourceKey = source => JSON.stringify(SOURCE_FIELDS.map(k => (source && typeof source === 'object' ? source[k] ?? null : null)))
+
+/**
+ * Words and marks in a title, tagline or author name that read as an endorsement by Anthropic or
+ * by the catalog, which the bot cannot confirm.
+ */
+const TRUST_WORDS = /\b(?:anthropic|official|verified|endorsed)\b|официальн|верифицир|проверено\s+anthropic|[✓✔☑✅\u{1F6E1}]/iu
+/** A word that mixes Latin with Cyrillic or Greek letters ("Аnthropic" with a Cyrillic А). */
+export function mixedScriptWord(text) {
+  return String(text)
+    .split(/[^\p{L}\p{M}]+/u)
+    .find(w => /\p{Script=Latin}/u.test(w) && /[\p{Script=Cyrillic}\p{Script=Greek}]/u.test(w)) ?? null
+}
+/** Hosts of Anthropic and Claude: an author or homepage link there claims to be them. */
+const OFFICIAL_HOST = /(?:^|\.)(?:anthropic\.com|claude\.ai|claude\.com)$/i
+const hostOf = url => {
+  try {
+    return new URL(String(url)).hostname
+  } catch {
+    return ''
+  }
+}
+
+/** What in an entry's shown identity (title, taglines, author, homepage) claims trust: [] when nothing. */
+export function trustClaims(entry) {
+  const out = []
+  const texts = [entry?.title, entry?.tagline, entry?.tagline_ru, entry?.author?.name].filter(t => typeof t === 'string')
+  for (const t of texts) {
+    const m = TRUST_WORDS.exec(t)
+    if (m) out.push(m[0])
+    const mixed = mixedScriptWord(t)
+    if (mixed) out.push(mixed)
+  }
+  for (const url of [entry?.author?.url, entry?.homepage]) {
+    const host = hostOf(url)
+    if (host && OFFICIAL_HOST.test(host)) out.push(host)
+  }
+  return [...new Set(out)]
+}
+
+/** The author as shown (name, login, link), independent of the key order in mod.json. */
+const authorKey = entry => {
+  const a = entry?.author && typeof entry.author === 'object' ? entry.author : {}
+  return JSON.stringify([a.name ?? null, a.github ?? null, a.url ?? null])
+}
+const identityOf = entry => JSON.stringify([entry?.title ?? null, entry?.tagline ?? null, entry?.tagline_ru ?? null, authorKey(entry), entry?.homepage ?? null])
 
 /**
  * Untrusted text (file names, logins, branch names) as one inline code span: backticks and line
@@ -77,9 +143,19 @@ const reason = (code, en, ru) => ({ code, en, ru })
  *   (base = main, head = the PR head commit)
  * - baseErrors: { "<name>": message } for base mod.json files that could not be read as an object
  * - baseOrphans: { "<name>": true } for folders on main that have no mod.json
- * - headErrors: { "<name>": message } for head mod.json files that are not a JSON object
+ * - headErrors: { "<name>": message } for head mod.json files that are not a JSON object or fail
+ *   the catalog check of main (schema, folder name, plugin-name rules)
+ * - previouslyListed: { "<name>": true } for new entries whose folder has history on main (the name
+ *   was listed before and removed)
  * - isDraft, labels (names), baseRef, state ("open"), validateConclusion, headShaMatches, headRepoGone
  * Returns { allowed, reasons: [{ code, en, ru }], names }.
+ *
+ * Code that people already installed only changes with a catalog maintainer: for an entry on main
+ * that our marketplace serves, any change under mods/<name>/plugin/ and any change of `source`
+ * (for every entry: it decides where installs come from) needs one, and so does a new entry that
+ * reuses a removed entry's name. New entries are merged one per pull request, under 64 KB, with
+ * the PR author as the only maintainer and as the author's GitHub login, and without words, marks
+ * or links that claim an endorsement.
  */
 export function decide({
   prFiles = [],
@@ -93,6 +169,7 @@ export function decide({
   baseOrphans = {},
   headEntries = {},
   headErrors = {},
+  previouslyListed = {},
   isDraft = false,
   labels = [],
   baseRef = BRANCH,
@@ -151,8 +228,11 @@ export function decide({
   const badStatus = []
   const badType = []
   const tooBig = []
+  const bigEntries = []
   const links = []
   const unknown = []
+  const unportable = []
+  const byLowerCase = new Map()
   const names = new Set()
   for (const f of prFiles) {
     const paths = [f.filename, ...(f.status === 'renamed' && f.previous_filename ? [f.previous_filename] : [])]
@@ -163,11 +243,15 @@ export function decide({
     }
     if (!ALLOWED_STATUSES.includes(f.status)) badStatus.push(`${f.filename} (${f.status})`)
     if (f.status === 'removed') continue
+    if (!portablePath(f.filename)) unportable.push(f.filename)
+    const lower = String(f.filename).toLowerCase()
+    byLowerCase.set(lower, [...(byLowerCase.get(lower) ?? []), f.filename])
     if (!extensionAllowed(f.filename)) badType.push(f.filename)
     // Fail closed: a file whose size or type the bot does not know is not merged.
     if (f.mode === '120000' || f.mode === '160000') links.push(f.filename)
     else if (typeof f.size !== 'number' || !REGULAR_MODES.includes(f.mode)) unknown.push(f.filename)
     else if (f.size > MAX_FILE_BYTES) tooBig.push(f.filename)
+    else if (ENTRY_FILE.test(f.filename) && f.size > MAX_ENTRY_BYTES) bigEntries.push(f.filename)
   }
   if (outside.length) {
     reasons.push(reason('outside-mods',
@@ -187,10 +271,23 @@ export function decide({
   if (tooBig.length) {
     reasons.push(reason('too-big', `Files over 2 MB: ${list(tooBig)}.`, `Файлы больше 2 МБ: ${listRu(tooBig)}.`))
   }
+  if (bigEntries.length) {
+    const kb = Math.round(MAX_ENTRY_BYTES / 1024)
+    reasons.push(reason('entry-too-big',
+      `Entries over ${kb} KB: ${list(bigEntries)}. Every visitor of the site downloads them, so shorten the preview.`,
+      `Записи больше ${kb} КБ: ${listRu(bigEntries)}. Их скачивает каждый посетитель сайта, поэтому сократите превью.`))
+  }
   if (links.length) {
     reasons.push(reason('symlink',
       `Symbolic links and submodules are not merged automatically: ${list(links)}.`,
       `Символические ссылки и подмодули автоматически не сливаются: ${listRu(links)}.`))
+  }
+  const clashes = [...byLowerCase.values()].filter(group => new Set(group).size > 1).flat()
+  if (unportable.length || clashes.length) {
+    const bad = [...new Set([...unportable, ...clashes])]
+    reasons.push(reason('unportable-path',
+      `File names that do not check out the same on Linux, macOS and Windows: ${list(bad)}. Use ASCII letters, digits, \`.\`, \`-\` and \`_\`, no name Windows reserves (CON, NUL, …) and no two names that differ only in case.`,
+      `Имена файлов, которые по-разному извлекаются в Linux, macOS и Windows: ${listRu(bad)}. Используйте латинские буквы, цифры, \`.\`, \`-\` и \`_\`, без имён, зарезервированных в Windows (CON, NUL, …), и без двух имён, отличающихся только регистром.`))
   }
   if (unknown.length) {
     reasons.push(reason('unknown-blob',
@@ -208,8 +305,63 @@ export function decide({
       continue
     }
     if (headErrors[name]) {
-      reasons.push(reason('invalid-entry', `\`mods/${name}/mod.json\` is not a valid JSON object.`, `\`mods/${name}/mod.json\` не является корректным JSON-объектом.`))
+      reasons.push(reason('invalid-entry',
+        `\`mods/${name}/mod.json\` does not pass the catalog check: ${code(headErrors[name])}. Run \`npm run check:entry ${name}\` and fix what it reports.`,
+        `\`mods/${name}/mod.json\` не проходит проверку каталога: ${code(headErrors[name])}. Запустите \`npm run check:entry ${name}\` и исправьте то, что она покажет.`))
       continue
+    }
+    if (base && base.verified !== true) {
+      // Code people already installed changes only with a catalog maintainer: a hosted, github or
+      // git entry is served by our marketplace, so a change under plugin/ reaches every install.
+      // Compared without case (a Plugin/ folder lands in plugin/ on macOS and Windows checkouts),
+      // and also when the same PR removes mod.json (then only code it adds or edits counts:
+      // a maintainer may delist the entry together with its code).
+      const served = base.source?.type !== 'marketplace'
+      const codePrefix = `mods/${name}/plugin/`
+      const codeFiles = prFiles
+        .filter(f => head || f.status !== 'removed')
+        .flatMap(f => (head ? [f.filename, f.previous_filename] : [f.filename]))
+        .filter(p => typeof p === 'string' && p.toLowerCase().startsWith(codePrefix))
+      if (served && codeFiles.length) {
+        reasons.push(reason('code-change',
+          `\`${name}\` is already in the catalog and this changes its code (${list([...new Set(codeFiles)], 4)}): a catalog maintainer reads code changes before they reach the people who installed it.`,
+          `\`${name}\` уже есть в каталоге, а запрос меняет её код (${listRu([...new Set(codeFiles)], 4)}): изменения кода читает мейнтейнер каталога, прежде чем они дойдут до тех, кто мод уже поставил.`))
+      }
+      if (head && sourceKey(base.source) !== sourceKey(head.source)) {
+        reasons.push(reason('source-change',
+          `\`${name}\` changes \`source\`, which decides where installs come from: a catalog maintainer checks the new source.`,
+          `\`${name}\` меняет \`source\`, а от него зависит, откуда ставится мод: новый источник проверит мейнтейнер каталога.`))
+      }
+    }
+    if (!base && head && previouslyListed[name]) {
+      reasons.push(reason('name-reused',
+        `\`${name}\` was in the catalog before: people who installed it would get this code as an update, so a catalog maintainer reviews it.`,
+        `\`${name}\` уже была в каталоге: те, кто её ставил, получат этот код как обновление, поэтому его проверит мейнтейнер каталога.`))
+    }
+    if (head) {
+      // What the site shows as who made the mod: the bot can vouch only for the PR author.
+      const login = typeof head.author?.github === 'string' ? head.author.github : null
+      const authorChanged = !base || authorKey(base) !== authorKey(head)
+      if (login && authorChanged && !sameLogin(login, author)) {
+        reasons.push(reason('author-not-you',
+          `\`${name}\` names ${code(login)} as its author, but the pull request comes from ${code(author)}: a catalog maintainer confirms who wrote it.`,
+          `\`${name}\` называет автором ${code(login)}, а запрос отправил ${code(author)}: кто автор, подтвердит мейнтейнер каталога.`))
+      }
+      const before = new Set((Array.isArray(base?.maintainers) ? base.maintainers : []).map(m => String(m).toLowerCase()))
+      const added = (Array.isArray(head.maintainers) ? head.maintainers : [])
+        .map(String)
+        .filter(m => !before.has(m.toLowerCase()) && !sameLogin(m, author))
+      if (added.length) {
+        reasons.push(reason('new-maintainers',
+          `\`${name}\` adds maintainers other than you (${list(added, 4)}): they get to change the entry, so a catalog maintainer confirms them.`,
+          `\`${name}\` добавляет мейнтейнеров кроме вас (${listRu(added, 4)}): они смогут менять запись, поэтому их подтвердит мейнтейнер каталога.`))
+      }
+      const claims = !base || identityOf(base) !== identityOf(head) ? trustClaims(head) : []
+      if (claims.length) {
+        reasons.push(reason('trust-claim',
+          `\`${name}\` shows words, marks or links that read as an endorsement or mix alphabets in one word (${list(claims, 4)}): a catalog maintainer checks them.`,
+          `\`${name}\` показывает слова, значки или ссылки, похожие на одобрение, или смешивает алфавиты в одном слове (${listRu(claims, 4)}): их проверит мейнтейнер каталога.`))
+      }
     }
     if (base) {
       if (!isMaintainer(base, author)) {
@@ -244,6 +396,12 @@ export function decide({
           `Новая запись \`${name}\` задаёт поле \`verified\`; его ставят только мейнтейнеры каталога.`))
       }
     }
+  }
+  const newNames = [...names].filter(n => !baseEntries[n] && headEntries[n] && !baseErrors[n] && !baseOrphans[n]).sort()
+  if (newNames.length > MAX_NEW_ENTRIES) {
+    reasons.push(reason('many-new',
+      `It adds ${newNames.length} new entries (${list(newNames, 4)}); the bot merges ${MAX_NEW_ENTRIES === 1 ? 'one new entry' : `${MAX_NEW_ENTRIES} new entries`} per pull request. Split them, or a catalog maintainer merges them.`,
+      `Запрос добавляет ${newNames.length} новых записей (${listRu(newNames, 4)}), а бот сливает ${MAX_NEW_ENTRIES === 1 ? 'одну новую запись' : `не больше ${MAX_NEW_ENTRIES}`} за запрос. Разделите их, или их сольёт мейнтейнер каталога.`))
   }
   return { allowed: reasons.length === 0, reasons, names: [...names].sort() }
 }
@@ -309,7 +467,10 @@ async function readEntry(repo, name, ref) {
  * Reads everything decide() needs for PR `pr` (the object from GET /pulls/{n}) at the commit
  * `headSha` and returns the decision. Every read names a commit SHA, never a branch or the PR.
  */
-export async function gather({ repo, pr, headSha, validateConclusion, confirmed = true, maintainerIds = {} }) {
+export async function gather({ repo, pr, headSha, validateConclusion, confirmed = true, maintainerIds = {}, check }) {
+  // Loaded here, not at the top: scripts that only borrow parseArgs from this file (discover,
+  // bot-comment) run without npm dependencies, and the entry check needs ajv.
+  if (!check) check = (await import('./lib/entry.mjs')).checkEntryData
   const mainSha = (await gh(`/repos/${repo}/git/ref/heads/${BRANCH}`))?.object?.sha
   if (!/^[0-9a-f]{40}$/.test(mainSha || '')) throw new Error(`could not read the ${BRANCH} branch`)
   // The merge-base diff of main...head: the same change a squash merge of headSha applies.
@@ -339,6 +500,7 @@ export async function gather({ repo, pr, headSha, validateConclusion, confirmed 
   const baseOrphans = {}
   const headEntries = {}
   const headErrors = {}
+  const previouslyListed = {}
   for (const name of [...names].sort()) {
     const base = await readEntry(repo, name, mainSha)
     baseEntries[name] = base.entry
@@ -350,6 +512,18 @@ export async function gather({ repo, pr, headSha, validateConclusion, confirmed 
     const head = await readEntry(repo, name, headSha)
     headEntries[name] = head.entry
     if (head.error) headErrors[name] = head.error
+    else if (head.entry) {
+      // The schema and name rules of main (this checkout), on the PR's mod.json as data: the bot
+      // does not rely on the PR's own Validate run for them.
+      const { errors } = check(root, name, head.entry)
+      if (errors.length) headErrors[name] = errors.slice(0, 3).join('; ') + (errors.length > 3 ? ` (+${errors.length - 3} more)` : '')
+    }
+    if (!base.entry && !base.error && head.entry) {
+      // A new entry under a name main had before: its installs would update to this code.
+      const history = await gh(`/repos/${repo}/commits?sha=${mainSha}&path=mods/${name}&per_page=1`)
+      if (!Array.isArray(history)) throw new Error(`could not read the history of mods/${name}`)
+      if (history.length) previouslyListed[name] = true
+    }
   }
   const decision = decide({
     prFiles,
@@ -363,6 +537,7 @@ export async function gather({ repo, pr, headSha, validateConclusion, confirmed 
     baseOrphans,
     headEntries,
     headErrors,
+    previouslyListed,
     isDraft: Boolean(pr.draft),
     labels: (pr.labels || []).map(l => l.name),
     baseRef: pr.base?.ref,
@@ -374,6 +549,19 @@ export async function gather({ repo, pr, headSha, validateConclusion, confirmed 
   return { ...decision, pr: pr.number, headSha, mainSha, author: pr.user?.login || '', validateConclusion, confirmed }
 }
 
+/**
+ * The open PR into `repo` whose head is `headSha` on branch `headBranch` of `headRepo`, or null.
+ * Used only when the Validate run left no pr-meta artifact; every value is matched exactly.
+ */
+export async function prNumberForHead(repo, headSha, headRepo, headBranch) {
+  if (!/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?\/[A-Za-z0-9._-]{1,100}$/.test(headRepo)) return null
+  const owner = headRepo.split('/')[0]
+  const pulls = await gh(`/repos/${repo}/pulls?state=open&per_page=30&head=${encodeURIComponent(`${owner}:${headBranch}`)}`)
+  const hit = (Array.isArray(pulls) ? pulls : []).find(p =>
+    p?.head?.sha === headSha && p.head.ref === headBranch && p.head.repo?.full_name === headRepo && p.base?.ref === BRANCH)
+  return hit ? parsePrNumber(hit.number) : null
+}
+
 /** An error message as plain one-line text for the bot comment. */
 const plain = text => String(text).replace(/[`\r\n]/g, ' ').slice(0, 300)
 
@@ -381,6 +569,8 @@ async function main() {
   const args = parseArgs(process.argv.slice(2))
   const repo = args.repo || process.env.GITHUB_REPOSITORY || REPO_SLUG
   if (!/^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9._-]{1,100}$/.test(repo)) throw new Error('bad --repo')
+  const headSha = String(args['head-sha'] || '')
+  if (!/^[0-9a-f]{40}$/.test(headSha)) throw new Error('--head-sha must be a full commit SHA')
   let number = parsePrNumber(args.pr)
   let metaSha = null
   if (args['pr-meta']) {
@@ -392,10 +582,14 @@ async function main() {
     }
     number = parsePrNumber(meta?.number)
     metaSha = typeof meta?.head_sha === 'string' ? meta.head_sha : null
+    // No artifact (Validate failed to start, or a PR changed validate.yml): find the open PR whose
+    // head is the commit the run checked. confirmedHead() below checks the same three facts again.
+    if (!number && args['head-repo'] && args['head-branch']) {
+      number = await prNumberForHead(repo, headSha, args['head-repo'], args['head-branch'])
+      if (number) console.log(`no pr-meta artifact: found PR #${number} by its head commit`)
+    }
   }
   if (!number) throw new Error('no valid pull request number (expected a positive integer)')
-  const headSha = String(args['head-sha'] || '')
-  if (!/^[0-9a-f]{40}$/.test(headSha)) throw new Error('--head-sha must be a full commit SHA')
   const validateConclusion = CONCLUSIONS.includes(args['validate-conclusion']) ? args['validate-conclusion'] : 'failure'
   let maintainerIds = {}
   try {
