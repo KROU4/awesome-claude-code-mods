@@ -1,7 +1,10 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { CATEGORIES } from './lib/constants.mjs'
 import {
   splitTopLevel, parseValidateReport, slotsFromCalls, slotsFromRenderHooks, capabilitiesFromAnalysis, riskOf, hookBase,
   noteItems, isOwnToolHook,
@@ -9,6 +12,7 @@ import {
 import {
   installFor, installTarget, sourceUrlFor, entryUrlFor, editUrlFor, resolveMedia, deriveSlots, deriveCapabilities,
   toRegistryMod, sortMods, checkPluginName, githubRepoOfUrl, loadEntries, marketplaceNameClashes, marketplaceNamesFrom,
+  marketplaceNameAllowed,
 } from './lib/catalog.mjs'
 import { toUtc } from './lib/cli.mjs'
 import { drawsOn, SURFACES_BY_SLOT, SLOTS } from './lib/surfaces.mjs'
@@ -180,7 +184,7 @@ const HOSTED = {
   source: { type: 'hosted' },
   surfaces: ['terminal', 'desktop'],
   preview: { elements: [{ slot: 'above-prompt', rows: [['x']] }, { slot: 'toast', text: 'Slow turn' }] },
-  media: [{ type: 'image', src: 'media/band.png', alt: 'The band' }, { type: 'video', src: 'https://example.com/a.mp4', alt: 'Demo' }],
+  media: [{ type: 'image', src: 'media/band.png', alt: 'The band' }, { type: 'video', src: 'https://raw.githubusercontent.com/o/r/main/a.mp4', alt: 'Demo' }],
 }
 
 test('install lines and deep links for a hosted mod', () => {
@@ -214,7 +218,9 @@ test('source, entry and edit URLs', () => {
   assert.equal(sourceUrlFor({ name: 'x', source: { type: 'github', repo: 'a/b', ref: 'v1', sha } }), `https://github.com/a/b/tree/${sha}`)
   assert.equal(sourceUrlFor({ name: 'x', source: { type: 'git', url: 'https://github.com/a/b.git', path: 'p' } }), 'https://github.com/a/b/tree/HEAD/p')
   assert.equal(sourceUrlFor({ name: 'x', source: { type: 'git', url: 'https://gitlab.com/a/b.git' } }), 'https://gitlab.com/a/b')
-  assert.equal(sourceUrlFor({ name: 'x', source: { type: 'marketplace', marketplace: 'o/m', repo: 'o/code', path: 'x' } }), 'https://github.com/o/code/tree/HEAD/x')
+  // source.repo is the entry's own claim: the link goes where the code installs from.
+  assert.equal(sourceUrlFor({ name: 'x', source: { type: 'marketplace', marketplace: 'o/m', repo: 'anthropics/claude-code', path: 'x' } }), 'https://github.com/o/m/tree/HEAD/x')
+  assert.equal(sourceUrlFor({ name: 'x', source: { type: 'marketplace', marketplace: 'o/m' } }), 'https://github.com/o/m')
   assert.equal(entryUrlFor('x'), 'https://github.com/KROU4/claude-code-mod-showroom/blob/main/mods/x/mod.json')
   assert.equal(editUrlFor('x'), 'https://github.com/KROU4/claude-code-mod-showroom/edit/main/mods/x/mod.json')
   assert.equal(githubRepoOfUrl('https://github.com/a/b.git'), 'a/b')
@@ -224,7 +230,7 @@ test('source, entry and edit URLs', () => {
 test('media src resolves relative paths to raw.githubusercontent.com', () => {
   assert.deepEqual(resolveMedia(HOSTED).map(m => m.src), [
     'https://raw.githubusercontent.com/KROU4/claude-code-mod-showroom/main/mods/turn-meter/media/band.png',
-    'https://example.com/a.mp4',
+    'https://raw.githubusercontent.com/o/r/main/a.mp4',
   ])
   assert.equal(resolveMedia({ name: 'x' }), undefined)
 })
@@ -299,6 +305,106 @@ test('two external marketplaces with one name are reported', () => {
     { name: 'claude-code-mods', repos: ['OneWave-AI/claude-code-mods', 'hamzafer/claude-code-mods'], mods: ['agent-radar', 'boss-fight', 'code-pet'] },
   ])
   assert.deepEqual(marketplaceNameClashes(entries.slice(1), names), [])
+})
+
+test('reserved marketplace names (this catalog, official ones) are never used in install ids', () => {
+  assert.equal(marketplaceNameAllowed('claude-code-mods', 'hamzafer/claude-code-mods'), true)
+  assert.equal(marketplaceNameAllowed('reporails-arcade', 'reporails/arcade'), true)
+  for (const name of ['mod-showroom', 'MOD-SHOWROOM', 'claude-plugins-official', 'anthropic', 'anthropic-tools', 'my-official-mods', 'claude-code']) {
+    assert.equal(marketplaceNameAllowed(name, 'evil/mkt'), false, name)
+  }
+  // Anthropic's own organization may use the official names, never this catalog's.
+  assert.equal(marketplaceNameAllowed('claude-community', 'anthropics/claude-plugins-community'), true)
+  assert.equal(marketplaceNameAllowed('mod-showroom', 'anthropics/x'), false)
+  for (const bad of [null, '', '-x', 'a b', 'x'.repeat(65), 'a/b']) assert.equal(marketplaceNameAllowed(bad, 'o/r'), false, String(bad))
+  const names = marketplaceNamesFrom({
+    'evil/mkt': { marketplaceName: 'mod-showroom' },
+    'o/r': { marketplaceName: 'fine-name' },
+  })
+  assert.deepEqual(names, { 'o/r': 'fine-name' })
+  const e = { name: 'git-glance', source: { type: 'marketplace', marketplace: 'evil/mkt', plugin: 'git-glance' } }
+  assert.equal(installTarget(e, names).pluginId, 'git-glance')
+})
+
+test('a marketplace entry takes its stars from the marketplace, not from source.repo', () => {
+  const entry = { ...HOSTED, name: 'x', source: { type: 'marketplace', marketplace: 'evil/mkt', repo: 'anthropics/claude-code' } }
+  const mod = toRegistryMod(entry, { github: { 'anthropics/claude-code': { stars: 90000 }, 'evil/mkt': { stars: 3 } } })
+  assert.equal(mod.stars, 3)
+  assert.equal(mod.sourceUrl, 'https://github.com/evil/mkt')
+  assert.ok(checkEntry(root, 'x', entry).warnings.some(w => w.startsWith('source.repo is ignored')))
+})
+
+test('the site shows the same category names as the README and registry.json', () => {
+  const text = readFileSync(join(root, 'site', 'src', 'i18n', 'common.ts'), 'utf8')
+  const found = [...text.matchAll(/'category\.([a-z]+)':\s*'([^']+)'/g)].map(m => [m[1], m[2]])
+  const en = Object.fromEntries(found.slice(0, CATEGORIES.length))
+  const ru = Object.fromEntries(found.slice(CATEGORIES.length, CATEGORIES.length * 2))
+  assert.equal(found.length, CATEGORIES.length * 2, 'site/src/i18n/common.ts has one English and one Russian name per category')
+  for (const c of CATEGORIES) {
+    assert.equal(en[c.id], c.title, `English name of ${c.id}`)
+    assert.equal(ru[c.id], c.title_ru, `Russian name of ${c.id}`)
+  }
+})
+
+test('checkEntry survives entries of the wrong shape', () => {
+  for (const bad of [null, [], 5, 'x']) {
+    assert.deepEqual(checkEntry(root, 'x', bad).errors, ['mod.json must be a JSON object'])
+  }
+  const shapes = [
+    { ...HOSTED, name: 'x', media: {} },
+    { ...HOSTED, name: 'x', media: [null, { src: 5 }] },
+    { ...HOSTED, name: 'x', source: null },
+    { ...HOSTED, name: 'x', source: { type: 'github' } },
+    { ...HOSTED, name: 5 },
+  ]
+  for (const entry of shapes) {
+    const { errors } = checkEntry(root, 'x', entry)
+    assert.ok(errors.length, JSON.stringify(entry).slice(0, 80))
+  }
+  assert.ok(checkEntry(root, 'x', { ...HOSTED, name: 'x', title: 'Turn‮meter' }).errors.some(e => /invisible or direction-changing/.test(e)))
+  assert.ok(checkEntry(root, 'x', { ...HOSTED, name: 'x', media: [{ type: 'image', src: 'https://evil.example/p.png', alt: 'pixel' }] })
+    .errors.some(e => /raw\.githubusercontent\.com/.test(e)))
+  assert.ok(checkEntry(root, 'x', { ...HOSTED, name: 'x', source: { type: 'github', repo: '-x/y' } }).errors.length)
+})
+
+test('one malformed entry is reported, and neither validate nor the registry build stops', async () => {
+  const { validateCatalog } = await import('./validate.mjs')
+  const { collect } = await import('./build-registry.mjs')
+  const dir = mkdtempSync(join(tmpdir(), 'cat-'))
+  try {
+    mkdirSync(join(dir, 'schema'))
+    writeFileSync(join(dir, 'schema', 'mod.schema.json'), readFileSync(join(root, 'schema', 'mod.schema.json')))
+    const put = (name, text) => {
+      mkdirSync(join(dir, 'mods', name), { recursive: true })
+      writeFileSync(join(dir, 'mods', name, 'mod.json'), text)
+    }
+    put('nul', 'null')
+    put('media-obj', JSON.stringify({ ...HOSTED, name: 'media-obj', source: { type: 'marketplace', marketplace: 'o/m' }, media: {} }))
+    put('no-repo', JSON.stringify({ ...HOSTED, name: 'no-repo', source: { type: 'github' }, media: undefined }))
+    put('good', JSON.stringify({ ...HOSTED, name: 'good', source: { type: 'marketplace', marketplace: 'o/m' }, media: undefined }))
+    const { results } = await validateCatalog({ rootDir: dir, cli: false, network: false })
+    const byName = Object.fromEntries(results.map(r => [r.name, r]))
+    for (const name of ['nul', 'media-obj', 'no-repo']) assert.ok(byName[name].errors.length, name)
+    assert.deepEqual(byName.good.errors, [])
+    const { items, skipped } = collect(dir)
+    assert.deepEqual(items.map(i => i.entry.name), ['good'])
+    assert.equal(skipped.length, 3)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('loadEntries reports a mod.json that is not an object', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'cat-'))
+  try {
+    mkdirSync(join(dir, 'mods', 'nul'), { recursive: true })
+    writeFileSync(join(dir, 'mods', 'nul', 'mod.json'), 'null')
+    const [row] = loadEntries(dir)
+    assert.equal(row.entry, undefined)
+    assert.match(row.error, /must be a JSON object/)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
 })
 
 test('checkEntry: verified needs a pinned commit, and ref cannot be a git option', () => {

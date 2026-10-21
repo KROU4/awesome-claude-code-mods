@@ -223,3 +223,25 @@ video {
 .lazy-placeholder {
   min-height: var(--placeholder-h, 480px);
 }
+
+/* The whole page failed to render (main.tsx, root error boundary). */
+.page-failed {
+  display: grid;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 72px 16px;
+  color: var(--ink);
+}
+.page-failed h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+.page-failed p {
+  color: var(--ink-2);
+}
+.page-failed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

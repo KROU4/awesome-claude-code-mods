@@ -27,16 +27,21 @@ export function collect(rootDir) {
       skipped.push(`${name}: ${error}`)
       continue
     }
-    const { errors } = checkEntry(rootDir, name, entry)
-    if (errors.length) {
-      skipped.push(`${name}: ${errors[0]}${errors.length > 1 ? ` (+${errors.length - 1} more)` : ''}`)
-      continue
+    // One entry that trips the generator is skipped; it never stops the build (and the deploy).
+    try {
+      const { errors } = checkEntry(rootDir, name, entry)
+      if (errors.length) {
+        skipped.push(`${name}: ${errors[0]}${errors.length > 1 ? ` (+${errors.length - 1} more)` : ''}`)
+        continue
+      }
+      const manifest = entry.source?.type === 'hosted' ? readPluginManifest(rootDir, name) : null
+      const analysis = readJsonIfExists(join(rootDir, 'data', 'analysis', `${name}.json`), undefined)
+      const dates = gitDates(rootDir, `mods/${name}/mod.json`)
+      const mod = toRegistryMod(entry, { analysis, manifest, dates, github, marketplaceNames })
+      items.push({ entry, mod, manifest })
+    } catch (err) {
+      skipped.push(`${name}: the generator stopped on this entry (${err.message})`)
     }
-    const manifest = entry.source?.type === 'hosted' ? readPluginManifest(rootDir, name) : null
-    const analysis = readJsonIfExists(join(rootDir, 'data', 'analysis', `${name}.json`), undefined)
-    const dates = gitDates(rootDir, `mods/${name}/mod.json`)
-    const mod = toRegistryMod(entry, { analysis, manifest, dates, github, marketplaceNames })
-    items.push({ entry, mod, manifest })
   }
   const clashes = marketplaceNameClashes(items.map(i => i.entry), marketplaceNames)
   return { items, skipped, clashes }

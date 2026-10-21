@@ -2,17 +2,17 @@
 import { ELSEWHERE } from '../../data/elsewhere'
 import { useT } from '../../i18n'
 import { useMotionPref } from '../../lib/motionPref'
-import { useRegistry } from '../../lib/registry'
+import { shellRegistry } from '../../lib/registry'
 import DataStatus from '../ui/DataStatus'
 import { Wordmark } from './Header'
 import './layout.css'
 
 export default function Footer() {
   const { t, pick } = useT()
-  const { registry } = useRegistry()
   const { stopped, toggle } = useMotionPref()
-  const repo = registry.repo.url
-  const blob = `${repo}/blob/${registry.repo.branch}`
+  // The project's own links come from the copy bundled at build time, not the live registry.
+  const repo = shellRegistry.repo.url
+  const blob = `${repo}/blob/${shellRegistry.repo.branch}`
 
   return (
     <footer className="site-footer">

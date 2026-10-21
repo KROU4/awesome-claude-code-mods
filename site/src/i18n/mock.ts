@@ -35,8 +35,6 @@ export default defineDict(
 
     captured: 'Rendered from the mod’s code',
     background: 'Runs in the background',
-    rewritten: 'rewritten by {mod}',
-    'notification.from': 'Notification from {app}',
     now: 'now',
   },
   {
@@ -71,8 +69,6 @@ export default defineDict(
 
     captured: 'Нарисовано кодом мода',
     background: 'Работает в фоне',
-    rewritten: 'переписано модом {mod}',
-    'notification.from': 'Уведомление от {app}',
     now: 'сейчас',
   },
 )

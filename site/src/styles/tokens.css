@@ -49,6 +49,8 @@
   --hue-kraft: #d4a27f;
   --hue-cactus: #8fb3a7;
   --hue-clay: #d97757;
+  --hue-gold: #c29a2c;
+  --hue-rose: #c46a86;
 
   --focus: #a94e2f;
   --scrim: rgba(20, 20, 19, 0.38);
@@ -95,6 +97,8 @@
   --hue-kraft: #d4a27f;
   --hue-cactus: #a8c4bb;
   --hue-clay: #d97757;
+  --hue-gold: #d4b24f;
+  --hue-rose: #d98aa2;
 
   --focus: #e89272;
   --scrim: rgba(0, 0, 0, 0.55);

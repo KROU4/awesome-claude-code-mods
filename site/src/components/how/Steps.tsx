@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { useT } from '../../i18n'
 import { resolveInstall } from '../../lib/install'
-import { useRegistry } from '../../lib/registry'
+import { shellRegistry, useRegistry } from '../../lib/registry'
 import { MockClient, type PreviewInput } from '../mock'
 import Command, { rich } from './Command'
 import './how.css'
@@ -16,7 +16,9 @@ export default function Steps() {
   const { registry } = useRegistry()
   const mod = registry.mods.find((m) => m.name === EXAMPLE) ?? registry.mods.find((m) => m.hosted) ?? registry.mods[0]
   const install = mod ? resolveInstall(mod) : null
-  const repo = registry.marketplace.repo
+  // Commands people paste come from the copy bundled at build time, not the live registry.
+  const market = shellRegistry.marketplace
+  const repo = market.repo
   const v = registry.minVersions
   const previews = useMemo<PreviewInput[]>(() => (mod ? [{ ...mod.preview, id: mod.name, label: mod.title }] : []), [mod])
 
@@ -28,9 +30,9 @@ export default function Steps() {
           {t('how.step.marketplace')}
         </h3>
         <p className="how-step-body">{t('how.step.marketplace.session')}</p>
-        <Command command={registry.marketplace.addCommand} what={t('how.copy.marketplace')} />
+        <Command command={market.addCommand} what={t('how.copy.marketplace')} />
         <p className="how-step-body">{t('how.step.marketplace.shell')}</p>
-        <Command command={registry.marketplace.addShell} what={t('how.copy.marketplaceShell')} />
+        <Command command={market.addShell} what={t('how.copy.marketplaceShell')} />
         <p className="how-step-note">{rich(t('how.step.marketplace.desktop', { repo }))}</p>
       </li>
 

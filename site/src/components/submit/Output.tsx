@@ -7,7 +7,7 @@ import { useRef } from 'react'
 import { useT } from '../../i18n'
 import type { PreviewElement, SiteMod } from '../../data/types'
 import { copyText } from '../../lib/clipboard'
-import { useRegistry } from '../../lib/registry'
+import { shellRegistry } from '../../lib/registry'
 import { highlightLine } from '../how/highlight'
 import CopyButton from '../ui/CopyButton'
 import { IconArrowUpRight, IconCheck } from '../ui/icons'
@@ -43,7 +43,6 @@ export default function Output({
   onReveal: () => void
 }) {
   const { t, tn } = useT()
-  const { registry } = useRegistry()
   const toast = useToast()
   const pre = useRef<HTMLPreElement>(null)
 
@@ -51,7 +50,8 @@ export default function Output({
   const checked = status === 'ready' || status === 'failed'
   const ready = checked && blocking.length === 0
   const file = `mods/${name}/mod.json`
-  const base = `${registry.repo.url}/new/${registry.repo.branch}?filename=${file}`
+  // The repository the pull request goes to comes from the copy bundled at build time.
+  const base = `${shellRegistry.repo.url}/new/${encodeURIComponent(shellRegistry.repo.branch)}?filename=${encodeURIComponent(file)}`
   const full = `${base}&value=${encodeURIComponent(json)}`
   const tooLong = full.length > MAX_URL
 

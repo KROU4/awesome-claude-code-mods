@@ -5,7 +5,7 @@
 // Lazy-loaded by LoadoutBar for the #/loadout history entry.
 import { useId, useMemo, useState } from 'react'
 import { useT, type TKey } from '../../i18n'
-import { loadoutLines } from '../../lib/install'
+import { loadoutLines, loadoutPlan, type HeldBack } from '../../lib/install'
 import { useLoadout } from '../../lib/loadout'
 import { hrefFor } from '../../lib/router'
 import { WorksOn } from '../catalog/bits'
@@ -29,7 +29,9 @@ export default function LoadoutSheet({ onClose }: { onClose: () => void }) {
   const titleId = useId()
   const [form, setForm] = useState<Form>('shell')
   const previews = useMemo(() => mods.map(fullPreview), [mods])
-  const lines = loadoutLines(mods, form)
+  const heldNote = (h: HeldBack) => t('install.loadout.held', { mods: h.mods.map((m) => m.title).join(', '), repo: h.repo, name: h.name, kept: h.kept })
+  const { held } = loadoutPlan(mods, form)
+  const lines = loadoutLines(mods, form, heldNote)
   const commands = lines.join('\n')
 
   return (
@@ -115,6 +117,11 @@ export default function LoadoutSheet({ onClose }: { onClose: () => void }) {
               ) : (
                 <CmdLines lines={lines} what={t('install.what.command')} />
               )}
+              {held.map((h) => (
+                <p key={`${h.name}-${h.repo}`} className="lo-note lo-held" role="note">
+                  {heldNote(h)}
+                </p>
+              ))}
             </section>
           </div>
         </div>

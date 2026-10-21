@@ -49,7 +49,6 @@ export default defineDict(
     'docs.reference': 'Mod API reference',
     'docs.reference.note': 'Hooks, $ calls and components',
 
-    'elsewhere.title': 'More places to find mods',
   },
   {
     title: 'Как это работает',
@@ -98,6 +97,5 @@ export default defineDict(
     'docs.reference': 'Справочник API модов',
     'docs.reference.note': 'Хуки, вызовы $ и компоненты',
 
-    'elsewhere.title': 'Где ещё искать моды',
   },
 )

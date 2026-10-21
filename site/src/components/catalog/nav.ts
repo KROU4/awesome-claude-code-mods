@@ -1,6 +1,6 @@
 // Opening the mod sheet and the loadout sheet as history entries, so Back closes them.
-import { useSyncExternalStore, type MouseEvent } from 'react'
-import { navigate, parseHash } from '../../lib/router'
+import type { MouseEvent } from 'react'
+import { navigate, parseHash, useHash } from '../../lib/router'
 
 /** The loadout sheet's history entry (the router reads it as home: nothing scrolls). */
 export const LOADOUT_HASH = '#/loadout'
@@ -51,15 +51,16 @@ export function isPlainClick(e: MouseEvent): boolean {
   return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey
 }
 
-function subscribe(cb: () => void) {
-  window.addEventListener('hashchange', cb)
-  window.addEventListener('popstate', cb)
-  return () => {
-    window.removeEventListener('hashchange', cb)
-    window.removeEventListener('popstate', cb)
-  }
+/**
+ * onClick for an in-page link (#/catalog, #/how…): goes through the router, so clicking the link
+ * of the current section scrolls to it again (the browser alone does nothing for the same hash).
+ */
+export function followHashLink(e: MouseEvent<HTMLAnchorElement>): void {
+  const href = e.currentTarget.getAttribute('href') ?? ''
+  if (!href.startsWith('#') || !isPlainClick(e) || e.defaultPrevented) return
+  e.preventDefault()
+  navigate(href)
 }
 
-export function useHash(): string {
-  return useSyncExternalStore(subscribe, () => window.location.hash, () => '')
-}
+/** The current hash (the loadout sheet's #/loadout entry is not a route). */
+export { useHash }

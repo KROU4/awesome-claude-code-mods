@@ -58,6 +58,17 @@
   grid-area: client;
   min-width: 0;
 }
+/* the live client could not be drawn (ui/Boundary) */
+.hero-client-failed {
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  padding: 24px;
+  border-radius: var(--r-card);
+  background: var(--sunk);
+  color: var(--ink-2);
+  text-align: center;
+}
 @media (max-width: 959px) {
   .hero .hero-cmd {
     display: none;

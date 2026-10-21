@@ -4,9 +4,11 @@
 import HeroStats from '../components/hero/HeroStats'
 import LiveClient from '../components/hero/LiveClient'
 import { CommandText } from '../components/how/Command'
+import Boundary from '../components/ui/Boundary'
 import CopyButton from '../components/ui/CopyButton'
+import { followHashLink } from '../components/catalog/nav'
 import { useT } from '../i18n'
-import { useRegistry } from '../lib/registry'
+import { shellRegistry } from '../lib/registry'
 import '../components/hero/hero.css'
 
 export type HeroProps = {
@@ -16,8 +18,9 @@ export type HeroProps = {
 
 export default function Hero({ id = 'top' }: HeroProps) {
   const { t } = useT()
-  const { registry } = useRegistry()
-  const command = registry.marketplace.addCommand
+  // The command people paste comes from the copy bundled at build time, never from the live
+  // registry.json: a bad write to main must not change what the page tells people to run.
+  const command = shellRegistry.marketplace.addCommand
   const title = t('hero.title')
   const cut = title.indexOf('. ')
   const lead = cut > 0 ? title.slice(0, cut + 1) : title
@@ -35,7 +38,7 @@ export default function Hero({ id = 'top' }: HeroProps) {
           <p className="hero-lead">{t('hero.lead')}</p>
 
           <div className="hero-actions">
-            <a className="btn btn-primary" href="#/catalog">
+            <a className="btn btn-primary" href="#/catalog" onClick={followHashLink}>
               {t('hero.cta.browse')}
             </a>
             <CopyButton text={command} label={t('hero.cta.marketplace')} className="btn btn-secondary" variant="plain" />
@@ -54,7 +57,9 @@ export default function Hero({ id = 'top' }: HeroProps) {
         </div>
       </div>
 
-      <LiveClient sectionId={id} className="hero-client" />
+      <Boundary fallback={<p className="hero-client hero-client-failed">{t('common.error.preview')}</p>}>
+        <LiveClient sectionId={id} className="hero-client" />
+      </Boundary>
     </section>
   )
 }

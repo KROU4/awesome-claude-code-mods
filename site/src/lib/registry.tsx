@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import shellJson from '../data/registry.shell.json'
 import type { SiteMod, SiteRegistry } from '../data/types'
+import { shellRegistry } from './shell'
 
 // The catalog is never bundled into the JS. As soon as this module loads (before React's
 // first render) the page requests it live from GitHub (cache-busting param rounded to 5
@@ -42,8 +42,8 @@ export type RegistryState = {
   retry: () => void
 }
 
-/** Repo, marketplace, categories and labels: everything except the mods. */
-export const shellRegistry = shellJson as unknown as SiteRegistry
+/** Repo, marketplace, categories and labels: everything except the mods (lib/shell.ts). */
+export { shellRegistry }
 
 function isRegistry(x: unknown): x is SiteRegistry {
   if (!x || typeof x !== 'object') return false

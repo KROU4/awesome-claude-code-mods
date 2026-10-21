@@ -4,7 +4,7 @@
 
 **[Open the site](https://krou4.github.io/claude-code-mod-showroom/)** · [Русский](README.md) · [Contributing](CONTRIBUTING.en.md) · [Research](docs/research.md)
 
-[![Validate](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml/badge.svg)](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml)
+[![Sync and deploy](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/sync.yml/badge.svg?branch=main)](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/sync.yml)
 
 The catalog lists <!-- count:start -->56 mods<!-- count:end -->. The repository is also the Claude Code marketplace `mod-showroom`.
 
@@ -65,7 +65,7 @@ A mod runs inside your session with your permissions. Read an external mod's cod
 
 ## Catalog
 
-Each mod says what it draws, who wrote it and where its code lives: "hosted here" means the code is in `mods/<name>/plugin/` and checked by CI, "external" means it lives in the author's repository. The install command is under the fold.
+Each mod says what it draws, who wrote it and where its code lives: "hosted here" means the code is in `mods/<name>/plugin/`, checked by CI, with changes after the first version read by a catalog maintainer; "external" means it lives in the author's repository. It is community code either way: read it before you install. The install command is under the fold.
 
 <!-- mods:start -->
 Categories: [Interface](#interface) · [Insights](#insights) · [Safety](#safety) · [Productivity](#productivity) · [Git](#git) · [Fun](#fun) · [Accessibility](#accessibility)
@@ -554,7 +554,7 @@ The mod's code can live in your own repository (`source: github`) or right here 
 
 - `main` cannot be deleted or rewritten: deletion and force pushes are blocked with no exceptions, administrators included.
 - Changes reach `main` only through pull requests.
-- The bot merges a pull request by itself only when every file is inside `mods/<name>/`, the Validate check passed for that exact commit, the author maintains the entries they changed (a new entry lists them in `maintainers`) and the `verified` field is untouched. Everything else waits for a maintainer.
+- The bot merges a pull request by itself only when every file is inside `mods/<name>/`, the Validate check passed for that exact commit, the author maintains the entries they changed (a new entry lists them in `maintainers`) and the `verified` field is untouched. It never changes the code or `source` of a mod already in the catalog: a maintainer reads those. Everything else waits for a maintainer too.
 - The bot never runs code from a pull request with write access: it reads the pull request through the GitHub API as data.
 - Mistakes are fixed with new commits (reverts); history is never rewritten.
 

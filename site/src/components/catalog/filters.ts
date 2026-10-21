@@ -2,6 +2,7 @@
 // Facet counts answer "how many mods would I see if I picked this", so a chip that
 // leads to an empty grid shows 0 before anyone clicks it.
 import type { Category, DrawingSurface, SiteMod, Slot } from '../../data/types'
+import { shellRegistry } from '../../lib/shell'
 import { readJSON, writeJSON } from '../../lib/storage'
 
 export type SortKey = 'featured' | 'newest' | 'stars' | 'az'
@@ -36,12 +37,19 @@ export const DEFAULT_FILTERS: FilterState = { q: '', category: 'all', groups: []
 
 const STORAGE_KEY = 'catalog.filters'
 
-/** Saved filters (not the search text: a stale search on the next visit hides mods for no visible reason). */
+const isCategory = (v: unknown): v is Category => typeof v === 'string' && shellRegistry.categories.some((c) => c.id === v)
+const isGroup = (v: unknown): v is SlotGroup => typeof v === 'string' && Object.hasOwn(SLOT_GROUPS, v)
+
+/**
+ * Saved filters (not the search text: a stale search on the next visit hides mods for no visible
+ * reason). localStorage is shared by every page of this origin, so each field is checked against
+ * its allowed values ("constructor" is `in` every object, so `in` would not do).
+ */
 export function loadFilters(): FilterState {
   const raw = readJSON<Partial<FilterState> | null>(STORAGE_KEY, null)
-  if (!raw || typeof raw !== 'object') return DEFAULT_FILTERS
-  const category = typeof raw.category === 'string' ? (raw.category as FilterState['category']) : 'all'
-  const groups = Array.isArray(raw.groups) ? raw.groups.filter((g): g is SlotGroup => g in SLOT_GROUPS) : []
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return DEFAULT_FILTERS
+  const category = isCategory(raw.category) ? raw.category : 'all'
+  const groups = Array.isArray(raw.groups) ? [...new Set(raw.groups.filter(isGroup))] : []
   const surface = SURFACES.includes(raw.surface as DrawingSurface) ? (raw.surface as DrawingSurface) : 'any'
   const sort = SORTS.includes(raw.sort as SortKey) ? (raw.sort as SortKey) : 'featured'
   return { q: '', category, groups, surface, sort }

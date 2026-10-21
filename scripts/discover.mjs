@@ -7,7 +7,7 @@
 import { gh, ghPaginate, rawFile } from './lib/github.mjs'
 import { loadEntries, githubRepoOfUrl } from './lib/catalog.mjs'
 import { mdEscape } from './lib/readme.mjs'
-import { DISCOVERY_ISSUE_TITLE, REPO_SLUG, BOT_LOGINS } from './lib/constants.mjs'
+import { DISCOVERY_ISSUE_TITLE, REPO_SLUG, BOT_LOGINS, REPO_LABELS } from './lib/constants.mjs'
 import { isMain } from './lib/cli.mjs'
 import { parseArgs } from './policy.mjs'
 import { join, dirname } from 'node:path'
@@ -38,17 +38,20 @@ export function hasModules(text) {
 /** Keys of what the catalog already lists: "owner/repo:path" and "owner/repo:*" for whole repos. */
 export function knownSources(entries) {
   const known = new Set([`${REPO_SLUG.toLowerCase()}:*`])
+  const str = v => (typeof v === 'string' ? v : '')
   for (const e of entries) {
-    const s = e.source || {}
-    if (s.type === 'github') known.add(`${s.repo.toLowerCase()}:${s.path || ''}`)
+    // Entries are not schema-checked here: skip fields of the wrong type instead of throwing.
+    const s = e?.source && typeof e.source === 'object' ? e.source : {}
+    const path = str(s.path)
+    if (s.type === 'github' && str(s.repo)) known.add(`${s.repo.toLowerCase()}:${path}`)
     if (s.type === 'git') {
-      const repo = githubRepoOfUrl(s.url)
-      if (repo) known.add(`${repo.toLowerCase()}:${s.path || ''}`)
+      const repo = githubRepoOfUrl(str(s.url))
+      if (repo) known.add(`${repo.toLowerCase()}:${path}`)
     }
     if (s.type === 'marketplace') {
       // Only the listed plugin's folder: the marketplace's other mods stay discoverable.
-      known.add(`${s.marketplace.toLowerCase()}:${s.path || '*'}`)
-      if (s.repo) known.add(`${s.repo.toLowerCase()}:${s.path || '*'}`)
+      if (str(s.marketplace)) known.add(`${s.marketplace.toLowerCase()}:${path || '*'}`)
+      if (str(s.repo)) known.add(`${s.repo.toLowerCase()}:${path || '*'}`)
     }
   }
   return known
@@ -89,11 +92,25 @@ async function searchTopic(topic) {
   return items
 }
 
-async function upsertIssue(repo, body) {
-  const label = await gh(`/repos/${repo}/labels/${DISCOVERY_LABEL}`, { allow404: true })
-  if (!label) {
-    await gh(`/repos/${repo}/labels`, { method: 'POST', body: { name: DISCOVERY_LABEL, color: '6a9bcc', description: 'Mods found by the weekly discovery job' } }).catch(() => {})
+/** Creates the catalog's labels (constants REPO_LABELS) that the repository lacks; keeps existing ones. */
+export async function ensureLabels(repo, labels = REPO_LABELS) {
+  const created = []
+  for (const l of labels) {
+    const existing = await gh(`/repos/${repo}/labels/${encodeURIComponent(l.name)}`, { allow404: true })
+    if (existing) continue
+    try {
+      await gh(`/repos/${repo}/labels`, { method: 'POST', body: l })
+      created.push(l.name)
+    } catch (err) {
+      console.error(`! label ${l.name}: ${err.message}`)
+    }
   }
+  return created
+}
+
+async function upsertIssue(repo, body) {
+  const newLabels = await ensureLabels(repo)
+  if (newLabels.length) console.log(`created labels: ${newLabels.join(', ')}`)
   const open = await ghPaginate(`/repos/${repo}/issues?state=open&labels=${DISCOVERY_LABEL}`, { maxPages: 3 })
   const mine = open.find(i => !i.pull_request && i.title === DISCOVERY_ISSUE_TITLE && BOT_LOGINS.includes(i.user?.login))
   if (mine) {

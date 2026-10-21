@@ -25,17 +25,22 @@ const shellFile = join(siteDir, 'src', 'data', 'registry.shell.json')
 /** Written by older versions of this script; removed so it cannot be bundled by mistake. */
 const legacyFile = join(siteDir, 'src', 'data', 'registry.snapshot.json')
 
-const OWNER = 'KROU4'
-const REPO = 'claude-code-mod-showroom'
-const BRANCH = 'main'
-const MARKETPLACE_NAME = 'mod-showroom'
+// Names, versions and categories come from the repository's own scripts/lib/constants.mjs. The
+// copies below are only for a site checked out alone (fallback 3), where that file is missing.
+const constantsFile = join(repoRoot, 'scripts', 'lib', 'constants.mjs')
+const C = existsSync(constantsFile) ? await import(pathToFileURL(constantsFile).href) : {}
+
+const OWNER = C.OWNER ?? 'KROU4'
+const REPO = C.REPO ?? 'claude-code-mod-showroom'
+const BRANCH = C.BRANCH ?? 'main'
+const MARKETPLACE_NAME = C.MARKETPLACE_NAME ?? 'mod-showroom'
 const MARKETPLACE_REPO = `${OWNER}/${REPO}`
 const REPO_URL = `https://github.com/${MARKETPLACE_REPO}`
-const PAGES_URL = `https://krou4.github.io/${REPO}/`
+const PAGES_URL = C.PAGES_URL ?? `https://krou4.github.io/${REPO}/`
 
-const MIN_VERSIONS = { mods: '2.1.287', desktop: '2.1.286', terminal: '2.1.275', shell: '2.1.292', vscode: '2.1.299' }
+const MIN_VERSIONS = C.MIN_VERSIONS ?? { mods: '2.1.287', desktop: '2.1.286', terminal: '2.1.275', shell: '2.1.292', vscode: '2.1.299' }
 
-const CATEGORIES = [
+const CATEGORIES = C.CATEGORIES ?? [
   { id: 'interface', title: 'Interface', title_ru: 'Интерфейс' },
   { id: 'insights', title: 'Insights', title_ru: 'Сводки' },
   { id: 'safety', title: 'Safety', title_ru: 'Безопасность' },
@@ -46,10 +51,12 @@ const CATEGORIES = [
   { id: 'accessibility', title: 'Accessibility', title_ru: 'Доступность' },
 ]
 
-const ALL = ['terminal', 'desktop', 'vscode']
+const surfacesFile = join(repoRoot, 'scripts', 'lib', 'surfaces.mjs')
+const S = existsSync(surfacesFile) ? await import(pathToFileURL(surfacesFile).href) : {}
+const ALL = S.DRAWING_SURFACES ?? ['terminal', 'desktop', 'vscode']
 const TD = ['terminal', 'desktop']
 const T = ['terminal']
-const SURFACES_BY_SLOT = {
+const SURFACES_BY_SLOT = S.SURFACES_BY_SLOT ?? {
   'above-prompt': TD, pane: ALL, status: TD, toast: TD, notification: TD, command: TD,
   'tool-deny': ALL, 'prompt-rewrite': ALL, spinner: ALL, 'prompt-hint': TD, 'session-mode': TD,
   'turn-duration': T, 'tool-row': ALL, message: ALL, 'info-notice': T, 'model-tool': ALL, background: ALL,
@@ -96,7 +103,8 @@ function sourceUrlOf(name, source) {
     case 'git':
       return source.url.replace(/\.git$/, '')
     case 'marketplace':
-      return `https://github.com/${source.repo || source.marketplace}${source.path ? `/tree/HEAD/${source.path}` : ''}`
+      // where the code installs from (source.repo is the entry's own claim, as in scripts/lib/catalog.mjs)
+      return `https://github.com/${source.marketplace}${source.path ? `/tree/HEAD/${source.path}` : ''}`
     default:
       return REPO_URL
   }

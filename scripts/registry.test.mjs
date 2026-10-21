@@ -161,7 +161,8 @@ test('enrich looks up source repos, marketplaces and the catalog repo', () => {
     { source: { type: 'git', url: 'https://gitlab.com/e/f.git' } },
     { source: { type: 'marketplace', marketplace: 'o/m', repo: 'o/code' } },
   ])
-  assert.deepEqual([...repos.keys()], ['KROU4/claude-code-mod-showroom', 'a/b', 'c/d', 'o/code', 'o/m'])
+  // A marketplace entry's stars come from its marketplace repo, never from source.repo.
+  assert.deepEqual([...repos.keys()], ['KROU4/claude-code-mod-showroom', 'a/b', 'c/d', 'o/m'])
   assert.equal(repos.get('o/m').marketplace, true)
   assert.deepEqual(Object.keys(sortKeys({ b: 1, a: 2 })), ['a', 'b'])
 })

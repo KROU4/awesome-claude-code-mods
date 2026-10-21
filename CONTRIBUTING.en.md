@@ -55,8 +55,8 @@ The smallest entry for a mod in your own repository:
 | `tagline_ru` | no | The same in Russian, up to 110 characters. |
 | `description` | yes | A paragraph in English, 20–700 characters. `code` spans are fine. |
 | `description_ru` | no | The same paragraph in Russian, up to 800 characters. |
-| `author` | yes | `{ "name", "github"?, "url"? }`; `url` must be https. |
-| `maintainers` | yes | 1–10 GitHub logins that may change the entry without a catalog maintainer. A new entry must include the PR author. |
+| `author` | yes | `{ "name", "github"?, "url"? }`; `url` must be https. Listing someone else as the author (`github` other than your login) needs a catalog maintainer. |
+| `maintainers` | yes | 1–10 GitHub logins that may change the entry without a catalog maintainer. A new entry must include the PR author; anyone else you add is confirmed by a catalog maintainer. |
 | `category` | yes | One of `interface`, `insights`, `safety`, `productivity`, `git`, `integrations`, `fun`, `accessibility`. |
 | `tags` | no | Up to 8: lower-case letters, digits and hyphens, up to 24 characters. |
 | `license` | yes | SPDX identifier of the mod's code license, e.g. `MIT`. |
@@ -67,17 +67,17 @@ The smallest entry for a mod in your own repository:
 | `requires` | no | `{ "claudeCode": ">=2.1.299" }`, the lowest Claude Code version it needs. |
 | `capabilities` | no | What the mod does beyond drawing: `network`, `processes`, `filesystem` (`none`, `read`, `write`), `model`, `promptRewrite`, `blocksTools`. CI works them out from `claude plugin validate` whenever it can read the code; declare them for code it cannot read. |
 | `preview` | yes | What the mod draws, for the mock client on the site, see [preview](#preview). |
-| `media` | no | Up to 6 images or videos: `{ "type": "image" \| "video", "src", "alt", "surface"? }`. `src` is an https URL or a path relative to mod.json (`media/band.png`), at most 2 MB. |
+| `media` | no | Up to 6 images or videos: `{ "type": "image" \| "video", "src", "alt", "surface"? }`. `src` is a path relative to mod.json (`media/band.png`), at most 2 MB, or an https link on raw.githubusercontent.com, user-images.githubusercontent.com or github.com/user-attachments/ (other hosts could log every visitor or swap the picture after review). |
 | `verified` | — | Set by catalog maintainers only: a person read the code at the pinned version (an external `github`/`git` mod needs a `sha`). The bot does not merge a pull request that changes it or an entry with `verified: true`. |
 
 ## Where it installs from: source
 
 | `type` | Fields | When |
 | --- | --- | --- |
-| `hosted` | — | The code lives here, in `mods/<name>/plugin/`, and CI checks it on every change. |
+| `hosted` | — | The code lives here, in `mods/<name>/plugin/`, and CI checks it on every change. The first version can be merged by the bot; later code changes are read by a catalog maintainer. |
 | `github` | `repo` (`owner/repo`), `path`?, `ref`?, `sha`? | The plugin is the root of a GitHub repository, or the folder `path`. A 40-character `sha` pins the commit that gets installed. `ref` is a branch or tag name: letters, digits, `.`, `_`, `/` and `-`, not starting with `-`. The name in the plugin's `.claude-plugin/plugin.json` must equal `name`. |
 | `git` | `url` (https, ending in `.git`), `path`?, `ref`?, `sha`? | Any git host. `ref` and `sha` as for `github`. |
-| `marketplace` | `marketplace` (`owner/repo` with `.claude-plugin/marketplace.json`), `plugin`?, `repo`?, `path`? | The mod is already in your own marketplace. The catalog shows it, and its install commands point at your marketplace. |
+| `marketplace` | `marketplace` (`owner/repo` with `.claude-plugin/marketplace.json`), `plugin`?, `path`? | The mod is already in your own marketplace. The catalog shows it, and its install commands point at your marketplace. Stars and the code link come from that repository (`repo` is ignored). The marketplace's `name` may not be `mod-showroom` or an official name such as `claude-plugins-official`. |
 
 Mods from `hosted`, `github` and `git` sources are served by this repository's marketplace, `mod-showroom`: `/plugin install <name> --marketplace KROU4/claude-code-mod-showroom`.
 
@@ -117,6 +117,9 @@ The bot merges a pull request without a human only when all of this holds:
 4. Only an entry's maintainers can remove it.
 5. `verified` is unchanged (a new entry does not set it). The bot does not change an entry with `verified: true` by itself: a catalog maintainer reviews those pull requests.
 6. The pull request is not a draft, has no `hold` label and targets `main`.
+7. Code people have already installed does not change: for a listed `hosted`, `github` or `git` mod, nothing under `mods/<name>/plugin/` changes, and for any listed mod `source` stays the same. A new entry under a name the catalog had before counts as such a change too. A catalog maintainer reads those.
+8. At most one new entry per pull request, and every `mod.json` stays under 64 KB.
+9. The mod's shown identity is yours: `author.github` is your login (or absent), the maintainers you add are only you, and the title, taglines and author name hold no words, marks or links that read as an endorsement (`official`, `verified`, `anthropic`, ✓, anthropic.com, claude.ai) and no words that mix alphabets.
 
 When something is off, the bot adds the `needs-maintainer` label and keeps one comment listing the reasons in English and Russian; a catalog maintainer then reviews the pull request. When Validate itself failed, the comment links to its log: fix the problem and push a new commit. Details, and how to appeal, are in [docs/governance.md](docs/governance.md).
 

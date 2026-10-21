@@ -43,7 +43,8 @@ export default defineDict(
     'copy.done': 'Copied',
     'copy.failed': 'Select the text and press Ctrl+C',
 
-    loading: 'Loading',
+    'error.part': 'This part of the page could not be shown. Reload the page, or try again later.',
+    'error.preview': 'This preview could not be drawn.',
     'time.justNow': 'just now',
 
     'footer.disclaimer':
@@ -131,7 +132,8 @@ export default defineDict(
     'copy.done': 'Скопировано',
     'copy.failed': 'Выделите текст и нажмите Ctrl+C',
 
-    loading: 'Загрузка',
+    'error.part': 'Эту часть страницы не удалось показать. Обновите страницу или попробуйте позже.',
+    'error.preview': 'Это превью не удалось нарисовать.',
     'time.justNow': 'только что',
 
     'footer.disclaimer':

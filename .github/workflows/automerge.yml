@@ -24,11 +24,17 @@ jobs:
   automerge:
     name: Merge or ask for a maintainer
     # Only runs of the real Validate workflow file (a PR can add another workflow named
-    # "Validate"), and only conclusions that carry a decision.
+    # "Validate"), and only conclusions that carry a decision. Skipped: the Sync bot's own branches
+    # in this repository (bot/sync-*: Sync merges them itself, and only someone with write access
+    # can push a branch here), and Dependabot's pull requests (they change files outside mods/, so
+    # the bot never merges them, and a run they trigger may get a read-only token).
     if: >-
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.path == '.github/workflows/validate.yml' &&
-      contains(fromJSON('["success","failure","timed_out"]'), github.event.workflow_run.conclusion)
+      contains(fromJSON('["success","failure","timed_out"]'), github.event.workflow_run.conclusion) &&
+      github.event.workflow_run.actor.login != 'dependabot[bot]' &&
+      !(github.event.workflow_run.head_repository.full_name == github.repository &&
+        startsWith(github.event.workflow_run.head_branch, 'bot/sync-'))
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -48,7 +54,15 @@ jobs:
         with:
           node-version: 22
 
+      # ajv, so the policy checks the PR's mod.json against main's schema itself. Installed from
+      # main's package-lock.json with install scripts off; nothing from the PR is installed or run.
+      - name: Install the policy's dependencies (from main)
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      # A Validate run that failed to start, or that a PR changed, may leave no artifact: then
+      # policy.mjs finds the PR by its head commit, repository and branch instead.
       - name: Download the pull request metadata
+        continue-on-error: true
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: pr-meta
@@ -80,8 +94,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ steps.decide.outputs.pr }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        # --delete-branch removes the head branch of a PR from this repository; gh leaves a fork's
+        # branch alone (a token for this repository cannot delete it).
         run: |
-          gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --squash --match-head-commit "$HEAD_SHA"
+          gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --squash --delete-branch --match-head-commit "$HEAD_SHA"
           gh workflow run sync.yml --repo "$GITHUB_REPOSITORY" --ref main
 
       - name: Comment on the merge

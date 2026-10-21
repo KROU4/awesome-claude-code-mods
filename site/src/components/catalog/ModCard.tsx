@@ -9,6 +9,7 @@ import { hrefFor } from '../../lib/router'
 import type { SiteMod, Slot } from '../../data/types'
 import { MockClient } from '../mock'
 import InstallPopover from '../install/InstallPopover'
+import Boundary from '../ui/Boundary'
 import { Avatar, CategoryDot, LoadoutToggle, SourceBadge, Stars } from './bits'
 import { CARD_ROWS, cardPreview } from './cardPreview'
 import { isPlainClick, openMod } from './nav'
@@ -32,7 +33,10 @@ function ModCard({ mod, headingLevel = 3 }: { mod: SiteMod; headingLevel?: 2 | 3
   return (
     <article className="mod-card" data-category={mod.category}>
       <div className="mod-card-mock" ref={frame}>
-        <MockClient previews={previews} compact rows={CARD_ROWS} notes={false} label={t('catalog.card.preview', { title: mod.title })} />
+        {/* one preview the mock cannot draw (a newer registry than this build) costs one card's picture, not the page */}
+        <Boundary resetKey={mod.name} fallback={<p className="mod-card-mock-failed">{t('common.error.preview')}</p>}>
+          <MockClient previews={previews} compact rows={CARD_ROWS} notes={false} label={t('catalog.card.preview', { title: mod.title })} />
+        </Boundary>
       </div>
 
       <div className="mod-card-body">

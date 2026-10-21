@@ -25,13 +25,21 @@ export default function App() {
   const { t } = useT()
   const route = useRoute()
   const { still } = useMotionPref()
+  const stillRef = useRef(still)
+  // Runs before the scroll effect below (effects run in order), so it reads the current value.
+  useEffect(() => {
+    stillRef.current = still
+  }, [still])
   const main = useRef<HTMLElement>(null)
   const first = useRef(true)
 
-  // #/catalog, #/how, #/submit scroll to their section (instantly on first load).
+  // #/catalog, #/how, #/submit scroll to their section (instantly on first load). Only a
+  // navigation runs this: `route` keeps its identity across re-renders (a language or motion
+  // switch must not throw the reader back to the section), and a click on the current section's
+  // link is a new navigation with the same name.
   useEffect(() => {
     const id = SECTION_FOR_ROUTE[route.name]
-    const instant = first.current || still
+    const instant = first.current || stillRef.current
     first.current = false
     if (!id) return
     const el = document.getElementById(id)
@@ -41,7 +49,7 @@ export default function App() {
       return () => cancelAnimationFrame(raf)
     }
     el.scrollIntoView({ behavior: instant ? 'auto' : 'smooth', block: 'start' })
-  }, [route, still])
+  }, [route])
 
   const closeSheet = useCallback(() => back(), [])
 

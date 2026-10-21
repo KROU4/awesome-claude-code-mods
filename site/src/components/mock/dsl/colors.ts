@@ -115,10 +115,16 @@ const ANSI: Record<string, string> = {
 
 const TOKENS = new Set(Object.keys(TERMINAL_THEMES.dark))
 
-/** CSS value for a DSL / Ink color: a theme token → var(--t-token), #hex or rgb() as is. */
+/**
+ * CSS value for a DSL / Ink color: a theme token → var(--t-token), #hex or rgb()/rgba() as is.
+ * Only those exact shapes pass: the value is pasted into borders and color-mix() for captured
+ * trees, so "#fff; background:url(…)" or "rgb(0 0 0) , url(…)" must not.
+ */
 export function resolveColor(color: string | undefined | null): string | undefined {
-  if (!color) return undefined
-  if (color.startsWith('#') || color.startsWith('rgb')) return color
+  if (!color || typeof color !== 'string') return undefined
+  if (/^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(color)) return color
+  if (/^rgba?\(\s*[\d.]+%?\s*(?:,\s*|\s+)[\d.]+%?\s*(?:,\s*|\s+)[\d.]+%?\s*(?:(?:,|\/)\s*[\d.]+%?\s*)?\)$/i.test(color)) return color
+  if (color.startsWith('#') || /^rgb/i.test(color)) return undefined
   const token = ALIASES[color] ?? color
   if (TOKENS.has(token)) return `var(--t-${token})`
   const ansi = color.replace(/^ansi:/, '')

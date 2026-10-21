@@ -1,11 +1,12 @@
 // The live preview of the draft: a MockClient fed with the entry's `preview`, made safe to
 // draw while it is half-typed (numbers clamped, broken pieces skipped), behind an error
 // boundary so a bad value can never take the page down.
-import { Component, useMemo, useState, type ReactNode } from 'react'
+import { useMemo, useState } from 'react'
 import { useT } from '../../i18n'
 import type { Preview, PreviewElement, Row, Segment } from '../../data/types'
 import { useMediaQuery } from '../../lib/hooks'
 import { MockClient, type PreviewInput } from '../mock'
+import Boundary from '../ui/Boundary'
 
 function safeSegment(s: Segment): Segment | null {
   if (typeof s === 'string') return s
@@ -54,19 +55,6 @@ function safeElement(e: PreviewElement): PreviewElement {
       return { ...e, glyphs: e.glyphs && e.glyphs.length ? e.glyphs : undefined }
     default:
       return e
-  }
-}
-
-class Boundary extends Component<{ resetKey: string; fallback: ReactNode; children: ReactNode }, { failed: boolean; key: string }> {
-  override state = { failed: false, key: this.props.resetKey }
-  static getDerivedStateFromError() {
-    return { failed: true }
-  }
-  static getDerivedStateFromProps(props: { resetKey: string }, state: { failed: boolean; key: string }) {
-    return props.resetKey !== state.key ? { failed: false, key: props.resetKey } : null
-  }
-  override render() {
-    return this.state.failed ? this.props.fallback : this.props.children
   }
 }
 

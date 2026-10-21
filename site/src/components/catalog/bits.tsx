@@ -8,15 +8,16 @@ import { worksOn, type SurfaceSupport } from '../mock'
 import { IconCheck, IconEditor, IconStar, IconTerminal, IconWindow } from '../ui/icons'
 import { SURFACES } from './filters'
 
+/** One hue per category, so the dots tell them apart (tokens.css, light and dark). */
 export const CATEGORY_HUE: Record<Category, string> = {
   interface: 'var(--hue-sky)',
   insights: 'var(--hue-olive)',
   safety: 'var(--hue-clay)',
   productivity: 'var(--hue-kraft)',
   git: 'var(--hue-cactus)',
-  integrations: 'var(--hue-sky)',
+  integrations: 'var(--hue-gold)',
   fun: 'var(--hue-heather)',
-  accessibility: 'var(--hue-cactus)',
+  accessibility: 'var(--hue-rose)',
 }
 
 export function CategoryDot({ category }: { category: Category }) {

@@ -144,7 +144,7 @@ export function useLang(): I18nValue {
 
 export type T = {
   lang: Lang
-  /** t('common.nav.catalog'), t('mock.rewritten', { mod: 'x' }) */
+  /** t('common.nav.catalog'), t('install.for', { title: 'x' }) */
   t: (key: TKey, vars?: TVars) => string
   /** tn('hero.counter.mods', 9) → "9 mods" / "9 модов" */
   tn: (key: TPluralKey, n: number, vars?: TVars) => string

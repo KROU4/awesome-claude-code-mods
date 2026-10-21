@@ -12,6 +12,7 @@
     "build": "tsc -p tsconfig.json --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "node scripts/snapshot.mjs && tsc -p tsconfig.json --noEmit",
+    "test": "node --import ./scripts/test-register.mjs --test \"tests/*.test.ts\"",
     "contrast": "node scripts/contrast.mjs",
     "shoot": "node scripts/shoot.mjs"
   },

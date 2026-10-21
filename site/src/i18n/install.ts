@@ -4,7 +4,6 @@ import { defineDict } from './define'
 // bar with its "See them together" sheet.
 export default defineDict(
   {
-    title: 'Install',
     for: 'Install {title}',
     from: 'From the marketplace {repo}',
     tabs: 'Where to install',
@@ -45,7 +44,6 @@ export default defineDict(
 
     'what.command': 'install command',
     'what.shell': 'shell install command',
-    'what.twoStep': 'marketplace and install commands',
     'what.marketplace': 'marketplace name',
     'what.plugin': 'plugin name',
     'what.prompt': 'install prompt',
@@ -55,7 +53,6 @@ export default defineDict(
     'loadout.count.one': '{n} mod',
     'loadout.count.other': '{n} mods',
     'loadout.copyAll': 'Copy shell commands',
-    'loadout.copyShort': 'Copy',
     'loadout.clear': 'Clear',
     'loadout.see': 'See them together',
     'loadout.seeShort': 'See together',
@@ -68,9 +65,10 @@ export default defineDict(
     'loadout.shellLead': 'Paste the block into a shell, outside Claude Code: it runs line by line.',
     'loadout.terminalLead': 'In a Claude Code session, send these one at a time.',
     'loadout.empty': 'The loadout is empty. Add mods from the catalog with “Add to loadout”.',
+    'loadout.held': '{mods}: from {repo}, which is also named “{name}”, like {kept}. Claude Code keeps one marketplace per name, so install these after removing it: claude plugin marketplace remove {name}',
+    unavailable: 'The install commands for this mod could not be checked, so none are shown. Install it from its source instead.',
   },
   {
-    title: 'Установка',
     for: 'Установить {title}',
     from: 'Из маркетплейса {repo}',
     tabs: 'Куда ставить',
@@ -111,7 +109,6 @@ export default defineDict(
 
     'what.command': 'команду установки',
     'what.shell': 'команду установки для оболочки',
-    'what.twoStep': 'команды маркетплейса и установки',
     'what.marketplace': 'имя маркетплейса',
     'what.plugin': 'имя плагина',
     'what.prompt': 'промпт установки',
@@ -123,7 +120,6 @@ export default defineDict(
     'loadout.count.many': '{n} модов',
     'loadout.count.other': '{n} мода',
     'loadout.copyAll': 'Скопировать команды для оболочки',
-    'loadout.copyShort': 'Скопировать',
     'loadout.clear': 'Очистить',
     'loadout.see': 'Посмотреть вместе',
     'loadout.seeShort': 'Вместе',
@@ -136,5 +132,7 @@ export default defineDict(
     'loadout.shellLead': 'Вставьте блок в оболочку, вне Claude Code: строки выполнятся по очереди.',
     'loadout.terminalLead': 'В сессии Claude Code отправляйте их по одной.',
     'loadout.empty': 'Набор пуст. Добавляйте моды из каталога кнопкой «В набор».',
+    'loadout.held': '{mods}: из {repo}, который тоже называется «{name}», как {kept}. Claude Code хранит один маркетплейс на имя, поэтому ставьте их после удаления: claude plugin marketplace remove {name}',
+    unavailable: 'Команды установки этого мода не прошли проверку, поэтому их здесь нет. Ставьте его из исходников.',
   },
 )

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-20T18:57:29.512Z",
+  "generatedAt": "2026-10-21T03:22:28.772Z",
   "repo": {
     "owner": "KROU4",
     "name": "claude-code-mod-showroom",
@@ -24,7 +24,7 @@
     {
       "id": "insights",
       "title": "Insights",
-      "title_ru": "Аналитика",
+      "title_ru": "Сводки",
       "count": 15
     },
     {
@@ -54,7 +54,7 @@
     {
       "id": "fun",
       "title": "Fun",
-      "title_ru": "Развлечения",
+      "title_ru": "Для настроения",
       "count": 14
     },
     {

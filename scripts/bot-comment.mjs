@@ -11,14 +11,17 @@ import { parseArgs, parsePrNumber } from './policy.mjs'
 const TRANSIENT = ['validate-failed', 'stale-head', 'not-open', 'bot-error']
 
 /**
- * What to do for a decision: { comment: string | null, label: boolean }.
+ * What to do for a decision: { comment: string | null, label: boolean, unlabel: boolean }.
  * `merged`: the merge went through; `runUrl`: the Validate run, linked when it failed.
+ * `unlabel` takes `needs-maintainer` off a PR that no longer needs one: it was merged, or the only
+ * thing left is a failed Validate run (the author's next push decides).
  */
 export function plan(decision, { merged = false, runUrl = '' } = {}) {
   const codes = (decision.reasons || []).map(r => r.code)
   if (merged) {
     return {
       label: false,
+      unlabel: true,
       comment: [
         BOT_COMMENT_MARKER,
         '**Merged automatically ✓**',
@@ -29,15 +32,16 @@ export function plan(decision, { merged = false, runUrl = '' } = {}) {
       ].join('\n'),
     }
   }
-  if (codes.includes('stale-head') || codes.includes('not-open')) return { label: false, comment: null }
+  if (codes.includes('stale-head') || codes.includes('not-open')) return { label: false, unlabel: false, comment: null }
   // An error before the bot confirmed that the PR's head is the checked commit: the number may
   // come from a forged artifact (an issue, someone else's PR), so say nothing there.
-  if (codes.includes('bot-error') && !decision.confirmed) return { label: false, comment: null }
+  if (codes.includes('bot-error') && !decision.confirmed) return { label: false, unlabel: false, comment: null }
   if (codes.includes('validate-failed')) {
     const link = runUrl ? `[the Validate run](${runUrl})` : 'the Validate run'
     const linkRu = runUrl ? `[журнал Validate](${runUrl})` : 'журнал Validate'
     return {
       label: false,
+      unlabel: codes.every(c => c === 'validate-failed'),
       comment: [
         BOT_COMMENT_MARKER,
         `**Validate failed**, so the bot did not look further. See ${link} for what to fix, then push a new commit.`,
@@ -50,6 +54,7 @@ export function plan(decision, { merged = false, runUrl = '' } = {}) {
   const label = !reasons.every(r => TRANSIENT.includes(r.code))
   return {
     label,
+    unlabel: false,
     comment: [
       BOT_COMMENT_MARKER,
       label
@@ -94,6 +99,11 @@ async function addLabel(repo, number) {
   await gh(`/repos/${repo}/issues/${number}/labels`, { method: 'POST', body: { labels: [NEEDS_MAINTAINER_LABEL] } })
 }
 
+/** Takes needs-maintainer off the PR; a PR without it is fine (404). */
+async function removeLabel(repo, number) {
+  await gh(`/repos/${repo}/issues/${number}/labels/${encodeURIComponent(NEEDS_MAINTAINER_LABEL)}`, { method: 'DELETE', allow404: true })
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2))
   const repo = args.repo || process.env.GITHUB_REPOSITORY || REPO_SLUG
@@ -107,8 +117,9 @@ async function main() {
   const runUrl = /^https:\/\/github\.com\//.test(args['run-url'] || '') ? args['run-url'] : ''
   const todo = plan(decision, { merged: args.merged === 'true', runUrl })
   if (todo.label) await addLabel(repo, number)
+  if (todo.unlabel) await removeLabel(repo, number)
   if (todo.comment) await upsertComment(repo, number, todo.comment)
-  console.log(`PR #${number}: ${todo.label ? 'labelled, ' : ''}${todo.comment ? 'comment updated' : 'nothing to say'}`)
+  console.log(`PR #${number}: ${todo.label ? 'labelled, ' : ''}${todo.unlabel ? 'label removed, ' : ''}${todo.comment ? 'comment updated' : 'nothing to say'}`)
 }
 
 if (isMain(import.meta.url)) {

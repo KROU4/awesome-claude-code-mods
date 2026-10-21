@@ -10,7 +10,7 @@ import { readdirSync, statSync, existsSync, appendFileSync } from 'node:fs'
 import { join, dirname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
-  loadEntries, listModNames, githubRepoOfUrl, readJsonIfExists, marketplaceNameClashes, marketplaceNamesFrom,
+  loadEntries, listModNames, githubRepoOfUrl, readJsonIfExists, marketplaceNameClashes, marketplaceNamesFrom, marketplaceNameAllowed,
 } from './lib/catalog.mjs'
 import { checkEntry } from './lib/entry.mjs'
 import { findClaude, validatePlugin, testPlugin, changedFiles, isMain } from './lib/cli.mjs'
@@ -119,8 +119,13 @@ async function sourceChecks(entry) {
       try {
         const market = JSON.parse(text)
         const plugin = s.plugin || entry.name
-        if (!(market.plugins || []).some(p => p?.name === plugin)) errors.push(`the marketplace ${s.marketplace} does not list "${plugin}"`)
-        else notes.push(`listed in ${s.marketplace} as ${plugin}@${market.name}`)
+        const plugins = Array.isArray(market?.plugins) ? market.plugins : []
+        if (!plugins.some(p => p?.name === plugin)) errors.push(`the marketplace ${s.marketplace} does not list "${plugin}"`)
+        else if (!marketplaceNameAllowed(market.name, s.marketplace)) {
+          // Claude Code keys added marketplaces by name: this one could stand in for this catalog
+          // ("mod-showroom") or an official marketplace in install ids and updates.
+          errors.push(`the marketplace ${s.marketplace} is named ${JSON.stringify(String(market.name)).slice(0, 80)}, which is reserved (this catalog's or an official marketplace's name) or not a plain name; rename it in its .claude-plugin/marketplace.json`)
+        } else notes.push(`listed in ${s.marketplace} as ${plugin}@${market.name}`)
       } catch {
         errors.push(`${s.marketplace}/.claude-plugin/marketplace.json is not valid JSON`)
       }
@@ -137,6 +142,45 @@ export function marketplaceClashWarnings(rootDir, entries) {
   const names = marketplaceNamesFrom(readJsonIfExists(join(rootDir, 'data', 'github.json'), {}))
   return marketplaceNameClashes(entries, names).map(c =>
     `the marketplaces ${c.repos.join(' and ')} are both named "${c.name}" (${c.mods.join(', ')}): Claude Code keys an added marketplace by its name, so someone who added one may have to remove it before adding the other`)
+}
+
+/** Every check of one loaded entry, written into `r` ({ errors, warnings, notes }). */
+async function checkOne(r, { rootDir, name, entry, changed, claude, canNetwork, seenSources }) {
+  const structural = checkEntry(rootDir, name, entry)
+  r.errors.push(...structural.errors)
+  r.warnings.push(...structural.warnings)
+  const files = checkFiles(rootDir, name)
+  r.errors.push(...files.errors)
+  r.warnings.push(...files.warnings)
+  // Everything below reads source fields: only for an entry that passed the schema.
+  if (structural.errors.length) return
+
+  const s = entry.source || {}
+  const key = s.type === 'github' && typeof s.repo === 'string'
+    ? `github:${s.repo.toLowerCase()}:${s.path || ''}`
+    : s.type === 'git' && typeof s.url === 'string' ? `git:${s.url}:${s.path || ''}` : null
+  if (key) {
+    if (seenSources.has(key)) r.warnings.push(`same source as ${seenSources.get(key)}`)
+    else seenSources.set(key, name)
+  }
+
+  const isChanged = !changed || changed.has(name)
+  if (!isChanged || r.errors.length) return
+  if (s.type === 'hosted' && claude) {
+    const c = cliChecks(rootDir, name, claude)
+    r.errors.push(...c.errors)
+    r.warnings.push(...c.warnings)
+    r.notes.push(...c.notes)
+  }
+  if (s.type !== 'hosted' && canNetwork) {
+    try {
+      const c = await sourceChecks(entry)
+      r.errors.push(...c.errors)
+      r.notes.push(...c.notes)
+    } catch (err) {
+      r.warnings.push(`could not check the source on GitHub: ${err.message}`)
+    }
+  }
 }
 
 /** Runs every check. Returns { results: [{ name, errors, warnings, notes }], global }. */
@@ -160,36 +204,11 @@ export async function validateCatalog({ rootDir = root, changed = null, cli = tr
       r.errors.push(error)
       continue
     }
-    const structural = checkEntry(rootDir, name, entry)
-    r.errors.push(...structural.errors)
-    r.warnings.push(...structural.warnings)
-    const files = checkFiles(rootDir, name)
-    r.errors.push(...files.errors)
-    r.warnings.push(...files.warnings)
-
-    const s = entry.source || {}
-    const key = s.type === 'github' ? `github:${s.repo.toLowerCase()}:${s.path || ''}` : s.type === 'git' ? `git:${s.url}:${s.path || ''}` : null
-    if (key) {
-      if (seenSources.has(key)) r.warnings.push(`same source as ${seenSources.get(key)}`)
-      else seenSources.set(key, name)
-    }
-
-    const isChanged = !changed || changed.has(name)
-    if (!isChanged || r.errors.length) continue
-    if (s.type === 'hosted' && claude) {
-      const c = cliChecks(rootDir, name, claude)
-      r.errors.push(...c.errors)
-      r.warnings.push(...c.warnings)
-      r.notes.push(...c.notes)
-    }
-    if (s.type !== 'hosted' && canNetwork) {
-      try {
-        const c = await sourceChecks(entry)
-        r.errors.push(...c.errors)
-        r.notes.push(...c.notes)
-      } catch (err) {
-        r.warnings.push(`could not check the source on GitHub: ${err.message}`)
-      }
+    // One broken entry is reported as that entry's error; it never stops the other checks.
+    try {
+      await checkOne(r, { rootDir, name, entry, changed, claude, canNetwork, seenSources })
+    } catch (err) {
+      r.errors.push(`the check stopped on this entry: ${err.message}`)
     }
   }
 
@@ -246,4 +265,9 @@ async function main() {
   process.exitCode = errors ? 1 : 0
 }
 
-if (isMain(import.meta.url)) await main()
+if (isMain(import.meta.url)) {
+  await main().catch(err => {
+    console.error(`validate: ${err.message}`)
+    process.exitCode = 1
+  })
+}

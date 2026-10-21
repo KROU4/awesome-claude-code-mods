@@ -1,7 +1,7 @@
 // The community rules in plain words: what the bot merges by itself, what waits for a
 // maintainer (scripts/policy.mjs, docs/governance.md).
 import { useT, type TKey } from '../../i18n'
-import { useRegistry } from '../../lib/registry'
+import { shellRegistry } from '../../lib/registry'
 import { rich } from '../how/Command'
 import { IconArrowUpRight } from '../ui/icons'
 import './submit.css'
@@ -11,8 +11,7 @@ const MANUAL: TKey[] = ['submit.rules.manual.1', 'submit.rules.manual.2', 'submi
 
 export default function Rules({ idBase }: { idBase: string }) {
   const { t, lang } = useT()
-  const { registry } = useRegistry()
-  const blob = `${registry.repo.url}/blob/${registry.repo.branch}`
+  const blob = `${shellRegistry.repo.url}/blob/${shellRegistry.repo.branch}`
   return (
     <div className="sb-rules">
       <div className="sb-rule" data-tone="auto">

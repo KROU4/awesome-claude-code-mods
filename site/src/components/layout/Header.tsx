@@ -2,9 +2,10 @@
 // Below 900px the links fold into a Menu disclosure.
 import { useEffect, useId, useRef, useState } from 'react'
 import { useLang, useT, type TKey } from '../../i18n'
-import { repoStars, useRegistry } from '../../lib/registry'
+import { repoStars, shellRegistry, useRegistry } from '../../lib/registry'
 import { useRoute, type Route } from '../../lib/router'
 import { useTheme, type ThemePref } from '../../lib/theme'
+import { followHashLink } from '../catalog/nav'
 import { IconClose, IconGitHub, IconMenu, IconMoon, IconStar, IconSun, IconSystem } from '../ui/icons'
 import './layout.css'
 
@@ -32,10 +33,10 @@ function LangToggle() {
   const { t } = useT()
   return (
     <div className="hdr-seg" role="group" aria-label={t('common.lang.label')}>
-      <button type="button" lang="en" aria-pressed={lang === 'en'} title="English" onClick={() => setLang('en')}>
+      <button type="button" lang="en" aria-pressed={lang === 'en'} title={t('common.lang.en')} onClick={() => setLang('en')}>
         EN
       </button>
-      <button type="button" lang="ru" aria-pressed={lang === 'ru'} title="Русский" onClick={() => setLang('ru')}>
+      <button type="button" lang="ru" aria-pressed={lang === 'ru'} title={t('common.lang.ru')} onClick={() => setLang('ru')}>
         RU
       </button>
     </div>
@@ -62,7 +63,7 @@ function GitHubLink({ compact = false }: { compact?: boolean }) {
   // a new repository has no stars yet: show the count once there is one
   const stars = repoStars(registry) || undefined
   return (
-    <a className="hdr-gh" href={registry.repo.url} aria-label={stars !== undefined ? `${t('common.nav.githubAria')}, ${t('common.nav.starsAria', { n: num(stars) })}` : t('common.nav.githubAria')}>
+    <a className="hdr-gh" href={shellRegistry.repo.url} aria-label={stars !== undefined ? `${t('common.nav.githubAria')}, ${t('common.nav.starsAria', { n: num(stars) })}` : t('common.nav.githubAria')}>
       <IconGitHub size={17} />
       {compact ? null : <span className="hdr-gh-label">{t('common.nav.github')}</span>}
       {stars !== undefined ? (
@@ -90,8 +91,8 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // close the menu on navigation and on Escape
-  useEffect(() => setOpen(false), [route.name])
+  // close the menu on navigation (a click on the current section's link included) and on Escape
+  useEffect(() => setOpen(false), [route])
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
@@ -105,7 +106,7 @@ export default function Header() {
   }, [open])
 
   const links = LINKS.map((l) => (
-    <a key={l.route} href={l.href} aria-current={route.name === l.route ? 'page' : undefined}>
+    <a key={l.route} href={l.href} aria-current={route.name === l.route ? 'page' : undefined} onClick={followHashLink}>
       {t(l.key)}
     </a>
   ))

@@ -12,7 +12,7 @@
 import { writeFileSync, existsSync, readFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadEntries, githubRepoOf, readJsonIfExists } from './lib/catalog.mjs'
+import { loadEntries, githubRepoOf, readJsonIfExists, marketplaceNameAllowed } from './lib/catalog.mjs'
 import { gh, rawFile } from './lib/github.mjs'
 import { REPO_SLUG } from './lib/constants.mjs'
 import { isMain } from './lib/cli.mjs'
@@ -100,7 +100,13 @@ async function main() {
       try {
         const text = await rawFile(repo, 'HEAD', '.claude-plugin/marketplace.json')
         const name = text ? JSON.parse(text).name : null
-        if (typeof name === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(name)) row.marketplaceName = name
+        // A reserved or official-looking name (this catalog's own included) is not recorded, so
+        // install ids stay `<plugin>` and the site installs with an explicit --marketplace.
+        if (marketplaceNameAllowed(name, repo)) row.marketplaceName = name
+        else {
+          if (name !== null && name !== undefined) console.log(`! ${repo}: marketplace name ${JSON.stringify(String(name)).slice(0, 80)} is not used (reserved or not a plain name)`)
+          if (text) delete row.marketplaceName
+        }
       } catch (err) {
         console.log(`! ${repo}: marketplace.json unreadable (${err.message})`)
       }

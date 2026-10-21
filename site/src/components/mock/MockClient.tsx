@@ -2,7 +2,7 @@
 // one or more mods active. The heart of the site: hero, cards, detail sheet and the
 // submit preview all use it. Contract: src/CONTRACTS.md and ./types.ts (MockClientProps).
 import { AnimatePresence, m, useInView } from 'motion/react'
-import { lazy, Suspense, useCallback, useId, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { lazy, Suspense, useCallback, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useT, type TKey } from '../../i18n'
 import { enter, exit } from '../../lib/motion'
 import { useMotionPref } from '../../lib/motionPref'
@@ -21,6 +21,12 @@ import './MockClient.css'
 
 const DesktopSurface = lazy(() => import('./desktop/DesktopSurface'))
 const VSCodeSurface = lazy(() => import('./vscode/VSCodeSurface'))
+
+const NO_ARRIVALS: ReadonlyMap<string, number> = new Map()
+
+/** A value escaped for a CSS string or identifier (CSS.escape; letters, digits, "_" and "-" without it). */
+const cssString = (s: string): string =>
+  typeof CSS !== 'undefined' && typeof CSS.escape === 'function' ? CSS.escape(s) : s.replace(/[^a-zA-Z0-9_-]/g, '')
 
 const SURFACE_ICON: Record<MockSurface, ReactNode> = {
   terminal: <IconTerminal size={16} />,
@@ -213,15 +219,24 @@ export default function MockClient(props: MockClientProps) {
   })
 
   // A mod switched on while the session plays (a hero chip) arrives now, not at its anchor,
-  // which may be at the end of the turn. Until the next loop.
-  const tNow = useRef(0)
-  if (Number.isFinite(pb.t)) tNow.current = pb.t
-  const arrivals = useRef<{ cycle: number; at: Map<string, number> }>({ cycle: 0, at: new Map() })
-  if (arrivals.current.cycle !== pb.cycle) arrivals.current = { cycle: pb.cycle, at: new Map() }
-  useMemo(() => {
-    for (const id of arriveNow ?? []) arrivals.current.at.set(id, tNow.current)
+  // which may be at the end of the turn. Until the next loop. The arrival times are state set
+  // in a layout effect (before paint), never written during render.
+  const clock = useRef({ t: 0, cycle: pb.cycle })
+  useLayoutEffect(() => {
+    if (Number.isFinite(pb.t)) clock.current.t = pb.t
+    clock.current.cycle = pb.cycle
+  }, [pb.t, pb.cycle])
+  const [arrivals, setArrivals] = useState<{ cycle: number; at: ReadonlyMap<string, number> }>(() => ({ cycle: pb.cycle, at: new Map() }))
+  useLayoutEffect(() => {
+    if (!arriveNow?.length) return
+    const { t: now, cycle } = clock.current
+    setArrivals((prev) => {
+      const at = new Map(prev.cycle === cycle ? prev.at : [])
+      for (const id of arriveNow) at.set(id, now)
+      return { cycle, at }
+    })
   }, [arriveNow])
-  const arrived = arrivals.current.at
+  const arrived = arrivals.cycle === pb.cycle ? arrivals.at : NO_ARRIVALS
 
   const frame = useMemo(() => {
     const f = pb.t === Number.POSITIVE_INFINITY ? finalFrame(schedule) : frameAt(schedule, pb.t)
@@ -232,7 +247,7 @@ export default function MockClient(props: MockClientProps) {
       if (at !== undefined && pb.t >= at) chrome[c.id] = true
     }
     return { ...f, chrome }
-  }, [schedule, pb.t, model, arrived, arriveNow])
+  }, [schedule, pb.t, model, arrived])
 
   // Panes that fill in as tools run show only the rows that have arrived, on every surface.
   const view = useMemo<MockModel>(() => {
@@ -257,13 +272,18 @@ export default function MockClient(props: MockClientProps) {
     rows,
     animate: pb.running,
     cycle: pb.cycle,
-    onSurfaceChange: setSurface,
   }
 
   const canPlay = !still
   const replay = () => {
     setOwnReplay((n) => n + 1)
     if (!play) setPlay(true)
+  }
+  // A session without a loop stops at its end: the button offers Play again, and Play starts over.
+  const playing = play && !pb.ended
+  const togglePlay = () => {
+    if (pb.ended) replay()
+    else setPlay(!play)
   }
   const themeLabel = surface === 'terminal' ? t('mock.theme.label') : t('mock.theme.appLabel')
   const nextTheme: TerminalTheme = theme === 'dark' ? 'light' : 'dark'
@@ -277,7 +297,8 @@ export default function MockClient(props: MockClientProps) {
       data-mc={uid}
     >
       {highlight ? (
-        <style>{`.mc[data-mc="${uid}"] [data-src="${highlight.replace(/["\\]/g, '')}"]{outline-color:var(--accent)}`}</style>
+        // CSS.escape: whatever `highlight` holds, it stays one string in one selector.
+        <style>{`.mc[data-mc="${uid}"] [data-src="${cssString(highlight)}"]{outline-color:var(--accent)}`}</style>
       ) : null}
       {showToolbar ? (
         <div className="mc-toolbar" role="group" aria-label={t('mock.toolbar.label')}>
@@ -340,11 +361,11 @@ export default function MockClient(props: MockClientProps) {
                 <button
                   type="button"
                   className="mc-btn mc-btn-icon"
-                  aria-label={play ? t('mock.pause') : t('mock.play')}
-                  title={play ? t('mock.pause') : t('mock.play')}
-                  onClick={() => setPlay(!play)}
+                  aria-label={playing ? t('mock.pause') : t('mock.play')}
+                  title={playing ? t('mock.pause') : t('mock.play')}
+                  onClick={togglePlay}
                 >
-                  {play ? <IconPause size={16} /> : <IconPlay size={16} />}
+                  {playing ? <IconPause size={16} /> : <IconPlay size={16} />}
                 </button>
                 <button
                   type="button"

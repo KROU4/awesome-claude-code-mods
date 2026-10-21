@@ -76,7 +76,9 @@ export default function LoadoutBar({ className }: LoadoutBarProps) {
                 {t('install.loadout.clear')}
               </button>
               <CopyButton
-                text={loadoutCommands(mods, 'shell')}
+                text={loadoutCommands(mods, 'shell', (h) =>
+                  t('install.loadout.held', { mods: h.mods.map((m) => m.title).join(', '), repo: h.repo, name: h.name, kept: h.kept }),
+                )}
                 what={t('install.what.loadout')}
                 label={t('install.loadout.copyAll')}
                 className="loadout-copy"

@@ -26,7 +26,14 @@ for (const name of names) {
     failed++
     continue
   }
-  const { errors, warnings } = checkEntry(root, name, entry)
+  let errors
+  let warnings
+  try {
+    ;({ errors, warnings } = checkEntry(root, name, entry))
+  } catch (err) {
+    errors = [`the check stopped on this entry: ${err.message}`]
+    warnings = []
+  }
   if (errors.length) {
     failed++
     console.error(`✗ ${name}\n  - ${errors.join('\n  - ')}`)

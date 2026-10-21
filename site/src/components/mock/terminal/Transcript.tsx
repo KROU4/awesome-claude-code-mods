@@ -111,7 +111,8 @@ function Item({ it, frame, model }: { it: ModelItem; frame: Frame; model: MockMo
         </div>
       )
     case 'rewrite': {
-      const label = model.sources.find((s) => s.id === it.source)?.id ?? it.source
+      // The mod's name as the mock shows it (like sourceLabel on the desktop and VS Code surfaces).
+      const label = model.sources.find((s) => s.id === it.source)?.label ?? it.source
       return (
         <div className="tm-item-group" data-src={it.source}>
           <UserRow className="is-rewritten" text={<div className="tl">{it.before}</div>} />

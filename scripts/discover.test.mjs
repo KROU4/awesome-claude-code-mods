@@ -42,6 +42,19 @@ test('catalogued sources are skipped, case-insensitively', () => {
   assert.equal(isCatalogued({ repo: 'KROU4/claude-code-mod-showroom', path: 'mods/x/plugin' }, known), true)
 })
 
+test('entries with fields of the wrong type do not stop discovery', () => {
+  const known = knownSources([
+    { source: { type: 'github' } },
+    { source: { type: 'github', repo: 5 } },
+    { source: { type: 'git', url: null } },
+    { source: { type: 'marketplace', marketplace: ['x'] } },
+    { source: null },
+    null,
+    { source: { type: 'github', repo: 'ok/repo' } },
+  ])
+  assert.equal(isCatalogued({ repo: 'ok/repo', path: '' }, known), true)
+})
+
 test('odd repository names and paths are left out of the issue, and paths are URL-encoded', () => {
   const md = renderChecklist([
     { repo: 'alice/band', path: 'mods/a` @KROU4 [x](https://evil.example) `', stars: 1, description: '' },

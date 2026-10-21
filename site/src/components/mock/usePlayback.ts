@@ -26,6 +26,8 @@ export type Playback = {
   cycle: number
   /** The clock is running right now. */
   running: boolean
+  /** A session without `loop` reached its end and stopped; only a replay starts it again. */
+  ended: boolean
 }
 
 function lastEventAtOrBefore(events: number[], t: number): number {
@@ -44,6 +46,7 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
   const { play, visible, still, loop, replayKey, holdMs = HOLD_MS, loopFromFirstTool = false } = opts
   const [t, setT] = useState(0)
   const [cycle, setCycle] = useState(0)
+  const [ended, setEnded] = useState(false)
   const acc = useRef(0)
   const startedAt = useRef<number | null>(null)
   const hasPlayed = useRef(false)
@@ -55,7 +58,8 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
   const scheduleRef = useRef(schedule)
   scheduleRef.current = schedule
 
-  const running = play && visible && !still
+  // A finished session without a loop does not run, so the host's Play button shows Play again.
+  const running = play && visible && !still && !ended
 
   // Replay: back to the start.
   const firstReplay = useRef(true)
@@ -69,6 +73,7 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
     atEnd.current = false
     startedAt.current = running ? performance.now() : null
     setT(0)
+    setEnded(false)
     setCycle((c) => c + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replayKey])
@@ -100,6 +105,7 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
             lastQ.current = s.duration
             setT(s.duration)
           }
+          setEnded(true)
           return
         }
       } else {
@@ -121,9 +127,9 @@ export function usePlayback(schedule: Schedule, opts: PlaybackOptions): Playback
     }
   }, [running, loop, holdMs, loopFromFirstTool])
 
-  if (still) return { t: Number.POSITIVE_INFINITY, cycle, running: false }
+  if (still) return { t: Number.POSITIVE_INFINITY, cycle, running: false, ended: false }
   // Asked not to play and never played: show the finished session, not an empty one.
-  if (!play && !hasPlayed.current) return { t: Number.POSITIVE_INFINITY, cycle, running: false }
-  if (atEnd.current) return { t: schedule.duration, cycle, running }
-  return { t, cycle, running }
+  if (!play && !hasPlayed.current) return { t: Number.POSITIVE_INFINITY, cycle, running: false, ended: false }
+  if (atEnd.current) return { t: schedule.duration, cycle, running, ended }
+  return { t, cycle, running, ended }
 }

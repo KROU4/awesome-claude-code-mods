@@ -189,6 +189,4 @@ export type SurfaceProps = {
   animate: boolean
   /** Changes on every loop / replay; surfaces may key a fade on it. */
   cycle: number
-  /** Ask the host to switch surface (used by the "coming" frames). */
-  onSurfaceChange?: (surface: MockSurface) => void
 }

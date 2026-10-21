@@ -1,5 +1,6 @@
 // Structural checks of one catalog entry: the JSON schema, folder name, plugin name rules and,
-// for hosted mods, the plugin folder. Shared by scripts/check-entry.mjs and scripts/validate.mjs.
+// for hosted mods, the plugin folder. Shared by scripts/check-entry.mjs, scripts/validate.mjs,
+// scripts/build-registry.mjs and (checkEntryData only, no files) scripts/policy.mjs.
 import { readFileSync, existsSync, statSync } from 'node:fs'
 import { join, dirname, resolve, relative, sep } from 'node:path'
 import Ajv2020 from 'ajv/dist/2020.js'
@@ -94,6 +95,12 @@ export function formatSchemaErrors(errors = []) {
     if (e.keyword === 'additionalProperties') msg = `has an unknown field "${e.params.additionalProperty}"`
     if (e.keyword === 'enum') msg = `must be one of: ${e.params.allowedValues.join(', ')}`
     if (e.keyword === 'const') msg = `must be ${JSON.stringify(e.params.allowedValue)}`
+    if (e.keyword === 'pattern' && /\/\$defs\/(lineText|paragraphText)\/pattern$/.test(e.schemaPath)) {
+      msg = 'has a control character or an invisible or direction-changing one (zero-width space, bidi override): remove it'
+    }
+    if (e.keyword === 'pattern' && /^\/media\/\d+\/src$/.test(e.instancePath)) {
+      msg = 'must be a path next to mod.json or a link on raw.githubusercontent.com, user-images.githubusercontent.com or github.com/user-attachments/'
+    }
     out.push(`${where} ${msg}`)
   }
   if (!out.length && errors.length) out.push(`${errors[0].instancePath || '(root)'} ${errors[0].message}`)
@@ -114,24 +121,29 @@ const isInside = (parent, child) => {
   return rel && !rel.startsWith('..') && !rel.startsWith(sep) && !/^[A-Za-z]:/.test(rel)
 }
 
+export const isPlainObject = v => Boolean(v) && typeof v === 'object' && !Array.isArray(v)
+
 /**
- * Checks one entry. Returns { errors: string[], warnings: string[] }.
- * `entry` is the parsed mod.json, `name` the folder name.
+ * The checks that need only the parsed mod.json (no files): the schema of `root`, the folder name,
+ * the plugin-name rules, the source ref and the verified pin. The automerge policy runs it on a
+ * pull request's mod.json with the schema from main. Returns { errors, warnings }.
  */
-export function checkEntry(root, name, entry) {
+export function checkEntryData(root, name, entry) {
   const errors = []
   const warnings = []
+  // Anything but an object (null, an array, a number) fails here, before a check reads a field.
+  if (!isPlainObject(entry)) return { errors: ['mod.json must be a JSON object'], warnings }
   const validate = schemaValidator(root)
   if (!validate(entry)) errors.push(...formatSchemaErrors(validate.errors))
-  if (entry.name !== name) errors.push(`name "${entry.name}" must equal the folder name "${name}"`)
+  if (entry.name !== name) errors.push(`name ${JSON.stringify(entry.name)} must equal the folder name "${name}"`)
 
-  const names = checkPluginName(entry.name ?? name)
+  const names = checkPluginName(typeof entry.name === 'string' ? entry.name : name)
   errors.push(...names.errors)
   // In our marketplace a warning would fail `claude plugin validate --strict`, so it is an error.
   if (inOurMarketplace(entry)) errors.push(...names.warnings)
   else warnings.push(...names.warnings)
 
-  const s = entry.source || {}
+  const s = isPlainObject(entry.source) ? entry.source : {}
   // `ref` reaches git's argv when CI clones the source: a branch or tag name, never an option.
   if ((s.type === 'github' || s.type === 'git') && s.ref !== undefined && !SAFE_REF.test(String(s.ref))) {
     errors.push('/source/ref must be a branch or tag name: letters, digits, ".", "_", "/" and "-", not starting with "-"')
@@ -140,17 +152,32 @@ export function checkEntry(root, name, entry) {
     if ((s.type === 'github' || s.type === 'git') && !s.sha) errors.push('verified: true needs source.sha (the commit that was read)')
     if (s.type === 'marketplace') warnings.push('verified: true on a marketplace source cannot be pinned to a commit')
   }
+  if (s.type === 'marketplace' && s.repo !== undefined) {
+    warnings.push('source.repo is ignored for a marketplace source: stars and the code link come from source.marketplace, where the code is installed from')
+  }
+  return { errors, warnings }
+}
+
+/**
+ * Checks one entry. Returns { errors: string[], warnings: string[] }.
+ * `entry` is the parsed mod.json, `name` the folder name.
+ */
+export function checkEntry(root, name, entry) {
+  const { errors, warnings } = checkEntryData(root, name, entry)
+  if (!isPlainObject(entry)) return { errors, warnings }
 
   const modDir = join(root, 'mods', name)
   const pluginDir = join(modDir, 'plugin')
-  if (entry.source?.type === 'hosted') {
+  const type = isPlainObject(entry.source) ? entry.source.type : undefined
+  if (type === 'hosted') {
     const manifestFile = join(pluginDir, '.claude-plugin', 'plugin.json')
     if (!existsSync(manifestFile)) errors.push('source.type is "hosted" but plugin/.claude-plugin/plugin.json is missing')
     else {
       const { value: pj, error } = readJson(manifestFile)
       if (error) errors.push(`plugin/.claude-plugin/plugin.json is not valid JSON: ${error}`)
+      else if (!isPlainObject(pj)) errors.push('plugin/.claude-plugin/plugin.json must be a JSON object')
       else {
-        if (pj.name !== name) errors.push(`plugin.json name "${pj.name}" must equal "${name}"`)
+        if (pj.name !== name) errors.push(`plugin.json name ${JSON.stringify(pj.name)} must equal "${name}"`)
         if (entry.version && pj.version && entry.version !== pj.version) {
           warnings.push(`mod.json version ${entry.version} differs from plugin.json version ${pj.version}; the marketplace uses plugin.json's`)
         }
@@ -161,7 +188,7 @@ export function checkEntry(root, name, entry) {
     else {
       const { value: hooks, error } = readJson(hooksFile)
       if (error) errors.push(`plugin/hooks/hooks.json is not valid JSON: ${error}`)
-      else if (!Array.isArray(hooks.modules) || hooks.modules.length !== 1 || typeof hooks.modules[0] !== 'string') {
+      else if (!isPlainObject(hooks) || !Array.isArray(hooks.modules) || hooks.modules.length !== 1 || typeof hooks.modules[0] !== 'string') {
         errors.push('plugin/hooks/hooks.json must have "modules": ["./<one module>"]')
       } else {
         const moduleFile = resolve(dirname(hooksFile), hooks.modules[0])
@@ -170,11 +197,12 @@ export function checkEntry(root, name, entry) {
       }
     }
   } else if (existsSync(pluginDir)) {
-    warnings.push(`mods/${name}/plugin/ exists but source.type is "${entry.source?.type}", so nobody installs that code`)
+    warnings.push(`mods/${name}/plugin/ exists but source.type is "${type}", so nobody installs that code`)
   }
 
-  for (const m of entry.media || []) {
-    if (/^https:\/\//.test(m.src)) continue
+  // The schema has already reported a media list of the wrong shape; only look at real paths.
+  for (const m of Array.isArray(entry.media) ? entry.media : []) {
+    if (!isPlainObject(m) || typeof m.src !== 'string' || /^https:\/\//.test(m.src)) continue
     const file = resolve(modDir, m.src)
     if (!isInside(modDir, file)) errors.push(`media ${m.src} must stay inside mods/${name}/`)
     else if (!existsSync(file)) errors.push(`media ${m.src} does not exist`)

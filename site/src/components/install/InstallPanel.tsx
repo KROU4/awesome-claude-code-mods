@@ -1,6 +1,7 @@
 // InstallPanel: one tab per place the person runs Claude Code. Real deep links where an app
 // handles them (claude-cli://, claude://, vscode://), a copyable line for everything else.
-// Every value comes from the registry's install.* fields through lib/install resolveInstall().
+// Every value comes from lib/install resolveInstall(), which builds it from checked parts (plugin,
+// marketplace repository, marketplace name) instead of the registry's ready-made strings.
 //
 // Honest links: on a phone (no Claude Code there) the link drops below the commands as a
 // secondary button "on your computer"; and when a click opens nothing (the app is missing,
@@ -8,8 +9,7 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { useT, type TKey } from '../../i18n'
 import { useMediaQuery, useOverflowEdge } from '../../lib/hooks'
-import { needsVersion, resolveInstall } from '../../lib/install'
-import { useRegistry } from '../../lib/registry'
+import { needsVersion, resolveInstall, type ResolvedInstall } from '../../lib/install'
 import { readPref, writePref } from '../../lib/storage'
 import type { SiteMod } from '../../data/types'
 import { undrawnSlots } from '../mock'
@@ -168,14 +168,26 @@ function DeepLink({
   )
 }
 
-export default function InstallPanel({ mod, variant = 'full', defaultTab, className }: InstallPanelProps) {
+export default function InstallPanel(props: InstallPanelProps) {
   const { t } = useT()
-  const { registry } = useRegistry()
+  const i = resolveInstall(props.mod)
+  // The mod's install parts did not check out (a damaged registry): offer no command at all.
+  if (!i) {
+    return (
+      <div className={['ip', props.className].filter(Boolean).join(' ')} data-variant={props.variant ?? 'full'}>
+        <p className="ip-hint">{t('install.unavailable')}</p>
+      </div>
+    )
+  }
+  return <InstallPanelBody {...props} i={i} />
+}
+
+function InstallPanelBody({ mod, variant = 'full', defaultTab, className, i }: InstallPanelProps & { i: ResolvedInstall }) {
+  const { t } = useT()
   const [tab, setTabState] = useState<InstallTab>(() => defaultTab ?? savedTab() ?? 'terminal')
   const base = useId()
   const tabRefs = useRef<Partial<Record<InstallTab, HTMLButtonElement | null>>>({})
-  const i = resolveInstall(mod)
-  const v = i.minVersion ?? registry.minVersions
+  const v = i.minVersion
   const popover = variant === 'popover'
   // no Claude Code on a phone: the deep link is not the main way there
   const phone = useMediaQuery('(pointer: coarse) and (max-width: 1023px), (max-width: 639px)')
@@ -202,23 +214,7 @@ export default function InstallPanel({ mod, variant = 'full', defaultTab, classN
 
   // Fade the tab strip's edge while more tabs hide past it (narrow popovers, Russian labels).
   const strip = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const el = strip.current
-    if (!el) return
-    const check = () => {
-      const more = el.scrollWidth - el.clientWidth > 2
-      if (!more) delete el.dataset.overflow
-      else el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : 'start'
-    }
-    check()
-    const ro = new ResizeObserver(check)
-    ro.observe(el)
-    el.addEventListener('scroll', check, { passive: true })
-    return () => {
-      ro.disconnect()
-      el.removeEventListener('scroll', check)
-    }
-  }, [])
+  useOverflowEdge(strip)
   // Keep the selected tab inside the strip (sideways only: never scroll the page).
   useEffect(() => {
     const el = strip.current

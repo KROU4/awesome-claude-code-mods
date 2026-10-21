@@ -4,11 +4,23 @@
 # re-checks everything that matters for security, and the registry build drops entries that fail
 # the schema. Its last step uploads pr.json ({ number, head_sha }) for the Automerge workflow,
 # which treats it as untrusted input.
+#
+# Pull requests that change only generated files (registry.json, the marketplace, the READMEs,
+# data/) start no run: those are the Sync bot's own PRs, which it merges within seconds (a run
+# started then failed at startup, with no jobs, and turned every sync red). Sync checks what it
+# lands itself (sync.yml, job `verify`). A person's PR that touches only these files gets no bot
+# comment or label either; the bot would not merge it anyway, and a maintainer reviews it.
 name: Validate
 
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - registry.json
+      - .claude-plugin/marketplace.json
+      - README.md
+      - README.en.md
+      - 'data/**'
   workflow_dispatch:
 
 permissions:
@@ -76,11 +88,12 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build the site
+      - name: Test and build the site
         if: steps.site.outputs.changed == 'true'
         working-directory: site
         run: |
           npm ci
+          npm test
           npm run build
 
       - name: Save pull request metadata

@@ -4,7 +4,7 @@
 
 **[Открыть сайт](https://krou4.github.io/claude-code-mod-showroom/)** · [English](README.en.md) · [Как добавить мод](CONTRIBUTING.md) · [Исследование](docs/research.md)
 
-[![Validate](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml/badge.svg)](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/validate.yml)
+[![Sync and deploy](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/sync.yml/badge.svg?branch=main)](https://github.com/KROU4/claude-code-mod-showroom/actions/workflows/sync.yml)
 
 Сейчас в каталоге <!-- count:start -->56 модов<!-- count:end -->. Репозиторий одновременно служит маркетплейсом Claude Code `mod-showroom`.
 
@@ -65,10 +65,10 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 
 ## Каталог
 
-Для каждого мода указано, что он рисует, кто автор и где лежит код: «в этом репозитории» — код в `mods/<имя>/plugin/` и проверен CI, «внешний» — код в репозитории автора. Под спойлером команда установки.
+Для каждого мода указано, что он рисует, кто автор и где лежит код: «в этом репозитории» — код в `mods/<имя>/plugin/`: его проверяет CI, а изменения после первой версии читает мейнтейнер каталога; «внешний» — код в репозитории автора. Это код сообщества: прочитайте его перед установкой. Под спойлером команда установки.
 
 <!-- mods:start -->
-Категории: [Интерфейс](#интерфейс) · [Аналитика](#аналитика) · [Безопасность](#безопасность) · [Продуктивность](#продуктивность) · [Git](#git) · [Развлечения](#развлечения) · [Доступность](#доступность)
+Категории: [Интерфейс](#интерфейс) · [Сводки](#сводки) · [Безопасность](#безопасность) · [Продуктивность](#продуктивность) · [Git](#git) · [Для настроения](#для-настроения) · [Доступность](#доступность)
 
 ### Интерфейс
 
@@ -169,7 +169,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 
   </details>
 
-### Аналитика
+### Сводки
 
 - **[Agent Radar](https://krou4.github.io/claude-code-mod-showroom/#/mod/agent-radar)** — Живая строка над полем ввода на каждый работающий субагент и фоновую команду: время, инструменты, текущий шаг. <sub>рисует: полоса над полем ввода, всплывающее уведомление, слеш-команда, панель · автор @hamzafer · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
@@ -413,7 +413,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 
   </details>
 
-### Развлечения
+### Для настроения
 
 - **[Boss Fight](https://krou4.github.io/claude-code-mod-showroom/#/mod/boss-fight)** — Упавшие тесты вызывают пиксельного босса с 1 HP за каждый провал; каждый прогон с исправлениями бьёт его. <sub>рисует: панель, всплывающее уведомление, строка статуса, слеш-команда · автор @OneWave-AI · внешний</sub>
   <details><summary>Установка (из маркетплейса автора)</summary>
@@ -554,7 +554,7 @@ claude plugin install turn-meter --marketplace KROU4/claude-code-mod-showroom
 
 - Ветку `main` нельзя удалить или переписать: удаление и force-push запрещены без исключений, даже для администратора.
 - Изменения попадают в `main` только через pull request.
-- Бот сливает запрос сам, только если все файлы внутри `mods/<имя>/`, проверка Validate прошла для этого самого коммита, автор — мейнтейнер изменённых записей (у новой записи — указан в `maintainers`), а поле `verified` не тронуто. Остальное смотрит мейнтейнер.
+- Бот сливает запрос сам, только если все файлы внутри `mods/<имя>/`, проверка Validate прошла для этого самого коммита, автор — мейнтейнер изменённых записей (у новой записи — указан в `maintainers`), а поле `verified` не тронуто. Код и `source` модов, которые уже есть в каталоге, он не меняет: это читает мейнтейнер. Остальное тоже смотрит мейнтейнер.
 - Бот не запускает код из pull request с правами на запись: он читает запрос через GitHub API как данные.
 - Ошибку исправляют новым коммитом (revert), история не переписывается.
 

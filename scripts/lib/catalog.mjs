@@ -18,16 +18,22 @@ export function listModNames(root) {
     .sort()
 }
 
-/** Reads every mods/<name>/mod.json. Entries that fail to parse come back with `error`. */
+/**
+ * Reads every mods/<name>/mod.json. Entries that fail to parse, or parse to anything but an object
+ * (null, an array, a number), come back with `error` and no `entry`.
+ */
 export function loadEntries(root) {
   return listModNames(root).map(name => {
     const file = join(root, 'mods', name, 'mod.json')
     if (!existsSync(file)) return { name, error: `mods/${name}/mod.json is missing` }
+    let entry
     try {
-      return { name, entry: JSON.parse(readFileSync(file, 'utf8')) }
+      entry = JSON.parse(readFileSync(file, 'utf8'))
     } catch (err) {
       return { name, error: `mods/${name}/mod.json is not valid JSON: ${err.message}` }
     }
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return { name, error: `mods/${name}/mod.json must be a JSON object` }
+    return { name, entry }
   })
 }
 
@@ -66,7 +72,9 @@ export function githubRepoOf(entry) {
   if (s.type === 'hosted') return REPO_SLUG
   if (s.type === 'github') return s.repo
   if (s.type === 'git') return githubRepoOfUrl(s.url)
-  if (s.type === 'marketplace') return s.repo || s.marketplace
+  // Stars come from the marketplace the mod installs from: `source.repo` is the entry's own
+  // claim, so it could borrow another repository's stars.
+  if (s.type === 'marketplace') return s.marketplace
   return null
 }
 
@@ -116,7 +124,8 @@ export function sourceUrlFor(entry) {
     return s.url.replace(/\.git$/, '')
   }
   if (s.type === 'marketplace') {
-    const repo = s.repo || s.marketplace
+    // The marketplace the code installs from, never `source.repo` (a claim nothing checks).
+    const repo = s.marketplace
     return s.path ? treePath(`https://github.com/${repo}`, 'HEAD', s.path) : `https://github.com/${repo}`
   }
   return REPO_URL
@@ -236,10 +245,38 @@ export function sortMods(mods) {
   })
 }
 
-/** { "<owner/repo>": "<marketplace name>" } from data/github.json. */
+/** The GitHub organization of Anthropic's own marketplaces (they may use the reserved names). */
+const OFFICIAL_OWNER = 'anthropics'
+/**
+ * Marketplace names another repository may not take: this catalog's own name and the names of
+ * official marketplaces. Claude Code keys the marketplaces a person added by name, so a third
+ * party called "mod-showroom" could stand in for this catalog in install ids and updates.
+ */
+export const RESERVED_MARKETPLACE_NAMES = [
+  MARKETPLACE_NAME, 'claude-plugins-official', 'claude-plugins-community', 'claude-community', 'claude-code-marketplace',
+  'claude-code-plugins', 'claude-code', 'claude', 'anthropic', 'anthropics', 'anthropic-marketplace', 'anthropic-plugins', 'agent-skills',
+]
+
+/**
+ * True when `repo` (owner/repo) may be known by the marketplace name `name` from its
+ * marketplace.json: a plain name, not this catalog's, and not a reserved or official-looking name
+ * unless the repository belongs to Anthropic's organization.
+ */
+export function marketplaceNameAllowed(name, repo) {
+  if (typeof name !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(name)) return false
+  const lower = name.toLowerCase()
+  if (lower === MARKETPLACE_NAME) return false
+  if (String(repo || '').split('/')[0].toLowerCase() === OFFICIAL_OWNER) return true
+  if (RESERVED_MARKETPLACE_NAMES.includes(lower)) return false
+  return !/^anthropics?(?:[-._]|$)/.test(lower) && !/(?:^|[-._])official(?:[-._]|$)/.test(lower)
+}
+
+/** { "<owner/repo>": "<marketplace name>" } from data/github.json (allowed names only). */
 export const marketplaceNamesFrom = github =>
   Object.fromEntries(
-    Object.entries(github || {}).filter(([, v]) => v && typeof v.marketplaceName === 'string').map(([k, v]) => [k, v.marketplaceName]),
+    Object.entries(github || {})
+      .filter(([k, v]) => v && typeof v.marketplaceName === 'string' && marketplaceNameAllowed(v.marketplaceName, k))
+      .map(([k, v]) => [k, v.marketplaceName]),
   )
 
 /**

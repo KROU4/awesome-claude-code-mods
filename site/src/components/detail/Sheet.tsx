@@ -30,6 +30,19 @@ function lockScroll(): () => void {
   }
 }
 
+/**
+ * True while a popover is open. Browsers without the Popover API (Safari before 17, Firefox before
+ * 125) throw on the `:popover-open` selector; they have no popovers to close either.
+ */
+function popoverOpen(): boolean {
+  if (typeof HTMLElement === 'undefined' || !('popover' in HTMLElement.prototype)) return false
+  try {
+    return document.querySelector(':popover-open') !== null
+  } catch {
+    return false
+  }
+}
+
 function focusables(root: HTMLElement): HTMLElement[] {
   return [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.getClientRects().length > 0 && !el.closest('[inert]'))
 }
@@ -63,12 +76,25 @@ export default function Sheet({ labelledBy, onClose, closeLabel, head, actions, 
   const wide = useMediaQuery('(min-width: 1024px)', true)
   const { still } = useMotionPref()
 
+  // The exit animation's timer. If the sheet goes away before it fires (Back pressed during the
+  // exit, a link followed), the owner's close must not run: it would go back one step too many.
+  const timer = useRef<number | null>(null)
   const close = useCallback(() => {
     if (leavingRef.current) return
     leavingRef.current = true
     setLeaving(true)
-    window.setTimeout(() => closeRef.current(), still ? 0 : duration.exit * 1000 + 20)
+    timer.current = window.setTimeout(() => {
+      timer.current = null
+      closeRef.current()
+    }, still ? 0 : duration.exit * 1000 + 20)
   }, [still])
+  useEffect(
+    () => () => {
+      if (timer.current !== null) window.clearTimeout(timer.current)
+      timer.current = null
+    },
+    [],
+  )
 
   useLayoutEffect(() => lockScroll(), [])
 
@@ -78,7 +104,7 @@ export default function Sheet({ labelledBy, onClose, closeLabel, head, actions, 
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key !== 'Escape' || e.defaultPrevented) return
       // An open popover (install panel) takes Esc first.
-      if (document.querySelector(':popover-open')) return
+      if (popoverOpen()) return
       e.preventDefault()
       close()
     }

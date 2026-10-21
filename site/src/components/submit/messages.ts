@@ -15,6 +15,7 @@ const PATTERN_BY_PATH: [RegExp, TKey][] = [
   [/^\/version$/, 'submit.err.version'],
   [/^\/requires\/claudeCode$/, 'submit.err.requires'],
   [/^\/tags\/\d+$/, 'submit.err.tag'],
+  [/^\/media\/\d+\/src$/, 'submit.err.mediaSrc'],
   [/(^\/homepage|\/url|\/href|\/src)$/, 'submit.err.https'],
   [/\/command$/, 'submit.err.command'],
   [/\/hotkey$/, 'submit.err.hotkey'],

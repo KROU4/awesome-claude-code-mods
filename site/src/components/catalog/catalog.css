@@ -434,6 +434,18 @@
   margin: 8px 8px 0;
   border-radius: var(--r-control);
 }
+/* the card's preview could not be drawn (ui/Boundary) */
+.mod-card-mock-failed {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: 16px;
+  border-radius: var(--r-control);
+  background: var(--sunk);
+  color: var(--ink-2);
+  font-size: 14px;
+  text-align: center;
+}
 .mod-card-body {
   flex: 1;
   display: flex;

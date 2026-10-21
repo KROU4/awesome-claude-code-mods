@@ -13,17 +13,17 @@
       "type": "string",
       "pattern": "^[a-z0-9](?:[a-z0-9-]{0,48}[a-z0-9])?$"
     },
-    "title": { "description": "Human name shown on the site.", "type": "string", "minLength": 2, "maxLength": 40 },
-    "tagline": { "description": "One line in English, what it does for the person.", "type": "string", "minLength": 8, "maxLength": 100 },
-    "tagline_ru": { "description": "The same line in Russian (optional).", "type": "string", "minLength": 8, "maxLength": 110 },
-    "description": { "description": "A short paragraph in English. Plain text; `code` spans allowed.", "type": "string", "minLength": 20, "maxLength": 700 },
-    "description_ru": { "description": "The same paragraph in Russian (optional).", "type": "string", "minLength": 20, "maxLength": 800 },
+    "title": { "description": "Human name shown on the site.", "$ref": "#/$defs/lineText", "minLength": 2, "maxLength": 40 },
+    "tagline": { "description": "One line in English, what it does for the person.", "$ref": "#/$defs/lineText", "minLength": 8, "maxLength": 100 },
+    "tagline_ru": { "description": "The same line in Russian (optional).", "$ref": "#/$defs/lineText", "minLength": 8, "maxLength": 110 },
+    "description": { "description": "A short paragraph in English. Plain text; `code` spans allowed.", "$ref": "#/$defs/paragraphText", "minLength": 20, "maxLength": 700 },
+    "description_ru": { "description": "The same paragraph in Russian (optional).", "$ref": "#/$defs/paragraphText", "minLength": 20, "maxLength": 800 },
     "author": {
       "type": "object",
       "additionalProperties": false,
       "required": ["name"],
       "properties": {
-        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "name": { "$ref": "#/$defs/lineText", "minLength": 1, "maxLength": 80 },
         "github": { "$ref": "#/$defs/githubLogin" },
         "url": { "$ref": "#/$defs/httpsUrl" }
       }
@@ -66,7 +66,7 @@
           "required": ["type", "repo"],
           "properties": {
             "type": { "const": "github" },
-            "repo": { "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}/[A-Za-z0-9._-]{1,100}$" },
+            "repo": { "$ref": "#/$defs/githubRepo" },
             "path": { "description": "Folder of the plugin inside the repository, when it is not the root.", "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]{1,200}$" },
             "ref": { "type": "string", "minLength": 1, "maxLength": 200 },
             "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
@@ -92,9 +92,9 @@
           "required": ["type", "marketplace"],
           "properties": {
             "type": { "const": "marketplace" },
-            "marketplace": { "description": "owner/repo of a GitHub repository holding .claude-plugin/marketplace.json", "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}/[A-Za-z0-9._-]{1,100}$" },
+            "marketplace": { "description": "owner/repo of a GitHub repository holding .claude-plugin/marketplace.json", "$ref": "#/$defs/githubRepo" },
             "plugin": { "description": "Plugin name in that marketplace, when it differs from `name`.", "type": "string", "pattern": "^[a-z0-9](?:[a-z0-9-]{0,48}[a-z0-9])?$" },
-            "repo": { "description": "Where the code can be read, if not the marketplace repo.", "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}/[A-Za-z0-9._-]{1,100}$" },
+            "repo": { "description": "Deprecated and ignored: stars and the code link come from `marketplace`, where the code installs from.", "$ref": "#/$defs/githubRepo" },
             "path": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]{1,200}$" }
           }
         }
@@ -137,7 +137,7 @@
         "required": ["type", "src", "alt"],
         "properties": {
           "type": { "enum": ["image", "video"] },
-          "src": { "description": "https URL, or a path relative to this mod.json (e.g. media/band.png).", "type": "string", "pattern": "^(https://[^\\s]+|(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]+\\.(png|jpg|jpeg|gif|webp|svg|mp4|webm))$" },
+          "src": { "description": "A path relative to this mod.json (e.g. media/band.png), or an https URL on GitHub's file hosts (raw.githubusercontent.com, user-images.githubusercontent.com, github.com/user-attachments/). Other hosts could log every visitor who opens the mod or swap the picture after review.", "type": "string", "pattern": "^(https://(raw\\.githubusercontent\\.com|user-images\\.githubusercontent\\.com|github\\.com/user-attachments)/[^\\s]+|(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]+\\.(png|jpg|jpeg|gif|webp|svg|mp4|webm))$" },
           "alt": { "type": "string", "minLength": 3, "maxLength": 200 },
           "surface": { "enum": ["terminal", "desktop", "vscode", "mobile"] }
         }
@@ -147,6 +147,21 @@
   },
   "$defs": {
     "githubLogin": { "type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$" },
+    "githubRepo": {
+      "description": "owner/repo on GitHub. The owner follows GitHub's login rules (no leading \"-\", so it never reads as a command-line option).",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?/(?!\\.\\.?$)[A-Za-z0-9._-]{1,100}$"
+    },
+    "lineText": {
+      "description": "One line of text: no control characters, and none of the invisible or direction-changing characters (zero-width spaces, bidi overrides) that can make a name read as another.",
+      "type": "string",
+      "pattern": "^[^\\u0000-\\u001F\\u007F-\\u009F\\u00AD\\u061C\\u180E\\u200B-\\u200F\\u202A-\\u202E\\u2060-\\u2064\\u2066-\\u2069\\uFEFF]*$"
+    },
+    "paragraphText": {
+      "description": "Text that may hold line breaks and tabs, with the same invisible characters ruled out as lineText.",
+      "type": "string",
+      "pattern": "^[^\\u0000-\\u0008\\u000B-\\u001F\\u007F-\\u009F\\u00AD\\u061C\\u180E\\u200B-\\u200F\\u202A-\\u202E\\u2060-\\u2064\\u2066-\\u2069\\uFEFF]*$"
+    },
     "httpsUrl": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 500 },
     "color": {
       "description": "A Claude Code theme token or a #rrggbb hex.",

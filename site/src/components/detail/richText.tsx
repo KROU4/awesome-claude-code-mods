@@ -1,6 +1,8 @@
 // Mod descriptions in site type: paragraphs on blank lines, inline `code`, **bold** and
-// [links](https://…). Anything else stays plain text.
+// [links](https://…) (https only; the real host is shown when the text names another address,
+// see links.ts). Anything else stays plain text.
 import { Fragment, type ReactNode } from 'react'
+import { hostNote, httpsHost } from './links'
 
 const MARK = '\u0000'
 
@@ -16,7 +18,8 @@ export function withNodes(translate: (vars: Record<string, string>) => string, n
 
 function inline(text: string, base: string): ReactNode[] {
   const out: ReactNode[] = []
-  const re = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))/g
+  // https only: an http:// link is left as plain text.
+  const re = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\[[^\]]+\]\((https:\/\/[^)\s]+)\))/g
   let last = 0
   let k = 0
   let mt: RegExpExecArray | null
@@ -27,11 +30,16 @@ function inline(text: string, base: string): ReactNode[] {
     else if (mt[2]) out.push(<strong key={key}>{mt[2].slice(2, -2)}</strong>)
     else if (mt[3] && mt[4]) {
       const label = /^\[([^\]]+)\]/.exec(mt[3])?.[1] ?? mt[4]
-      out.push(
-        <a key={key} href={mt[4]} target="_blank" rel="noopener noreferrer">
-          {label}
-        </a>,
-      )
+      if (!httpsHost(mt[4])) out.push(mt[0])
+      else {
+        const note = hostNote(label, mt[4])
+        out.push(
+          <a key={key} href={mt[4]} target="_blank" rel="noopener noreferrer nofollow ugc">
+            {label}
+            {note ? <span className="rt-host"> ({note})</span> : null}
+          </a>,
+        )
+      }
     }
     last = mt.index + mt[0].length
   }

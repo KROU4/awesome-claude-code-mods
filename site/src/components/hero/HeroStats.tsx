@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react'
 import { useT } from '../../i18n'
 import { authorCount, useRegistry } from '../../lib/registry'
+import { followHashLink } from '../catalog/nav'
 import './hero.css'
 
 export default function HeroStats() {
@@ -42,7 +43,7 @@ export default function HeroStats() {
       <span className="sr-only">{t('hero.counter.label')}: </span>
       <span className="hero-stats-row">
         <span className="hero-stats-item">
-          <a className="hero-stat" href="#/catalog">
+          <a className="hero-stat" href="#/catalog" onClick={followHashLink}>
             {tn('hero.counter.mods', registry.mods.length)}
           </a>
         </span>

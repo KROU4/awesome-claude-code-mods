@@ -7,6 +7,7 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import CatalogFilters from '../components/catalog/CatalogFilters'
 import ModCard from '../components/catalog/ModCard'
+import { followHashLink } from '../components/catalog/nav'
 import { DEFAULT_FILTERS, facetCounts, filterMods, isFiltered, loadFilters, saveFilters, sortMods, type FilterState } from '../components/catalog/filters'
 import '../components/catalog/catalog.css'
 import { useT } from '../i18n'
@@ -139,7 +140,7 @@ export default function Catalog({ id = 'catalog' }: CatalogProps) {
                   {t('catalog.empty.reset')}
                 </button>
               ) : null}
-              <a className="btn btn-ghost" href="#/submit">
+              <a className="btn btn-ghost" href="#/submit" onClick={followHashLink}>
                 {t('catalog.empty.submit')}
               </a>
             </div>

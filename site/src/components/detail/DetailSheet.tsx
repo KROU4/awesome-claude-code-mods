@@ -19,6 +19,7 @@ import { clearCardOrigin, peekCardOrigin, type Origin } from '../catalog/nav'
 import InstallPanel from '../install/InstallPanel'
 import { formatRange } from '../../lib/install'
 import { MockClient } from '../mock'
+import Boundary from '../ui/Boundary'
 import { IconArrowUpRight } from '../ui/icons'
 import { RichText, withNodes } from './richText'
 import Sheet from './Sheet'
@@ -67,18 +68,21 @@ function Section({ title, children, className }: { title: string; children: Reac
 function Trust({ mod }: { mod: SiteMod }) {
   const { t } = useT()
   const cmd = <code>{VALIDATE}</code>
+  // The shield is for code a person read (verified); everything else is community code.
+  const verified = mod.verified === true
   const text = mod.hosted
-    ? withNodes((v) => t('catalog.detail.trust.hosted', v), { cmd })
+    ? withNodes((v) => t(verified ? 'catalog.detail.trust.verified' : 'catalog.detail.trust.hosted', v), { cmd })
     : mod.analysis
       ? withNodes((v) => t('catalog.detail.trust.externalChecked', v), { cmd })
       : t('catalog.detail.trust.external')
+  const repo = mod.source.type === 'marketplace' ? mod.source.marketplace : null
   return (
-    <div className="ds-trust" data-hosted={mod.hosted || undefined}>
-      <span className="ds-trust-icon">{mod.hosted ? <IconShield /> : <IconEye />}</span>
+    <div className="ds-trust" data-verified={verified || undefined}>
+      <span className="ds-trust-icon">{verified ? <IconShield /> : <IconEye />}</span>
       <div className="ds-trust-body">
         <p>{text}</p>
-        {mod.source.type === 'marketplace' ? (
-          <p className="ds-trust-sub">{withNodes((v) => t('catalog.detail.trust.marketplace', v), { repo: <code>{mod.install.marketplaceRepo}</code> })}</p>
+        {repo ? (
+          <p className="ds-trust-sub">{withNodes((v) => t('catalog.detail.trust.marketplace', v), { repo: <code>{repo}</code> })}</p>
         ) : null}
         {mod.analysis && !mod.analysis.ok && mod.analysis.errors.length ? (
           <div className="ds-trust-warn" role="note">
@@ -90,7 +94,7 @@ function Trust({ mod }: { mod: SiteMod }) {
             </ul>
           </div>
         ) : null}
-        {!mod.hosted ? (
+        {/^https:\/\//.test(mod.sourceUrl) ? (
           <a className="ds-trust-link" href={mod.sourceUrl} target="_blank" rel="noopener noreferrer">
             {t('catalog.detail.trust.read')}
             <IconArrowUpRight size={15} />
@@ -292,11 +296,12 @@ function Media({ mod }: { mod: SiteMod }) {
         {media.map((x) => (
           <li key={x.src}>
             <figure>
+              {/* Media come from GitHub's file hosts only (schema); no Referer goes with them. */}
               {x.type === 'video' ? (
                 <video src={x.src} controls preload="none" aria-label={x.alt} />
               ) : (
-                <a href={x.src} target="_blank" rel="noopener noreferrer">
-                  <img src={x.src} alt={x.alt} loading="lazy" decoding="async" />
+                <a href={x.src} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">
+                  <img src={x.src} alt={x.alt} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                 </a>
               )}
               <figcaption>
@@ -356,13 +361,15 @@ function ModDetail({ mod, origin }: { mod: SiteMod; origin: Origin | null }) {
       <div className="ds-stage" ref={stage}>
         {/* The finished session, as the card showed it (the frame grows out of the card's):
             Play or Replay runs it, with the persistent UI (band, status, hint, mode) there from the start. */}
-        <MockClient
-          previews={previews}
-          rows={wide ? 24 : 20}
-          arriveAtStart={ON_SCREEN_FROM_START}
-          autoPlay={false}
-          className="ds-mock"
-        />
+        <Boundary resetKey={mod.name} fallback={<p className="ds-loading" role="note">{t('common.error.preview')}</p>}>
+          <MockClient
+            previews={previews}
+            rows={wide ? 24 : 20}
+            arriveAtStart={ON_SCREEN_FROM_START}
+            autoPlay={false}
+            className="ds-mock"
+          />
+        </Boundary>
         <div className="ds-under">
           {caption ? <p className="ds-caption">{caption}</p> : null}
           <div className="ds-works">
@@ -436,7 +443,18 @@ export default function DetailSheet({ name, onClose }: DetailSheetProps) {
         {mod.title}
       </h2>
     )
-    body = <ModDetail mod={mod} origin={origin} />
+    body = (
+      <Boundary
+        resetKey={mod.name}
+        fallback={
+          <div className="ds-missing" role="alert">
+            <p>{t('common.error.part')}</p>
+          </div>
+        }
+      >
+        <ModDetail mod={mod} origin={origin} />
+      </Boundary>
+    )
   } else if (!ready) {
     head = (
       <h2 id={titleId} className="ds-title">

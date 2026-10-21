@@ -52,7 +52,7 @@ test('catalog groups by category with the item format', () => {
   assert.match(md, /Store.*external<\/sub>\n {2}<details><summary>Install \(from the author’s marketplace\)<\/summary>/)
   assert.match(md, /\/plugin install store --marketplace o\/m/)
   const ru = renderCatalog([mod('spinner-pack', { title: 'Spinner Pack', tagline: 'Themed spinners', tagline_ru: 'Тематические спиннеры' })], 'ru')
-  assert.match(ru, /### Развлечения/)
+  assert.match(ru, /### Для настроения/)
   assert.match(ru, /— Тематические спиннеры\. <sub>рисует: всплывающее уведомление · автор @alice · в этом репозитории<\/sub>/)
   assert.match(renderCatalog([], 'ru'), /Модов пока нет/)
 })
