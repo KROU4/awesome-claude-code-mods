@@ -23,7 +23,6 @@
     "$.fs.read",
     "$.fs.write",
     "$.prompt.fill",
-    "$.prompt.read",
     "$.state.get",
     "$.state.set",
     "$.store.delete",
