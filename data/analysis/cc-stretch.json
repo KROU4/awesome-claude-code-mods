@@ -9,11 +9,12 @@
     "ui.render{component=AssistantMessage}",
     "ui.message",
     "prompt.edit",
-    "prompt.change"
+    "prompt.*"
   ],
   "calls": [
     "$.config.list",
     "$.config.set",
+    "$.process.run",
     "$.session.messages",
     "$.session.surfaces",
     "$.state.get",
@@ -34,6 +35,10 @@
     {
       "hook": "prompt.submit",
       "hasCatch": true
+    },
+    {
+      "hook": "prompt.*",
+      "hasCatch": false
     }
   ],
   "stateKeys": [
