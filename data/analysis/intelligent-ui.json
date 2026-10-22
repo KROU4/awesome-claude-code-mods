@@ -4,6 +4,10 @@
     "session.start",
     "session.end",
     "ui.copy",
+    "ui.message",
+    "ui.fault",
+    "prompt.edit",
+    "prompt.change",
     "prompt.autocomplete",
     "command.run{command=iui}",
     "config.set{key=theme}",
@@ -43,20 +47,21 @@
     "$.session.id",
     "$.session.root",
     "$.session.surfaces",
+    "$.session.version",
     "$.state.get",
     "$.state.set",
     "$.store.get",
     "$.store.set",
     "$.turn.abort",
     "$.ui.ask",
+    "$.ui.blit",
     "$.ui.close",
     "$.ui.copy",
     "$.ui.invalidate",
     "$.ui.log",
     "$.ui.open",
     "$.ui.resolve",
-    "$.ui.selection",
-    "$.ui.toast"
+    "$.ui.selection"
   ],
   "gating": [
     {
@@ -93,6 +98,9 @@
     "cc-intelligent-ui.isOn"
   ],
   "errors": [],
-  "warnings": [],
-  "validatedWith": "2.1.302"
+  "warnings": [
+    "./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete"
+  ],
+  "validatedWith": "2.1.302",
+  "truncated": true
 }
