@@ -2,6 +2,7 @@
   "ok": true,
   "hooks": [
     "session.start",
+    "session.end",
     "session.measure",
     "ui.render{component=SessionMode}",
     "ui.render{component=PromptHint}"
@@ -20,6 +21,7 @@
   "gating": [],
   "stateKeys": [
     "sub-meter.limits",
+    "sub-meter.tick",
     "sub-meter.view"
   ],
   "errors": [],
