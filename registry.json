@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-23T08:32:59.507Z",
+  "generatedAt": "2026-10-24T08:08:19.245Z",
   "repo": {
     "owner": "KROU4",
     "name": "claude-code-mod-showroom",
@@ -4529,8 +4529,8 @@
       },
       "addedAt": "2026-10-20T18:50:35Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 271,
-      "pushedAt": "2026-10-23T02:45:50Z"
+      "stars": 280,
+      "pushedAt": "2026-10-24T07:45:45Z"
     },
     {
       "name": "glowup",
@@ -5875,7 +5875,7 @@
       },
       "addedAt": "2026-10-20T18:50:35Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 248,
+      "stars": 251,
       "pushedAt": "2026-10-12T10:02:19Z"
     },
     {
@@ -8802,7 +8802,7 @@
       "addedAt": "2026-10-20T18:50:35Z",
       "updatedAt": "2026-10-20T18:50:35Z",
       "stars": 1,
-      "pushedAt": "2026-10-23T03:17:04Z"
+      "pushedAt": "2026-10-23T21:40:57Z"
     },
     {
       "name": "time-blame",
@@ -11054,8 +11054,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 361,
-      "pushedAt": "2026-10-22T13:14:27Z"
+      "stars": 372,
+      "pushedAt": "2026-10-23T23:02:30Z"
     },
     {
       "name": "blast-radius",
@@ -11317,7 +11317,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 283,
+      "stars": 285,
       "pushedAt": "2026-10-14T07:53:11Z"
     },
     {
@@ -12862,8 +12862,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 361,
-      "pushedAt": "2026-10-22T13:14:27Z"
+      "stars": 372,
+      "pushedAt": "2026-10-23T23:02:30Z"
     },
     {
       "name": "cat-spinner",
@@ -13927,7 +13927,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 414,
+      "stars": 415,
       "pushedAt": "2026-10-22T01:12:28Z"
     },
     {
@@ -14981,8 +14981,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 361,
-      "pushedAt": "2026-10-22T13:14:27Z"
+      "stars": 372,
+      "pushedAt": "2026-10-23T23:02:30Z"
     },
     {
       "name": "context-gauge",
@@ -16129,8 +16129,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 262,
-      "pushedAt": "2026-10-16T13:48:42Z"
+      "stars": 269,
+      "pushedAt": "2026-10-23T14:30:11Z"
     },
     {
       "name": "flightdeck",
@@ -16943,7 +16943,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 126,
+      "stars": 138,
       "pushedAt": "2026-10-12T14:20:14Z"
     },
     {
@@ -17162,8 +17162,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 8214,
-      "pushedAt": "2026-10-23T06:21:40Z"
+      "stars": 8276,
+      "pushedAt": "2026-10-24T06:20:06Z"
     },
     {
       "name": "focus-timer",
@@ -17756,6 +17756,7 @@
         "pane"
       ],
       "hookedSlots": [
+        "above-prompt",
         "pane",
         "tool-row",
         "message"
@@ -17808,6 +17809,7 @@
           "ui.render{component=ToolResult}",
           "ui.render{component=Pane, requestId=iui-page}",
           "ui.render{component=UserMessage}",
+          "ui.render{component=AbovePrompt}",
           "turn.start",
           "ui.render{component=ToolUse, props has {tool=ExitPlanMode}}",
           "ui.render{component=ToolResult, props has {tool=ExitPlanMode}}",
@@ -17851,7 +17853,8 @@
           "$.ui.log",
           "$.ui.open",
           "$.ui.resolve",
-          "$.ui.selection"
+          "$.ui.selection",
+          "$.ui.toast"
         ],
         "gating": [
           {
@@ -17860,7 +17863,7 @@
           },
           {
             "hook": "command.run{command=iui}",
-            "hasCatch": false
+            "hasCatch": true
           },
           {
             "hook": "config.set{key=theme}",
@@ -17885,14 +17888,13 @@
         ],
         "stateKeys": [
           "cc-intelligent-ui.done",
+          "cc-intelligent-ui.draft",
+          "cc-intelligent-ui.filled",
           "cc-intelligent-ui.isOn"
         ],
         "errors": [],
-        "warnings": [
-          "./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete"
-        ],
-        "validatedWith": "2.1.302",
-        "truncated": true
+        "warnings": [],
+        "validatedWith": "2.1.302"
       },
       "risk": {
         "calls": [
@@ -17910,8 +17912,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 87,
-      "pushedAt": "2026-10-22T06:19:14Z"
+      "stars": 88,
+      "pushedAt": "2026-10-23T21:20:54Z"
     },
     {
       "name": "mod-store",
@@ -18578,8 +18580,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 1100,
-      "pushedAt": "2026-10-18T15:45:32Z"
+      "stars": 1101,
+      "pushedAt": "2026-10-23T16:30:45Z"
     },
     {
       "name": "next-steps",
@@ -18769,8 +18771,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 4748,
-      "pushedAt": "2026-10-23T08:04:35Z"
+      "stars": 4757,
+      "pushedAt": "2026-10-24T07:52:46Z"
     },
     {
       "name": "pin-memo",
@@ -19045,8 +19047,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 1100,
-      "pushedAt": "2026-10-18T15:45:32Z"
+      "stars": 1101,
+      "pushedAt": "2026-10-23T16:30:45Z"
     },
     {
       "name": "prompt-snippets",
@@ -19559,7 +19561,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 283,
+      "stars": 285,
       "pushedAt": "2026-10-14T07:53:11Z"
     },
     {
@@ -20330,7 +20332,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 259,
+      "stars": 262,
       "pushedAt": "2026-10-15T14:29:56Z"
     },
     {
@@ -20891,8 +20893,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 191,
-      "pushedAt": "2026-10-20T16:54:41Z"
+      "stars": 199,
+      "pushedAt": "2026-10-23T20:02:09Z"
     },
     {
       "name": "spinner-pack",
@@ -21175,7 +21177,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 193,
+      "stars": 199,
       "pushedAt": "2026-10-22T13:15:41Z"
     },
     {
@@ -21446,8 +21448,8 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 262,
-      "pushedAt": "2026-10-16T13:48:42Z"
+      "stars": 269,
+      "pushedAt": "2026-10-23T14:30:11Z"
     },
     {
       "name": "token-meter",
@@ -21594,7 +21596,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 193,
+      "stars": 199,
       "pushedAt": "2026-10-22T13:15:41Z"
     },
     {
@@ -21785,7 +21787,7 @@
       },
       "addedAt": "2026-10-20T15:03:58Z",
       "updatedAt": "2026-10-20T18:50:35Z",
-      "stars": 283,
+      "stars": 285,
       "pushedAt": "2026-10-14T07:53:11Z"
     },
     {
