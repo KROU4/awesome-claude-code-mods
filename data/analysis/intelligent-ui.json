@@ -18,6 +18,7 @@
     "ui.render{component=ToolResult}",
     "ui.render{component=Pane, requestId=iui-page}",
     "ui.render{component=UserMessage}",
+    "ui.render{component=AbovePrompt}",
     "turn.start",
     "ui.render{component=ToolUse, props has {tool=ExitPlanMode}}",
     "ui.render{component=ToolResult, props has {tool=ExitPlanMode}}",
@@ -61,7 +62,8 @@
     "$.ui.log",
     "$.ui.open",
     "$.ui.resolve",
-    "$.ui.selection"
+    "$.ui.selection",
+    "$.ui.toast"
   ],
   "gating": [
     {
@@ -70,7 +72,7 @@
     },
     {
       "hook": "command.run{command=iui}",
-      "hasCatch": false
+      "hasCatch": true
     },
     {
       "hook": "config.set{key=theme}",
@@ -95,12 +97,11 @@
   ],
   "stateKeys": [
     "cc-intelligent-ui.done",
+    "cc-intelligent-ui.draft",
+    "cc-intelligent-ui.filled",
     "cc-intelligent-ui.isOn"
   ],
   "errors": [],
-  "warnings": [
-    "./register.tsx: notes truncated by claude plugin validate; calls/hooks may be incomplete"
-  ],
-  "validatedWith": "2.1.302",
-  "truncated": true
+  "warnings": [],
+  "validatedWith": "2.1.302"
 }
